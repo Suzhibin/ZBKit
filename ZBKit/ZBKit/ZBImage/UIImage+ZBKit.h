@@ -13,6 +13,13 @@ typedef void (^downloadImageCompletion)();
 @interface UIImage (ZBKit)
 
 /**
+ 图片切圆
+
+ @return 返回圆形的图片
+ */
+- (UIImage *)circleImage;
+
+/**
  图片上加文字水印
 
  @param title       文字

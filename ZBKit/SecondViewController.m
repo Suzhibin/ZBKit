@@ -34,7 +34,7 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     [self.imageView addGestureRecognizer:tap];
     
-    NSArray *titleArray=[NSArray arrayWithObjects:@"垂直翻转",@"水平翻转",@"灰度图",@"截取图上半部",@"向左",@"向右",@"向下",@"平铺图片",@"给view截图",@"加水印",@"清除图片缓存",nil];
+    NSArray *titleArray=[NSArray arrayWithObjects:@"垂直翻转",@"水平翻转",@"灰度图",@"截取图上半部",@"向左",@"向右",@"向下",@"平铺图片",@"给view截图",@"加水印",@"清除图片缓存",@"设置圆形",nil];
     CGFloat wSpace = (SCREEN_WIDTH-57*4)/5;
     CGFloat hSpace = (SCREEN_HEIGHT-64-4*100)/5;
     for (int i = 0; i<titleArray.count; i++) {
@@ -98,6 +98,11 @@
             break;
         case 110:
             [ZBImageDownloader clearImageFile];//此图片缓存没有在设置页面显示大小和清除操作
+            break;
+            
+        case 111:
+             self.imageView.image =  [self.imageView.image circleImage];;//
+          
             break;
             
         default:
