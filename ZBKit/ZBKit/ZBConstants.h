@@ -28,13 +28,18 @@
 //是否为ios7
 #define is_ios7  [[[UIDevice currentDevice]systemVersion]floatValue]>=7
 
-
 #define random(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)/255.0]
 //随机颜色
 #define randomColor random(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
 
 // 打印当前方法名
 #define JSPRINT_METHOD JSLog(@"==%@:%p running method '%@'==", self.class, self, NSStringFromSelector(_cmd));
+
+//夜间模式 显示图片 Name
+#define READStyle @"showNightView"
+
+//wifi 显示图片 Name
+#define READIMAGE @"showImage"
 
 /*
  platform:ios,'8.0'

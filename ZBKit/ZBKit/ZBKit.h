@@ -11,7 +11,7 @@
 
 #import "ZBNetworking.h"
 
-#import "GlobalSettingsTool.h"
+#import "ZBGlobalSettingsTool.h"
 #import "ZBSettingViewController.h"//设置页面
 
 #import "ZBDataBaseManager.h"
@@ -21,4 +21,10 @@
 
 #import "ZBAdvertiseView.h" //开屏广告view
 #import "ZBAdvertiseInfo.h" //开屏广告数据操作
+
+#import "ZBConstants.h"
+#import "ZBControlTool.h"
+
+#import "ZBChart.h"
+
 #endif /* ZBKit_h */

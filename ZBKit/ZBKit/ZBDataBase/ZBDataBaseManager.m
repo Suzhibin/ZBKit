@@ -9,7 +9,14 @@
 #import "ZBDataBaseManager.h"
 #import "FMDB.h"
 #import "ZBCacheManager.h"
-#import "ZBConstants.h"
+
+#define DBBUG_LOG 1
+#if(DBBUG_LOG == 1)
+# define DBLog(format, ...) printf("\n[%s] %s [第%d行] %s\n", __TIME__, __FUNCTION__, __LINE__, [[NSString stringWithFormat:format, ## __VA_ARGS__] UTF8String]);
+#else
+# define DBLog(...);
+#endif
+
 NSString *const dbName =@"ZBKit.db";
 @interface ZBDataBaseManager()
 
@@ -18,7 +25,7 @@ NSString *const dbName =@"ZBKit.db";
 @end
 @implementation ZBDataBaseManager
 
-+(ZBDataBaseManager *)sharedManager{
++(ZBDataBaseManager *)sharedInstance{
     static ZBDataBaseManager *manager = nil;
     static dispatch_once_t onceTaken;
     dispatch_once(&onceTaken,^{
@@ -40,9 +47,9 @@ NSString *const dbName =@"ZBKit.db";
             [self closeDataBase];
         }
     
-        NSString *dbPath =[[ZBCacheManager sharedManager]ZBKitPath];
+        NSString *dbPath =[[ZBCacheManager sharedInstance]ZBKitPath];
         
-        [[ZBCacheManager sharedManager]createDirectoryAtPath:dbPath];
+        [[ZBCacheManager sharedInstance]createDirectoryAtPath:dbPath];
         
         //初始化fmdatabase 并传递数据库的创建路径
         self.dbPath = [dbPath stringByAppendingPathComponent:name];
@@ -54,39 +61,52 @@ NSString *const dbName =@"ZBKit.db";
 }
 
 - (void)createTable:(NSString *)tableName{
+    [self createTable:tableName isSuccess:nil];
+}
+
+- (void)createTable:(NSString *)tableName isSuccess:(isSuccess)isSuccess{
     if ([self isTableName:tableName]==NO) {
         return;
     }
-    NSString * sql = [NSString stringWithFormat:@"create table if not exists %@ (obj blob NOT NULL,itemId varchar(256) NOT NULL,time varchar(256) NOT NULL)", tableName];
-    __block BOOL isSuccessed;
+    NSString * sql = [NSString stringWithFormat:@"create table if not exists %@ (obj blob NOT NULL,itemId varchar(256) NOT NULL)", tableName];
+    __block BOOL result;
     [_dbQueue inDatabase:^(FMDatabase *db) {
-        isSuccessed = [db executeUpdate:sql];
-        if (!isSuccessed) {
-            ZBKLog(@"create table:%@ Error:%@",tableName,db.lastErrorMessage);
+        
+        result = [db executeUpdate:sql];
+        
+        isSuccess ? isSuccess(result) : nil;
+        
+        if (!result) {
+            DBLog(@"create table:%@ Error:%@",tableName,db.lastErrorMessage);
         }else{
-            ZBKLog(@"create table:%@ time:%@ success",tableName,[self getDate]);
+            DBLog(@"create table:%@ success",tableName);
         }
     }];
-
 }
 
-- (void)table:(NSString *)tableName insertDataWithObj:(id)obj ItemId:(NSString *)itemId {
+- (void)table:(NSString *)tableName insertDataWithObj:(id)obj ItemId:(NSString *)itemId{
+    [self table:tableName insertDataWithObj:obj ItemId:itemId isSuccess:nil];
+}
+
+- (void)table:(NSString *)tableName insertDataWithObj:(id)obj ItemId:(NSString *)itemId isSuccess:(isSuccess)isSuccess {
     if ([self isTableName:tableName]==NO) {
         return;
     }
     //此处把字典归档成二进制数据直接存入数据库，避免添加过多的数据库字段
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:obj];
-    NSString *insertSql = [NSString stringWithFormat:@"insert into %@ (obj,itemId,time) values(?,?,?)", tableName];
+    NSString *insertSql = [NSString stringWithFormat:@"insert into %@ (obj,itemId) values(?,?)", tableName];
     //NSLog(@"insertSql:%@",insertSql);
     __block BOOL result;
     [_dbQueue inDatabase:^(FMDatabase *db) {
         
-        result = [db executeUpdate:insertSql,data,itemId,[self getDate]];
+        result = [db executeUpdate:insertSql,data,itemId];
+        
+        isSuccess ? isSuccess(result) : nil;
         
         if (!result) {
-            ZBKLog(@"insert table:%@ Error:%@ itemId:%@",tableName,db.lastErrorMessage,itemId);
+            DBLog(@"insert table:%@ Error:%@ itemId:%@",tableName,db.lastErrorMessage,itemId);
         }else{
-            ZBKLog(@"insert table:%@ itemId:%@  time:%@ success",tableName,itemId,[self getDate]);
+            DBLog(@"insert table:%@ itemId:%@ success",tableName,itemId);
         }
     }];
 }
@@ -102,14 +122,39 @@ NSString *const dbName =@"ZBKit.db";
         while ([set next]) {
             NSData *data = [set dataForColumn:@"obj"];
             id obj = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-            NSString *dateStr = [set stringForColumn:@"time"];
             [array addObject:obj];
-            [array addObject:dateStr];
         }
         [set  close];
     }];
     return array;
 }
+
+- (void)getAllDataWithTable:(NSString *)tableName itemId:(NSString *)itemId data:(getAllExistData)data{
+    if ([self isTableName:tableName] == NO) {
+        return;
+    }
+    NSString *selectSql = [NSString stringWithFormat:@"select *from %@ where itemId = ?", tableName];
+    NSMutableArray *array = [NSMutableArray array];
+    __block BOOL isExist;
+    [_dbQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet * set = [db executeQuery:selectSql,itemId];
+        if ([set next]) {
+            isExist=YES;
+        }else{
+            isExist=NO;
+        }
+        while ([set next]) {
+            NSData *data = [set dataForColumn:@"obj"];
+            id obj = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+            [array addObject:obj];
+        }
+        
+        [set  close];
+        
+    }];
+    data ? data(array,isExist) : nil;
+}
+
 
 -(BOOL)isCollectedWithTable:(NSString *)tableName itemId:(NSString *)itemId{
     if ([self isTableName:tableName] == NO) {
@@ -130,63 +175,56 @@ NSString *const dbName =@"ZBKit.db";
     return result;
 }
 
-- (void)getAllDataWithTable:(NSString *)tableName itemId:(NSString *)itemId data:(getAllExistData)data{
-    if ([self isTableName:tableName] == NO) {
-        return;
-    }
-    NSString *selectSql = [NSString stringWithFormat:@"select *from %@ where itemId = ?", tableName];
-    NSMutableArray *array = [NSMutableArray array];
-    __block BOOL isExist;
-    [_dbQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet * set = [db executeQuery:selectSql,itemId];
-        if ([set next]) {
-            isExist=YES;
-        }else{
-            isExist=NO;
-        }
-        while ([set next]) {
-            NSData *data = [set dataForColumn:@"obj"];
-            id obj = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-            NSString *dateStr = [set stringForColumn:@"time"];
-            [array addObject:obj];
-            [array addObject:dateStr];
-        }
-      
-        [set  close];
-        
-    }];
-    data ? data(array,isExist) : nil;
+- (void)table:(NSString *)tableName deleteDataWithItemId:(NSString *)itemId{
+    [self table:tableName deleteDataWithItemId:itemId isSuccess:nil];
 }
 
-- (void)table:(NSString *)tableName deleteDataWithItemId:(NSString *)itemId{
+- (void)table:(NSString *)tableName deleteDataWithItemId:(NSString *)itemId isSuccess:(isSuccess)isSuccess{
     if ([self isTableName:tableName] == NO) {
         return;
     }
     NSString *deleteSql = [NSString stringWithFormat:@"delete from %@ where itemId = ?", tableName];
     [_dbQueue inDatabase:^(FMDatabase *db) {
-        if (![db executeUpdate:deleteSql,itemId]) {
-            ZBKLog(@"delete %@ table error:%@ itemId:%@",tableName,db.lastErrorMessage,itemId);
+      
+        BOOL result=[db executeUpdate:deleteSql,itemId];
+        
+        isSuccess ? isSuccess(result) : nil;
+        
+        if (!result) {
+            DBLog(@"delete table:%@  error:%@ itemId:%@",tableName,db.lastErrorMessage,itemId);
+        }else{
+            DBLog(@"delete table:%@  itemId:%@ success",tableName,itemId);
         }
-        ZBKLog(@"delete %@ table %@",tableName,itemId);
+
     }];
 }
 
 - (void)table:(NSString *)tableName updateDataWithObj:(id)obj itemId:(NSString *)itemId{
+    [self table:tableName updateDataWithObj:obj itemId:itemId isSuccess:nil];
+}
+
+- (void)table:(NSString *)tableName updateDataWithObj:(id)obj itemId:(NSString *)itemId isSuccess:(isSuccess)isSuccess{
     if ([self isTableName:tableName] == NO) {
         return;
     }
-    NSString *updateSql =[NSString stringWithFormat:@"update %@ set obj =?,time=? where itemId = ?", tableName];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:obj];
+    NSString *updateSql =[NSString stringWithFormat:@"update %@ set obj =?, itemId = ?", tableName];
     [_dbQueue inDatabase:^(FMDatabase *db) {
         
-        BOOL isSuccessed = [db executeUpdate:updateSql,obj,itemId,[self getDate]];
-        if (!isSuccessed) {
-            ZBKLog(@"update %@ table error:%@ itemId:%@",tableName,db.lastErrorMessage,itemId);
+        BOOL result = [db executeUpdate:updateSql,data,itemId];
+        
+        isSuccess ? isSuccess(result) : nil;
+        
+        if (!result) {
+            DBLog(@"update table:%@ error:%@ itemId:%@",tableName,db.lastErrorMessage,itemId);
+        }else{
+            DBLog(@"update table:%@ itemId:%@ success",tableName,itemId);
         }
     }];
 }
 
 
--(NSUInteger)getDBSize{
+- (NSUInteger)getDBSize{
     __block NSUInteger size = 0;
     NSDictionary *fileAttributeDic=[[NSFileManager defaultManager] attributesOfItemAtPath:self.dbPath error:nil];
    return size = fileAttributeDic.fileSize;
@@ -224,17 +262,9 @@ NSString *const dbName =@"ZBKit.db";
     _dbQueue=nil;    
 }
 
-- (NSString *)getDate{
-
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    format.dateFormat = @"yyyy-MM-dd HH:mm:ss:SSS";
-    NSString *dateStr = [format stringFromDate:[NSDate date]];
-    return dateStr;
-}
-
 - (BOOL)isTableName:(NSString *)tableName {
     if (tableName == nil || tableName.length == 0 || [tableName rangeOfString:@" "].location != NSNotFound) {
-        NSLog(@"ERROR, table name: %@ format error.", tableName);
+        DBLog(@"ERROR, table name: %@ format error.", tableName);
         return NO;
     }
     return YES;

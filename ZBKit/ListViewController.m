@@ -12,6 +12,7 @@
 #import "DetailsViewController.h"
 #import "ZBKit.h"
 #import <UIImageView+WebCache.h>
+#import "DBViewController.h"
 @interface ListViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong)NSMutableArray *dataArray;
 @property (nonatomic,strong)UITableView *tableView;
@@ -48,7 +49,14 @@
         NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
         NSArray *array=[dataDict objectForKey:@"videos"];
         for (NSDictionary *dict in array) {
-            ListModel *model=[[ListModel alloc]initWithDict:dict];
+            ListModel *model=[[ListModel alloc]init];
+            model.wid=[dict objectForKey:@"id"];
+            model.title=[dict objectForKey:@"title"];
+            model.time=[dict objectForKey:@"time"];
+            model.thumb=[dict objectForKey:@"thumb"];
+            model.weburl=[dict objectForKey:@"weburl"];
+            model.date=[dict objectForKey:@"date"];
+            model.author=[dict objectForKey:@"author"];
             [self.dataArray addObject:model];
         }
         [self.view addSubview:self.tableView];
@@ -62,9 +70,13 @@
             [self alertTitle:@"请求失败" andMessage:@""];
         }
     }];
-    
+    [self addItemWithTitle:@"收藏页面" selector:@selector(collectionClick:) location:NO];
 }
-
+- (void)collectionClick:(UIButton *)sender{
+    DBViewController *dbVC=[[DBViewController alloc]init];
+    dbVC.functionType=collectionTable;
+    [self.navigationController pushViewController:dbVC animated:YES];
+}
 //懒加载
 - (UITableView *)tableView{
     
@@ -87,7 +99,7 @@
     
     if (cell==nil) {
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:iden];
-        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     }
     
     ListModel *model=[self.dataArray objectAtIndex:indexPath.row];
@@ -103,8 +115,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ListModel *model=[self.dataArray objectAtIndex:indexPath.row];
     DetailsViewController *detailsVC=[[DetailsViewController alloc]init];
-    
-    detailsVC.url=model.weburl;
+    detailsVC.model=model;
+    detailsVC.functionType=Details;
+    //detailsVC.url=model.weburl;
     [self.navigationController pushViewController:detailsVC animated:YES];
     
 }

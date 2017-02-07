@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "NSObject+ZBCoding.h"
 @interface ListModel : NSObject
 @property (nonatomic,copy)NSString *author;
 @property (nonatomic,copy)NSString *date;

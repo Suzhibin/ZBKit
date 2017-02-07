@@ -15,7 +15,7 @@
 
 + (void)getAdvertising:(AdvertisingInfo)info{
 
-    [[ZBCacheManager sharedManager]createDirectoryAtPath:[ZBAdvertiseInfo advertiseFilePath]];
+    [[ZBCacheManager sharedInstance]createDirectoryAtPath:[ZBAdvertiseInfo advertiseFilePath]];
     // 1.判断沙盒中是否存在广告图片，如果存在，直接显示
     NSString *filePath = [ZBAdvertiseInfo getFilePathWithImageName:[[NSUserDefaults standardUserDefaults] valueForKey:adImageName]];
     
@@ -139,13 +139,13 @@
         
         NSDictionary *linkdict=@{@"link":url};
         [ZBAdvertiseInfo deleteOldImage];//删除旧图片
-        if ( [[ZBCacheManager sharedManager]setContent:image writeToFile:filePath]) {// 保存成功
+        if ( [[ZBCacheManager sharedInstance]setContent:image writeToFile:filePath]) {// 保存成功
             ZBKLog(@"开屏image保存成功:%@",filePath);
             [[NSUserDefaults standardUserDefaults] setValue:imageName forKey:adImageName];
             [[NSUserDefaults standardUserDefaults] synchronize];
 
             // 如果有广告链接，将广告链接也保存下来
-             [[ZBCacheManager sharedManager]setContent:linkdict writeToFile:plistPath];
+             [[ZBCacheManager sharedInstance]setContent:linkdict writeToFile:plistPath];
             ZBKLog(@"开屏url保存成功:%@",plistPath);
             [[NSUserDefaults standardUserDefaults] setValue:urlName forKey:adUrl];
             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -192,16 +192,16 @@
 }
 
 + (NSString *)advertiseFilePath{
-   NSString *AdvertisePath =  [[[ZBCacheManager sharedManager]ZBKitPath]stringByAppendingPathComponent:@"Advertise"];
+   NSString *AdvertisePath =  [[[ZBCacheManager sharedInstance]ZBKitPath]stringByAppendingPathComponent:@"Advertise"];
     return AdvertisePath;
 }
 
 + (NSUInteger)advertiseFileSize{
-    return [[ZBCacheManager sharedManager]getFileSizeWithpath:[self advertiseFilePath]];
+    return [[ZBCacheManager sharedInstance]getFileSizeWithpath:[self advertiseFilePath]];
 }
 
 + (NSUInteger)advertiseFileCount{
-    return [[ZBCacheManager sharedManager]getFileCountWithpath:[self advertiseFilePath]];
+    return [[ZBCacheManager sharedInstance]getFileCountWithpath:[self advertiseFilePath]];
 }
 
 /*

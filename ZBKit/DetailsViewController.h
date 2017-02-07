@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
-
+#import "ListModel.h"
 //用于标识不同方法
 typedef NS_ENUM(NSInteger,functionType) {
     Details,
@@ -16,5 +16,6 @@ typedef NS_ENUM(NSInteger,functionType) {
 @interface DetailsViewController : BaseViewController
 @property (nonatomic,assign) functionType functionType;
 @property (nonatomic, copy) NSString *url;
+@property (nonatomic,strong)ListModel *model;
 
 @end

@@ -13,6 +13,7 @@
 #import "SecondViewController.h"
 #import "FirstViewController.h"
 #import "FourViewController.h"
+#import "FiveViewController.h"
 @interface HomeViewController ()
 
 @end
@@ -30,7 +31,6 @@
     
     //点击广告链接 事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushToAd:) name:@"pushtoad" object:nil];
-
     
     // 1.网络请求
     [self add0SectionItems];
@@ -42,7 +42,8 @@
     [self add3SectionItems];
     // 5.开屏广告
     [self add4SectionItems];
-    
+    // 6.常用方法
+    [self add5SectionItems];
     
 }
 
@@ -63,6 +64,7 @@
     group.footerHeight=5;
     [_allGroups addObject:group];
 }
+
 - (void)add1SectionItems;
 {
     __weak typeof(self) weakSelf = self;
@@ -89,11 +91,12 @@
     };
     ZBSettingGroup *group2 = [[ZBSettingGroup alloc] init];
     group2.items = @[db];
-    group2.header=@"数据库";
+    group2.header=@"数据库操作";
     group2.headerHeight=35;
     group2.footerHeight=5;
     [_allGroups addObject:group2];
 }
+
 - (void)add3SectionItems{
     __weak typeof(self) weakSelf = self;
     ZBSettingItem *db = [ZBSettingItem itemWithTitle:@"ZBSetting" type:ZBSettingItemTypeArrow];
@@ -128,6 +131,21 @@
     
 }
 
+- (void)add5SectionItems{
+    __weak typeof(self) weakSelf = self;
+    ZBSettingItem *ad = [ZBSettingItem itemWithTitle:@"ZBControlTool" type:ZBSettingItemTypeArrow];
+    ad.operation = ^{
+        FiveViewController*adVC = [[FiveViewController alloc] init];
+        
+        [weakSelf.navigationController pushViewController:adVC animated:YES];
+    };
+    ZBSettingGroup *group5 = [[ZBSettingGroup alloc] init];
+    group5.items = @[ad];
+    group5.header=@"常用工厂方法";
+    group5.headerHeight=35;
+    group5.footerHeight=5;
+    [_allGroups addObject:group5];
+}
 
 - (void)pushToAd:(NSNotification *)noti{
     

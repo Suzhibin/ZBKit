@@ -41,11 +41,11 @@ static const NSInteger timeOut = 60*60;
 
 + (void)downloadImageUrl:(NSString *)imageUrl path:(NSString *)path completion:(downloadCompletion)completion{
     
-    [[ZBCacheManager sharedManager]createDirectoryAtPath:path];
+    [[ZBCacheManager sharedInstance]createDirectoryAtPath:path];
     
-    NSString *imagePath=[[ZBCacheManager sharedManager]cachePathForKey:imageUrl inPath:path];
+    NSString *imagePath=[[ZBCacheManager sharedInstance]cachePathForKey:imageUrl inPath:path];
     
-    if ([[ZBCacheManager sharedManager]isExistsAtPath:imagePath]&&[NSFileManager isTimeOutWithPath:imagePath timeOut:timeOut]==NO) {
+    if ([[ZBCacheManager sharedInstance]isExistsAtPath:imagePath]&&[NSFileManager isTimeOutWithPath:imagePath timeOut:timeOut]==NO) {
         
         NSData *data=[NSData dataWithContentsOfFile:imagePath];
         
@@ -57,7 +57,7 @@ static const NSInteger timeOut = 60*60;
         ZBKLog(@"image request");
         [self requestImageUrl:imageUrl completion:^(UIImage *image){
 
-            [[ZBCacheManager sharedManager]setContent:image writeToFile:imagePath];
+            [[ZBCacheManager sharedInstance]setContent:image writeToFile:imagePath];
          
             completion(image);
         }];
@@ -80,15 +80,15 @@ static const NSInteger timeOut = 60*60;
 }
 
 + (NSUInteger)imageFileSize{
-   return [[ZBCacheManager sharedManager]getFileSizeWithpath:[self imageFilePath]];
+   return [[ZBCacheManager sharedInstance]getFileSizeWithpath:[self imageFilePath]];
 }
 
 + (NSUInteger)imageFileCount{
-   return [[ZBCacheManager sharedManager]getFileCountWithpath:[self imageFilePath]];
+   return [[ZBCacheManager sharedInstance]getFileCountWithpath:[self imageFilePath]];
 }
 
 + (void)clearImageFile{
-    [[ZBCacheManager sharedManager]clearDiskWithpath:[self imageFilePath]];
+    [[ZBCacheManager sharedInstance]clearDiskWithpath:[self imageFilePath]];
 }
 
 
@@ -122,7 +122,7 @@ static const NSInteger timeOut = 60*60;
 }
 
 + (NSString *)imageFilePath{
-    NSString *AppImagePath =  [[[ZBCacheManager sharedManager]ZBKitPath]stringByAppendingPathComponent:ImageDefaultPath];
+    NSString *AppImagePath =  [[[ZBCacheManager sharedInstance]ZBKitPath]stringByAppendingPathComponent:ImageDefaultPath];
     return AppImagePath;
 }
 

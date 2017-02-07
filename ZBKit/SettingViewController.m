@@ -7,7 +7,7 @@
 //
 
 #import "SettingViewController.h"
-#import "GlobalSettingsTool.h"
+#import "ZBGlobalSettingsTool.h"
 #import <MessageUI/MessageUI.h>
 #import "NSBundle+ZBKit.h"
 #import "ZBNetworking.h"
@@ -58,17 +58,17 @@
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"设置字体大小" message:@"" preferredStyle:(UIAlertControllerStyleActionSheet)];
         UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:nil];
         UIAlertAction *defult = [UIAlertAction actionWithTitle:@"小" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *_Nonnull action){
-            [GlobalSettingsTool sharedSetting].fontSize=0;
+            [ZBGlobalSettingsTool sharedInstance].fontSize=0;
             weakFont.rightText=[weakSelf setFont];
             [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:1 inSection:0],nil] withRowAnimation:UITableViewRowAnimationTop];
         }];
         UIAlertAction *defult1 = [UIAlertAction actionWithTitle:@"中" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
-            [GlobalSettingsTool sharedSetting].fontSize=1;
+            [ZBGlobalSettingsTool sharedInstance].fontSize=1;
             weakFont.rightText=[weakSelf setFont];
             [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:1 inSection:0],nil] withRowAnimation:UITableViewRowAnimationTop];
         }];
         UIAlertAction *defult2 = [UIAlertAction actionWithTitle:@"大" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *_Nonnull action){
-            [GlobalSettingsTool sharedSetting].fontSize=2;
+            [ZBGlobalSettingsTool sharedInstance].fontSize=2;
             weakFont.rightText=[weakSelf setFont];
             [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:1 inSection:0],nil] withRowAnimation:UITableViewRowAnimationTop];
         }];
@@ -96,10 +96,10 @@
     __block ZBSettingItem *weakPush = push;
     UIUserNotificationSettings *setting = [[UIApplication sharedApplication] currentUserNotificationSettings];
     if(UIUserNotificationTypeNone != setting.types) {//系统开启
-        push.isOpenSwitch=[GlobalSettingsTool sharedSetting].enabledPush;
+        push.isOpenSwitch=[ZBGlobalSettingsTool sharedInstance].enabledPush;
         push.switchBlock = ^(BOOL on) {
             NSLog(@"通知%zd",on);
-            [GlobalSettingsTool sharedSetting].enabledPush=on;
+            [ZBGlobalSettingsTool sharedInstance].enabledPush=on;
         };
         
     }else{
@@ -142,7 +142,7 @@
     
     // Wifi
     ZBSettingItem *wifi = [ZBSettingItem itemWithTitle:@"仅-Wifi网络下载图片" type:ZBSettingItemTypeSwitch];
-    wifi.isOpenSwitch=[GlobalSettingsTool downloadImagePattern];
+    wifi.isOpenSwitch=[[ZBGlobalSettingsTool sharedInstance] downloadImagePattern];
     wifi.switchBlock = ^(BOOL on) {
         
         on = [[NSUserDefaults standardUserDefaults]boolForKey:@"readImage"];
@@ -150,16 +150,16 @@
         
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-       // [[NSNotificationCenter defaultCenter]postNotificationName:IMAGE object:[NSString stringWithFormat:@"%d",[[NSUserDefaults standardUserDefaults]boolForKey:@"readImage"]]];
+        [[NSNotificationCenter defaultCenter]postNotificationName:READIMAGE object:[NSString stringWithFormat:@"%d",[[NSUserDefaults standardUserDefaults]boolForKey:@"readImage"]]];
         
     };
     
     // 缓存
-    ZBSettingItem *cache= [ZBSettingItem itemWithTitle:@"清除缓存" type:ZBSettingItemTypeArrow];
+    ZBSettingItem *cache= [ZBSettingItem itemWithTitle:@"存储空间" type:ZBSettingItemTypeArrow];
  
     cache.operation = ^{
         ClearCacheViewController *clearVC=[[ClearCacheViewController alloc]init];
-        [self.navigationController pushViewController:clearVC animated:YES];
+        [weakSelf.navigationController pushViewController:clearVC animated:YES];
     };
     
     ZBSettingGroup *group2 = [[ZBSettingGroup alloc] init];
@@ -172,10 +172,10 @@
 - (void)add3SectionItems{
     __weak typeof(self) weakSelf = self;
     
-    //去评价
-    ZBSettingItem *open = [ZBSettingItem itemWithTitle:@"评价" type:ZBSettingItemTypeArrow];
+    //去评分
+    ZBSettingItem *open = [ZBSettingItem itemWithTitle:@"为ZBKit评分" type:ZBSettingItemTypeArrow];
     open.operation = ^{
-        [[GlobalSettingsTool sharedSetting]openURL:@"123456789"];
+        [[ZBGlobalSettingsTool sharedInstance]openURL:@"123456789"];
     };
     
     //意见反馈
@@ -198,9 +198,9 @@
     ZBSettingItem *about = [ZBSettingItem itemWithIcon:[NSBundle MoreAboutIcon] title:@"关于" type:ZBSettingItemTypeArrow];
     
     about.operation = ^{
-        NSString *aboutString=[NSString stringWithFormat:@"应用名字:%@\n应用ID:%@\n应用版本:%@\n应用build:%@",[[GlobalSettingsTool sharedSetting]appBundleName],[[GlobalSettingsTool sharedSetting]appBundleID],[[GlobalSettingsTool sharedSetting]appVersion],[[GlobalSettingsTool sharedSetting]appBuildVersion]];
+        NSString *aboutString=[NSString stringWithFormat:@"应用名字:%@\n应用ID:%@\n应用版本:%@\n应用build:%@\n设备名字:%@",[[ZBGlobalSettingsTool sharedInstance]appBundleName],[[ZBGlobalSettingsTool sharedInstance]appBundleID],[[ZBGlobalSettingsTool sharedInstance]appVersion],[[ZBGlobalSettingsTool sharedInstance]appBuildVersion],[[ZBGlobalSettingsTool sharedInstance]machineName]];
         UIViewController *helpVC = [[UIViewController alloc] init];
-        UILabel *abotlabel=[[UILabel alloc]initWithFrame:CGRectMake(20, 100, SCREEN_WIDTH-40, 100)];
+        UILabel *abotlabel=[[UILabel alloc]initWithFrame:CGRectMake(20, 100, SCREEN_WIDTH-40, 200)];
         abotlabel.text=aboutString;
         abotlabel.numberOfLines=0;
         [helpVC.view addSubview:abotlabel];
@@ -212,16 +212,15 @@
     ZBSettingGroup *group3 = [[ZBSettingGroup alloc] init];
     group3.items = @[open, feedback, share , about];
     group3.headerHeight=35;
-    group3.footerHeight=35;
+    group3.footerHeight=25;
     group3.header=@"基本设置";
     group3.footer=@"footer";
     [_allGroups addObject:group3];
     
 }
 
-
 - (NSString *)setFont{
-    switch ([GlobalSettingsTool sharedSetting].fontSize) {
+    switch ([ZBGlobalSettingsTool sharedInstance].fontSize) {
         case 0:
             return  [NSString stringWithFormat:@"小"];
             break;
@@ -240,7 +239,7 @@
 
 - (NSString *)getCacheSize{
     
-    float cacheSize=[[ZBCacheManager sharedManager]getCacheSize];//json缓存文件大小
+    float cacheSize=[[ZBCacheManager sharedInstance]getCacheSize];//json缓存文件大小
     float imageSize = [[SDImageCache sharedImageCache]getSize];//图片缓存大小
     
     float AppCacheSize=cacheSize+imageSize;
@@ -248,7 +247,7 @@
     return [NSString stringWithFormat:@"%.2fM",AppCacheSize];
 }
 - (NSString *)getCacheCount{
-    float cacheCount=[[ZBCacheManager sharedManager]getCacheCount];//json缓存文件个数
+    float cacheCount=[[ZBCacheManager sharedInstance]getCacheCount];//json缓存文件个数
     float imageCount=[[SDImageCache sharedImageCache]getDiskCount];//图片缓存个数
     float AppCacheCount=cacheCount+imageCount;
     return [NSString stringWithFormat:@"%.f",AppCacheCount];
@@ -264,7 +263,7 @@
         //设置收件人(设置一组)
         [mail  setToRecipients:[NSArray arrayWithObjects:@"szb2323@163.com",nil]];
         //设置邮件的正文,是否解析正文中的html标签
-        NSString *aboutString=[NSString stringWithFormat:@"%@%@/%@/%@",[[GlobalSettingsTool sharedSetting]appBundleName],[[GlobalSettingsTool sharedSetting]appVersion],[[UIDevice currentDevice] systemVersion],[[GlobalSettingsTool sharedSetting]machineName]];
+        NSString *aboutString=[NSString stringWithFormat:@"%@%@/%@/%@",[[ZBGlobalSettingsTool sharedInstance]appBundleName],[[ZBGlobalSettingsTool sharedInstance]appVersion],[[UIDevice currentDevice] systemVersion],[[ZBGlobalSettingsTool sharedInstance]machineName]];
         [mail setMessageBody:aboutString isHTML:NO];
         //设置代理
         mail.mailComposeDelegate = self;

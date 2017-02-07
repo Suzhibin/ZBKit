@@ -12,6 +12,8 @@
 #import "ListModel.h"
 
 @implementation ListModel
+
+ZBCodingImplementation
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key{
     //  NSLog(@"undefinedKey:%@",key);
 }

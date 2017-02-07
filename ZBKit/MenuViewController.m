@@ -41,7 +41,7 @@
     }else if(_functionType==sessiondelegate){
         //NSURLSessionDelegate方法
         //需要 ZBURLSessionDelegate 协议
-        [[ZBURLSessionManager sharedManager]getRequestWithURL:menu_URL target:self apiType:ZBRequestTypeDefault];
+        [[ZBURLSessionManager sharedInstance]getRequestWithURL:menu_URL target:self apiType:ZBRequestTypeDefault];
     }
     [self.tableView addSubview:self.refreshControl];
     [self.view addSubview:self.tableView];
@@ -97,7 +97,7 @@
 //apiType 是请求类型 在ZBURLRequest 里
 - (void)getSessionBlockWithApiType:(apiType)requestType{
     
-    [[ZBURLSessionManager sharedManager]requestWithConfig:^(ZBURLRequest *request){
+    [[ZBURLSessionManager sharedInstance]requestWithConfig:^(ZBURLRequest *request){
         request.urlString=menu_URL;
         request.methodType=ZBMethodTypeGET;//默认为GET
         request.apiType=requestType;//默认为default
@@ -212,7 +212,7 @@
         
     }else if(_functionType==sessiondelegate){
         //需要 ZBURLSessionDelegate 协议
-        [[ZBURLSessionManager sharedManager]getRequestWithURL:list_URL target:self apiType:ZBRequestTypeRefresh];
+        [[ZBURLSessionManager sharedInstance]getRequestWithURL:list_URL target:self apiType:ZBRequestTypeRefresh];
     }
     _refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉刷新..."];
     /**

@@ -1,37 +1,36 @@
 //
-//  FourViewController.m
+//  FiveViewController.m
 //  ZBKit
 //
-//  Created by NQ UEC on 17/1/24.
+//  Created by NQ UEC on 17/2/6.
 //  Copyright © 2017年 Suzhibin. All rights reserved.
 //
 
-#import "FourViewController.h"
-
-@interface FourViewController ()
+#import "FiveViewController.h"
+#import "ZBKit.h"
+@interface FiveViewController ()
 
 @end
 
-@implementation FourViewController
+@implementation FiveViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSString *string=@"欢迎反馈";
     
-    //广告 
-    
-    [ZBAdvertiseInfo getAdvertising:^(NSString *filePath,NSDictionary *urlDict,BOOL isExist){
-        if (isExist) {
-            ZBAdvertiseView *advertiseView2 = [[ZBAdvertiseView alloc] initWithFrame:self.view.bounds];
-            advertiseView2.filePath = filePath;
-            advertiseView2.linkdict = urlDict;
-            [advertiseView2 show];
-            NSLog(@"展示广告");
-        }else{
-            NSLog(@"无广告");
-        }
-    }];
+    NSString *str=[ZBControlTool reverseWordsInString:string];
+    NSLog(@"%@",str);
 
+    NSString *str1=[ZBControlTool phoneticizeChinese:string];
+    NSLog(@"%@",str1);
+    
+    NSString *str2=[ZBControlTool translation:@"231424"];
+    NSLog(@"%@",str2);
+    
+   // [ZBControlTool setStatusBarBackgroundColor:[UIColor redColor]];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
