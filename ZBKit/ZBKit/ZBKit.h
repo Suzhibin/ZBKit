@@ -13,8 +13,10 @@
 
 #import "ZBGlobalSettingsTool.h"
 #import "ZBSettingViewController.h"//设置页面
+#import "NSBundle+ZBKit.h"
 
 #import "ZBDataBaseManager.h"
+#import "NSObject+ZBCoding.h"
 
 #import "ZBImageDownloader.h"
 #import "UIImage+ZBKit.h"

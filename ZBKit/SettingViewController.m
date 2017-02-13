@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+
     // 1.第0租
     [self add0SectionItems];
     // 2.第1组
@@ -140,6 +140,36 @@
     
     __weak typeof(self) weakSelf = self;
     
+    NSString *title=nil;
+    if ([[ZBGlobalSettingsTool sharedInstance] getNightPattern]==YES) {
+        title=@"日间模式";
+        
+    }else{
+        title=@"夜间模式";
+    }
+
+    // 夜间模式
+    ZBSettingItem *night = [ZBSettingItem itemWithTitle:title type:ZBSettingItemTypeSwitch];
+    __block ZBSettingItem *weakNight = night;
+    night.isOpenSwitch=[[ZBGlobalSettingsTool sharedInstance] getNightPattern];
+    night.switchBlock = ^(BOOL on) {
+        
+        on = [[NSUserDefaults standardUserDefaults]boolForKey:@"readStyle"];
+        [[NSUserDefaults standardUserDefaults]setBool:!on forKey:@"readStyle"];
+        
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [[NSNotificationCenter defaultCenter]postNotificationName:READStyle object:[NSString stringWithFormat:@"%d",[[NSUserDefaults standardUserDefaults]boolForKey:@"readStyle"]]];
+        
+        weakNight.title=title;
+        if ([[ZBGlobalSettingsTool sharedInstance] getNightPattern]==YES) {
+            NSLog(@"夜间模式");
+        
+        }else{
+            NSLog(@"日间模式");
+        }
+    };
+    
     // Wifi
     ZBSettingItem *wifi = [ZBSettingItem itemWithTitle:@"仅-Wifi网络下载图片" type:ZBSettingItemTypeSwitch];
     wifi.isOpenSwitch=[[ZBGlobalSettingsTool sharedInstance] downloadImagePattern];
@@ -165,7 +195,7 @@
     ZBSettingGroup *group2 = [[ZBSettingGroup alloc] init];
     group2.headerHeight=5;
     group2.footerHeight=5;
-    group2.items = @[wifi,cache];
+    group2.items = @[night,wifi,cache];
     [_allGroups addObject:group2];
     
 }

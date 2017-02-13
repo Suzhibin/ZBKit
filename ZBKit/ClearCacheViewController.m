@@ -13,6 +13,7 @@
 @interface ClearCacheViewController ()
 
 @property (nonatomic,copy)NSString *path;
+@property (nonatomic,copy)NSString *path1;
 @end
 
 @implementation ClearCacheViewController
@@ -41,10 +42,6 @@
     NSLog(@"应用名字:%@",[[ZBGlobalSettingsTool sharedInstance] appBundleName]);
     
     //================================================
-   
-    NSLog(@"ZBkit应用大小:%@",[self getZBKitSize]);
-    
-    //================================================
     
     NSLog(@"ZBkit缓存大小:%@",[self getAllCacheSize]);
     
@@ -58,12 +55,10 @@
     //[[ZBCacheManager sharedManager]getFileAttributes:menu_URL];
     
     NSArray *colorArr=@[[UIColor redColor],[UIColor grayColor],[UIColor greenColor]];
+
+    NSArray *sizeArray=[NSArray arrayWithObjects:[self getAllCacheSize],[[ZBCacheManager sharedInstance] fileUnitWithSize:otherSystem],[[ZBCacheManager sharedInstance] fileUnitWithSize:freeSystem],nil];
     
-    NSString *zbkitSize=[NSString stringWithFormat:@"%@(%@)",[self getZBKitSize],[self getAllCacheSize]];
-    
-    NSArray *sizeArray=[NSArray arrayWithObjects:zbkitSize,[[ZBCacheManager sharedInstance] fileUnitWithSize:otherSystem],[[ZBCacheManager sharedInstance] fileUnitWithSize:freeSystem],nil];
-    
-    ZBChart *ring = [[ZBChart alloc] initWithFrame:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_WIDTH)];
+    ZBChart *ring = [[ZBChart alloc] initWithFrame:CGRectMake(0,20, SCREEN_WIDTH, SCREEN_WIDTH)];
   
     ring.backgroundColor = [UIColor whiteColor];
 
@@ -84,8 +79,8 @@
     [ring addSubview:totalLabel];
 
     //================================================
-    NSString *zbkitStr=[NSString stringWithFormat:@"%@%@",[[ZBGlobalSettingsTool sharedInstance] appBundleName],@"(缓存)"];
-    NSArray *titleArray=[NSArray arrayWithObjects:zbkitStr,@"其他",@"可用",nil];
+
+    NSArray *titleArray=[NSArray arrayWithObjects:[[ZBGlobalSettingsTool sharedInstance] appBundleName],@"其他",@"可用",nil];
     for (int i = 0; i<titleArray.count; i++) {
         UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(20+140*i ,410, 100, 20)];
         label.text=[titleArray objectAtIndex:i];
@@ -123,38 +118,37 @@
     [self alertTitle:@"清除缓存" andMessage:[self getAllCacheSize]];
     
     //清除json缓存后的操作
-    [[ZBCacheManager sharedInstance]clearCacheOnOperation:^{
-        //清除图片缓存
+    [[ZBCacheManager sharedInstance]clearCacheOnCompletion:^{
+        //清除SDImage缓存
         [[SDImageCache sharedImageCache] clearDisk];
         [[SDImageCache sharedImageCache] clearMemory];
+        //清除ZBImage缓存
+        [ZBImageDownloader clearImageFile];
         //清除沙盒某个文件夹
         [[ZBCacheManager sharedInstance]clearDiskWithpath:self.path];
-        //清除系统内存文件
-        [[NSURLCache sharedURLCache]removeAllCachedResponses];
-       
+        //清除系统缓存文件
+       // [[NSURLCache sharedURLCache]removeAllCachedResponses];
+       //用ZBCacheManager 方法代替上面的系统方法 清除系统缓存文件
+        [[ZBCacheManager sharedInstance]clearDiskWithpath:self.path1];
+        
         UILabel *label1 = (UILabel *)[self.view viewWithTag:3000];
-        NSString *zbkitSize=[NSString stringWithFormat:@"%@(%@)",[self getZBKitSize],[self getAllCacheSize]];
-        label1.text=zbkitSize;
+        label1.text=[self getAllCacheSize];
     }];
  
-}
-- (NSString *)getZBKitSize{
-    float ZBKit=[[ZBCacheManager sharedInstance ]getFileSizeWithpath:[[ZBCacheManager sharedInstance]homePath]];
-    NSString *ZBKitSize=[[ZBCacheManager sharedInstance] fileUnitWithSize:ZBKit];
-    return ZBKitSize;
 }
 
 - (NSString *)getAllCacheSize{
     //得到沙盒cache文件夹
     NSString *cachePath= [[ZBCacheManager sharedInstance]cachesPath];
-    NSString *Snapshots=@"Snapshots";
-    //拼接cache文件夹下的 Snapshots 文件夹
-    self.path=[NSString stringWithFormat:@"%@/%@",cachePath,Snapshots];
+    NSString *appID=@"github.com-Suzhibin.ZBKit";
+    NSString *fsCachedData=@"fsCachedData";
+    self.path=[NSString stringWithFormat:@"%@/%@/%@",cachePath,appID,fsCachedData];
     
-    float cacheSize=[[ZBCacheManager sharedInstance]getCacheSize];//json缓存文件大小
-    float imageSize = [[SDImageCache sharedImageCache]getSize];//图片缓存大小
-    float SnapshotsSize=[[ZBCacheManager sharedInstance]getFileSizeWithpath:self.path];//某个沙盒路径文件大小
-    float AppCacheSize=cacheSize+imageSize+SnapshotsSize;
+    CGFloat cacheSize=[[ZBCacheManager sharedInstance]getCacheSize];//json缓存文件大小
+    CGFloat sdimageSize = [[SDImageCache sharedImageCache]getSize];//图片缓存大小
+    CGFloat zbimageSize = [ZBImageDownloader imageFileSize];
+    CGFloat fsCachedDataSize=[[ZBCacheManager sharedInstance]getFileSizeWithpath:self.path];//系统缓存 沙盒路径文件大小
+    CGFloat AppCacheSize=cacheSize+sdimageSize+zbimageSize+fsCachedDataSize;
     AppCacheSize=AppCacheSize/1000.0/1000.0;
     return [NSString stringWithFormat:@"%.2fM",AppCacheSize];
 }

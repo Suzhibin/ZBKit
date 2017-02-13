@@ -26,7 +26,7 @@
     self = [super init];
     if (self) {
         self.enabledPush = YES;
-        
+        self.fontSize=1;
     }
     return self;
 }
@@ -73,7 +73,7 @@
 }
 
 - (void)openURL:(NSString *)APPID{
-    NSString *appstr=[NSString stringWithFormat:@"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@",APPID];
+    NSString *appstr=[NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@",APPID];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appstr]];
 }
 

@@ -45,7 +45,7 @@
             advertiseView.filePath = filePath;
             advertiseView.linkdict = urlDict;
             
-             NSLog(@"展示广告");
+            NSLog(@"展示广告");
         }else{
             NSLog(@"无广告");
         }

@@ -7,9 +7,10 @@
 //
 
 #import "ZBImageDownloader.h"
-#import "ZBCacheManager.h"
 #import "NSFileManager+pathMethod.h"
 #import "ZBConstants.h"
+#import "UIImage+ZBKit.h"
+
 NSString *const ImageDefaultPath =@"AppImage";
 static const NSInteger timeOut = 60*60;
 @interface ZBImageDownloader ()
@@ -50,13 +51,14 @@ static const NSInteger timeOut = 60*60;
         NSData *data=[NSData dataWithContentsOfFile:imagePath];
         
         UIImage *image=[UIImage imageWithData:data];
+    
         
         completion(image);
         ZBKLog(@"image cache");
     }else{
         ZBKLog(@"image request");
         [self requestImageUrl:imageUrl completion:^(UIImage *image){
-
+            
             [[ZBCacheManager sharedInstance]setContent:image writeToFile:imagePath];
          
             completion(image);
@@ -72,7 +74,7 @@ static const NSInteger timeOut = 60*60;
         NSData *data=[NSData dataWithContentsOfURL:url];
         
         UIImage *image=[UIImage imageWithData:data];
- 
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             completion(image);
         });
@@ -88,9 +90,20 @@ static const NSInteger timeOut = 60*60;
 }
 
 + (void)clearImageFile{
-    [[ZBCacheManager sharedInstance]clearDiskWithpath:[self imageFilePath]];
+    [self clearImageFileCompletion:nil];
 }
 
++ (void)clearImageFileCompletion:(ZBCacheManagerBlock)completion{
+     [[ZBCacheManager sharedInstance]clearDiskWithpath:[self imageFilePath] completion:completion];
+}
+
++ (void)clearImageForkey:(NSString *)key{
+    [self clearImageForkey:key completion:nil];
+}
+
++ (void)clearImageForkey:(NSString *)key completion:(ZBCacheManagerBlock)completion{
+    [[ZBCacheManager sharedInstance]clearCacheForkey:key path:[self imageFilePath] completion:completion];
+}
 
 + (NSString *)contentTypeForImageData:(NSData *)data {
     uint8_t c;

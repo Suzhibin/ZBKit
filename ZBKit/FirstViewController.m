@@ -50,6 +50,7 @@
         MenuViewController *MenuVC1 = [[MenuViewController alloc] init];
         MenuVC1.functionType=sessionblock;
         [weakSelf.navigationController pushViewController:MenuVC1 animated:YES];
+       
     };
     
     ZBSettingGroup *group2= [[ZBSettingGroup alloc] init];

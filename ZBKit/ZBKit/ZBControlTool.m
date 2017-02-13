@@ -7,7 +7,7 @@
 //
 
 #import "ZBControlTool.h"
-
+#import "AppDelegate.h"
 @implementation ZBControlTool
 
 
@@ -24,7 +24,22 @@
     return NO;
 }
 
-- (NSString * )str:(NSString *)string{
++ (NSMutableAttributedString *)AttributedString:(NSString *)string range:(NSUInteger)range lengthString:(NSString *)lengthString{
+    
+    NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:string];
+    
+    [AttributedStr addAttribute:NSFontAttributeName
+                          value:[UIFont systemFontOfSize:20.0]
+                          range:NSMakeRange(range, [lengthString length])];
+    
+    [AttributedStr addAttribute:NSForegroundColorAttributeName
+                          value:[UIColor redColor]
+                          range:NSMakeRange(range, [lengthString length])];
+    return  AttributedStr;
+}
+
+
++  (NSString * )str:(NSString *)string{
 
     NSString *str = string;
     // 去掉所有的空格
@@ -89,8 +104,8 @@
     
     NSString *sumStr = [sums componentsJoinedByString:@""];
     NSString *chinese = [sumStr substringToIndex:sumStr.length-1];
-    NSLog(@"%@",str);
-    NSLog(@"%@",chinese);
+    //NSLog(@"str%@",str);
+    //NSLog(@"chinese%@",chinese);
     return chinese;
 }
 
@@ -107,6 +122,7 @@
         statusBar.backgroundColor = color;
     }
 }
+
 //============================================================
 + (UIButton *)createButtonWithFrame:(CGRect)frame title:(NSString *)title target:(id)target action:(SEL)action tag:(NSInteger)tag{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];

@@ -27,11 +27,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    //得到沙盒cache文件夹
+    //得到沙盒cache文件夹下的系统缓存文件路径
     NSString *cachePath= [[ZBCacheManager sharedInstance]cachesPath];
-    NSString *Snapshots=@"Snapshots";
-    //拼接cache文件夹下的 Snapshots 文件夹
-    self.path=[NSString stringWithFormat:@"%@/%@",cachePath,Snapshots];
+  //  NSString *appID=@"github.com-Suzhibin.ZBKit";
+    NSString *appID=[[ZBGlobalSettingsTool sharedInstance]appBundleID];
+    NSString *fsCachedData=@"fsCachedData";
+    self.path=[NSString stringWithFormat:@"%@/%@/%@",cachePath,appID,fsCachedData];
     
     [self.view addSubview:self.tableView];
     
@@ -39,8 +40,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return 10;
+    return 12;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -52,10 +52,11 @@
     if (indexPath.row==0) {
         cell.textLabel.text=@"清除全部缓存";
         
-        float cacheSize=[[ZBCacheManager sharedInstance]getCacheSize];//json缓存文件大小
-        float imageSize = [[SDImageCache sharedImageCache]getSize];//图片缓存大小
-        float SnapshotsSize=[[ZBCacheManager sharedInstance]getFileSizeWithpath:self.path];//某个沙盒路径文件大小
-        float AppCacheSize=cacheSize+imageSize+SnapshotsSize;
+        CGFloat cacheSize=[[ZBCacheManager sharedInstance]getCacheSize];//json缓存文件大小
+        CGFloat sdimageSize = [[SDImageCache sharedImageCache]getSize];//图片缓存大小
+        CGFloat zbimage=[ZBImageDownloader imageFileSize];
+        CGFloat fsCachedDataSize=[[ZBCacheManager sharedInstance]getFileSizeWithpath:self.path];//系统缓存沙盒路径文件大小
+        CGFloat AppCacheSize=cacheSize+sdimageSize+zbimage+fsCachedDataSize;
         AppCacheSize=AppCacheSize/1000.0/1000.0;
 
         cell.detailTextLabel.text=[NSString stringWithFormat:@"%.2fM",AppCacheSize];
@@ -64,17 +65,18 @@
         cell.textLabel.text=@"全部缓存数量";
         cell.userInteractionEnabled = NO;
         
-        float cacheCount=[[ZBCacheManager sharedInstance]getCacheCount];//json缓存文件个数
-        float imageCount=[[SDImageCache sharedImageCache]getDiskCount];//图片缓存个数
-        float SnapshotsCount=[[ZBCacheManager sharedInstance]getFileCountWithpath:self.path];//某个沙盒路径文件个数
-        float AppCacheCount=cacheCount+imageCount+SnapshotsCount;
+        CGFloat cacheCount=[[ZBCacheManager sharedInstance]getCacheCount];//json缓存文件个数
+        CGFloat imageCount=[[SDImageCache sharedImageCache]getDiskCount];//图片缓存个数
+        CGFloat zbimageCount=[ZBImageDownloader imageFileCount];
+        CGFloat fsCachedDataCount=[[ZBCacheManager sharedInstance]getFileCountWithpath:self.path];//系统缓存沙盒路径文件个数
+        CGFloat AppCacheCount=cacheCount+imageCount+zbimageCount+fsCachedDataCount;
         
         cell.detailTextLabel.text= [NSString stringWithFormat:@"%.f",AppCacheCount];
     }
     if (indexPath.row==2) {
         cell.textLabel.text=@"清除json缓存";
         
-        float cacheSize=[[ZBCacheManager sharedInstance]getCacheSize];//json缓存文件大小
+        CGFloat cacheSize=[[ZBCacheManager sharedInstance]getCacheSize];//json缓存文件大小
         
         cacheSize=cacheSize/1000.0/1000.0;
         cell.detailTextLabel.text=[NSString stringWithFormat:@"%.2fM",cacheSize];
@@ -82,13 +84,13 @@
     if (indexPath.row==3) {
         cell.textLabel.text=@"json缓存数量";
         cell.userInteractionEnabled = NO;
-        float cacheCount=[[ZBCacheManager sharedInstance]getCacheCount];//json缓存文件个数
+        CGFloat cacheCount=[[ZBCacheManager sharedInstance]getCacheCount];//json缓存文件个数
         cell.detailTextLabel.text= [NSString stringWithFormat:@"%.f",cacheCount];
     }
     
     if (indexPath.row==4) {
-        cell.textLabel.text=@"清除图片缓存";
-        float sdimageSize = [[SDImageCache sharedImageCache]getSize];//图片缓存大小
+        cell.textLabel.text=@"清除SDwebImage缓存";
+        CGFloat sdimageSize = [[SDImageCache sharedImageCache]getSize];//图片缓存大小
         
         sdimageSize=sdimageSize/1000.0/1000.0;
         
@@ -96,40 +98,55 @@
     }
     
     if (indexPath.row==5) {
-        cell.textLabel.text=@"图片缓存数量";
+        cell.textLabel.text=@"SDwebImage缓存数量";
         cell.userInteractionEnabled = NO;
         
-        float sdimageCount=[[SDImageCache sharedImageCache]getDiskCount];//图片缓存个数
+        CGFloat sdimageCount=[[SDImageCache sharedImageCache]getDiskCount];//图片缓存个数
     
         cell.detailTextLabel.text= [NSString stringWithFormat:@"%.f",sdimageCount];
     }
     
     if (indexPath.row==6) {
-        cell.textLabel.text=@"清除某个路径下的所有文件";
+        cell.textLabel.text=@"清除ZBImage缓存";
+        CGFloat ZBImageSize=[ZBImageDownloader imageFileSize];
+       
+        ZBImageSize=ZBImageSize/1000.0/1000.0;
         
-        float size=[[ZBCacheManager sharedInstance]getFileSizeWithpath:self.path];
+        cell.detailTextLabel.text=[NSString stringWithFormat:@"%.2fM",ZBImageSize];
+    }
+    
+    if (indexPath.row==7) {
+        cell.textLabel.text=@"ZBImage缓存数量";
+        
+        CGFloat ZBImageCount=[ZBImageDownloader imageFileCount];
+        
+        cell.detailTextLabel.text=[NSString stringWithFormat:@"%.f",ZBImageCount];
+        
+    }
+    if (indexPath.row==8) {
+
+        cell.textLabel.text=@"清除系统缓存路径下的所有文件";
+        
+        CGFloat size=[[ZBCacheManager sharedInstance]getFileSizeWithpath:self.path];
         
         //fileUnitWithSize 转换单位方法
         cell.detailTextLabel.text=[[ZBCacheManager sharedInstance] fileUnitWithSize:size];
     }
-    
-    if (indexPath.row==7) {
-        cell.textLabel.text=@"某个路径下所有文件数量";
+    if (indexPath.row==9) {
+     
+        cell.textLabel.text=@"系统缓存路径下所有文件数量";
         cell.userInteractionEnabled = NO;
         
-        float count=[[ZBCacheManager sharedInstance]getFileCountWithpath:self.path];
+        CGFloat count=[[ZBCacheManager sharedInstance]getFileCountWithpath:self.path];
         
         cell.detailTextLabel.text= [NSString stringWithFormat:@"%.f",count];
-        
     }
-    if (indexPath.row==8) {
+    if (indexPath.row==10) {
         cell.textLabel.text=@"清除单个缓存文件(例:删除menu)";
-        
     }
-    if (indexPath.row==9) {
+    if (indexPath.row==11) {
         cell.textLabel.text=@"离线下载";
         cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-        
     }
     
     return cell;
@@ -140,70 +157,75 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.row==0) {
-        
         //清除json缓存后的操作
-        [[ZBCacheManager sharedInstance]clearCacheOnOperation:^{
-            //清除图片缓存
+        [[ZBCacheManager sharedInstance]clearCacheOnCompletion:^{
+            //清除SDImage缓存
             [[SDImageCache sharedImageCache] clearDisk];
             [[SDImageCache sharedImageCache] clearMemory];
-            //清除沙盒某个文件夹
+            //清除ZBImage缓存
+             [ZBImageDownloader clearImageFile];
+            //清除系统缓存文件
+            //[[NSURLCache sharedURLCache]removeAllCachedResponses];
+            //用ZBCacheManager 方法代替上面的系统方法 清除系统缓存文件
             [[ZBCacheManager sharedInstance]clearDiskWithpath:self.path];
-            //清除系统内存文件
-            [[NSURLCache sharedURLCache]removeAllCachedResponses];
             
             [self.tableView reloadData];
-            
         }];
     }
+    
     if (indexPath.row==2) {
         //清除json缓存
         //[[ZBCacheManager sharedManager]clearCache];
-        [[ZBCacheManager sharedInstance]clearCacheOnOperation:^{
+        [[ZBCacheManager sharedInstance]clearCacheOnCompletion:^{
             [self.tableView reloadData];
         }];
         
     }
     
     if (indexPath.row==4) {
-        //清除图片缓存
+        //清除SDImage缓存
         //  [[SDImageCache sharedImageCache] clearDisk];
         [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
             [[SDImageCache sharedImageCache] clearMemory];
             [self.tableView reloadData];
             
         }];
-            
-        
     }
     
     if (indexPath.row==6) {
-        
-        //清除某个路径下所有文件
-        // [[ZBCacheManager sharedManager]clearDiskWithpath:self.path];
-        [[ZBCacheManager sharedInstance]clearDiskWithpath:self.path operation:^{
-            
-            [self.tableView reloadData];
-            
-        }];
-    }
-    if (indexPath.row==8) {
-        
-        //清除单个缓存文件
-        // [[ZBCacheManager sharedManager]clearCacheForkey:list_URL];
-        [[ZBCacheManager sharedInstance]clearCacheForkey:menu_URL operation:^{
-            
-            [self.tableView reloadData];
-            
-        }];
-        
+        //清除ZBImage缓存
+        [ZBImageDownloader clearImageFile];
+        [self.tableView reloadData];
     }
     
-    if (indexPath.row==9) {
+    if (indexPath.row==8) {
         
+        //清除系统缓存路径下所有文件
+        //[[NSURLCache sharedURLCache]removeAllCachedResponses];
+        
+        //用ZBCacheManager 方法代替上面的系统方法 清除系统缓存文件
+        // [[ZBCacheManager sharedManager]clearDiskWithpath:self.path];
+        [[ZBCacheManager sharedInstance]clearDiskWithpath:self.path completion:^{
+            
+            [self.tableView reloadData];
+            
+        }];
+    }
+    
+    if (indexPath.row==10) {
+        
+        //清除单个缓存文件
+        // [[ZBCacheManager sharedManager]clearCacheForkey:menu_URL];
+        [[ZBCacheManager sharedInstance]clearCacheForkey:menu_URL completion:^{
+            
+            [self.tableView reloadData];
+        }];
+    }
+    
+    if (indexPath.row==11) {
         offlineViewController *offlineVC=[[offlineViewController alloc]init];
         offlineVC.delegate=self;
         [self.navigationController pushViewController:offlineVC animated:YES];
-        
     }
 }
 #pragma mark offlineDelegate

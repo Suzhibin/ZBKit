@@ -80,6 +80,11 @@
         self.rightLabel.text = item.rightText;
         self.selectionStyle  = UITableViewCellSelectionStyleBlue;
         
+    }else if (item.type == ZBSettingItemTypeRightAttributedText) {
+        self.accessoryView   = self.rightLabel;
+        self.rightLabel.attributedText = item.rightAttributedText;
+        self.selectionStyle  = UITableViewCellSelectionStyleBlue;
+        
     } else if (item.type == ZBSettingItemTypeArrowWithText) {
         self.accessoryView   = self.rightView;
         self.rightLabel.text = item.rightText;
@@ -96,7 +101,7 @@
         self.accessoryView  = self.photoImageView;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         //[self.photoImageView sd_setImageWithURL:[NSURL URLWithString:item.imageUrl] placeholderImage:[UIImage imageNamed:@"pic_portrait"]];
-    } else {
+    }else {
         // 什么也没有，清空右边显示的view
         self.accessoryView = nil;
         // 用默认的选中样式

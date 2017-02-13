@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
+#import "ZBCacheManager.h"
 typedef void (^downloadCompletion)(UIImage *image);
 
 typedef void (^requestCompletion)(UIImage *image);
@@ -64,6 +64,24 @@ typedef void (^requestCompletion)(UIImage *image);
  */
 + (void)clearImageFile;
 
+/**
+ *  清除图片
+ *  @param completion        block 后续操作
+ */
++ (void)clearImageFileCompletion:(ZBCacheManagerBlock)completion;
+
+/**
+ *  清除某个图片
+ *  @param key              图片的地址
+ */
++ (void)clearImageForkey:(NSString *)key;
+
+/**
+ *  清除某个图片
+ *  @param key              图片的地址
+ *  @param completion        block 后续操作
+ */
++ (void)clearImageForkey:(NSString *)key completion:(ZBCacheManagerBlock)completion;
 /**
  *  图片存储路径 /Library/Caches/ZBKit/AppImage
  */

@@ -264,7 +264,6 @@
     NSString *url=[NSString stringWithFormat:list_URL,model.wid];
     listVC.urlString=url;
     [self.navigationController pushViewController:listVC animated:YES];
-    
 }
 
 - (void)btnClick{

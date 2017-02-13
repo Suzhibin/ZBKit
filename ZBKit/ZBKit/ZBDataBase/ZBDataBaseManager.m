@@ -238,10 +238,11 @@ NSString *const dbName =@"ZBKit.db";
     NSString *selectSql =[NSString stringWithFormat:@"SELECT count(*) FROM %@",tableName];
     
     [_dbQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet *s = [db executeQuery:selectSql];
-        if ([s next]) {
-            statuscount = [s intForColumnIndex:0];
+        FMResultSet *set = [db executeQuery:selectSql];
+        if ([set next]) {
+            statuscount = [set intForColumnIndex:0];
         }
+        [set  close];
     }];
     return statuscount;
 }

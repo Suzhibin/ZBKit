@@ -38,7 +38,6 @@
 -(void)setValueDataArr:(NSArray *)valueDataArr{
     _valueDataArr = valueDataArr;
     [self configBaseData];
-    
 }
 
 - (void)configBaseData{
@@ -98,7 +97,6 @@
 
 -(void)drawRect:(CGRect)rect{
     
-    
     CGContextRef contex = UIGraphicsGetCurrentContext();
     
     CGFloat lastBegin = 0;
@@ -106,13 +104,13 @@
     for (NSInteger i = 0; i<_valueDataArr.count; i++) {
         id obj = _valueDataArr[i];
         CGFloat currentSpace = [obj floatValue] / _totolCount * (M_PI * 2 - _itemsSpace * _valueDataArr.count);;
-        NSLog(@"%f",currentSpace);
+        //NSLog(@"%f",currentSpace);
         CGFloat midSpace = lastBegin + currentSpace / 2;
         
         CGPoint begin = CGPointMake(self.chartOrigin.x + sin(midSpace) * _redius, self.chartOrigin.y - cos(midSpace)*_redius);
         CGPoint endx = CGPointMake(self.chartOrigin.x + sin(midSpace) * longLen, self.chartOrigin.y - cos(midSpace)*longLen);
         
-        NSLog(@"%@%@",NSStringFromCGPoint(begin),NSStringFromCGPoint(endx));
+        //NSLog(@"%@%@",NSStringFromCGPoint(begin),NSStringFromCGPoint(endx));
         lastBegin += _itemsSpace + currentSpace;
         
         UIColor *color;
@@ -153,16 +151,13 @@
  *  @param color    线段颜色
  */
 - (void)drawLineWithContext:(CGContextRef )context andStarPoint:(CGPoint )start andEndPoint:(CGPoint)end andIsDottedLine:(BOOL)isDotted andColor:(UIColor *)color{
-    
-    
+
     //    移动到点
     CGContextMoveToPoint(context, start.x, start.y);
     //    连接到
     CGContextAddLineToPoint(context, end.x, end.y);
     
-    
     CGContextSetLineWidth(context, 0.3);
-    
     
     [color setStroke];
     
@@ -176,7 +171,6 @@
     CGContextDrawPath(context, kCGPathFillStroke);
 }
 
-
 /**
  *  绘制文字
  *
@@ -187,28 +181,18 @@
  */
 - (void)drawText:(NSString *)text andContext:(CGContextRef )context atPoint:(CGPoint )rect WithColor:(UIColor *)color andFontSize:(CGFloat)fontSize{
     
-    
     [[NSString stringWithFormat:@"%@",text] drawAtPoint:rect withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:fontSize],NSForegroundColorAttributeName:color}];
     
     [color setFill];
     
     CGContextDrawPath(context, kCGPathFill);
-    
 }
 
-
 - (void)drawText:(NSString *)text context:(CGContextRef )context atPoint:(CGRect )rect WithColor:(UIColor *)color font:(UIFont*)font{
-    
-    
     //    [[NSString stringWithFormat:@"%@",text] drawAtPoint:rect withAttributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color}];
-    
     [[NSString stringWithFormat:@"%@",text] drawInRect:rect withAttributes:@{NSFontAttributeName:font,NSForegroundColorAttributeName:color}];
-    
     [color setFill];
-    
-    
     CGContextDrawPath(context, kCGPathFill);
-    
 }
 /**
  *  判断文本宽度
@@ -224,7 +208,6 @@
     return size.width;
 }
 
-
 /**
  *  绘制长方形
  *
@@ -238,19 +221,14 @@
     [color setFill];
     [color setStroke];
     CGContextDrawPath(contex, kCGPathFillStroke);
-    
-    
 }
-
 
 - (void)drawPointWithRedius:(CGFloat)redius andColor:(UIColor *)color andPoint:(CGPoint)p andContext:(CGContextRef)contex{
     
     CGContextAddArc(contex, p.x, p.y, redius, 0, M_PI * 2, YES);
     [color setFill];
     CGContextDrawPath(contex, kCGPathFill);
-    
 }
-
 /**
  *  返回字符串的占用尺寸
  *
@@ -262,9 +240,7 @@
  */
 - (CGSize)sizeOfStringWithMaxSize:(CGSize)maxSize textFont:(CGFloat)fontSize aimString:(NSString *)aimString{
     
-    
     return [[NSString stringWithFormat:@"%@",aimString] boundingRectWithSize:maxSize options:NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingTruncatesLastVisibleLine attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:fontSize]} context:nil].size;
-    
 }
 
 /*

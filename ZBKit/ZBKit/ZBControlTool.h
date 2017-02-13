@@ -13,6 +13,9 @@
 //字符串是否含有中文
 + (BOOL)checkIsChinese:(NSString *)string;
 
+//字符串高亮
++ (NSMutableAttributedString *)AttributedString:(NSString *)string range:(NSUInteger)range lengthString:(NSString *)lengthString;
+
 //字符串反转
 + (NSString*)reverseWordsInString:(NSString*)string;
 

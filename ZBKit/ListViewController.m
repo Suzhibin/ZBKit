@@ -107,7 +107,21 @@
     cell.textLabel.text=model.title;
     
     cell.detailTextLabel.text=[NSString stringWithFormat:@"发布时间:%@",model.date];
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:@"zhanweitu"]];
+    
+    //判断是否是wifi环境
+    if ([[ZBGlobalSettingsTool sharedInstance] downloadImagePattern]==YES) {
+        
+        NSInteger netStatus=[ZBNetworkManager startNetWorkMonitoring];
+        if (netStatus==AFNetworkReachabilityStatusReachableViaWiFi) {
+            [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:@"zhanweitu"]];
+        }else{
+             [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"zhanweitu"]];
+        }
+    }else{
+          [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:@"zhanweitu"]];
+    }
+
+  
     
     
     return cell;

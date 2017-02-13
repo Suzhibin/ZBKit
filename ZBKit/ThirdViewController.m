@@ -24,6 +24,8 @@ NSString *const user=@"user";
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
 
+    self.title=@"数据库操作";
+    
     __weak typeof(self) weakSelf = self;
     
     self.label=[ZBControlTool createLabelWithFrame:CGRectMake(150, 130, 150, 40) text:@"" tag:0];

@@ -75,7 +75,7 @@
     };
     ZBSettingGroup *group1 = [[ZBSettingGroup alloc] init];
     group1.items = @[request];
-    group1.header=@"图片操作";
+    group1.header=@"图片操作/动画";
     group1.headerHeight=35;
     group1.footerHeight=5;
     [_allGroups addObject:group1];
@@ -99,23 +99,6 @@
 
 - (void)add3SectionItems{
     __weak typeof(self) weakSelf = self;
-    ZBSettingItem *db = [ZBSettingItem itemWithTitle:@"ZBSetting" type:ZBSettingItemTypeArrow];
-    db.operation = ^{
-        SettingViewController*settingVC = [[SettingViewController alloc] init];
-       
-        [weakSelf.navigationController pushViewController:settingVC animated:YES];
-    };
-    ZBSettingGroup *group3 = [[ZBSettingGroup alloc] init];
-    group3.items = @[db];
-    group3.header=@"设置页面";
-    group3.headerHeight=35;
-    group3.footerHeight=5;
-    [_allGroups addObject:group3];
-
-}
-
-- (void)add4SectionItems{
-    __weak typeof(self) weakSelf = self;
     ZBSettingItem *ad = [ZBSettingItem itemWithTitle:@"ZBAdvertise" type:ZBSettingItemTypeArrow];
     ad.operation = ^{
         FourViewController*adVC = [[FourViewController alloc] init];
@@ -131,7 +114,7 @@
     
 }
 
-- (void)add5SectionItems{
+- (void)add4SectionItems{
     __weak typeof(self) weakSelf = self;
     ZBSettingItem *ad = [ZBSettingItem itemWithTitle:@"ZBControlTool" type:ZBSettingItemTypeArrow];
     ad.operation = ^{
@@ -145,6 +128,24 @@
     group5.headerHeight=35;
     group5.footerHeight=5;
     [_allGroups addObject:group5];
+}
+
+
+- (void)add5SectionItems{
+    __weak typeof(self) weakSelf = self;
+    ZBSettingItem *db = [ZBSettingItem itemWithTitle:@"ZBSetting" type:ZBSettingItemTypeArrow];
+    db.operation = ^{
+        SettingViewController*settingVC = [[SettingViewController alloc] init];
+        
+        [weakSelf.navigationController pushViewController:settingVC animated:YES];
+    };
+    ZBSettingGroup *group3 = [[ZBSettingGroup alloc] init];
+    group3.items = @[db];
+    group3.header=@"设置页面";
+    group3.headerHeight=35;
+    group3.footerHeight=5;
+    [_allGroups addObject:group3];
+    
 }
 
 - (void)pushToAd:(NSNotification *)noti{

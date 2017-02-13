@@ -23,13 +23,14 @@
 
 typedef NS_ENUM(NSInteger,ZBSettingItemType) {
     
-    ZBSettingItemTypeNone,           // 什么也没有
-    ZBSettingItemTypeArrow,          // 箭头
-    ZBSettingItemTypeSwitch,         // 开关
-    ZBSettingItemTypeRightText,      // 右侧文字
-    ZBSettingItemTypeArrowWithText,  // 箭头和右侧文字
-    ZBSettingItemTypeTextField,      // 右侧有textField
-    ZBSettingItemTypeRightImage      // 右侧有（头像）imageView
+    ZBSettingItemTypeNone,                  // 什么也没有
+    ZBSettingItemTypeArrow,                 // 箭头
+    ZBSettingItemTypeSwitch,                // 开关
+    ZBSettingItemTypeRightText,             // 右侧文字
+    ZBSettingItemTypeRightAttributedText,   // 右侧文字
+    ZBSettingItemTypeArrowWithText,         // 箭头和右侧文字
+    ZBSettingItemTypeTextField,             // 右侧有textField
+    ZBSettingItemTypeRightImage,            // 右侧有（头像）imageView
 } ;
 @interface ZBSettingItem : NSObject
 @property (nonatomic, copy) NSString *icon;
@@ -37,6 +38,8 @@ typedef NS_ENUM(NSInteger,ZBSettingItemType) {
 @property (nonatomic, copy) NSString *title;
 /** 右侧文字 */
 @property (nonatomic, copy) NSString *rightText;
+/** 右侧文字 */
+@property (nonatomic, copy) NSMutableAttributedString *rightAttributedText;
 /** 右侧头像的URL */
 @property (nonatomic, copy) NSString *imageUrl;
 /** textField的placeholder */
