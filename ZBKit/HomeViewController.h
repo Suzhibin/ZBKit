@@ -2,12 +2,12 @@
 //  HomeViewController.h
 //  ZBKit
 //
-//  Created by NQ UEC on 17/1/22.
+//  Created by NQ UEC on 17/2/14.
 //  Copyright © 2017年 Suzhibin. All rights reserved.
 //
 
-#import "ZBSettingViewController.h"
+#import "ZBTableViewController.h"
 
-@interface HomeViewController : ZBSettingViewController
+@interface HomeViewController : ZBTableViewController
 
 @end

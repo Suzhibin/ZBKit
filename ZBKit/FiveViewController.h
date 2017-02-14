@@ -2,12 +2,12 @@
 //  FiveViewController.h
 //  ZBKit
 //
-//  Created by NQ UEC on 17/2/13.
+//  Created by NQ UEC on 17/2/14.
 //  Copyright © 2017年 Suzhibin. All rights reserved.
 //
 
-#import "ZBSettingViewController.h"
+#import "ZBTableViewController.h"
 
-@interface FiveViewController : ZBSettingViewController
+@interface FiveViewController : ZBTableViewController
 
 @end

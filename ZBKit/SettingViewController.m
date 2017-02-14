@@ -2,7 +2,7 @@
 //  SettingViewController.m
 //  ZBKit
 //
-//  Created by NQ UEC on 17/1/12.
+//  Created by NQ UEC on 17/2/14.
 //  Copyright © 2017年 Suzhibin. All rights reserved.
 //
 
@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    
     // 1.第0租
     [self add0SectionItems];
     // 2.第1组
@@ -32,7 +32,7 @@
     [self add2SectionItems];
     // 4.第3组
     [self add3SectionItems];
-
+    
 }
 
 #pragma mark - 设置页面
@@ -114,11 +114,8 @@
                 [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:1],nil] withRowAnimation:UITableViewRowAnimationFade];
             }];
             UIAlertAction *defult = [UIAlertAction actionWithTitle:@"去开启" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *_Nonnull action){
-                NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
                 
-                if([[UIApplication sharedApplication] canOpenURL:url]) {
-                    [[UIApplication sharedApplication]openURL:url];
-                }
+                [[ZBGlobalSettingsTool sharedInstance] openSettings];//跳转设置页面
             }];
             
             [alert addAction:cancel];
@@ -147,7 +144,7 @@
     }else{
         title=@"夜间模式";
     }
-
+    
     // 夜间模式
     ZBSettingItem *night = [ZBSettingItem itemWithTitle:title type:ZBSettingItemTypeSwitch];
     __block ZBSettingItem *weakNight = night;
@@ -164,7 +161,7 @@
         weakNight.title=title;
         if ([[ZBGlobalSettingsTool sharedInstance] getNightPattern]==YES) {
             NSLog(@"夜间模式");
-        
+            
         }else{
             NSLog(@"日间模式");
         }
@@ -186,7 +183,7 @@
     
     // 缓存
     ZBSettingItem *cache= [ZBSettingItem itemWithTitle:@"存储空间" type:ZBSettingItemTypeArrow];
- 
+    
     cache.operation = ^{
         ClearCacheViewController *clearVC=[[ClearCacheViewController alloc]init];
         [weakSelf.navigationController pushViewController:clearVC animated:YES];
@@ -336,7 +333,6 @@
         
     }];
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

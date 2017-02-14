@@ -69,7 +69,10 @@
 }
 
 - (void)openSettings{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+    if([[UIApplication sharedApplication] canOpenURL:url]) {
+        [[UIApplication sharedApplication]openURL:url];
+    }
 }
 
 - (void)openURL:(NSString *)APPID{

@@ -1,12 +1,12 @@
 //
-//  ZBSettingViewController.m
+//  ZBTableViewController.m
 //  ZBKit
 //
-//  Created by NQ UEC on 16/12/1.
-//  Copyright © 2016年 Suzhibin. All rights reserved.
+//  Created by NQ UEC on 17/2/14.
+//  Copyright © 2017年 Suzhibin. All rights reserved.
 //
 
-#import "ZBSettingViewController.h"
+#import "ZBTableViewController.h"
 @implementation ZBSettingGroup
 
 @end
@@ -16,7 +16,7 @@
 @implementation ZBSettingItem
 
 + (instancetype)itemWithTitle:(NSString *)title type:(ZBSettingItemType)type{
-   return  [self itemWithIcon:nil title:title type:type];
+    return  [self itemWithIcon:nil title:title type:type];
 }
 
 + (instancetype)itemWithIcon:(NSString *)icon title:(NSString *)title type:(ZBSettingItemType)type{
@@ -62,12 +62,12 @@
     
     if (item.type == ZBSettingItemTypeArrow) {
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
+        
         // 用默认的选中样式
         self.selectionStyle = UITableViewCellSelectionStyleBlue;
         
     } else if (item.type == ZBSettingItemTypeSwitch) {
-  
+        
         [self.rightSwitch setOn:item.isOpenSwitch];
         [self.rightSwitch addTarget:self action:@selector(switchStatusChanged:) forControlEvents:UIControlEventValueChanged];
         // 右边显示开关
@@ -134,7 +134,7 @@
     if (!_rightView) {
         _rightView                  = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 44)];
         [_rightView addSubview:self.rightLabel];
-       // self.rightImageView.left= self.rightLabel.right+10;
+        // self.rightImageView.left= self.rightLabel.right+10;
         [_rightView addSubview:self.rightImageView];
     }
     return _rightView;
@@ -143,7 +143,7 @@
 {
     if (!_rightSwitch) {
         _rightSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(0, 0, 130, 44)];
-
+        
     }
     return _rightSwitch;
 }
@@ -152,7 +152,7 @@
     if (!_rightLabel) {
         _rightLabel               = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 130, 44)];
         _rightLabel.font          = [UIFont systemFontOfSize:15.0];
-       // _rightLabel.textColor     = [UIColor redColor];
+        // _rightLabel.textColor     = [UIColor redColor];
         _rightLabel.textAlignment = NSTextAlignmentRight;
     }
     return _rightLabel;
@@ -162,7 +162,7 @@
 {
     if (!_rightImageView) {
         _rightImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 17, 10, 10)];
-       // _rightImageView.image = [UIImage imageNamed:@"sliderMenu_rightArrow"];
+        // _rightImageView.image = [UIImage imageNamed:@"sliderMenu_rightArrow"];
     }
     return _rightImageView;
 }
@@ -172,7 +172,7 @@
     if (!_photoImageView) {
         _photoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 15, 50, 50)];
         _photoImageView.userInteractionEnabled = YES;
-         _photoImageView.layer.cornerRadius = _photoImageView.frame.size.width/2;
+        _photoImageView.layer.cornerRadius = _photoImageView.frame.size.width/2;
         _photoImageView.layer.masksToBounds = YES;
     }
     return _photoImageView;
@@ -191,22 +191,21 @@
 
 @end
 
-
-
-@interface ZBSettingViewController ()
+@interface ZBTableViewController ()
 
 @end
 
-@implementation ZBSettingViewController
-/*
-- (void)loadView
-{
-    self.tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame style:UITableViewStyleGrouped];
-    self.tableView .delegate = self;
-    self.tableView .dataSource = self;
+@implementation ZBTableViewController
 
-    self.view = self.tableView ;
-}
+/*
+ - (void)loadView
+ {
+ self.tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame style:UITableViewStyleGrouped];
+ self.tableView .delegate = self;
+ self.tableView .dataSource = self;
+ 
+ self.view = self.tableView ;
+ }
  */
 
 - (void)viewDidLoad {
@@ -218,7 +217,7 @@
     _tableView .delegate = self;
     _tableView .dataSource = self;
     [self.view addSubview:_tableView];
-  
+    
 }
 
 #pragma mark - Table view data source
@@ -236,7 +235,7 @@
 #pragma mark 每当有一个cell进入视野范围内就会调用，返回当前这行显示的cell
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
- 
+    
     // 0.用static修饰的局部变量，只会初始化一次
     static NSString *ID = @"Cell";
     
@@ -245,7 +244,7 @@
     
     // 2.如果缓存池中没有，才需要传入一个标识创建新的Cell
     if (_cell == nil) {
-  
+        
         _cell = [[ZBSettingCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
     }
     // 2.取出这行对应的模型（ZFSettingItem）
@@ -259,7 +258,7 @@
             weakCell.item.switchBlock(on);
         }
     };
-   
+    
     return _cell;
 }
 
@@ -305,11 +304,12 @@
     ZBSettingGroup *group = _allGroups[section];
     return group.footerHeight;
 }
- 
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 /*
 #pragma mark - Navigation

@@ -1,9 +1,9 @@
 //
-//  ZBSettingViewController.h
+//  ZBTableViewController.h
 //  ZBKit
 //
-//  Created by NQ UEC on 16/12/1.
-//  Copyright © 2016年 Suzhibin. All rights reserved.
+//  Created by NQ UEC on 17/2/14.
+//  Copyright © 2017年 Suzhibin. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -87,7 +87,7 @@ typedef NS_ENUM(NSInteger,ZBSettingItemType) {
 
 //=========================================================================
 
-@interface ZBSettingViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface ZBTableViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
     UITableView *_tableView;
     NSMutableArray *_allGroups; // 所有的组模型
@@ -95,4 +95,6 @@ typedef NS_ENUM(NSInteger,ZBSettingItemType) {
 //@property (nonatomic, strong)  UITableView *tableView;
 @property (nonatomic, strong)  ZBSettingCell *cell;
 //- (void)tableReloadData;
+
+
 @end

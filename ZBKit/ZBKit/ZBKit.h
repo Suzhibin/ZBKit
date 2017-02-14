@@ -12,7 +12,7 @@
 #import "ZBNetworking.h"
 
 #import "ZBGlobalSettingsTool.h"
-#import "ZBSettingViewController.h"//设置页面
+#import "ZBTableViewController.h"//设置页面
 #import "NSBundle+ZBKit.h"
 
 #import "ZBDataBaseManager.h"

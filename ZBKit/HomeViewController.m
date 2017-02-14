@@ -2,7 +2,7 @@
 //  HomeViewController.m
 //  ZBKit
 //
-//  Created by NQ UEC on 17/1/22.
+//  Created by NQ UEC on 17/2/14.
 //  Copyright © 2017年 Suzhibin. All rights reserved.
 //
 
@@ -20,7 +20,7 @@
 
 @implementation HomeViewController
 - (void)dealloc{
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushtoad" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushtoad" object:nil];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -82,7 +82,7 @@
 }
 
 - (void)add2SectionItems{
-
+    
     __weak typeof(self) weakSelf = self;
     ZBSettingItem *db = [ZBSettingItem itemWithTitle:@"ZBDataBase" type:ZBSettingItemTypeArrow];
     db.operation = ^{
@@ -102,12 +102,12 @@
     ZBSettingItem *ad = [ZBSettingItem itemWithTitle:@"ZBAdvertise" type:ZBSettingItemTypeArrow];
     ad.operation = ^{
         FourViewController*adVC = [[FourViewController alloc] init];
-   
+        
         [weakSelf.navigationController pushViewController:adVC animated:YES];
     };
     ZBSettingGroup *group4 = [[ZBSettingGroup alloc] init];
     group4.items = @[ad];
-    group4.header=@"开屏广告页面";
+    group4.header=@"开屏广告";
     group4.headerHeight=35;
     group4.footerHeight=5;
     [_allGroups addObject:group4];
@@ -155,7 +155,6 @@
     detailsVC.functionType=Advertise;
     [self.navigationController pushViewController:detailsVC animated:YES];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

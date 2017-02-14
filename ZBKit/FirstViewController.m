@@ -2,7 +2,7 @@
 //  FirstViewController.m
 //  ZBKit
 //
-//  Created by NQ UEC on 17/1/24.
+//  Created by NQ UEC on 17/2/14.
 //  Copyright © 2017年 Suzhibin. All rights reserved.
 //
 
@@ -23,7 +23,7 @@
     [self add2SectionItems];
     // 3.第2组
     [self add3SectionItems];
-
+    
 }
 - (void)add1SectionItems{
     __weak typeof(self) weakSelf = self;
@@ -50,7 +50,7 @@
         MenuViewController *MenuVC1 = [[MenuViewController alloc] init];
         MenuVC1.functionType=sessionblock;
         [weakSelf.navigationController pushViewController:MenuVC1 animated:YES];
-       
+        
     };
     
     ZBSettingGroup *group2= [[ZBSettingGroup alloc] init];
@@ -79,7 +79,7 @@
     [_allGroups addObject:group3];
 }
 
--(void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
