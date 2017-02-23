@@ -96,7 +96,7 @@
 #pragma mark -sessionblock
 //apiType 是请求类型 在ZBURLRequest 里
 - (void)getSessionBlockWithApiType:(apiType)requestType{
-    
+    //注意ZBURLSessionManager  是单例
     [[ZBURLSessionManager sharedInstance]requestWithConfig:^(ZBURLRequest *request){
         request.urlString=menu_URL;
         request.methodType=ZBMethodTypeGET;//默认为GET
@@ -114,6 +114,7 @@
         }
         
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
+       
         NSArray *array=[dict objectForKey:@"authors"];
         
         for (NSDictionary *dic in array) {

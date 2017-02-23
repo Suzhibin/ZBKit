@@ -14,11 +14,25 @@
 #import "FirstViewController.h"
 #import "FourViewController.h"
 #import "FiveViewController.h"
-@interface HomeViewController ()
+#import "ZBPushTransitioning.h"
+#import "ZBPopTransitioning.h"
+#import "ZBInteractiveTransition.h"
+@interface HomeViewController ()<UINavigationControllerDelegate>
+@property (strong, nonatomic) ZBPushTransitioning *pushAnimation;
 
+@property (strong, nonatomic) ZBPopTransitioning  *popAnimation;
+
+@property (strong, nonatomic) ZBInteractiveTransition  *interaction;
 @end
 
 @implementation HomeViewController
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    
+    self.navigationController.delegate = self;
+    
+    [self.interaction wireToViewController:self];
+}
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushtoad" object:nil];
 }
@@ -38,13 +52,54 @@
     [self add1SectionItems];
     // 3.数据库
     [self add2SectionItems];
-    // 4.设置页面
+    // 4.开屏广告
     [self add3SectionItems];
-    // 5.开屏广告
+    // 5.常用方法
     [self add4SectionItems];
-    // 6.常用方法
+    // 6.跳转动画
     [self add5SectionItems];
-    
+    // 6.设置页面
+    [self add6SectionItems];
+
+}
+
+#pragma mark - **************** Navgation delegate
+
+- (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+                                  animationControllerForOperation:(UINavigationControllerOperation)operation
+                                               fromViewController:(UIViewController *)fromVC
+                                                 toViewController:(UIViewController *)toVC
+{
+    if (operation == UINavigationControllerOperationPush) {
+        return self.pushAnimation;
+    }else if (operation == UINavigationControllerOperationPop){
+        return self.popAnimation;
+    }
+    return nil;
+}
+
+-(ZBPushTransitioning *)pushAnimation
+{
+    if (!_pushAnimation) {
+        _pushAnimation = [[ZBPushTransitioning alloc] init];
+    }
+    return _pushAnimation;
+}
+
+-(ZBPopTransitioning *)popAnimation
+{
+    if (!_popAnimation) {
+        _popAnimation = [[ZBPopTransitioning alloc] init];
+    }
+    return _popAnimation;
+}
+
+-(ZBInteractiveTransition *)interaction
+{
+    if (!_interaction) {
+        _interaction = [[ZBInteractiveTransition alloc] init];
+    }
+    return _interaction;
 }
 
 - (void)add0SectionItems{
@@ -52,13 +107,13 @@
     
     //itemWithIcon
     //itemWithTitle
-    ZBSettingItem *request = [ZBSettingItem itemWithTitle:@"ZBNetWorking" type:ZBSettingItemTypeArrow];
-    request.operation = ^{
+    ZBTableItem *requestItem = [ZBTableItem itemWithTitle:@"ZBNetWorking" type:ZBTableItemTypeArrow];
+    requestItem.operation = ^{
         FirstViewController *firstVC=[[FirstViewController alloc]init];
         [weakSelf.navigationController pushViewController:firstVC animated:YES];
     };
-    ZBSettingGroup *group = [[ZBSettingGroup alloc] init];
-    group.items = @[request];
+    ZBTableGroup *group = [[ZBTableGroup alloc] init];
+    group.items = @[requestItem];
     group.header=@"网络请求";
     group.headerHeight=35;
     group.footerHeight=5;
@@ -68,13 +123,13 @@
 - (void)add1SectionItems;
 {
     __weak typeof(self) weakSelf = self;
-    ZBSettingItem *request = [ZBSettingItem itemWithTitle:@"ZBImage" type:ZBSettingItemTypeArrow];
-    request.operation = ^{
+    ZBTableItem *imageItem = [ZBTableItem itemWithTitle:@"ZBImage" type:ZBTableItemTypeArrow];
+    imageItem.operation = ^{
         SecondViewController*secondVC = [[SecondViewController alloc] init];
         [weakSelf.navigationController pushViewController:secondVC animated:YES];
     };
-    ZBSettingGroup *group1 = [[ZBSettingGroup alloc] init];
-    group1.items = @[request];
+    ZBTableGroup *group1 = [[ZBTableGroup alloc] init];
+    group1.items = @[imageItem];
     group1.header=@"图片操作/动画";
     group1.headerHeight=35;
     group1.footerHeight=5;
@@ -84,13 +139,13 @@
 - (void)add2SectionItems{
     
     __weak typeof(self) weakSelf = self;
-    ZBSettingItem *db = [ZBSettingItem itemWithTitle:@"ZBDataBase" type:ZBSettingItemTypeArrow];
-    db.operation = ^{
+    ZBTableItem *dbItem = [ZBTableItem itemWithTitle:@"ZBDataBase" type:ZBTableItemTypeArrow];
+    dbItem.operation = ^{
         ThirdViewController*ThirdVC = [[ThirdViewController alloc] init];
         [weakSelf.navigationController pushViewController:ThirdVC animated:YES];
     };
-    ZBSettingGroup *group2 = [[ZBSettingGroup alloc] init];
-    group2.items = @[db];
+    ZBTableGroup *group2 = [[ZBTableGroup alloc] init];
+    group2.items = @[dbItem];
     group2.header=@"数据库操作";
     group2.headerHeight=35;
     group2.footerHeight=5;
@@ -99,53 +154,65 @@
 
 - (void)add3SectionItems{
     __weak typeof(self) weakSelf = self;
-    ZBSettingItem *ad = [ZBSettingItem itemWithTitle:@"ZBAdvertise" type:ZBSettingItemTypeArrow];
-    ad.operation = ^{
+    ZBTableItem *adItem = [ZBTableItem itemWithTitle:@"ZBAdvertise" type:ZBTableItemTypeArrow];
+    adItem.operation = ^{
         FourViewController*adVC = [[FourViewController alloc] init];
         
         [weakSelf.navigationController pushViewController:adVC animated:YES];
     };
-    ZBSettingGroup *group4 = [[ZBSettingGroup alloc] init];
-    group4.items = @[ad];
-    group4.header=@"开屏广告";
-    group4.headerHeight=35;
-    group4.footerHeight=5;
-    [_allGroups addObject:group4];
+    ZBTableGroup *group3 = [[ZBTableGroup alloc] init];
+    group3.items = @[adItem];
+    group3.header=@"开屏广告";
+    group3.headerHeight=35;
+    group3.footerHeight=5;
+    [_allGroups addObject:group3];
     
 }
 
 - (void)add4SectionItems{
     __weak typeof(self) weakSelf = self;
-    ZBSettingItem *ad = [ZBSettingItem itemWithTitle:@"ZBControlTool" type:ZBSettingItemTypeArrow];
-    ad.operation = ^{
+    ZBTableItem *toolItem = [ZBTableItem itemWithTitle:@"ZBControlTool" type:ZBTableItemTypeArrow];
+    toolItem.operation = ^{
         FiveViewController*adVC = [[FiveViewController alloc] init];
         
         [weakSelf.navigationController pushViewController:adVC animated:YES];
     };
-    ZBSettingGroup *group5 = [[ZBSettingGroup alloc] init];
-    group5.items = @[ad];
-    group5.header=@"常用工厂方法";
+    ZBTableGroup *group4 = [[ZBTableGroup alloc] init];
+    group4.items = @[toolItem];
+    group4.header=@"常用工厂方法";
+    group4.headerHeight=35;
+    group4.footerHeight=5;
+    [_allGroups addObject:group4];
+}
+
+- (void)add5SectionItems{
+    __weak typeof(self) weakSelf = self;
+    ZBTableItem *TransitionItem = [ZBTableItem itemWithTitle:@"ZBTransitioning" type:ZBTableItemTypeArrow];
+    TransitionItem.operation = ^{
+        NSLog(@"///");
+    };
+    ZBTableGroup *group5 = [[ZBTableGroup alloc] init];
+    group5.items = @[TransitionItem];
+    group5.header=@"跳转动画";
     group5.headerHeight=35;
     group5.footerHeight=5;
     [_allGroups addObject:group5];
 }
 
-
-- (void)add5SectionItems{
+- (void)add6SectionItems{
     __weak typeof(self) weakSelf = self;
-    ZBSettingItem *db = [ZBSettingItem itemWithTitle:@"ZBSetting" type:ZBSettingItemTypeArrow];
-    db.operation = ^{
+    ZBTableItem *settingItem = [ZBTableItem itemWithTitle:@"ZBTableView" type:ZBTableItemTypeArrow];
+    settingItem.operation = ^{
         SettingViewController*settingVC = [[SettingViewController alloc] init];
         
         [weakSelf.navigationController pushViewController:settingVC animated:YES];
     };
-    ZBSettingGroup *group3 = [[ZBSettingGroup alloc] init];
-    group3.items = @[db];
-    group3.header=@"设置页面";
-    group3.headerHeight=35;
-    group3.footerHeight=5;
-    [_allGroups addObject:group3];
-    
+    ZBTableGroup *group6 = [[ZBTableGroup alloc] init];
+    group6.items = @[settingItem];
+    group6.header=@"设置页面";
+    group6.headerHeight=35;
+    group6.footerHeight=5;
+    [_allGroups addObject:group6];
 }
 
 - (void)pushToAd:(NSNotification *)noti{

@@ -19,20 +19,20 @@
 
 
 #import "ZBCacheManager.h"
+#import "NSFileManager+pathMethod.h"
 #import <CommonCrypto/CommonDigest.h>
 NSString *const PathSpace =@"ZBKit";
-NSString *const PathDefault =@"AppCache";
+NSString *const CacheDefaultPath =@"AppCache";
 static const NSInteger cacheMaxCacheAge  = 60*60*24*7;
+//static const NSInteger cacheMixCacheAge = 60;
 static const CGFloat unit = 1000.0;
-static const NSInteger cacheMixCacheAge = 60;
+static const NSInteger timeOut = 60*60;
 @interface ZBCacheManager ()
 
 @property (nonatomic ,copy)NSString *diskCachePath;
 @property (nonatomic ,strong) dispatch_queue_t operationQueue;
 
 @end
-
-
 
 @implementation ZBCacheManager
 
@@ -51,8 +51,8 @@ static const NSInteger cacheMixCacheAge = 60;
         
          _operationQueue = dispatch_queue_create("com.dispatch.ZBCacheManager", DISPATCH_QUEUE_SERIAL);
         
-        [self initCachesfileWithName:PathDefault];
-      
+        [self initCachesfileWithName:CacheDefaultPath];
+        
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(automaticCleanCache) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(automaticCleanCache)
@@ -65,6 +65,7 @@ static const NSInteger cacheMixCacheAge = 60;
     }
     return self;
 }
+
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
     
@@ -103,26 +104,49 @@ static const NSInteger cacheMixCacheAge = 60;
 }
 
 #pragma mark - 创建存储文件夹
+
 - (void)initCachesfileWithName:(NSString *)name{
 
-    self.diskCachePath =[[self ZBKitPath] stringByAppendingPathComponent:name] ;
-
+    self.diskCachePath =[[self ZBKitPath] stringByAppendingPathComponent:name];
+  
     [self createDirectoryAtPath:self.diskCachePath];
 }
 
 - (void)createDirectoryAtPath:(NSString *)path{
-    if (![self isExistsAtPath:path]) {
+    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
         [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
     } else {
-        // NSLog(@"FileDir is exists.");
+       // NSLog(@"FileDir is exists.%@",path);
     }
 }
 
-- (BOOL)isExistsAtPath:(NSString *)path{
-  return  [[NSFileManager defaultManager] fileExistsAtPath:path];
+- (BOOL)diskCacheExistsWithKey:(NSString *)key{
+    return [self diskCacheExistsWithKey:key path:self.diskCachePath];
+}
+
+- (BOOL)diskCacheExistsWithKey:(NSString *)key path:(NSString *)path{
+    
+    NSString *codingPath=[self cachePathForKey:key path:path];
+    BOOL exists =[[NSFileManager defaultManager] fileExistsAtPath:codingPath]&&[NSFileManager isTimeOutWithPath:codingPath timeOut:timeOut]==NO;
+    
+    if(!exists){
+        exists = [[NSFileManager defaultManager] fileExistsAtPath:[codingPath stringByDeletingPathExtension]];
+    }
+    return exists;
 }
 
 #pragma  mark - 存储
+- (void)storeContent:(NSObject *)content forKey:(NSString *)key {
+    [self storeContent:content forKey:key path:self.diskCachePath];
+}
+
+- (void)storeContent:(NSObject *)content forKey:(NSString *)key path:(NSString *)path {
+    dispatch_async(self.operationQueue,^{
+        NSString *codingPath =[[self cachePathForKey:key path:path]stringByDeletingPathExtension];
+        [self setContent:content writeToFile:codingPath];
+    });
+}
+
 - (BOOL)setContent:(NSObject *)content writeToFile:(NSString *)path{
     if (!content||!path){
         return NO;
@@ -156,21 +180,60 @@ static const NSInteger cacheMixCacheAge = 60;
     return YES;
 }
 
-- (NSString *)pathWithFileName:(NSString *)key{
+#pragma  mark - 获取存储数据
+- (void)getCacheDataForKey:(NSString *)key value:(ZBCacheValueBlock)value{
+    
+    [self getCacheDataForKey:key path:self.diskCachePath value:value];
+}
+
+- (void)getCacheDataForKey:(NSString *)key path:(NSString *)path value:(ZBCacheValueBlock)value{
+    if (!key)return value(nil);
+    
+    dispatch_async(self.operationQueue,^{
+        @autoreleasepool {
+            NSData *diskdata= [NSData dataWithContentsOfFile:[[self cachePathForKey:key path:path]stringByDeletingPathExtension]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                value(diskdata);
+            });
+        }
+    });
+}
+
+- (NSArray *)getDiskCacheFileWithPath:(NSString *)path{
+    NSMutableArray *array=[[NSMutableArray alloc]init];
+    
+    dispatch_sync(self.operationQueue, ^{
         
-    NSString *path=[self cachePathForKey:key inPath:self.diskCachePath];
+        NSDirectoryEnumerator *fileEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:path];
+        for (NSString *fileName in fileEnumerator)
+        {
+            NSString *filePath = [path stringByAppendingPathComponent:fileName];
+            
+            [array addObject:filePath];
+        }
+    });
+    return array;
+}
+
+-(NSDictionary* )getDiskFileAttributes:(NSString *)key{
+    NSString *path =[self diskCachePathForKey:key];
+    NSDictionary *info = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
+    return info;
+}
+
+#pragma mark -  编码
+- (NSString *)diskCachePathForKey:(NSString *)key{
         
+    NSString *path=[self cachePathForKey:key path:self.diskCachePath];
     return path;
 }
 
-- (NSString *)cachePathForKey:(NSString *)key inPath:(NSString *)CachePath {
-    @synchronized (self) {
-        NSString *filename = [self cachedFileNameForKey:key];
-        return [CachePath stringByAppendingPathComponent:filename];
-    }
+- (NSString *)cachePathForKey:(NSString *)key path:(NSString *)path {
+    NSString *filename = [self codingFileNameForKey:key];
+    return [path stringByAppendingPathComponent:filename];
 }
 
-- (NSString *)cachedFileNameForKey:(NSString *)key {
+- (NSString *)codingFileNameForKey:(NSString *)key {
     const char *str = [key UTF8String];
     if (str == NULL) {
         str = "";
@@ -261,35 +324,12 @@ static const NSInteger cacheMixCacheAge = 60;
     return size;
 }
 
-- (NSArray *)getCacheFileWithPath:(NSString *)path{
-    NSMutableArray *array=[[NSMutableArray alloc]init];
-    
-    dispatch_sync(self.operationQueue, ^{
-        
-        NSDirectoryEnumerator *fileEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:path];
-        for (NSString *fileName in fileEnumerator)
-        {
-            NSString *filePath = [path stringByAppendingPathComponent:fileName];
-            
-            [array addObject:filePath];
-        }
-    });
-    return array;
-}
-
--(NSDictionary* )getFileAttributes:(NSString *)key{
-    NSString *path =[self pathWithFileName:key];
-    NSDictionary *info = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
-    return info;
-}
-
 #pragma  mark - 清除文件
-
 -(void)automaticCleanCache{
     [self automaticCleanCacheWithPath:self.diskCachePath completion:nil];
 }
 
-- (void)automaticCleanCacheWithPath:(NSString *)path completion:(ZBCacheManagerBlock)completion{
+- (void)automaticCleanCacheWithPath:(NSString *)path completion:(ZBCacheCompletedBlock)completion{
     dispatch_async(self.operationQueue,^{
         
         NSDate *expirationDate = [NSDate dateWithTimeIntervalSinceNow:-cacheMaxCacheAge];
@@ -340,53 +380,19 @@ static const NSInteger cacheMixCacheAge = 60;
     }];
 }
 
-- (void)clearCacheWithTime{
-    dispatch_async(self.operationQueue,^{
-        
-        NSDate *expirationDate = [NSDate dateWithTimeIntervalSinceNow:-cacheMixCacheAge];
-        
-        NSDirectoryEnumerator *fileEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:self.diskCachePath];
-        
-        for (NSString *fileName in fileEnumerator)
-        {
-            NSString *filePath = [self.diskCachePath stringByAppendingPathComponent:fileName];
-            
-            NSDictionary *info = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil];
-            NSDate *current = [info objectForKey:NSFileModificationDate];
-            
-            if ([[current laterDate:expirationDate] isEqualToDate:expirationDate])
-            {
-                
-                [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
-                
-            }
-        }
-        /*
-        if (operation) {
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                operation();
-            });
-        }
-         */
-    });
-
-}
-
 - (void)clearCacheForkey:(NSString *)key{
  
     [self clearCacheForkey:key completion:nil];
 }
 
-- (void)clearCacheForkey:(NSString *)key completion:(ZBCacheManagerBlock)completion{
+- (void)clearCacheForkey:(NSString *)key completion:(ZBCacheCompletedBlock)completion{
     
     [self clearCacheForkey:key path:self.diskCachePath completion:completion];
 }
 
-- (void)clearCacheForkey:(NSString *)key path:(NSString *)path completion:(ZBCacheManagerBlock)completion{
-    
-    NSString *filePath=[self cachePathForKey:key inPath:path];
+- (void)clearCacheForkey:(NSString *)key path:(NSString *)path completion:(ZBCacheCompletedBlock)completion{
+    if (!key)return;
+    NSString *filePath=[self cachePathForKey:key path:path];
     dispatch_async(self.operationQueue,^{
         
         [[NSFileManager defaultManager]removeItemAtPath:filePath error:nil];
@@ -403,7 +409,7 @@ static const NSInteger cacheMixCacheAge = 60;
      [self clearCacheOnCompletion:nil];
 }
 
-- (void)clearCacheOnCompletion:(ZBCacheManagerBlock)completion{
+- (void)clearCacheOnCompletion:(ZBCacheCompletedBlock)completion{
 
     dispatch_async(self.operationQueue, ^{
 
@@ -422,7 +428,7 @@ static const NSInteger cacheMixCacheAge = 60;
     [self clearDiskWithpath:path completion:nil];
 }
 
-- (void)clearDiskWithpath:(NSString *)path completion:(ZBCacheManagerBlock)completion{
+- (void)clearDiskWithpath:(NSString *)path completion:(ZBCacheCompletedBlock)completion{
      dispatch_async(self.operationQueue, ^{
   
            NSDirectoryEnumerator *fileEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:path];

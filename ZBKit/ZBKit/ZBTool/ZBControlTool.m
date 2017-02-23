@@ -7,12 +7,35 @@
 //
 
 #import "ZBControlTool.h"
+#import <objc/runtime.h>
 #import "AppDelegate.h"
+
 @implementation ZBControlTool
 
++ (void)TarckingClass:(Class)cls originalSelector:(SEL)originalSelector cusSelector:(SEL)cusSelector{
+    
+    Class class = cls;
+    
+    Method originalMethod = class_getInstanceMethod(class, originalSelector);
+    Method cusMethod = class_getInstanceMethod(class, cusSelector);
+    
+    BOOL didAddMethod =
+    class_addMethod(class,
+                    originalSelector,
+                    method_getImplementation(cusMethod),
+                    method_getTypeEncoding(cusMethod));
+    
+    if (didAddMethod) {
+        class_replaceMethod(class,
+                            cusSelector,
+                            method_getImplementation(originalMethod),
+                            method_getTypeEncoding(originalMethod));
+    } else {
+        method_exchangeImplementations(originalMethod, cusMethod);
+    }
+}
 
-+ (BOOL)checkIsChinese:(NSString *)string
-{
++ (BOOL)checkIsChinese:(NSString *)string{
     for (int i=0; i<string.length; i++)
     {
         unichar ch = [string characterAtIndex:i];
@@ -113,8 +136,7 @@
     [UIApplication sharedApplication].idleTimerDisabled = YES;
 }
 
-+ (void)setStatusBarBackgroundColor:(UIColor *)color
-{
++ (void)setStatusBarBackgroundColor:(UIColor *)color{
     UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
     
     if ([statusBar respondsToSelector:@selector(setBackgroundColor:)])

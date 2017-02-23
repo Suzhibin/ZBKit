@@ -7,20 +7,20 @@
 //
 
 #import "ZBTableViewController.h"
-@implementation ZBSettingGroup
+@implementation ZBTableGroup
 
 @end
 
 
 
-@implementation ZBSettingItem
+@implementation ZBTableItem
 
-+ (instancetype)itemWithTitle:(NSString *)title type:(ZBSettingItemType)type{
++ (instancetype)itemWithTitle:(NSString *)title type:(ZBTableItemType)type{
     return  [self itemWithIcon:nil title:title type:type];
 }
 
-+ (instancetype)itemWithIcon:(NSString *)icon title:(NSString *)title type:(ZBSettingItemType)type{
-    ZBSettingItem *item = [[self alloc] init];
++ (instancetype)itemWithIcon:(NSString *)icon title:(NSString *)title type:(ZBTableItemType)type{
+    ZBTableItem *item = [[self alloc] init];
     item.icon = icon;
     item.title = title;
     item.type = type;
@@ -30,7 +30,7 @@
 
 
 
-@interface ZBSettingCell()
+@interface ZBTableCell()
 
 
 @property (nonatomic, strong) UIView *rightView;
@@ -38,7 +38,7 @@
 @property (nonatomic, strong) UIImageView *rightImageView;
 @property (nonatomic, strong) UITextField *textField;
 @end
-@implementation ZBSettingCell
+@implementation ZBTableCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -49,7 +49,7 @@
     return self;
 }
 
-- (void)setItem:(ZBSettingItem *)item
+- (void)setItem:(ZBTableItem *)item
 {
     _item = item;
     
@@ -60,13 +60,13 @@
     self.textLabel.font = [UIFont systemFontOfSize:15.0];
     //    self.textLabel.textColor = BLACK_COLOR;
     
-    if (item.type == ZBSettingItemTypeArrow) {
+    if (item.type == ZBTableItemTypeArrow) {
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         // 用默认的选中样式
         self.selectionStyle = UITableViewCellSelectionStyleBlue;
         
-    } else if (item.type == ZBSettingItemTypeSwitch) {
+    } else if (item.type == ZBTableItemTypeSwitch) {
         
         [self.rightSwitch setOn:item.isOpenSwitch];
         [self.rightSwitch addTarget:self action:@selector(switchStatusChanged:) forControlEvents:UIControlEventValueChanged];
@@ -75,29 +75,29 @@
         // 禁止选中
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
-    } else if (item.type == ZBSettingItemTypeRightText) {
+    } else if (item.type == ZBTableItemTypeRightText) {
         self.accessoryView   = self.rightLabel;
         self.rightLabel.text = item.rightText;
         self.selectionStyle  = UITableViewCellSelectionStyleBlue;
         
-    }else if (item.type == ZBSettingItemTypeRightAttributedText) {
+    }else if (item.type == ZBTableItemTypeRightAttributedText) {
         self.accessoryView   = self.rightLabel;
         self.rightLabel.attributedText = item.rightAttributedText;
         self.selectionStyle  = UITableViewCellSelectionStyleBlue;
         
-    } else if (item.type == ZBSettingItemTypeArrowWithText) {
+    } else if (item.type == ZBTableItemTypeArrowWithText) {
         self.accessoryView   = self.rightView;
         self.rightLabel.text = item.rightText;
         self.selectionStyle  = UITableViewCellSelectionStyleBlue;
         
-    } else if (item.type == ZBSettingItemTypeTextField) {
+    } else if (item.type == ZBTableItemTypeTextField) {
         self.accessoryView  = self.textField;
         self.textField.text = item.rightText;
         [self.textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         self.textField.placeholder = item.placeholder;
         self.selectionStyle        = UITableViewCellSelectionStyleNone;
         
-    } else if (item.type == ZBSettingItemTypeRightImage) {
+    } else if (item.type == ZBTableItemTypeRightImage) {
         self.accessoryView  = self.photoImageView;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         //[self.photoImageView sd_setImageWithURL:[NSURL URLWithString:item.imageUrl] placeholderImage:[UIImage imageNamed:@"pic_portrait"]];
@@ -228,7 +228,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    ZBSettingGroup *group = _allGroups[section];
+    ZBTableGroup *group = _allGroups[section];
     return group.items.count;
 }
 
@@ -245,13 +245,13 @@
     // 2.如果缓存池中没有，才需要传入一个标识创建新的Cell
     if (_cell == nil) {
         
-        _cell = [[ZBSettingCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
+        _cell = [[ZBTableCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
     }
     // 2.取出这行对应的模型（ZFSettingItem）
-    ZBSettingGroup *group = _allGroups[indexPath.section];
+    ZBTableGroup *group = _allGroups[indexPath.section];
     _cell.item = group.items[indexPath.row];
     
-    __block ZBSettingCell *weakCell = _cell;
+    __block ZBTableCell *weakCell = _cell;
     
     _cell.switchChangeBlock = ^ (BOOL on){
         if (weakCell.item.switchBlock) {
@@ -266,8 +266,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // 0.取出这行对应的模型
-    ZBSettingGroup *group = _allGroups[indexPath.section];
-    ZBSettingItem *item = group.items[indexPath.row];
+    ZBTableGroup *group = _allGroups[indexPath.section];
+    ZBTableItem *item = group.items[indexPath.row];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     // 1.取出这行对应模型中的block代码
     if (item.operation) {
@@ -279,14 +279,14 @@
 #pragma mark 返回每一组的header标题
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    ZBSettingGroup *group = _allGroups[section];
+    ZBTableGroup *group = _allGroups[section];
     
     return group.header;
 }
 #pragma mark 返回每一组的footer标题
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-    ZBSettingGroup *group = _allGroups[section];
+    ZBTableGroup *group = _allGroups[section];
     
     return group.footer;
 }
@@ -294,14 +294,14 @@
 // 返回section组头的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    ZBSettingGroup *group = _allGroups[section];
+    ZBTableGroup *group = _allGroups[section];
     return group.headerHeight;
 }
 
 // 返回section组脚的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    ZBSettingGroup *group = _allGroups[section];
+    ZBTableGroup *group = _allGroups[section];
     return group.footerHeight;
 }
 

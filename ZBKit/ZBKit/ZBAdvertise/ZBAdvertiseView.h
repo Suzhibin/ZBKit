@@ -24,7 +24,7 @@
 /*
  *  图片
  */
-@property (nonatomic, strong) UIImage *image;
+@property (nonatomic, strong) UIImage *adImage;
 
 /*
  *  图片路径

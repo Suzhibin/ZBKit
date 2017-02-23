@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ZBConstants.h"
-@interface ZBSettingGroup : NSObject
+@interface ZBTableGroup : NSObject
 @property (nonatomic, copy) NSString *header; // 头部标题
 @property (nonatomic, copy) NSString *footer; // 尾部标题
 @property (nonatomic, strong) NSArray *items; // 中间的条目
@@ -21,18 +21,18 @@
 
 //=========================================================================
 
-typedef NS_ENUM(NSInteger,ZBSettingItemType) {
+typedef NS_ENUM(NSInteger,ZBTableItemType) {
     
-    ZBSettingItemTypeNone,                  // 什么也没有
-    ZBSettingItemTypeArrow,                 // 箭头
-    ZBSettingItemTypeSwitch,                // 开关
-    ZBSettingItemTypeRightText,             // 右侧文字
-    ZBSettingItemTypeRightAttributedText,   // 右侧文字
-    ZBSettingItemTypeArrowWithText,         // 箭头和右侧文字
-    ZBSettingItemTypeTextField,             // 右侧有textField
-    ZBSettingItemTypeRightImage,            // 右侧有（头像）imageView
+    ZBTableItemTypeNone,                  // 什么也没有
+    ZBTableItemTypeArrow,                 // 箭头
+    ZBTableItemTypeSwitch,                // 开关
+    ZBTableItemTypeRightText,             // 右侧文字
+    ZBTableItemTypeRightAttributedText,   // 右侧文字
+    ZBTableItemTypeArrowWithText,         // 箭头和右侧文字
+    ZBTableItemTypeTextField,             // 右侧有textField
+    ZBTableItemTypeRightImage,            // 右侧有（头像）imageView
 } ;
-@interface ZBSettingItem : NSObject
+@interface ZBTableItem : NSObject
 @property (nonatomic, copy) NSString *icon;
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, copy) NSString *title;
@@ -47,7 +47,7 @@ typedef NS_ENUM(NSInteger,ZBSettingItemType) {
 @property (nonatomic, assign) BOOL isOpenSwitch;
 /** 是否认证通过 */
 @property (nonatomic, assign, getter=isAuthor) BOOL author;
-@property (nonatomic, assign) ZBSettingItemType type;// Cell的样式
+@property (nonatomic, assign) ZBTableItemType type;// Cell的样式
 /** cell上开关的操作事件 */
 @property (nonatomic, copy) void (^switchBlock)(BOOL on) ;
 @property (nonatomic, copy) void (^operation)() ; // 点击cell后要执行的操作
@@ -60,7 +60,7 @@ typedef NS_ENUM(NSInteger,ZBSettingItemType) {
  *
  *  @return ZFSettingItem
  */
-+ (instancetype)itemWithTitle:(NSString *)title type:(ZBSettingItemType)type;
++ (instancetype)itemWithTitle:(NSString *)title type:(ZBTableItemType)type;
 
 /**
  *  @param icon   左侧图标
@@ -69,14 +69,14 @@ typedef NS_ENUM(NSInteger,ZBSettingItemType) {
  *
  *  @return ZFSettingItem
  */
-+ (instancetype)itemWithIcon:(NSString *)icon title:(NSString *)title type:(ZBSettingItemType)type;
++ (instancetype)itemWithIcon:(NSString *)icon title:(NSString *)title type:(ZBTableItemType)type;
 
 @end
 
 //=========================================================================
 
-@interface ZBSettingCell : UITableViewCell
-@property (nonatomic, strong) ZBSettingItem *item;
+@interface ZBTableCell : UITableViewCell
+@property (nonatomic, strong) ZBTableItem *item;
 @property (nonatomic, strong) UISwitch *rightSwitch;
 @property (nonatomic, strong) UIImageView *photoImageView;
 /** switch状态改变的block*/
@@ -93,7 +93,7 @@ typedef NS_ENUM(NSInteger,ZBSettingItemType) {
     NSMutableArray *_allGroups; // 所有的组模型
 }
 //@property (nonatomic, strong)  UITableView *tableView;
-@property (nonatomic, strong)  ZBSettingCell *cell;
+@property (nonatomic, strong)  ZBTableCell *cell;
 //- (void)tableReloadData;
 
 

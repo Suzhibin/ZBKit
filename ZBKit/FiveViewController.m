@@ -23,9 +23,9 @@
     self.title=string;
     
     //==============================================================
-    ZBSettingItem *reverse = [ZBSettingItem itemWithTitle:@"字符串反转" type:ZBSettingItemTypeRightText];
+    ZBTableItem *reverse = [ZBTableItem itemWithTitle:@"字符串反转" type:ZBTableItemTypeRightText];
     reverse.rightText=string;
-    __block ZBSettingItem *weakReverse = reverse;
+    __block ZBTableItem *weakReverse = reverse;
     reverse.operation = ^{
         
         NSString *str=[ZBControlTool reverseWordsInString:string];//字符串反转
@@ -34,9 +34,9 @@
         [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0],nil] withRowAnimation:UITableViewRowAnimationAutomatic];
     };
     //==============================================================
-    ZBSettingItem *phoneticize = [ZBSettingItem itemWithTitle:@"获取汉字的拼音" type:ZBSettingItemTypeRightText];
+    ZBTableItem *phoneticize = [ZBTableItem itemWithTitle:@"获取汉字的拼音" type:ZBTableItemTypeRightText];
     phoneticize.rightText=string;
-    __block ZBSettingItem *weakPhoneticize = phoneticize;
+    __block ZBTableItem *weakPhoneticize = phoneticize;
     phoneticize.operation = ^{
         
         NSString *str1=[ZBControlTool phoneticizeChinese:string];//获取汉字的拼音
@@ -45,9 +45,9 @@
         [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:1 inSection:0],nil] withRowAnimation:UITableViewRowAnimationAutomatic];
     };
     //==============================================================
-    ZBSettingItem *translation = [ZBSettingItem itemWithTitle:@"阿拉伯数字转中文" type:ZBSettingItemTypeRightText];
+    ZBTableItem *translation = [ZBTableItem itemWithTitle:@"阿拉伯数字转中文" type:ZBTableItemTypeRightText];
     translation.rightText=@"2017";
-    __block ZBSettingItem *weakTranslation = translation;
+    __block ZBTableItem *weakTranslation = translation;
     translation.operation = ^{
         
         NSString *str2=[ZBControlTool translation:@"2017"];//阿拉伯数字转中文
@@ -58,12 +58,12 @@
     //==============================================================
     NSArray *array = @[@"ZBKit",@"欢迎使用ZBkit"];
     NSString *str3 = array[arc4random() % array.count];
-    ZBSettingItem *chinese = [ZBSettingItem itemWithTitle:@"是否包含中文(多点几次😄)" type:ZBSettingItemTypeRightText];
+    ZBTableItem *chinese = [ZBTableItem itemWithTitle:@"是否包含中文(多点几次😄)" type:ZBTableItemTypeRightText];
     
     BOOL isChinese=[ZBControlTool checkIsChinese:str3];
     
     chinese.rightText=[NSString stringWithFormat:@"%@(%d)",str3,isChinese];
-    __block ZBSettingItem *weakChinese = chinese;
+    __block ZBTableItem *weakChinese = chinese;
     chinese.operation = ^{
         NSArray *array = @[@"ZBKit",@"欢迎使用ZBkit"];
         NSString *str3 = array[arc4random() % array.count];
@@ -73,7 +73,7 @@
         [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:3 inSection:0],nil] withRowAnimation:UITableViewRowAnimationAutomatic];
     };
     //==============================================================
-    ZBSettingItem *AttributedString = [ZBSettingItem itemWithTitle:@"高亮文字" type:ZBSettingItemTypeRightAttributedText];
+    ZBTableItem *AttributedString = [ZBTableItem itemWithTitle:@"高亮文字" type:ZBTableItemTypeRightAttributedText];
     //显示高亮文字的label 要用attributedText 代替text 显示
     NSString *ZBKit=@"ZBKit";
     NSString *Attributed=[NSString stringWithFormat:@"欢迎使用%@",ZBKit];
@@ -86,7 +86,7 @@
     
     
     
-    ZBSettingGroup *group = [[ZBSettingGroup alloc] init];
+    ZBTableGroup *group = [[ZBTableGroup alloc] init];
     group.items = @[reverse,phoneticize,translation,chinese,AttributedString];
     [_allGroups addObject:group];
     

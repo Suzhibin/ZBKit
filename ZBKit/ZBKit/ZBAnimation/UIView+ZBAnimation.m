@@ -10,6 +10,18 @@
 
 @implementation UIView (ZBAnimation)
 
+- (void)circleView{
+
+    CGRect rect = CGRectMake(0, 0, 100, 50);
+    CGSize radio = CGSizeMake(10, 10);//圆角尺寸
+    UIRectCorner corner = UIRectCornerTopLeft|UIRectCornerTopRight;//这只圆角位置
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:corner cornerRadii:radio];
+    CAShapeLayer *masklayer = [[CAShapeLayer alloc]init];//创建shapelayer
+    masklayer.frame = self.bounds;
+    masklayer.path = path.CGPath;//设置路径
+    self.layer.mask = masklayer;
+}
+
 - (void)animatedKeyframes{
     
     [UIView animateKeyframesWithDuration:4 delay:0 options:UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{

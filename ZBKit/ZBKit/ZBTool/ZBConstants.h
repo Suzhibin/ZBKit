@@ -9,13 +9,16 @@
 #ifndef ZBConstants_h
 #define ZBConstants_h
 
-#define ZBKBUG_LOG 0
+#define ZBKBUG_LOG 1
 #if(ZBKBUG_LOG == 1)
 # define ZBKLog(format, ...) printf("\n[%s] %s [第%d行] %s\n", __TIME__, __FUNCTION__, __LINE__, [[NSString stringWithFormat:format, ## __VA_ARGS__] UTF8String]);
 #else
 # define ZBKLog(...);
 #endif
 
+// 获取时间间隔
+#define TICK   CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
+#define TOCK   NSLog(@"Time: %f", CFAbsoluteTimeGetCurrent() - start)
 
 //设备屏幕大小
 #define  MainScreenFrame   [[UIScreen mainScreen] bounds]

@@ -8,7 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+
+
 @interface ZBControlTool : NSObject
+
++ (void)TarckingClass:(Class)cls originalSelector:(SEL)originalSelector cusSelector:(SEL)cusSelector;
 
 //字符串是否含有中文
 + (BOOL)checkIsChinese:(NSString *)string;
@@ -38,4 +42,6 @@
 + (UIImageView *)createImageViewWithFrame:(CGRect)frame imageString:(NSString *)imageString;
 
 + (UITextField *)createTextFieldWithFrame:(CGRect)frame placeHolder:(NSString *)placeHolder borderStyle:(UITextBorderStyle)borderStyle delegate:(id<UITextFieldDelegate>)delegat;
+
+
 @end

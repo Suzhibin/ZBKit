@@ -12,63 +12,64 @@
 #import "UIImage+ZBKit.h"
 
 NSString *const ImageDefaultPath =@"AppImage";
-static const NSInteger timeOut = 60*60;
 @interface ZBImageDownloader ()
 
 
 @end
 @implementation ZBImageDownloader
 
-+ (void)saveThePhotoAlbum:(UIImage *)image{
-    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), (__bridge void *)self);
++ (ZBImageDownloader *)sharedInstance{
+    static ZBImageDownloader *imageInstance=nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        imageInstance = [[ZBImageDownloader alloc] init];
+    });
+    return imageInstance;
 }
-
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
-    NSLog(@"image = %@, error = %@, contextInfo = %@", image, error, contextInfo);
-    if (error) {
-        
-    }else{
+- (id)init{
+    self = [super init];
+    if (self) {
+    
+          [[ZBCacheManager sharedInstance]createDirectoryAtPath:[self imageFilePath]];
         
     }
+    return self;
 }
 
-+ (void)downloadImageUrl:(NSString *)imageUrl{
+- (void)downloadImageUrl:(NSString *)imageUrl{
     [self downloadImageUrl:imageUrl completion:nil];
 }
 
-+ (void)downloadImageUrl:(NSString *)imageUrl completion:(downloadCompletion)completion{
+- (void)downloadImageUrl:(NSString *)imageUrl completion:(downloadCompletion)completion{
     [self downloadImageUrl:imageUrl path:[self imageFilePath] completion:completion];
 }
 
-+ (void)downloadImageUrl:(NSString *)imageUrl path:(NSString *)path completion:(downloadCompletion)completion{
+- (void)downloadImageUrl:(NSString *)imageUrl path:(NSString *)path completion:(downloadCompletion)completion{
     
-    [[ZBCacheManager sharedInstance]createDirectoryAtPath:path];
+    if ([[ZBCacheManager sharedInstance]diskCacheExistsWithKey:imageUrl path:path]) {
+
+        [[ZBCacheManager sharedInstance]getCacheDataForKey:imageUrl path:path value:^(NSData *data) {
+            
+             UIImage *image=[UIImage imageWithData:data];
+            
+            completion(image) ;
+             ZBKLog(@"image cache");
+        }];
     
-    NSString *imagePath=[[ZBCacheManager sharedInstance]cachePathForKey:imageUrl inPath:path];
-    
-    if ([[ZBCacheManager sharedInstance]isExistsAtPath:imagePath]&&[NSFileManager isTimeOutWithPath:imagePath timeOut:timeOut]==NO) {
-        
-        NSData *data=[NSData dataWithContentsOfFile:imagePath];
-        
-        UIImage *image=[UIImage imageWithData:data];
-    
-        
-        completion(image);
-        ZBKLog(@"image cache");
     }else{
         ZBKLog(@"image request");
         [self requestImageUrl:imageUrl completion:^(UIImage *image){
-            
-            [[ZBCacheManager sharedInstance]setContent:image writeToFile:imagePath];
+    
+            [[ZBCacheManager sharedInstance]storeContent:image forKey:imageUrl path:path];
          
             completion(image);
         }];
     }
 }
 
-+ (void)requestImageUrl:(NSString *)imageUrl completion:(requestCompletion)completion{
+- (void)requestImageUrl:(NSString *)imageUrl completion:(downloadCompletion)completion{
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        
+        if (!imageUrl)return;
         NSURL *url=[NSURL URLWithString:imageUrl];
         
         NSData *data=[NSData dataWithContentsOfURL:url];
@@ -81,31 +82,44 @@ static const NSInteger timeOut = 60*60;
     });
 }
 
-+ (NSUInteger)imageFileSize{
+- (NSUInteger)imageFileSize{
    return [[ZBCacheManager sharedInstance]getFileSizeWithpath:[self imageFilePath]];
 }
 
-+ (NSUInteger)imageFileCount{
+- (NSUInteger)imageFileCount{
    return [[ZBCacheManager sharedInstance]getFileCountWithpath:[self imageFilePath]];
 }
 
-+ (void)clearImageFile{
+- (void)clearImageFile{
     [self clearImageFileCompletion:nil];
 }
 
-+ (void)clearImageFileCompletion:(ZBCacheManagerBlock)completion{
+- (void)clearImageFileCompletion:(ZBCacheCompletedBlock)completion{
      [[ZBCacheManager sharedInstance]clearDiskWithpath:[self imageFilePath] completion:completion];
 }
 
-+ (void)clearImageForkey:(NSString *)key{
+- (void)clearImageForkey:(NSString *)key{
     [self clearImageForkey:key completion:nil];
 }
 
-+ (void)clearImageForkey:(NSString *)key completion:(ZBCacheManagerBlock)completion{
+- (void)clearImageForkey:(NSString *)key completion:(ZBCacheCompletedBlock)completion{
     [[ZBCacheManager sharedInstance]clearCacheForkey:key path:[self imageFilePath] completion:completion];
 }
 
-+ (NSString *)contentTypeForImageData:(NSData *)data {
+- (void)saveThePhotoAlbum:(UIImage *)image{
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), (__bridge void *)self);
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
+    NSLog(@"image = %@, error = %@, contextInfo = %@", image, error, contextInfo);
+    if (error) {
+        
+    }else{
+        
+    }
+}
+
+- (NSString *)contentTypeForImageData:(NSData *)data {
     uint8_t c;
     [data getBytes:&c length:1];
     switch (c) {
@@ -134,9 +148,10 @@ static const NSInteger timeOut = 60*60;
     return nil;
 }
 
-+ (NSString *)imageFilePath{
+- (NSString *)imageFilePath{
     NSString *AppImagePath =  [[[ZBCacheManager sharedInstance]ZBKitPath]stringByAppendingPathComponent:ImageDefaultPath];
     return AppImagePath;
 }
+
 
 @end

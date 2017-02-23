@@ -42,8 +42,8 @@
     // 账号
     //itemWithIcon
     //itemWithTitle
-    ZBSettingItem *ID = [ZBSettingItem itemWithIcon:[NSBundle IDInfoIcon] title:@"账号管理" type:ZBSettingItemTypeArrow];
-    ID.operation = ^{
+    ZBTableItem *IDItem = [ZBTableItem itemWithIcon:[NSBundle IDInfoIcon] title:@"账号管理" type:ZBTableItemTypeArrow];
+    IDItem.operation = ^{
         UIViewController *helpVC = [[UIViewController alloc] init];
         helpVC.view.backgroundColor = [UIColor grayColor];
         helpVC.title = @"账号管理";
@@ -51,10 +51,10 @@
     };
     
     // 字体
-    ZBSettingItem *font = [ZBSettingItem itemWithIcon:[NSBundle MoreHelpIcon] title:@"字体大小" type:ZBSettingItemTypeRightText];
-    font.rightText=[self setFont];
-    __block ZBSettingItem *weakFont = font;
-    font.operation = ^{
+    ZBTableItem *fontItem  = [ZBTableItem itemWithIcon:[NSBundle MoreHelpIcon] title:@"字体大小" type:ZBTableItemTypeRightText];
+    fontItem.rightText=[self setFont];
+    __block ZBTableItem *weakFont = fontItem;
+    fontItem.operation = ^{
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"设置字体大小" message:@"" preferredStyle:(UIAlertControllerStyleActionSheet)];
         UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:nil];
         UIAlertAction *defult = [UIAlertAction actionWithTitle:@"小" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *_Nonnull action){
@@ -79,8 +79,8 @@
         [weakSelf presentViewController:alert animated:YES completion:nil]; //呈现
     };
     
-    ZBSettingGroup *group = [[ZBSettingGroup alloc] init];
-    group.items = @[ID,font];
+    ZBTableGroup *group = [[ZBTableGroup alloc] init];
+    group.items = @[IDItem,fontItem];
     group.headerHeight=5;
     group.footerHeight=5;
     [_allGroups addObject:group];
@@ -91,21 +91,21 @@
     __weak typeof(self) weakSelf = self;
     
     // 1.1.推送和提醒
-    ZBSettingItem *push = [ZBSettingItem itemWithTitle:@"新消息通知" type:ZBSettingItemTypeSwitch];
+    ZBTableItem *pushItem = [ZBTableItem itemWithTitle:@"新消息通知" type:ZBTableItemTypeSwitch];
     
-    __block ZBSettingItem *weakPush = push;
+    __block ZBTableItem *weakPush = pushItem;
     UIUserNotificationSettings *setting = [[UIApplication sharedApplication] currentUserNotificationSettings];
     if(UIUserNotificationTypeNone != setting.types) {//系统开启
-        push.isOpenSwitch=[ZBGlobalSettingsTool sharedInstance].enabledPush;
-        push.switchBlock = ^(BOOL on) {
+        pushItem.isOpenSwitch=[ZBGlobalSettingsTool sharedInstance].enabledPush;
+        pushItem.switchBlock = ^(BOOL on) {
             NSLog(@"通知%zd",on);
             [ZBGlobalSettingsTool sharedInstance].enabledPush=on;
         };
         
     }else{
         
-        push.isOpenSwitch=NO;
-        push.switchBlock = ^(BOOL on) {
+        pushItem.isOpenSwitch=NO;
+        pushItem.switchBlock = ^(BOOL on) {
             NSLog(@"通知%zd",on);
             
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"你尚末开启系统推送" message:@"" preferredStyle:(UIAlertControllerStyleAlert)];
@@ -124,8 +124,8 @@
         };
     }
     
-    ZBSettingGroup *group1 = [[ZBSettingGroup alloc] init];
-    group1.items = @[push];
+    ZBTableGroup *group1 = [[ZBTableGroup alloc] init];
+    group1.items = @[pushItem];
     group1.headerHeight=5;
     group1.footerHeight=5;
     [_allGroups addObject:group1];
@@ -146,10 +146,10 @@
     }
     
     // 夜间模式
-    ZBSettingItem *night = [ZBSettingItem itemWithTitle:title type:ZBSettingItemTypeSwitch];
-    __block ZBSettingItem *weakNight = night;
-    night.isOpenSwitch=[[ZBGlobalSettingsTool sharedInstance] getNightPattern];
-    night.switchBlock = ^(BOOL on) {
+    ZBTableItem *nightItem = [ZBTableItem itemWithTitle:title type:ZBTableItemTypeSwitch];
+    __block ZBTableItem *weakNight = nightItem;
+    nightItem.isOpenSwitch=[[ZBGlobalSettingsTool sharedInstance] getNightPattern];
+    nightItem.switchBlock = ^(BOOL on) {
         
         on = [[NSUserDefaults standardUserDefaults]boolForKey:@"readStyle"];
         [[NSUserDefaults standardUserDefaults]setBool:!on forKey:@"readStyle"];
@@ -168,9 +168,9 @@
     };
     
     // Wifi
-    ZBSettingItem *wifi = [ZBSettingItem itemWithTitle:@"仅-Wifi网络下载图片" type:ZBSettingItemTypeSwitch];
-    wifi.isOpenSwitch=[[ZBGlobalSettingsTool sharedInstance] downloadImagePattern];
-    wifi.switchBlock = ^(BOOL on) {
+    ZBTableItem *wifiItem = [ZBTableItem itemWithTitle:@"仅-Wifi网络下载图片" type:ZBTableItemTypeSwitch];
+    wifiItem.isOpenSwitch=[[ZBGlobalSettingsTool sharedInstance] downloadImagePattern];
+    wifiItem.switchBlock = ^(BOOL on) {
         
         on = [[NSUserDefaults standardUserDefaults]boolForKey:@"readImage"];
         [[NSUserDefaults standardUserDefaults]setBool:!on forKey:@"readImage"];
@@ -182,17 +182,17 @@
     };
     
     // 缓存
-    ZBSettingItem *cache= [ZBSettingItem itemWithTitle:@"存储空间" type:ZBSettingItemTypeArrow];
+    ZBTableItem *cacheItem= [ZBTableItem itemWithTitle:@"存储空间" type:ZBTableItemTypeArrow];
     
-    cache.operation = ^{
+    cacheItem.operation = ^{
         ClearCacheViewController *clearVC=[[ClearCacheViewController alloc]init];
         [weakSelf.navigationController pushViewController:clearVC animated:YES];
     };
     
-    ZBSettingGroup *group2 = [[ZBSettingGroup alloc] init];
+    ZBTableGroup *group2 = [[ZBTableGroup alloc] init];
     group2.headerHeight=5;
     group2.footerHeight=5;
-    group2.items = @[night,wifi,cache];
+    group2.items = @[nightItem,wifiItem,cacheItem];
     [_allGroups addObject:group2];
     
 }
@@ -200,20 +200,20 @@
     __weak typeof(self) weakSelf = self;
     
     //去评分
-    ZBSettingItem *open = [ZBSettingItem itemWithTitle:@"为ZBKit评分" type:ZBSettingItemTypeArrow];
-    open.operation = ^{
+    ZBTableItem *openItem = [ZBTableItem itemWithTitle:@"为ZBKit评分" type:ZBTableItemTypeArrow];
+    openItem.operation = ^{
         [[ZBGlobalSettingsTool sharedInstance]openURL:@"123456789"];
     };
     
     //意见反馈
-    ZBSettingItem *feedback = [ZBSettingItem itemWithIcon:[NSBundle MoreMessageIcon] title:@"意见反馈" type:ZBSettingItemTypeArrow];
-    feedback.operation = ^{
+    ZBTableItem *feedbackItem = [ZBTableItem itemWithIcon:[NSBundle MoreMessageIcon] title:@"意见反馈" type:ZBTableItemTypeArrow];
+    feedbackItem.operation = ^{
         [weakSelf createMail];
     };
     
     // 分享
-    ZBSettingItem *share = [ZBSettingItem itemWithIcon:[NSBundle MoreShareIcon] title:@"分享" type:ZBSettingItemTypeArrow];
-    share.operation = ^{
+    ZBTableItem *shareItem = [ZBTableItem itemWithIcon:[NSBundle MoreShareIcon] title:@"分享" type:ZBTableItemTypeArrow];
+    shareItem.operation = ^{
         NSArray *activityItems=@[@"ZBKit"];
         UIActivityViewController *activityController =
         [[UIActivityViewController alloc] initWithActivityItems:activityItems
@@ -222,10 +222,10 @@
                                animated:YES completion:nil];
     };
     // 关于
-    ZBSettingItem *about = [ZBSettingItem itemWithIcon:[NSBundle MoreAboutIcon] title:@"关于" type:ZBSettingItemTypeArrow];
+    ZBTableItem *aboutItem = [ZBTableItem itemWithIcon:[NSBundle MoreAboutIcon] title:@"关于" type:ZBTableItemTypeArrow];
     
-    about.operation = ^{
-        NSString *aboutString=[NSString stringWithFormat:@"应用名字:%@\n应用ID:%@\n应用版本:%@\n应用build:%@\n设备名字:%@",[[ZBGlobalSettingsTool sharedInstance]appBundleName],[[ZBGlobalSettingsTool sharedInstance]appBundleID],[[ZBGlobalSettingsTool sharedInstance]appVersion],[[ZBGlobalSettingsTool sharedInstance]appBuildVersion],[[ZBGlobalSettingsTool sharedInstance]machineName]];
+    aboutItem.operation = ^{
+        NSString *aboutString=[NSString stringWithFormat:@"应用名字:%@\n应用ID:%@\n应用版本:%@\n应用build:%@\n设备名字:%@",[[ZBGlobalSettingsTool sharedInstance]appBundleName],[[ZBGlobalSettingsTool sharedInstance]appBundleID],[[ZBGlobalSettingsTool sharedInstance]appVersion],[[ZBGlobalSettingsTool sharedInstance]appBuildVersion],[[ZBGlobalSettingsTool sharedInstance]deviceName]];
         UIViewController *helpVC = [[UIViewController alloc] init];
         UILabel *abotlabel=[[UILabel alloc]initWithFrame:CGRectMake(20, 100, SCREEN_WIDTH-40, 200)];
         abotlabel.text=aboutString;
@@ -236,8 +236,8 @@
         [weakSelf.navigationController pushViewController:helpVC animated:YES];
     };
     
-    ZBSettingGroup *group3 = [[ZBSettingGroup alloc] init];
-    group3.items = @[open, feedback, share , about];
+    ZBTableGroup *group3 = [[ZBTableGroup alloc] init];
+    group3.items = @[openItem, feedbackItem, shareItem , aboutItem];
     group3.headerHeight=35;
     group3.footerHeight=25;
     group3.header=@"基本设置";
@@ -290,7 +290,7 @@
         //设置收件人(设置一组)
         [mail  setToRecipients:[NSArray arrayWithObjects:@"szb2323@163.com",nil]];
         //设置邮件的正文,是否解析正文中的html标签
-        NSString *aboutString=[NSString stringWithFormat:@"%@%@/%@/%@",[[ZBGlobalSettingsTool sharedInstance]appBundleName],[[ZBGlobalSettingsTool sharedInstance]appVersion],[[UIDevice currentDevice] systemVersion],[[ZBGlobalSettingsTool sharedInstance]machineName]];
+        NSString *aboutString=[NSString stringWithFormat:@"%@%@/%@/%@",[[ZBGlobalSettingsTool sharedInstance]appBundleName],[[ZBGlobalSettingsTool sharedInstance]appVersion],[[UIDevice currentDevice] systemVersion],[[ZBGlobalSettingsTool sharedInstance]deviceName]];
         [mail setMessageBody:aboutString isHTML:NO];
         //设置代理
         mail.mailComposeDelegate = self;

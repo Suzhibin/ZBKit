@@ -67,10 +67,10 @@ static int const showtime = 3;
     _filePath = filePath;
     _adView.image = [UIImage imageWithContentsOfFile:filePath];
 }
-- (void)setImage:(UIImage *)image
+- (void)setAdImage:(UIImage *)adImage
 {
-    _image = image;
-    _adView.image = image;
+    _adImage = adImage;
+    _adView.image = adImage;
 }
 - (void)pushToAd{
     if ([[_linkdict objectForKey:@"link"]isEqualToString:@""]) {
@@ -136,8 +136,7 @@ static int const showtime = 3;
 }
 
 // 移除广告页面
-- (void)dismiss
-{
+- (void)dismiss{
     [self.countTimer invalidate];
     self.countTimer = nil;
     

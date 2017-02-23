@@ -20,10 +20,7 @@
 
 #import "ZBURLSessionManager.h"
 #import <UIKit/UIKit.h>
-
-#import "NSFileManager+pathMethod.h"
 #import "ZBCacheManager.h"
-static const NSInteger timeOut = 60*60;
 
 @implementation ZBURLSessionManager
 
@@ -72,12 +69,19 @@ static const NSInteger timeOut = 60*60;
 - (void)requestWithConfig:(requestConfig)config success:(requestSuccess)success failed:(requestFailed)failed{
     
     config ? config(self.request) : nil;
-    
-    if (self.request.apiType==ZBRequestTypeOffline) {
-        [self offlineDownload:self.request.urlArray apiType:self.request.apiType success:success failed:failed];
+    if (self.request.methodType==ZBMethodTypePOST) {
+        [self postRequestWithURL:self.request.urlString parameters:self.request.parameters success:success failed:failed];
     }else{
-        [self getRequestWithURL:self.request.urlString apiType:self.request.apiType success:success failed:failed];
+        if (self.request.apiType==ZBRequestTypeOffline) {
+            [self offlineDownload:self.request.urlArray apiType:self.request.apiType success:success failed:failed];
+        }else{
+            [self getRequestWithURL:self.request.urlString apiType:self.request.apiType success:success failed:failed];
+        }
     }
+}
+
+-(void)postRequestWithURL:(NSString *)urlString parameters:(NSDictionary*)parameters success:(requestSuccess)success failed:(requestFailed)failed{
+     [ZBURLSessionManager postRequestWithURL:urlString parameters:parameters success:success failed:failed];
 }
 
 -(void)postRequestWithURL:(NSString *)urlString parameters:(NSDictionary*)parameters target:(id<ZBURLSessionDelegate>)delegate{
@@ -97,9 +101,21 @@ static const NSInteger timeOut = 60*60;
 }
 
 +(ZBURLSessionManager *)postRequestWithURL:(NSString *)urlString parameters:(NSDictionary*)parameters target:(id<ZBURLSessionDelegate>)delegate{
+
+    return  [ZBURLSessionManager postRequestWithURL:urlString parameters:parameters target:delegate success:nil failed:nil];
+}
+
++(ZBURLSessionManager *)postRequestWithURL:(NSString *)urlString parameters:(NSDictionary*)parameters success:(requestSuccess)success failed:(requestFailed)failed{
+    
+    return  [ZBURLSessionManager postRequestWithURL:urlString parameters:parameters target:nil success:success failed:failed];
+}
+
++(ZBURLSessionManager *)postRequestWithURL:(NSString *)urlString parameters:(NSDictionary*)parameters target:(id<ZBURLSessionDelegate>)delegate success:(requestSuccess)success failed:(requestFailed)failed{
     ZBURLSessionManager *session = [[ZBURLSessionManager alloc] init];
     session.request.urlString = urlString;
     session.delegate = delegate;
+    session.requestSuccess=success;
+    session.requestFailed=failed;
     [session postStartRequestWithParameters:parameters];
     return  session;
 }
@@ -120,20 +136,18 @@ static const NSInteger timeOut = 60*60;
     session.delegate = delegate;
     session.requestSuccess=success;
     session.requestFailed=failed;
-    NSString *path =[[ZBCacheManager sharedInstance] pathWithFileName:urlString];
     
-    if ([[ZBCacheManager sharedInstance]isExistsAtPath:path]&&[NSFileManager isTimeOutWithPath:path timeOut:timeOut]==NO&&type!=ZBRequestTypeRefresh&&type!=ZBRequestTypeOffline) {
-        
-        NSData *data = [NSData dataWithContentsOfFile:path];
-        
-        ZBLog(@"session cache");
-        [session.request.responseObj appendData:data];
-    
-        success ? success(session.request.responseObj  ,type) : nil;
-        
-        if ([session.delegate respondsToSelector:@selector(urlRequestFinished:)]) {
-            [session.delegate urlRequestFinished:session.request];
-        }
+    if ([[ZBCacheManager sharedInstance]diskCacheExistsWithKey:urlString]&&type!=ZBRequestTypeRefresh&&type!=ZBRequestTypeOffline) {
+
+         [[ZBCacheManager sharedInstance]getCacheDataForKey:urlString value:^(NSData *data) {
+             [session.request.responseObj appendData:data];
+             success ? success(session.request.responseObj,type) : nil;
+             
+             if ([session.delegate respondsToSelector:@selector(urlRequestFinished:)]) {
+                 [session.delegate urlRequestFinished:session.request];
+             }
+         }];
+
         return session;
         
     }else{
@@ -166,9 +180,8 @@ static const NSInteger timeOut = 60*60;
  */
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error{
     if(error == nil){
-        NSString *path =[[ZBCacheManager sharedInstance] pathWithFileName:self.request.urlString];
-        
-        [[ZBCacheManager sharedInstance] setContent:self.request.responseObj writeToFile:path];
+      
+         [[ZBCacheManager sharedInstance] storeContent:self.request.responseObj forKey:self.request.urlString];
         
         if (self.requestSuccess) {
            self.requestSuccess(self.request.responseObj,self.request.apiType);
@@ -181,7 +194,7 @@ static const NSInteger timeOut = 60*60;
         
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }else{
-         ZBLog(@"error:%@",[error localizedDescription]);
+        ZBLog(@"error:%@",[error localizedDescription]);
         self.request.error=nil;
         self.request.error=error;
         
@@ -272,13 +285,13 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
 
 #pragma mark - get Request
 - (void)getStartRequest{
-     ZBLog(@"session get");
+    
     if(!self.request.urlString)return;
     NSString *string = [self.request.urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     NSURL *url = [NSURL URLWithString:string];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:self.request.timeoutInterval];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:self.request.timeoutInterval];
     if ([ZBURLRequest sharedInstance].value) {
        
         NSMutableURLRequest *mutableRequest = [request mutableCopy];
@@ -304,7 +317,7 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
 
 #pragma mark - post Request
 - (void)postStartRequestWithParameters:(NSDictionary *)parameters;{
-     ZBLog(@"post");
+   
     NSString *string = [self.request.urlString  stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     NSURL *url = [NSURL URLWithString:string];
@@ -322,7 +335,6 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
             }
         }];
         
-        ZBLog(@"POST_HeaderField%@", mutableRequest.allHTTPHeaderFields);
     }
     
     [mutableRequest setTimeoutInterval:self.request.timeoutInterval];

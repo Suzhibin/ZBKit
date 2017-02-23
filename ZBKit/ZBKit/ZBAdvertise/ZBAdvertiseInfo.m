@@ -8,14 +8,16 @@
 
 #import "ZBAdvertiseInfo.h"
 #import "ZBNetworking.h"
-#import "ZBConstants.h"
+#import "ZBConstants.h"                                                                                                                                                                                                             
 #import "ZBImageDownloader.h"
-@implementation ZBAdvertiseInfo
 
+NSString *const AdDefaultPath =@"Advertise";
+
+@implementation ZBAdvertiseInfo
 
 + (void)getAdvertising:(AdvertisingInfo)info{
 
-    [[ZBCacheManager sharedInstance]createDirectoryAtPath:[ZBAdvertiseInfo advertiseFilePath]];
+    [[ZBCacheManager sharedInstance]createDirectoryAtPath:[self advertiseFilePath]];
     // 1.判断沙盒中是否存在广告图片，如果存在，直接显示
     NSString *filePath = [ZBAdvertiseInfo getFilePathWithImageName:[[NSUserDefaults standardUserDefaults] valueForKey:adImageName]];
     
@@ -131,7 +133,7 @@
  */
 + (void)downloadAdWithImageUrl:(NSString *)imageUrl url:(NSString *)url imageName:(NSString *)imageName urlName:(NSString *)urlName{
     
-    [ZBImageDownloader requestImageUrl:imageUrl completion:^(UIImage *image){
+    [[ZBImageDownloader sharedInstance] requestImageUrl:imageUrl completion:^(UIImage *image){
         
         NSString *filePath = [ZBAdvertiseInfo getFilePathWithImageName:imageName]; // 保存图片文件的名称
         
@@ -177,7 +179,7 @@
 + (NSString *)getFilePathWithPlistName:(NSString *)plistName{
     if (plistName) {
         NSString *name = [NSString stringWithFormat:@"%@.plist",plistName];
-        NSString *filePath =[[ZBAdvertiseInfo advertiseFilePath] stringByAppendingPathComponent:name];
+        NSString *filePath =[[self advertiseFilePath] stringByAppendingPathComponent:name];
         return filePath;
     }
     return nil;
@@ -185,14 +187,14 @@
 
 + (NSString *)getFilePathWithImageName:(NSString *)imageName{
     if (imageName) {
-        NSString *filePath =[[ZBAdvertiseInfo advertiseFilePath] stringByAppendingPathComponent:imageName];
+        NSString *filePath =[[self advertiseFilePath] stringByAppendingPathComponent:imageName];
         return filePath;
     }
     return nil;
 }
 
 + (NSString *)advertiseFilePath{
-   NSString *AdvertisePath =  [[[ZBCacheManager sharedInstance]ZBKitPath]stringByAppendingPathComponent:@"Advertise"];
+    NSString *AdvertisePath = [[[ZBCacheManager sharedInstance]ZBKitPath]stringByAppendingPathComponent:AdDefaultPath];
     return AdvertisePath;
 }
 

@@ -7,8 +7,6 @@
 //
 
 #import "SecondViewController.h"
-#import "UIView+ZBAnimation.h"
-#import <ImageIO/ImageIO.h>
 
 @interface SecondViewController ()
 @property (strong, nonatomic) UIImageView *imageView;
@@ -46,22 +44,36 @@
         
         self.imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 350)];
         self.imageView.userInteractionEnabled = YES;
+        
+        [self.imageView zb_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:@"zhanweitu"] completion:^(UIImage *image) {
+            
+            float imageSize=[[ZBImageDownloader sharedInstance] imageFileSize];
+            label1.text=[NSString stringWithFormat:@"缓存图片大小:%@",[[ZBCacheManager sharedInstance] fileUnitWithSize:imageSize]];
+            
+            float count=[[ZBImageDownloader sharedInstance] imageFileCount];
+            label2.text=[NSString stringWithFormat:@"缓存图片数量:%.f",count];
+            
+            [label1 animatedViewMoveWithRightX:60];//右平移 -30-60=30；
+            [label2 animatedViewMoveWithLeftX:100];//左平移 130-100=30；
+
+        }];
+        /*
         //下载图片
-        [ZBImageDownloader downloadImageUrl:imageUrl completion:^(UIImage *image){
+        [[ZBImageDownloader sharedInstance]  downloadImageUrl:imageUrl completion:^(UIImage *image){
      
             self.imageView.image=image;
             
-            float imageSize=[ZBImageDownloader imageFileSize];
+            float imageSize=[[ZBImageDownloader sharedInstance] imageFileSize];
             label1.text=[NSString stringWithFormat:@"缓存图片大小:%@",[[ZBCacheManager sharedInstance] fileUnitWithSize:imageSize]];
             
-            float count=[ZBImageDownloader imageFileCount];
+            float count=[[ZBImageDownloader sharedInstance] imageFileCount];
             label2.text=[NSString stringWithFormat:@"缓存图片数量:%.f",count];
             
             [label1 animatedViewMoveWithRightX:60];//右平移 -30-60=30；
             [label2 animatedViewMoveWithLeftX:100];//左平移 130-100=30；
             
         }];
-
+         */
         [self.view addSubview:self.imageView];
         
         
@@ -88,7 +100,7 @@
             CGPoint startCenter = self.button.center;
             startCenter.y += SCREEN_HEIGHT;
             self.button.center = startCenter;
-            
+            [self.button circleView];//圆角
             [self.button animatedDampingWithCenter:center];//弹簧效果
             [self.button AnimationFloating];//浮动动画
             [self.view addSubview:self.button];
@@ -144,13 +156,13 @@
     
     if (sender.tag==2000) {
         //删除图片缓存 及完成操作
-        [ZBImageDownloader clearImageFileCompletion:^{
+        [[ZBImageDownloader sharedInstance] clearImageFileCompletion:^{
             [self sizeAndCount];
         }];
         
     }else if (sender.tag==2001){
         //删除单个图片缓存 及完成操作
-        [ZBImageDownloader clearImageForkey:imageUrl completion:^{
+        [[ZBImageDownloader sharedInstance] clearImageForkey:imageUrl completion:^{
             [self sizeAndCount];
         }];
     }
@@ -160,11 +172,11 @@
     UILabel* label1 = (UILabel *)[self.view viewWithTag:4000];
     UILabel* label2 = (UILabel *)[self.view viewWithTag:5000];
     [label1 animatedTransitionWithoptions:UIViewAnimationOptionTransitionCrossDissolve];//过渡动画
-    float imageSize=[ZBImageDownloader imageFileSize];//图片大小
+    float imageSize=[[ZBImageDownloader sharedInstance] imageFileSize];//图片大小
     label1.text=[NSString stringWithFormat:@"缓存图片大小:%@",[[ZBCacheManager sharedInstance] fileUnitWithSize:imageSize]];
     
     [label2 animatedTransitionWithoptions:UIViewAnimationOptionTransitionFlipFromTop];//过渡动画
-    float count=[ZBImageDownloader imageFileCount];//个数
+    float count=[[ZBImageDownloader sharedInstance] imageFileCount];//个数
     label2.text=[NSString stringWithFormat:@"缓存图片数量:%.f",count];
 }
 

@@ -118,7 +118,12 @@
              [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"zhanweitu"]];
         }
     }else{
-          [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:@"zhanweitu"]];
+        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:@"zhanweitu"]];
+        
+        //ZBimage
+        //[cell.imageView zb_setImageWithURL:model.thumb placeholderImage:[UIImage imageNamed:@"zhanweitu"]];
+      
+
     }
 
   

@@ -8,6 +8,6 @@
 
 #import "ZBTableViewController.h"
 
-@interface FirstViewController : ZBTableViewController
+@interface FirstViewController : ZBTableViewController<UINavigationControllerDelegate>
 
 @end

@@ -7,8 +7,7 @@
 //
 
 #import "ZBGlobalSettingsTool.h"
-#import "sys/utsname.h"
-#import <UIKit/UIKit.h>
+
 @implementation ZBGlobalSettingsTool
 
 + (ZBGlobalSettingsTool*)sharedInstance
@@ -96,7 +95,7 @@
     return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
 }
 
-- (NSString *)machineName {
+- (NSString *)deviceName {
     struct utsname systemInfo;
     uname(&systemInfo);
     NSString *deviceString = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
@@ -104,5 +103,33 @@
     return deviceString;
 }
 
+- (NSString *)iPhoneName {
+    return [UIDevice currentDevice].name;
+}
+
+- (CGFloat)batteryLevel{
+    return [[UIDevice currentDevice] batteryLevel];
+}
+
+- (NSString *)systemName{
+    return [UIDevice currentDevice].systemName;
+}
+
+- (NSString *)systemVersion{
+    return [UIDevice currentDevice].systemVersion;
+}
+
+- (NSString *)advertisingID{
+    return [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+}
+
+- (NSString *)uuid{
+    return  [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+}
+
 
 @end
+
+
+
+

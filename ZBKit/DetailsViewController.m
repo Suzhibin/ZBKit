@@ -50,7 +50,7 @@
     btn.backgroundColor=[UIColor blackColor];
     [btn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
     //看该条数据是否被收藏过
-    NSLog(@"%@",self.model.wid);
+    //NSLog(@"%@",self.model.wid);
     if ([[ZBDataBaseManager sharedInstance] isCollectedWithTable:@"collection" itemId:self.model.wid]) {
         
         btn.selected=YES;

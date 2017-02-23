@@ -20,13 +20,12 @@
     
     self.title=@"开屏广告";
     
-    //广告 
-    
+
     [self createAdvertise];
     
-    UILabel *label=[ZBControlTool createLabelWithFrame:CGRectMake(170, 200, 25,200) text:@"点\n击\n屏\n幕\n显\n示\n广\n告" tag:0];
+    UILabel *label=[ZBControlTool createLabelWithFrame:CGRectMake(195, 220, 25,200) text:@"点\n击\n屏\n幕\n显\n示\n广\n告" tag:0];
     label.numberOfLines = [label.text length];
-    label.font=[UIFont systemFontOfSize:20];
+    label.font=[UIFont boldSystemFontOfSize:20];
     [self.view addSubview:label];
 
 }
@@ -36,6 +35,7 @@
 }
 
 - (void)createAdvertise{
+    
     [ZBAdvertiseInfo getAdvertising:^(NSString *filePath,NSDictionary *urlDict,BOOL isExist){
         if (isExist) {
             ZBAdvertiseView *advertiseView2 = [[ZBAdvertiseView alloc] initWithFrame:self.view.bounds];

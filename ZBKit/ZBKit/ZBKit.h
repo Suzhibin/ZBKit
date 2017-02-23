@@ -20,6 +20,8 @@
 
 #import "ZBImageDownloader.h"
 #import "UIImage+ZBKit.h"
+#import "UIImageView+ZBKit.h"
+#import "UIView+ZBAnimation.h"
 
 #import "ZBAdvertiseView.h" //开屏广告view
 #import "ZBAdvertiseInfo.h" //开屏广告数据操作

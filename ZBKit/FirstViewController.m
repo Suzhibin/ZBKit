@@ -27,14 +27,14 @@
 }
 - (void)add1SectionItems{
     __weak typeof(self) weakSelf = self;
-    ZBSettingItem *AFNetwork = [ZBSettingItem itemWithTitle:@"AFNetworking" type:ZBSettingItemTypeArrow];
+    ZBTableItem *AFNetwork = [ZBTableItem itemWithTitle:@"AFNetworking" type:ZBTableItemTypeArrow];
     AFNetwork.operation = ^{
         MenuViewController *MenuVC = [[MenuViewController alloc] init];
         MenuVC.functionType=AFNetworking;
         [weakSelf.navigationController pushViewController:MenuVC animated:YES];
     };
     
-    ZBSettingGroup *group1= [[ZBSettingGroup alloc] init];
+    ZBTableGroup *group1= [[ZBTableGroup alloc] init];
     group1.items = @[AFNetwork];
     group1.header=@"AFNetworking封装";
     group1.footer=@"三种方法的缓存文件是相通共用的";
@@ -45,7 +45,7 @@
 
 - (void)add2SectionItems{
     __weak typeof(self) weakSelf = self;
-    ZBSettingItem *session1 = [ZBSettingItem itemWithTitle:@"NSURLSessionBlock" type:ZBSettingItemTypeArrow];
+    ZBTableItem *session1 = [ZBTableItem itemWithTitle:@"NSURLSessionBlock" type:ZBTableItemTypeArrow];
     session1.operation = ^{
         MenuViewController *MenuVC1 = [[MenuViewController alloc] init];
         MenuVC1.functionType=sessionblock;
@@ -53,7 +53,7 @@
         
     };
     
-    ZBSettingGroup *group2= [[ZBSettingGroup alloc] init];
+    ZBTableGroup *group2= [[ZBTableGroup alloc] init];
     group2.items = @[session1];
     group2.header=@"NSURLSession封装";
     group2.footer=@"三种方法的缓存文件是相通共用的";
@@ -64,13 +64,13 @@
 
 - (void)add3SectionItems{
     __weak typeof(self) weakSelf = self;
-    ZBSettingItem *session2 = [ZBSettingItem itemWithTitle:@"NSURLSessionDelegate" type:ZBSettingItemTypeArrow];
+    ZBTableItem *session2 = [ZBTableItem itemWithTitle:@"NSURLSessionDelegate" type:ZBTableItemTypeArrow];
     session2.operation = ^{
         MenuViewController *MenuVC2 = [[MenuViewController alloc] init];
         MenuVC2.functionType=sessiondelegate;
         [weakSelf.navigationController pushViewController:MenuVC2 animated:YES];
     };
-    ZBSettingGroup *group3 = [[ZBSettingGroup alloc] init];
+    ZBTableGroup *group3 = [[ZBTableGroup alloc] init];
     group3.items = @[session2];
     group3.header=@"NSURLSession封装";
     group3.footer=@"三种方法的缓存文件是相通共用的";
