@@ -73,6 +73,8 @@ static int const showtime = 3;
     _adView.image = adImage;
 }
 - (void)pushToAd{
+    
+    
     if ([[_linkdict objectForKey:@"link"]isEqualToString:@""]) {
         return;
     }else{

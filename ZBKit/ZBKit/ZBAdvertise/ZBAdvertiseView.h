@@ -33,8 +33,8 @@
 
 /*
  *  跳转url
- */
 @property (nonatomic, copy) NSString *linkUrl;
+*/
 
 /*
  *  跳转字典

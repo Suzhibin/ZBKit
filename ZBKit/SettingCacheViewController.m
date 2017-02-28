@@ -194,8 +194,11 @@
     
     if (indexPath.row==6) {
         //清除ZBImage缓存
-        [[ZBImageDownloader sharedInstance] clearImageFile];
-        [self.tableView reloadData];
+       // [[ZBImageDownloader sharedInstance] clearImageFile];
+        [[ZBImageDownloader sharedInstance] clearImageFileCompletion:^{
+             [self.tableView reloadData];
+        }];
+       
     }
     
     if (indexPath.row==8) {
@@ -333,7 +336,7 @@
 }
 - (void)starBtnClick{
     
-    [self alertTitle:@"感觉不错给star吧 谢谢" andMessage:@"https://github.com/Suzhibin/ZBKit"];
+    [self alertTitle:@"感觉不错给star吧 谢谢" andMessage:@"https://github.com/Suzhibin/ZBNetworking"];
 }
 
 //懒加载

@@ -63,45 +63,6 @@
 
 }
 
-#pragma mark - **************** Navgation delegate
-
-- (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
-                                  animationControllerForOperation:(UINavigationControllerOperation)operation
-                                               fromViewController:(UIViewController *)fromVC
-                                                 toViewController:(UIViewController *)toVC
-{
-    if (operation == UINavigationControllerOperationPush) {
-        return self.pushAnimation;
-    }else if (operation == UINavigationControllerOperationPop){
-        return self.popAnimation;
-    }
-    return nil;
-}
-
--(ZBPushTransitioning *)pushAnimation
-{
-    if (!_pushAnimation) {
-        _pushAnimation = [[ZBPushTransitioning alloc] init];
-    }
-    return _pushAnimation;
-}
-
--(ZBPopTransitioning *)popAnimation
-{
-    if (!_popAnimation) {
-        _popAnimation = [[ZBPopTransitioning alloc] init];
-    }
-    return _popAnimation;
-}
-
--(ZBInteractiveTransition *)interaction
-{
-    if (!_interaction) {
-        _interaction = [[ZBInteractiveTransition alloc] init];
-    }
-    return _interaction;
-}
-
 - (void)add0SectionItems{
     __weak typeof(self) weakSelf = self;
     
@@ -186,10 +147,12 @@
 }
 
 - (void)add5SectionItems{
-    __weak typeof(self) weakSelf = self;
+   // __weak typeof(self) weakSelf = self;
     ZBTableItem *TransitionItem = [ZBTableItem itemWithTitle:@"ZBTransitioning" type:ZBTableItemTypeArrow];
     TransitionItem.operation = ^{
         NSLog(@"///");
+        
+
     };
     ZBTableGroup *group5 = [[ZBTableGroup alloc] init];
     group5.items = @[TransitionItem];
@@ -221,6 +184,46 @@
     detailsVC.url=[noti.userInfo objectForKey:@"link"];
     detailsVC.functionType=Advertise;
     [self.navigationController pushViewController:detailsVC animated:YES];
+}
+
+
+#pragma mark - **************** Navgation delegate
+
+- (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+                                  animationControllerForOperation:(UINavigationControllerOperation)operation
+                                               fromViewController:(UIViewController *)fromVC
+                                                 toViewController:(UIViewController *)toVC
+{
+    if (operation == UINavigationControllerOperationPush) {
+        return self.pushAnimation;
+    }else if (operation == UINavigationControllerOperationPop){
+        return self.popAnimation;
+    }
+    return nil;
+}
+
+-(ZBPushTransitioning *)pushAnimation
+{
+    if (!_pushAnimation) {
+        _pushAnimation = [[ZBPushTransitioning alloc] init];
+    }
+    return _pushAnimation;
+}
+
+-(ZBPopTransitioning *)popAnimation
+{
+    if (!_popAnimation) {
+        _popAnimation = [[ZBPopTransitioning alloc] init];
+    }
+    return _popAnimation;
+}
+
+-(ZBInteractiveTransition *)interaction
+{
+    if (!_interaction) {
+        _interaction = [[ZBInteractiveTransition alloc] init];
+    }
+    return _interaction;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -24,7 +24,7 @@
 
     self.window.backgroundColor=[UIColor whiteColor];
     
-    NSString *cachePath = [[ZBCacheManager sharedInstance]cachesPath];
+    NSString *cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
     NSLog(@"cachePath = %@",cachePath);
     
     //推送设置
@@ -40,9 +40,9 @@
     
     [self.window makeKeyAndVisible];
 
-    //广告
     
-    [ZBAdvertiseInfo getAdvertising:^(NSString *filePath,NSDictionary *urlDict,BOOL isExist){
+    //广告
+    [ZBAdvertiseInfo getAdvertisingInfo:^(NSString *filePath,NSDictionary *urlDict,BOOL isExist){
         if (isExist) {
             ZBAdvertiseView *advertiseView = [[ZBAdvertiseView alloc] initWithFrame:self.window.bounds];
             advertiseView.filePath = filePath;
@@ -62,21 +62,38 @@
 - (void)TarckingConfig{
   
     //配置监控的页面
-    [ZBTarckingConfig sharedInstance].VCDictionary= @{@"HomeViewController" : @"首页",@"FirstViewController" : @"网络请求页面",@"SecondViewController" : @"图片操作页面",@"ThirdViewController":@"数据库页面",@"FourViewController":@"开屏广告",@"FiveViewController":@"工厂方法",@"SettingViewController":@"设置页面",@"MenuViewController":@"菜单页面",@"ListViewController":@"列表页",@"DetailsViewController":@"详情页",@"DBViewController":@"数据库页面",@"SettingCacheViewController":@"缓存设置页面",@"ClearCacheViewController":@"清除缓存页面",@"offlineViewController":@"离线下载页面"};
+    [ZBTarckingConfig sharedInstance].VCDictionary= @{
+        @"HomeViewController" : @"首页",
+        @"FirstViewController" : @"网络请求页面",
+        @"SecondViewController" : @"图片操作页面",
+        @"ThirdViewController":@"数据库页面",
+        @"FourViewController":@"开屏广告",
+        @"FiveViewController":@"工厂方法",
+        @"SettingViewController":@"设置页面",
+        @"MenuViewController":@"菜单页面",
+        @"ListViewController":@"列表页",
+        @"DetailsViewController":@"详情页",
+        @"DBViewController":@"数据库页面",
+        @"SettingCacheViewController":@"缓存设置页面",
+        @"ClearCacheViewController":@"清除缓存页面",
+        @"offlineViewController":@"离线下载页面"
+    };
+    
     //配置要监控的点击事件  类名_方法名字_tag值 （方法名字注意:）
-    [ZBTarckingConfig sharedInstance].actionDictionary= @{@"SecondViewController_btnClicked:_100" : @"垂直翻转",
-          @"SecondViewController_btnClicked:_101" : @"水平翻转",
-          @"SecondViewController_btnClicked:_102" : @"灰度图",
-          @"SecondViewController_btnClicked:_103" : @"截图上部",
-          @"SecondViewController_btnClicked:_104" : @"向左",
-          @"SecondViewController_btnClicked:_105" : @"向右",
-          @"SecondViewController_btnClicked:_106" : @"向下",
-          @"SecondViewController_btnClicked:_107" : @"加水印",
-          @"SecondViewController_btnClicked:_108" : @"给view截图",
-          @"SecondViewController_btnClicked:_109" : @"平铺",
-          @"SecondViewController_btnClicked:_110" : @"圆形并浮动",
-          @"SecondViewController_btnClicked:_111" : @"Game over",
-                                                          };
+    [ZBTarckingConfig sharedInstance].actionDictionary= @{
+        @"SecondViewController_btnClicked:_100" : @"垂直翻转",
+        @"SecondViewController_btnClicked:_101" : @"水平翻转",
+        @"SecondViewController_btnClicked:_102" : @"灰度图",
+        @"SecondViewController_btnClicked:_103" : @"截图上部",
+        @"SecondViewController_btnClicked:_104" : @"向左",
+        @"SecondViewController_btnClicked:_105" : @"向右",
+        @"SecondViewController_btnClicked:_106" : @"向下",
+        @"SecondViewController_btnClicked:_107" : @"加水印",
+        @"SecondViewController_btnClicked:_108" : @"给view截图",
+        @"SecondViewController_btnClicked:_109" : @"平铺",
+        @"SecondViewController_btnClicked:_110" : @"圆形并浮动",
+        @"SecondViewController_btnClicked:_111" : @"Game over",
+    };
 }
 - (void)enablePush:(BOOL)enable{
     if(enable)

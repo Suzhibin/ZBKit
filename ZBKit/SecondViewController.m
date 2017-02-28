@@ -229,8 +229,9 @@
             break;
         case 110:
             [self.imageView animatedTransitionWithoptions:UIViewAnimationOptionTransitionCrossDissolve];//过渡动画
-            self.imageView.image =  [self.imageView.image circleImage];;//圆形
+            self.imageView.image = [self.imageView.image circleImage];;//圆形
             [self.imageView AnimationFloating];//浮动动画
+            [[ZBCacheManager sharedInstance]storeContent:[self.imageView.image circleImage] forKey:@"qwerty" path:[[ZBCacheManager sharedInstance]tmpPath]];
             break;
         case 111:
           
