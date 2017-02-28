@@ -41,7 +41,6 @@
             ZBAdvertiseView *advertiseView2 = [[ZBAdvertiseView alloc] initWithFrame:self.view.bounds];
             advertiseView2.filePath = filePath;
             advertiseView2.linkdict = urlDict;
-            [advertiseView2 show];
             NSLog(@"展示广告");
         }else{
             NSLog(@"无广告");

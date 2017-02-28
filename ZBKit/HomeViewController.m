@@ -150,9 +150,8 @@
    // __weak typeof(self) weakSelf = self;
     ZBTableItem *TransitionItem = [ZBTableItem itemWithTitle:@"ZBTransitioning" type:ZBTableItemTypeArrow];
     TransitionItem.operation = ^{
-        NSLog(@"///");
+        NSLog(@"跳转动画");
         
-
     };
     ZBTableGroup *group5 = [[ZBTableGroup alloc] init];
     group5.items = @[TransitionItem];

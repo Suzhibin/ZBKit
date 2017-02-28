@@ -1,28 +1,26 @@
 //
-//  ClearCacheViewController.m
+//  StorageSpaceViewController.m
 //  ZBKit
 //
-//  Created by NQ UEC on 17/1/25.
+//  Created by NQ UEC on 17/2/28.
 //  Copyright © 2017年 Suzhibin. All rights reserved.
 //
 
-#import "ClearCacheViewController.h"
+#import "StorageSpaceViewController.h"
 #import "ZBKit.h"
 #import "APIConstants.h"
 #import <SDImageCache.h>
-@interface ClearCacheViewController ()
-
+@interface StorageSpaceViewController ()
 @property (nonatomic,copy)NSString *path;
 @property (nonatomic,copy)NSString *path1;
 @end
 
-@implementation ClearCacheViewController
+@implementation StorageSpaceViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    self.title=@"缓存清理";
+    self.title=@"存储空间";
     
     float system=  [[ZBCacheManager sharedInstance]diskSystemSpace];
     NSLog(@"磁盘总空间:%@",[[ZBCacheManager sharedInstance] fileUnitWithSize:system]);
@@ -55,19 +53,19 @@
     //[[ZBCacheManager sharedManager]getFileAttributes:menu_URL];
     
     NSArray *colorArr=@[[UIColor redColor],[UIColor grayColor],[UIColor greenColor]];
-
+    
     NSArray *sizeArray=[NSArray arrayWithObjects:[self getAllCacheSize],[[ZBCacheManager sharedInstance] fileUnitWithSize:otherSystem],[[ZBCacheManager sharedInstance] fileUnitWithSize:freeSystem],nil];
     
     ZBChart *ring = [[ZBChart alloc] initWithFrame:CGRectMake(0,20, SCREEN_WIDTH, SCREEN_WIDTH)];
-  
+    
     ring.backgroundColor = [UIColor whiteColor];
-
+    
     ring.valueDataArr = sizeArray;
     
     ring.ringWidth = 55.0;
     
     ring.fillColorArray = colorArr;
-
+    
     [ring showAnimation];
     
     [self.view addSubview:ring];
@@ -77,9 +75,9 @@
     totalLabel.textAlignment=NSTextAlignmentCenter;
     totalLabel.numberOfLines=0;
     [ring addSubview:totalLabel];
-
+    
     //================================================
-
+    
     NSArray *titleArray=[NSArray arrayWithObjects:[[ZBGlobalSettingsTool sharedInstance] appBundleName],@"其他",@"可用",nil];
     for (int i = 0; i<titleArray.count; i++) {
         UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(20+140*i ,410, 100, 20)];
@@ -112,6 +110,7 @@
     button.titleLabel.adjustsFontSizeToFitWidth = YES;
     [button addTarget:self action:@selector(btnClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
+
 }
 - (void)btnClicked
 {
@@ -127,14 +126,14 @@
         //清除沙盒某个文件夹
         [[ZBCacheManager sharedInstance]clearDiskWithpath:self.path];
         //清除系统缓存文件
-       // [[NSURLCache sharedURLCache]removeAllCachedResponses];
-       //用ZBCacheManager 方法代替上面的系统方法 清除系统缓存文件
+        // [[NSURLCache sharedURLCache]removeAllCachedResponses];
+        //用ZBCacheManager 方法代替上面的系统方法 清除系统缓存文件
         [[ZBCacheManager sharedInstance]clearDiskWithpath:self.path1];
         
         UILabel *label1 = (UILabel *)[self.view viewWithTag:3000];
         label1.text=[self getAllCacheSize];
     }];
- 
+    
 }
 
 - (NSString *)getAllCacheSize{

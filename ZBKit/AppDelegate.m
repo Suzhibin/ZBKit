@@ -75,7 +75,7 @@
         @"DetailsViewController":@"详情页",
         @"DBViewController":@"数据库页面",
         @"SettingCacheViewController":@"缓存设置页面",
-        @"ClearCacheViewController":@"清除缓存页面",
+        @"ClearCacheViewController":@"存储空间",
         @"offlineViewController":@"离线下载页面"
     };
     

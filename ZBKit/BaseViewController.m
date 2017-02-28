@@ -24,7 +24,7 @@
 }
 - (void)alertTitle:(NSString *)title andMessage:(NSString *)message{
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-    //
+    
     [alertView show];
 }
 - (void)addItemWithTitle:(NSString *)title selector:(SEL)selector location:(BOOL)isLeft{
@@ -32,10 +32,10 @@
     UIBarButtonItem *item =[[UIBarButtonItem alloc]initWithTitle:title style:UIBarButtonItemStylePlain  target:self action:selector];
     
     if (isLeft == YES) {
-        //左
+   
         self.navigationItem.leftBarButtonItem = item;
     }else{
-        //右边
+
         self.navigationItem.rightBarButtonItem = item;
     }
     

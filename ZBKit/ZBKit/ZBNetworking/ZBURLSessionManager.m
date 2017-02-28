@@ -301,7 +301,6 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
             if (![mutableRequest valueForHTTPHeaderField:field]) {
                 [mutableRequest addValue: value forHTTPHeaderField:field];
             }
-            
         }];
         
         request = [mutableRequest copy];

@@ -12,7 +12,7 @@
 #import "NSBundle+ZBKit.h"
 #import "ZBNetworking.h"
 #import <UIImageView+WebCache.h>
-#import "ClearCacheViewController.h"
+#import "StorageSpaceViewController.h"
 #define list_URL @"http://api.dotaly.com/lol/api/v1/shipin/latest?author=xiaocang&iap=0jb=0&limit=50&offset=0"
 @interface SettingViewController ()<MFMailComposeViewControllerDelegate>
 
@@ -185,8 +185,8 @@
     ZBTableItem *cacheItem= [ZBTableItem itemWithTitle:@"存储空间" type:ZBTableItemTypeArrow];
     
     cacheItem.operation = ^{
-        ClearCacheViewController *clearVC=[[ClearCacheViewController alloc]init];
-        [weakSelf.navigationController pushViewController:clearVC animated:YES];
+        StorageSpaceViewController *spaceVC=[[StorageSpaceViewController alloc]init];
+        [weakSelf.navigationController pushViewController:spaceVC animated:YES];
     };
     
     ZBTableGroup *group2 = [[ZBTableGroup alloc] init];
