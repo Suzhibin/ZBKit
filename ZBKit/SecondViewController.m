@@ -186,7 +186,7 @@
     
     CGPoint pointInImage = CGPointMake(point.x * self.imageView.image.size.width / self.imageView.frame.size.width, point.y * self.imageView.image.size.height / self.imageView.frame.size.height);
     
-    self.view.backgroundColor = [self.imageView.image editColorAtPixel:pointInImage];//把图片像素颜色给view
+    self.view.backgroundColor = [self.imageView.image startColorAtPixel:pointInImage];//把图片像素颜色给view
 }
 
 - (void)btnClicked:(UIButton *)sender{
@@ -194,44 +194,45 @@
     switch (sender.tag) {
         case 100:
             [self.imageView animatedTransitionWithoptions:UIViewAnimationOptionTransitionFlipFromTop];//过渡动画
-            self.imageView.image = [self.imageView.image editFlipVertical];//垂直翻转
+            self.imageView.image = [self.imageView.image startFlipVertical];//垂直翻转
             break;
         case 101:
             [self.imageView animatedTransitionWithoptions:UIViewAnimationOptionTransitionFlipFromLeft];//过渡动画
-            self.imageView.image = [self.imageView.image editFlipHorizontal];//水平翻转
+            self.imageView.image = [self.imageView.image startFlipHorizontal];//水平翻转
             break;
         case 102:
             [self.imageView animatedTransitionWithoptions:UIViewAnimationOptionTransitionCrossDissolve];//过渡动画
-            self.imageView.image = [self.imageView.image editGrayImage];//灰度图
+            self.imageView.image = [self.imageView.image startGrayImage];//灰度图
             break;
         case 103:
             [self.imageView animatedTransitionWithoptions:UIViewAnimationOptionTransitionCurlDown];//过渡动画
-            self.imageView.image = [self.imageView.image editSubImageWithRect:CGRectMake(0, 0,self.imageView.image.size.width, self.imageView.image.size.height / 2)];//截图
+            self.imageView.image = [self.imageView.image startSubImageWithRect:CGRectMake(0, 0,self.imageView.image.size.width, self.imageView.image.size.height / 2)];//截图
             break;
         case 104:
-            self.imageView.image = [self.imageView.image editRotate:UIImageOrientationLeft];
+            self.imageView.image = [self.imageView.image startRotate:UIImageOrientationLeft];
             break;
         case 105:
-            self.imageView.image = [self.imageView.image editRotate:UIImageOrientationRight];
+            self.imageView.image = [self.imageView.image startRotate:UIImageOrientationRight];
             break;
         case 106:
-            self.imageView.image = [self.imageView.image editRotate:UIImageOrientationDown];
+            self.imageView.image = [self.imageView.image startRotate:UIImageOrientationDown];
             break;
         case 107:
-            self.imageView.image = [self.imageView.image editImageWithTitle:@"https://github.com/Suzhibin/ZBKit" fontSize:30];//加水印
+            self.imageView.image = [self.imageView.image startImageWithTitle:@"https://github.com/Suzhibin/ZBKit" fontSize:30];//加水印
             break;
         case 108:
-            self.imageView.image = [self.imageView.image editViewConversionImage:self.view];//截屏幕
+            self.imageView.image = [self.imageView.image startViewConversionImage:self.view];//截屏幕
             break;
         case 109:
             [self.imageView animatedTransitionWithoptions:UIViewAnimationOptionTransitionCurlUp];//过渡动画
-            self.imageView.image = [self.imageView.image editTiledImageWithSize:CGSizeMake(self.imageView.image.size.width * 4, self.imageView.image.size.width * 4)];//平铺
+            self.imageView.image = [self.imageView.image startTiledImageWithSize:CGSizeMake(self.imageView.image.size.width * 4, self.imageView.image.size.width * 4)];//平铺
             break;
         case 110:
             [self.imageView animatedTransitionWithoptions:UIViewAnimationOptionTransitionCrossDissolve];//过渡动画
             self.imageView.image = [self.imageView.image circleImage];;//圆形
             [self.imageView AnimationFloating];//浮动动画
-            [[ZBCacheManager sharedInstance]storeContent:[self.imageView.image circleImage] forKey:@"qwerty" path:[[ZBCacheManager sharedInstance]tmpPath]];
+            
+            [[ZBCacheManager sharedInstance]storeContent:[self.imageView.image circleImage] forKey:@"qwerty" path:[[ZBCacheManager sharedInstance]tmpPath]];//存储变形后的图片 
             break;
         case 111:
           

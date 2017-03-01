@@ -37,7 +37,7 @@
 }
 
 #pragma mark - 图片上绘制文字 水印
-- (UIImage *)editImageWithTitle:(NSString *)title fontSize:(CGFloat)fontSize{
+- (UIImage *)startImageWithTitle:(NSString *)title fontSize:(CGFloat)fontSize{
     //画布大小
     CGSize size=CGSizeMake(self.size.width,self.size.height);
     //创建一个基于位图的上下文
@@ -63,7 +63,7 @@
 }
 #pragma mark - Color
 #pragma mark - 取图片某一像素点的颜色
-- (UIColor *)editColorAtPixel:(CGPoint)point
+- (UIColor *)startColorAtPixel:(CGPoint)point
 {
     if (!CGRectContainsPoint(CGRectMake(0.0f, 0.0f, self.size.width, self.size.height), point))
     {
@@ -99,7 +99,7 @@
 }
 
 #pragma mark - 获得灰度图
-- (UIImage *)editGrayImage
+- (UIImage *)startGrayImage
 {
     int width = self.size.width;
     int height = self.size.height;
@@ -206,7 +206,7 @@
 }
 
 #pragma mark -  按给定的方向旋转图片
-- (UIImage*)editRotate:(UIImageOrientation)orient
+- (UIImage*)startRotate:(UIImageOrientation)orient
 {
     CGRect bnds = CGRectZero;
     UIImage* copy = nil;
@@ -300,15 +300,15 @@
 }
 
 #pragma mark -  垂直翻转
-- (UIImage *)editFlipVertical
+- (UIImage *)startFlipVertical
 {
-    return [self editRotate:UIImageOrientationDownMirrored];
+    return [self startRotate:UIImageOrientationDownMirrored];
 }
 
 #pragma mark -  水平翻转
-- (UIImage *)editFlipHorizontal
+- (UIImage *)startFlipHorizontal
 {
-    return [self editRotate:UIImageOrientationUpMirrored];
+    return [self startRotate:UIImageOrientationUpMirrored];
 }
 
 #pragma mark -  将图片旋转弧度
@@ -358,7 +358,7 @@ static CGRect swapWidthAndHeight(CGRect rect)
 }
 
 #pragma mark - 截取当前image对象rect区域内的图像
-- (UIImage *)editSubImageWithRect:(CGRect)rect
+- (UIImage *)startSubImageWithRect:(CGRect)rect
 {
     CGImageRef newImageRef = CGImageCreateWithImageInRect(self.CGImage, rect);
     
@@ -412,7 +412,7 @@ static CGRect swapWidthAndHeight(CGRect rect)
 }
 
 #pragma mark - 指定大小生成一个平铺的图片
-- (UIImage *)editTiledImageWithSize:(CGSize)size
+- (UIImage *)startTiledImageWithSize:(CGSize)size
 {
     UIView *tempView = [[UIView alloc] init];
     tempView.bounds = (CGRect){CGPointZero, size};
@@ -427,7 +427,7 @@ static CGRect swapWidthAndHeight(CGRect rect)
 }
 
 #pragma mark - UIView转化为UIImage
-- (UIImage *)editViewConversionImage:(UIView *)view
+- (UIImage *)startViewConversionImage:(UIView *)view
 {
     CGFloat scale = [UIScreen mainScreen].scale;
     UIGraphicsBeginImageContextWithOptions(view.frame.size, NO, scale);
