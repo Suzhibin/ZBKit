@@ -62,11 +62,9 @@ NSString *const ImageDefaultPath =@"AppImage";
              UIImage *image=[UIImage imageWithData:data];
             
             completion(image) ;
-             ZBKLog(@"image cache");
         }];
     
     }else{
-        ZBKLog(@"image request");
         [self requestImageUrl:imageUrl completion:^(UIImage *image){
     
             [[ZBCacheManager sharedInstance]storeContent:image forKey:imageUrl path:path];

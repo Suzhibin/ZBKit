@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "ZBKit.h"
 #import "HomeViewController.h"
-#import "ZBTarckingConfig.h"
+#import "ZBAnalytics.h"
 @interface AppDelegate ()
 
 @end
@@ -29,10 +29,10 @@
     
     //推送设置
     [self enablePush:[ZBGlobalSettingsTool sharedInstance].enabledPush];
-    
-    //配置跟踪监控
-    [self TarckingConfig];
-
+   // [self TarckingConfig];// 定制追踪分析事件
+    [ZBAnalytics sharedInstance].analyticsIdentifierBlock = ^(NSString *identifier) {
+        NSLog(@"追踪:%@", identifier);
+    };
 
     HomeViewController * home= [[HomeViewController alloc]init];
     UINavigationController *nc=[[UINavigationController alloc]initWithRootViewController:home];
@@ -62,7 +62,7 @@
 - (void)TarckingConfig{
   
     //配置监控的页面
-    [ZBTarckingConfig sharedInstance].VCDictionary= @{
+    [ZBAnalytics sharedInstance].VCDictionary= @{
         @"HomeViewController" : @"首页",
         @"FirstViewController" : @"网络请求页面",
         @"SecondViewController" : @"图片操作页面",
@@ -70,6 +70,7 @@
         @"FourViewController":@"开屏广告",
         @"FiveViewController":@"工厂方法",
         @"SettingViewController":@"设置页面",
+        /*
         @"MenuViewController":@"菜单页面",
         @"ListViewController":@"列表页",
         @"DetailsViewController":@"详情页",
@@ -77,23 +78,10 @@
         @"SettingCacheViewController":@"缓存设置页面",
         @"ClearCacheViewController":@"存储空间",
         @"offlineViewController":@"离线下载页面"
+         */
     };
     
-    //配置要监控的点击事件  类名_方法名字_tag值 （方法名字注意:）
-    [ZBTarckingConfig sharedInstance].actionDictionary= @{
-        @"SecondViewController_btnClicked:_100" : @"垂直翻转",
-        @"SecondViewController_btnClicked:_101" : @"水平翻转",
-        @"SecondViewController_btnClicked:_102" : @"灰度图",
-        @"SecondViewController_btnClicked:_103" : @"截图上部",
-        @"SecondViewController_btnClicked:_104" : @"向左",
-        @"SecondViewController_btnClicked:_105" : @"向右",
-        @"SecondViewController_btnClicked:_106" : @"向下",
-        @"SecondViewController_btnClicked:_107" : @"加水印",
-        @"SecondViewController_btnClicked:_108" : @"给view截图",
-        @"SecondViewController_btnClicked:_109" : @"平铺",
-        @"SecondViewController_btnClicked:_110" : @"圆形并浮动",
-        @"SecondViewController_btnClicked:_111" : @"Game over",
-    };
+
 }
 - (void)enablePush:(BOOL)enable{
     if(enable)
