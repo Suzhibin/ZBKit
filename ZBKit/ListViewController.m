@@ -13,9 +13,11 @@
 #import "ZBKit.h"
 #import <UIImageView+WebCache.h>
 #import "DBViewController.h"
+#import "ZBCarouselView.h"
 @interface ListViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong)NSMutableArray *dataArray;
 @property (nonatomic,strong)UITableView *tableView;
+@property (nonatomic,strong)ZBCarouselView *carouselView;
 @end
 
 @implementation ListViewController
@@ -29,6 +31,7 @@
     [ZBNetworkManager requestToCancel:YES];//取消网络请求
     
     [[SDWebImageManager sharedManager] cancelAll];//取消图片下载
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -58,8 +61,10 @@
             model.date=[dict objectForKey:@"date"];
             model.author=[dict objectForKey:@"author"];
             [self.dataArray addObject:model];
+         
         }
         [self.view addSubview:self.tableView];
+       
         [self.tableView reloadData];
         
     } failed:^(NSError *error){
@@ -72,25 +77,9 @@
     }];
     [self addItemWithTitle:@"收藏页面" selector:@selector(collectionClick:) location:NO];
 }
-- (void)collectionClick:(UIButton *)sender{
-    DBViewController *dbVC=[[DBViewController alloc]init];
-    dbVC.functionType=collectionTable;
-    [self.navigationController pushViewController:dbVC animated:YES];
-}
-//懒加载
-- (UITableView *)tableView{
-    
-    if (!_tableView) {
-        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64) style:UITableViewStylePlain];
-        _tableView.delegate=self;
-        _tableView.dataSource=self;
-        
-    }
-    
-    return _tableView;
-}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.dataArray.count;
+    return self.dataArray.count-3;
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -102,7 +91,7 @@
         cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     }
     
-    ListModel *model=[self.dataArray objectAtIndex:indexPath.row];
+    ListModel *model=[self.dataArray objectAtIndex:indexPath.row+3];
     
     cell.textLabel.text=model.title;
     
@@ -132,12 +121,55 @@
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    ListModel *model=[self.dataArray objectAtIndex:indexPath.row];
+    ListModel *model=[self.dataArray objectAtIndex:indexPath.row+3];
     DetailsViewController *detailsVC=[[DetailsViewController alloc]init];
     detailsVC.model=model;
     detailsVC.functionType=Details;
     //detailsVC.url=model.weburl;
     [self.navigationController pushViewController:detailsVC animated:YES];
+    
+}
+//懒加载
+- (UITableView *)tableView{
+    
+    if (!_tableView) {
+        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64) style:UITableViewStylePlain];
+        _tableView.delegate=self;
+        _tableView.dataSource=self;
+        _tableView.tableHeaderView=self.carouselView;
+        
+    }
+    
+    return _tableView;
+}
+- (ZBCarouselView *)carouselView{
+    if (!_carouselView) {
+        _carouselView = [[ZBCarouselView alloc] initWithFrame:CGRectMake(0, 100, [UIScreen mainScreen].bounds.size.width, 180)];
+        NSMutableArray *imageArray=[[NSMutableArray alloc]init];
+        NSMutableArray *titleArray=[[NSMutableArray alloc]init];
+        NSArray *array = [self.dataArray subarrayWithRange:NSMakeRange(0, 3)];
+        for (ListModel *model in array) {
+            [imageArray addObject:model.thumb];
+            [titleArray addObject:model.title];
+        }
+        _carouselView.placeholderImage = [UIImage imageNamed:@"zhanweitu.png"];
+        
+        _carouselView.imageArray = imageArray;
+        _carouselView.describeArray = titleArray;
+        _carouselView.time =3;
+        __weak typeof(self) weakSelf = self;
+        _carouselView.imageClickBlock = ^(NSInteger index){
+            NSLog(@"Block点击了第%ld张图片", index);
+            ListModel *model= [weakSelf.dataArray objectAtIndex:index];
+            DetailsViewController *detailsVC=[[DetailsViewController alloc]init];
+            detailsVC.model=model;
+            detailsVC.functionType=Details;
+            //detailsVC.url=model.weburl;
+            [weakSelf.navigationController pushViewController:detailsVC animated:YES];
+        };
+        
+    }
+    return _carouselView;
     
 }
 
@@ -147,7 +179,11 @@
     }
     return _dataArray;
 }
-
+- (void)collectionClick:(UIButton *)sender{
+    DBViewController *dbVC=[[DBViewController alloc]init];
+    dbVC.functionType=collectionTable;
+    [self.navigationController pushViewController:dbVC animated:YES];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

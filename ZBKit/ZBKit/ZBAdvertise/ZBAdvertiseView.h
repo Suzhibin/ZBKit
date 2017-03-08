@@ -11,7 +11,7 @@
 
 @interface ZBAdvertiseView : UIView
 
-
+@property (copy, nonatomic) void (^ZBAdvertiseBlock)();
 /*
  *  创建广告视图
  */

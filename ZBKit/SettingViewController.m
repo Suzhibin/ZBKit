@@ -181,7 +181,7 @@
         
     };
     
-    // 缓存
+    // 存储空间
     ZBTableItem *cacheItem= [ZBTableItem itemWithTitle:@"存储空间" type:ZBTableItemTypeArrow];
     
     cacheItem.operation = ^{

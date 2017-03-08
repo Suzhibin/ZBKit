@@ -10,6 +10,11 @@
 
 @implementation NSBundle (ZBKit)
 
++ (NSString *)placeholderIcon
+{
+    static NSString *placeholder=@"ZBKit.bundle/ZBSetting/zhanweitu";
+    return placeholder;
+}
 + (NSString *)IDInfoIcon
 {
     static NSString *IDInfo=@"ZBKit.bundle/ZBSetting/IDInfo";

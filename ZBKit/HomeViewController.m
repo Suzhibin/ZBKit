@@ -14,6 +14,7 @@
 #import "FirstViewController.h"
 #import "FourViewController.h"
 #import "FiveViewController.h"
+#import "SixViewController.h"
 #import "ZBPushTransitioning.h"
 #import "ZBPopTransitioning.h"
 #import "ZBInteractiveTransition.h"
@@ -54,9 +55,9 @@
     [self add2SectionItems];
     // 4.开屏广告
     [self add3SectionItems];
-    // 5.常用方法
+    // 5.轮播视图
     [self add4SectionItems];
-    // 6.跳转动画
+    // 6.常用方法
     [self add5SectionItems];
     // 6.设置页面
     [self add6SectionItems];
@@ -134,9 +135,9 @@
     __weak typeof(self) weakSelf = self;
     ZBTableItem *toolItem = [ZBTableItem itemWithTitle:@"ZBControlTool" type:ZBTableItemTypeArrow];
     toolItem.operation = ^{
-        FiveViewController*adVC = [[FiveViewController alloc] init];
+        FiveViewController*toolVC = [[FiveViewController alloc] init];
         
-        [weakSelf.navigationController pushViewController:adVC animated:YES];
+        [weakSelf.navigationController pushViewController:toolVC animated:YES];
     };
     ZBTableGroup *group4 = [[ZBTableGroup alloc] init];
     group4.items = @[toolItem];
@@ -144,18 +145,21 @@
     group4.headerHeight=35;
     group4.footerHeight=5;
     [_allGroups addObject:group4];
+   
 }
 
 - (void)add5SectionItems{
-   // __weak typeof(self) weakSelf = self;
-    ZBTableItem *TransitionItem = [ZBTableItem itemWithTitle:@"ZBTransitioning" type:ZBTableItemTypeArrow];
-    TransitionItem.operation = ^{
-        NSLog(@"跳转动画");
-        
+  
+    
+    __weak typeof(self) weakSelf = self;
+    ZBTableItem *carouselItem = [ZBTableItem itemWithTitle:@"ZBCarouselView" type:ZBTableItemTypeArrow];
+    carouselItem.operation = ^{
+        SixViewController *sixVC=[[SixViewController alloc]init];
+        [weakSelf.navigationController pushViewController:sixVC animated:YES];
     };
     ZBTableGroup *group5 = [[ZBTableGroup alloc] init];
-    group5.items = @[TransitionItem];
-    group5.header=@"跳转动画";
+    group5.items = @[carouselItem];
+    group5.header=@"轮播控件";
     group5.headerHeight=35;
     group5.footerHeight=5;
     [_allGroups addObject:group5];

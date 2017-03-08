@@ -50,7 +50,13 @@
 		7D5962001E529DB500E92F55 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5961FF1E529DB500E92F55 /* FirstViewController.m */; };
 		7D5962031E529DFA00E92F55 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5962021E529DFA00E92F55 /* SettingViewController.m */; };
 		7D5962061E529E7800E92F55 /* FiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5962051E529E7800E92F55 /* FiveViewController.m */; };
-		7DC005A31E67C6060047213C /* UIAlertAction+ZBAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC005A21E67C6060047213C /* UIAlertAction+ZBAnalytics.m */; };
+		7DC005BC1E6805C20047213C /* UIAlertAction+ZBAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC005B11E6805C20047213C /* UIAlertAction+ZBAnalytics.m */; };
+		7DC005BD1E6805C20047213C /* UIApplication+ZBAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC005B31E6805C20047213C /* UIApplication+ZBAnalytics.m */; };
+		7DC005BE1E6805C20047213C /* UIControl+ZBAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC005B51E6805C20047213C /* UIControl+ZBAnalytics.m */; };
+		7DC005BF1E6805C20047213C /* UIGestureRecognizer+ZBAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC005B71E6805C20047213C /* UIGestureRecognizer+ZBAnalytics.m */; };
+		7DC005C01E6805C20047213C /* UIViewController+ZBAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC005B91E6805C20047213C /* UIViewController+ZBAnalytics.m */; };
+		7DC005C11E6805C20047213C /* ZBAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC005BB1E6805C20047213C /* ZBAnalytics.m */; };
+		7DC006871E6816090047213C /* SixViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC006861E6816090047213C /* SixViewController.m */; };
 		7DC2FAD71E5E8EC500CEC472 /* UIImageView+ZBKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FAD61E5E8EC500CEC472 /* UIImageView+ZBKit.m */; };
 		7DC2FADD1E5EB66D00CEC472 /* UIView+ZBAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FADA1E5EB66D00CEC472 /* UIView+ZBAnimation.m */; };
 		7DC2FADE1E5EB66D00CEC472 /* ZBChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FADC1E5EB66D00CEC472 /* ZBChart.m */; };
@@ -72,6 +78,8 @@
 		7DD9D6271E27820D00CFA0A9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7DD9D6251E27820D00CFA0A9 /* LaunchScreen.storyboard */; };
 		7DD9D6321E27820E00CFA0A9 /* ZBKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD9D6311E27820E00CFA0A9 /* ZBKitTests.m */; };
 		7DD9D63D1E27820E00CFA0A9 /* ZBKitUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD9D63C1E27820E00CFA0A9 /* ZBKitUITests.m */; };
+		7DF54D751E69500000DC4A41 /* ZBCarouselView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF54D741E69500000DC4A41 /* ZBCarouselView.m */; };
+		7DF54D7B1E695E1E00DC4A41 /* UIViewController+ZBTracking.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF54D7A1E695E1E00DC4A41 /* UIViewController+ZBTracking.m */; };
 		7DF9915C1E48893600F0071D /* DBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF9915B1E48893600F0071D /* DBViewController.m */; };
 		7DFD7B421E306C1C00E38B8D /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFD7B411E306C1C00E38B8D /* BaseViewController.m */; };
 		7DFD7B551E306F0B00E38B8D /* NSFileManager+pathMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFD7B4B1E306F0B00E38B8D /* NSFileManager+pathMethod.m */; };
@@ -79,11 +87,6 @@
 		7DFD7B571E306F0B00E38B8D /* ZBNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFD7B501E306F0B00E38B8D /* ZBNetworkManager.m */; };
 		7DFD7B581E306F0B00E38B8D /* ZBURLRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFD7B521E306F0B00E38B8D /* ZBURLRequest.m */; };
 		7DFD7B591E306F0B00E38B8D /* ZBURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFD7B541E306F0B00E38B8D /* ZBURLSessionManager.m */; };
-		7DFF86321E66AAE000AC469F /* UIGestureRecognizer+ZBAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFF86311E66AAE000AC469F /* UIGestureRecognizer+ZBAnalytics.m */; };
-		7DFF86351E66AB2900AC469F /* ZBAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFF86341E66AB2900AC469F /* ZBAnalytics.m */; };
-		7DFF86381E66B5D700AC469F /* UIApplication+ZBAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFF86371E66B5D700AC469F /* UIApplication+ZBAnalytics.m */; };
-		7DFF863B1E66B70100AC469F /* UIViewController+ZBAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFF863A1E66B70100AC469F /* UIViewController+ZBAnalytics.m */; };
-		7DFF863E1E66BB5900AC469F /* UIControl+ZBAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFF863D1E66BB5900AC469F /* UIControl+ZBAnalytics.m */; };
 		93D1664BA27A8E5D9B6658C2 /* libPods-ZBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC7A090E6668FB7B3DBB751 /* libPods-ZBKit.a */; };
 /* End PBXBuildFile section */
 
@@ -170,8 +173,20 @@
 		7D5962021E529DFA00E92F55 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		7D5962041E529E7800E92F55 /* FiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FiveViewController.h; sourceTree = "<group>"; };
 		7D5962051E529E7800E92F55 /* FiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FiveViewController.m; sourceTree = "<group>"; };
-		7DC005A11E67C6060047213C /* UIAlertAction+ZBAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertAction+ZBAnalytics.h"; sourceTree = "<group>"; };
-		7DC005A21E67C6060047213C /* UIAlertAction+ZBAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertAction+ZBAnalytics.m"; sourceTree = "<group>"; };
+		7DC005B01E6805C20047213C /* UIAlertAction+ZBAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertAction+ZBAnalytics.h"; sourceTree = "<group>"; };
+		7DC005B11E6805C20047213C /* UIAlertAction+ZBAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertAction+ZBAnalytics.m"; sourceTree = "<group>"; };
+		7DC005B21E6805C20047213C /* UIApplication+ZBAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+ZBAnalytics.h"; sourceTree = "<group>"; };
+		7DC005B31E6805C20047213C /* UIApplication+ZBAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+ZBAnalytics.m"; sourceTree = "<group>"; };
+		7DC005B41E6805C20047213C /* UIControl+ZBAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+ZBAnalytics.h"; sourceTree = "<group>"; };
+		7DC005B51E6805C20047213C /* UIControl+ZBAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+ZBAnalytics.m"; sourceTree = "<group>"; };
+		7DC005B61E6805C20047213C /* UIGestureRecognizer+ZBAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+ZBAnalytics.h"; sourceTree = "<group>"; };
+		7DC005B71E6805C20047213C /* UIGestureRecognizer+ZBAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+ZBAnalytics.m"; sourceTree = "<group>"; };
+		7DC005B81E6805C20047213C /* UIViewController+ZBAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ZBAnalytics.h"; sourceTree = "<group>"; };
+		7DC005B91E6805C20047213C /* UIViewController+ZBAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ZBAnalytics.m"; sourceTree = "<group>"; };
+		7DC005BA1E6805C20047213C /* ZBAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBAnalytics.h; sourceTree = "<group>"; };
+		7DC005BB1E6805C20047213C /* ZBAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBAnalytics.m; sourceTree = "<group>"; };
+		7DC006851E6816090047213C /* SixViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SixViewController.h; sourceTree = "<group>"; };
+		7DC006861E6816090047213C /* SixViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SixViewController.m; sourceTree = "<group>"; };
 		7DC2FAD51E5E8EC500CEC472 /* UIImageView+ZBKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+ZBKit.h"; sourceTree = "<group>"; };
 		7DC2FAD61E5E8EC500CEC472 /* UIImageView+ZBKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+ZBKit.m"; sourceTree = "<group>"; };
 		7DC2FAD91E5EB66D00CEC472 /* UIView+ZBAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ZBAnimation.h"; sourceTree = "<group>"; };
@@ -215,6 +230,10 @@
 		7DD9D63C1E27820E00CFA0A9 /* ZBKitUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZBKitUITests.m; sourceTree = "<group>"; };
 		7DD9D63E1E27820E00CFA0A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7DD9D6571E27838600CFA0A9 /* ZBKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZBKit.h; sourceTree = "<group>"; };
+		7DF54D731E69500000DC4A41 /* ZBCarouselView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBCarouselView.h; sourceTree = "<group>"; };
+		7DF54D741E69500000DC4A41 /* ZBCarouselView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBCarouselView.m; sourceTree = "<group>"; };
+		7DF54D791E695E1E00DC4A41 /* UIViewController+ZBTracking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ZBTracking.h"; sourceTree = "<group>"; };
+		7DF54D7A1E695E1E00DC4A41 /* UIViewController+ZBTracking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ZBTracking.m"; sourceTree = "<group>"; };
 		7DF9915A1E48893600F0071D /* DBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBViewController.h; sourceTree = "<group>"; };
 		7DF9915B1E48893600F0071D /* DBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBViewController.m; sourceTree = "<group>"; };
 		7DFD7B401E306C1C00E38B8D /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
@@ -230,16 +249,6 @@
 		7DFD7B521E306F0B00E38B8D /* ZBURLRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBURLRequest.m; sourceTree = "<group>"; };
 		7DFD7B531E306F0B00E38B8D /* ZBURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBURLSessionManager.h; sourceTree = "<group>"; };
 		7DFD7B541E306F0B00E38B8D /* ZBURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBURLSessionManager.m; sourceTree = "<group>"; };
-		7DFF86301E66AAE000AC469F /* UIGestureRecognizer+ZBAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+ZBAnalytics.h"; sourceTree = "<group>"; };
-		7DFF86311E66AAE000AC469F /* UIGestureRecognizer+ZBAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+ZBAnalytics.m"; sourceTree = "<group>"; };
-		7DFF86331E66AB2900AC469F /* ZBAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBAnalytics.h; sourceTree = "<group>"; };
-		7DFF86341E66AB2900AC469F /* ZBAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBAnalytics.m; sourceTree = "<group>"; };
-		7DFF86361E66B5D700AC469F /* UIApplication+ZBAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+ZBAnalytics.h"; sourceTree = "<group>"; };
-		7DFF86371E66B5D700AC469F /* UIApplication+ZBAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+ZBAnalytics.m"; sourceTree = "<group>"; };
-		7DFF86391E66B70100AC469F /* UIViewController+ZBAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ZBAnalytics.h"; sourceTree = "<group>"; };
-		7DFF863A1E66B70100AC469F /* UIViewController+ZBAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ZBAnalytics.m"; sourceTree = "<group>"; };
-		7DFF863C1E66BB5900AC469F /* UIControl+ZBAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+ZBAnalytics.h"; sourceTree = "<group>"; };
-		7DFF863D1E66BB5900AC469F /* UIControl+ZBAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+ZBAnalytics.m"; sourceTree = "<group>"; };
 		9F0201619D9037371B53A2DD /* Pods-ZBKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZBKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZBKit/Pods-ZBKit.debug.xcconfig"; sourceTree = "<group>"; };
 		B6C69C13416B9D701F068A51 /* Pods-ZBKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZBKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZBKit/Pods-ZBKit.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -377,6 +386,27 @@
 			name = ZBBundle;
 			sourceTree = "<group>";
 		};
+		7DC005AF1E6805C20047213C /* ZBAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				7DC005B01E6805C20047213C /* UIAlertAction+ZBAnalytics.h */,
+				7DC005B11E6805C20047213C /* UIAlertAction+ZBAnalytics.m */,
+				7DC005B41E6805C20047213C /* UIControl+ZBAnalytics.h */,
+				7DC005B51E6805C20047213C /* UIControl+ZBAnalytics.m */,
+				7DC005B61E6805C20047213C /* UIGestureRecognizer+ZBAnalytics.h */,
+				7DC005B71E6805C20047213C /* UIGestureRecognizer+ZBAnalytics.m */,
+				7DC005B81E6805C20047213C /* UIViewController+ZBAnalytics.h */,
+				7DC005B91E6805C20047213C /* UIViewController+ZBAnalytics.m */,
+				7DC005BA1E6805C20047213C /* ZBAnalytics.h */,
+				7DC005BB1E6805C20047213C /* ZBAnalytics.m */,
+				7DC005B21E6805C20047213C /* UIApplication+ZBAnalytics.h */,
+				7DC005B31E6805C20047213C /* UIApplication+ZBAnalytics.m */,
+				7DF54D791E695E1E00DC4A41 /* UIViewController+ZBTracking.h */,
+				7DF54D7A1E695E1E00DC4A41 /* UIViewController+ZBTracking.m */,
+			);
+			path = ZBAnalytics;
+			sourceTree = "<group>";
+		};
 		7DC2FAD81E5EB66D00CEC472 /* ZBAnimation */ = {
 			isa = PBXGroup;
 			children = (
@@ -399,26 +429,6 @@
 				7DC2FAF01E5EB6AB00CEC472 /* ZBPushTransitioning.m */,
 			);
 			path = ZBTransition;
-			sourceTree = "<group>";
-		};
-		7DC2FAF41E5EB6B100CEC472 /* ZBAnalytics */ = {
-			isa = PBXGroup;
-			children = (
-				7DFF86331E66AB2900AC469F /* ZBAnalytics.h */,
-				7DFF86341E66AB2900AC469F /* ZBAnalytics.m */,
-				7DFF86301E66AAE000AC469F /* UIGestureRecognizer+ZBAnalytics.h */,
-				7DFF86311E66AAE000AC469F /* UIGestureRecognizer+ZBAnalytics.m */,
-				7DFF86361E66B5D700AC469F /* UIApplication+ZBAnalytics.h */,
-				7DFF86371E66B5D700AC469F /* UIApplication+ZBAnalytics.m */,
-				7DFF86391E66B70100AC469F /* UIViewController+ZBAnalytics.h */,
-				7DFF863A1E66B70100AC469F /* UIViewController+ZBAnalytics.m */,
-				7DFF863C1E66BB5900AC469F /* UIControl+ZBAnalytics.h */,
-				7DFF863D1E66BB5900AC469F /* UIControl+ZBAnalytics.m */,
-				7DC005A11E67C6060047213C /* UIAlertAction+ZBAnalytics.h */,
-				7DC005A21E67C6060047213C /* UIAlertAction+ZBAnalytics.m */,
-			);
-			name = ZBAnalytics;
-			path = ZBTracking;
 			sourceTree = "<group>";
 		};
 		7DC2FAFE1E5EB6C200CEC472 /* ZBTool */ = {
@@ -478,6 +488,8 @@
 				7D57D62B1E36E5E100529558 /* FourViewController.m */,
 				7D5962041E529E7800E92F55 /* FiveViewController.h */,
 				7D5962051E529E7800E92F55 /* FiveViewController.m */,
+				7DC006851E6816090047213C /* SixViewController.h */,
+				7DC006861E6816090047213C /* SixViewController.m */,
 				7D5962011E529DFA00E92F55 /* SettingViewController.h */,
 				7D5962021E529DFA00E92F55 /* SettingViewController.m */,
 				7DD0B43C1E65692000E5634E /* StorageSpaceViewController.h */,
@@ -530,19 +542,29 @@
 		7DD9D64A1E27823C00CFA0A9 /* ZBKit */ = {
 			isa = PBXGroup;
 			children = (
+				7DF54D721E69500000DC4A41 /* ZBCarouselView */,
+				7DC005AF1E6805C20047213C /* ZBAnalytics */,
 				7DFD7B491E306F0B00E38B8D /* ZBNetworking */,
 				7D1C6DE31E35F8CE00495AB7 /* ZBImage */,
 				7D1C6DDB1E35F8CE00495AB7 /* ZBAdvertise */,
 				7D1C6DE01E35F8CE00495AB7 /* ZBDataBase */,
 				7DC2FB061E5EB6C900CEC472 /* ZBTableView */,
 				7DC2FAFE1E5EB6C200CEC472 /* ZBTool */,
-				7DC2FAF41E5EB6B100CEC472 /* ZBAnalytics */,
 				7DC2FAEA1E5EB6AB00CEC472 /* ZBTransition */,
 				7DC2FAD81E5EB66D00CEC472 /* ZBAnimation */,
 				7DA919401E5BECF9006F347F /* ZBBundle */,
 				7DD9D6571E27838600CFA0A9 /* ZBKit.h */,
 			);
 			path = ZBKit;
+			sourceTree = "<group>";
+		};
+		7DF54D721E69500000DC4A41 /* ZBCarouselView */ = {
+			isa = PBXGroup;
+			children = (
+				7DF54D731E69500000DC4A41 /* ZBCarouselView.h */,
+				7DF54D741E69500000DC4A41 /* ZBCarouselView.m */,
+			);
+			path = ZBCarouselView;
 			sourceTree = "<group>";
 		};
 		7DF991591E48890700F0071D /* ThirdViewController */ = {
@@ -793,26 +815,27 @@
 				7DD9D61F1E27820D00CFA0A9 /* ViewController.m in Sources */,
 				7DD9D61C1E27820D00CFA0A9 /* AppDelegate.m in Sources */,
 				7D57D6521E37490E00529558 /* ListViewController.m in Sources */,
+				7DC005C01E6805C20047213C /* UIViewController+ZBAnalytics.m in Sources */,
 				7D57D62C1E36E5E100529558 /* FourViewController.m in Sources */,
 				7DD9D6191E27820D00CFA0A9 /* main.m in Sources */,
 				7DC2FAE81E5EB69A00CEC472 /* NSBundle+ZBKit.m in Sources */,
-				7DFF86351E66AB2900AC469F /* ZBAnalytics.m in Sources */,
-				7DFF863B1E66B70100AC469F /* UIViewController+ZBAnalytics.m in Sources */,
 				7DFD7B591E306F0B00E38B8D /* ZBURLSessionManager.m in Sources */,
 				7D5962001E529DB500E92F55 /* FirstViewController.m in Sources */,
 				7DFD7B571E306F0B00E38B8D /* ZBNetworkManager.m in Sources */,
 				7D57D6441E373E0D00529558 /* OfflineView.m in Sources */,
-				7DFF86321E66AAE000AC469F /* UIGestureRecognizer+ZBAnalytics.m in Sources */,
 				7DC2FAE41E5EB68800CEC472 /* NSObject+ZBCoding.m in Sources */,
+				7DC005C11E6805C20047213C /* ZBAnalytics.m in Sources */,
 				7DFD7B581E306F0B00E38B8D /* ZBURLRequest.m in Sources */,
+				7DC005BF1E6805C20047213C /* UIGestureRecognizer+ZBAnalytics.m in Sources */,
 				7DFD7B421E306C1C00E38B8D /* BaseViewController.m in Sources */,
 				7DC2FB041E5EB6C200CEC472 /* ZBControlTool.m in Sources */,
 				7D1C6DFA1E35F8CE00495AB7 /* ZBAdvertiseView.m in Sources */,
 				7D57D6411E373DD500529558 /* SettingCacheViewController.m in Sources */,
 				7DC2FADD1E5EB66D00CEC472 /* UIView+ZBAnimation.m in Sources */,
+				7DC005BE1E6805C20047213C /* UIControl+ZBAnalytics.m in Sources */,
 				7D57D6551E37494600529558 /* ListModel.m in Sources */,
 				7D31A4071E34AF5500D913A7 /* SecondViewController.m in Sources */,
-				7DFF86381E66B5D700AC469F /* UIApplication+ZBAnalytics.m in Sources */,
+				7DC005BC1E6805C20047213C /* UIAlertAction+ZBAnalytics.m in Sources */,
 				7DC2FAD71E5E8EC500CEC472 /* UIImageView+ZBKit.m in Sources */,
 				7D1C6DFD1E35F8CE00495AB7 /* ZBImageDownloader.m in Sources */,
 				7D1C6E0C1E360A3600495AB7 /* ThirdViewController.m in Sources */,
@@ -820,9 +843,11 @@
 				7DF9915C1E48893600F0071D /* DBViewController.m in Sources */,
 				7D5961FD1E529D5D00E92F55 /* HomeViewController.m in Sources */,
 				7DC2FB051E5EB6C200CEC472 /* ZBGlobalSettingsTool.m in Sources */,
+				7DC005BD1E6805C20047213C /* UIApplication+ZBAnalytics.m in Sources */,
 				7D5962061E529E7800E92F55 /* FiveViewController.m in Sources */,
 				7D1C6DF91E35F8CE00495AB7 /* ZBAdvertiseInfo.m in Sources */,
 				7DFD7B551E306F0B00E38B8D /* NSFileManager+pathMethod.m in Sources */,
+				7DF54D751E69500000DC4A41 /* ZBCarouselView.m in Sources */,
 				7D220DB01E35A40500A29791 /* DetailsViewController.m in Sources */,
 				7D1C6DFB1E35F8CE00495AB7 /* ZBDataBaseManager.m in Sources */,
 				7DC2FADE1E5EB66D00CEC472 /* ZBChart.m in Sources */,
@@ -831,13 +856,13 @@
 				7D1C6DFC1E35F8CE00495AB7 /* UIImage+ZBKit.m in Sources */,
 				7DFD7B561E306F0B00E38B8D /* ZBCacheManager.m in Sources */,
 				7DC2FB091E5EB6C900CEC472 /* ZBTableViewController.m in Sources */,
-				7DC005A31E67C6060047213C /* UIAlertAction+ZBAnalytics.m in Sources */,
 				7D57D64C1E37480300529558 /* MenuViewController.m in Sources */,
-				7DFF863E1E66BB5900AC469F /* UIControl+ZBAnalytics.m in Sources */,
 				7D57D64F1E37489C00529558 /* MenuModel.m in Sources */,
 				7DC2FAF31E5EB6AB00CEC472 /* ZBPushTransitioning.m in Sources */,
+				7DF54D7B1E695E1E00DC4A41 /* UIViewController+ZBTracking.m in Sources */,
 				7DC2FAF11E5EB6AB00CEC472 /* ZBInteractiveTransition.m in Sources */,
 				7D5962031E529DFA00E92F55 /* SettingViewController.m in Sources */,
+				7DC006871E6816090047213C /* SixViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

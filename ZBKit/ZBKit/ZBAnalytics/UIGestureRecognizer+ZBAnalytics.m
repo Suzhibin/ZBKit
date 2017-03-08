@@ -12,11 +12,14 @@
 #import <objc/message.h>
 @implementation UIGestureRecognizer (ZBAnalytics)
 
-+ (void)load{
-
-    SEL originalSelector = @selector(initWithTarget:action:);
-    SEL swizzledSelector = @selector(zb_initWithTarget:action:);
-    [[ZBAnalytics sharedInstance] analyticsClass:[self class] originalSelector:originalSelector swizzledSelector:swizzledSelector];
++ (void)load{    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Method originalMethod = class_getInstanceMethod([self class], @selector(initWithTarget:action:));
+        Method swizzledMethod = class_getInstanceMethod([self class], @selector(zb_initWithTarget:action:));
+        
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+    });
 }
 
 - (instancetype)zb_initWithTarget:(nullable id)target action:(nullable SEL)action

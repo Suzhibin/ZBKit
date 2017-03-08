@@ -26,12 +26,10 @@
 
 - (void)analyticsString:(NSString *)identifierString;
 
-- (void)analyticsClass:(Class)cls originalSelector:(SEL)originalSelector swizzledSelector:(SEL)swizzledSelector;
-
 - (NSString *)getViewControllerIdentificationWithKey:(NSString *)key;
-
-- (NSString *)getControlIdentificationWithKey:(NSString *)key;
 /*
+- (NSString *)getControlIdentificationWithKey:(NSString *)key;
+
 - (NSString *)getTableViewIdentificationWithKey:(NSString *)key;
 
 - (NSString *)getCollectionIdentificationWithKey:(NSString *)key;

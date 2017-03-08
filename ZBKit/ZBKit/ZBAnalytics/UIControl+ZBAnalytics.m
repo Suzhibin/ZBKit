@@ -8,12 +8,17 @@
 
 #import "UIControl+ZBAnalytics.h"
 #import "ZBAnalytics.h"
-#import "ZBConstants.h"
+#import <objc/runtime.h>
 @implementation UIControl (ZBAnalytics)
 + (void)load {
-    SEL originalSelector = @selector(sendAction:to:forEvent:);
-    SEL swizzledSelector = @selector(zb_sendAction:to:forEvent:);
-    [[ZBAnalytics sharedInstance] analyticsClass:[self class] originalSelector:originalSelector swizzledSelector:swizzledSelector];
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Method originalMethod = class_getInstanceMethod([self class], @selector(sendAction:to:forEvent:));
+        Method swizzledMethod = class_getInstanceMethod([self class], @selector(zb_sendAction:to:forEvent:));
+        
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+    });
 }
 - (void)zb_sendAction:(SEL)action to:(id)target forEvent:(UIEvent *)event{
     [self zb_sendAction:action to:target forEvent:event];

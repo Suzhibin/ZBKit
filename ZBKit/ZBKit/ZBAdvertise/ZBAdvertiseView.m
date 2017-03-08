@@ -74,13 +74,11 @@ static int const showtime = 3;
 }
 - (void)pushToAd{
     
-    
-    if ([[_linkdict objectForKey:@"link"]isEqualToString:@""]) {
-        return;
-    }else{
-       [[NSNotificationCenter defaultCenter] postNotificationName:@"pushtoad" object:nil userInfo:_linkdict];
-        [self dismiss];
+    if (self.ZBAdvertiseBlock) {
+        self.ZBAdvertiseBlock();
     }
+    [self dismiss];
+
 }
 
 - (void)countDown

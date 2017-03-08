@@ -29,7 +29,9 @@
     
     //推送设置
     [self enablePush:[ZBGlobalSettingsTool sharedInstance].enabledPush];
+    
    // [self TarckingConfig];// 定制追踪分析事件
+    
     [ZBAnalytics sharedInstance].analyticsIdentifierBlock = ^(NSString *identifier) {
         NSLog(@"追踪:%@", identifier);
     };
@@ -46,7 +48,15 @@
         if (isExist) {
             ZBAdvertiseView *advertiseView = [[ZBAdvertiseView alloc] initWithFrame:self.window.bounds];
             advertiseView.filePath = filePath;
-            advertiseView.linkdict = urlDict;
+            advertiseView.ZBAdvertiseBlock=^{
+                if ([[urlDict objectForKey:@"link"]isEqualToString:@""]) {
+                    NSLog(@"没有url");
+                    return;
+                }else{
+                    NSLog(@"有url跳转");
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"pushtoad" object:nil userInfo:urlDict];
+                }
+            };
             
             NSLog(@"展示广告");
         }else{
@@ -61,7 +71,7 @@
 
 - (void)TarckingConfig{
   
-    //配置监控的页面
+    // 定制监控的页面
     [ZBAnalytics sharedInstance].VCDictionary= @{
         @"HomeViewController" : @"首页",
         @"FirstViewController" : @"网络请求页面",

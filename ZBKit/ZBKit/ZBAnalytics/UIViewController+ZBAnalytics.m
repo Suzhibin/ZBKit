@@ -9,15 +9,22 @@
 #import "UIViewController+ZBAnalytics.h"
 #import "ZBAnalytics.h"
 #import "ZBConstants.h"
+#import <objc/runtime.h>
 @implementation UIViewController (ZBAnalytics)
 + (void)load {
-    SEL originalSelector = @selector(viewDidAppear:);
-    SEL swizzledSelector = @selector(zb_viewDidAppear:);
-    [[ZBAnalytics sharedInstance] analyticsClass:[self class] originalSelector:originalSelector swizzledSelector:swizzledSelector];
-    
-    SEL originalSelector2 = @selector(viewDidDisappear:);
-    SEL swizzledSelector2 = @selector(zb_viewDidDisappear:);
-    [[ZBAnalytics sharedInstance] analyticsClass:[self class] originalSelector:originalSelector2 swizzledSelector:swizzledSelector2];
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Method originalMethod = class_getInstanceMethod([self class], @selector(viewDidAppear:));
+        Method swizzledMethod = class_getInstanceMethod([self class], @selector(zb_viewDidAppear:));
+        
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+        
+        Method originalMethod2 = class_getInstanceMethod([self class], @selector(viewDidDisappear:));
+        Method swizzledMethod2 = class_getInstanceMethod([self class], @selector(zb_viewDidDisappear:));
+        
+        method_exchangeImplementations(originalMethod2, swizzledMethod2);
+    });
 }
 
 #pragma mark - Method
@@ -56,23 +63,6 @@
     
 }
 
-- (UIViewController *)topMostViewController
-{
-    if (self.presentedViewController == nil || [self.presentedViewController isKindOfClass:[UIImagePickerController class]]) {
-        
-        return self;
-        
-    } else if ([self.presentedViewController isKindOfClass:[UINavigationController class]]) {
-        
-        UINavigationController *navigationController = (UINavigationController *)self.presentedViewController;
-        UIViewController *lastViewController = [[navigationController viewControllers] lastObject];
-        
-        return [lastViewController topMostViewController];
-    }
-    
-    UIViewController *presentedViewController = (UIViewController *)self.presentedViewController;
-    
-    return [presentedViewController topMostViewController];
-}
+
 
 @end

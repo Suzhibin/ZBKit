@@ -7,13 +7,17 @@
 //
 
 #import "UIAlertAction+ZBAnalytics.h"
-#import "ZBAnalytics.h"
+#import <objc/runtime.h>
 @implementation UIAlertAction (ZBAnalytics)
 + (void)load{
-    
-    SEL originalSelector = @selector(actionWithTitle:style:handler:);
-    SEL swizzledSelector = @selector(zb_actionWithTitle:style:handler:);
-    [[ZBAnalytics sharedInstance] analyticsClass:[self class] originalSelector:originalSelector swizzledSelector:swizzledSelector];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Method originalMethod = class_getInstanceMethod([self class], @selector(actionWithTitle:style:handler:));
+        Method swizzledMethod = class_getInstanceMethod([self class], @selector(zb_actionWithTitle:style:handler:));
+        
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+    });
+
 }
 
 + (instancetype)zb_actionWithTitle:(nullable NSString *)title style:(UIAlertActionStyle)style handler:(void (^ __nullable)(UIAlertAction *action))handler

@@ -10,6 +10,8 @@
 #import <UIKit/UIKit.h>
 @interface NSBundle (ZBKit)
 
++ (NSString *)placeholderIcon;
+
 + (NSString *)IDInfoIcon;
 
 + (NSString *)handShakeIcon;

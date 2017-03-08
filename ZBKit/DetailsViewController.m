@@ -22,6 +22,7 @@
     _webView.backgroundColor = [UIColor whiteColor];
 
     if (_functionType==Details) {
+        NSLog(@"weburl%@",self.model.weburl);
         NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.model.weburl]];
         [_webView loadRequest:request];
         [self.view addSubview:_webView];

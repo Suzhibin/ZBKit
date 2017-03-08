@@ -40,7 +40,16 @@
         if (isExist) {
             ZBAdvertiseView *advertiseView2 = [[ZBAdvertiseView alloc] initWithFrame:self.view.bounds];
             advertiseView2.filePath = filePath;
-            advertiseView2.linkdict = urlDict;
+            advertiseView2.ZBAdvertiseBlock=^{
+                if ([[urlDict objectForKey:@"link"]isEqualToString:@""]) {
+                    NSLog(@"没有url");
+                    return;
+                }else{
+                     NSLog(@"有url跳转");
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"pushtoad" object:nil userInfo:urlDict];
+                }
+            };
+
             NSLog(@"展示广告");
         }else{
             NSLog(@"无广告");

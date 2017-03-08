@@ -7,7 +7,7 @@
 //
 
 #import "UIApplication+ZBAnalytics.h"
-#import "UIViewController+ZBAnalytics.h"
+#import "UIViewController+ZBTracking.h"
 @implementation UIApplication (ZBAnalytics)
 
 - (UIViewController *)topMostViewController
