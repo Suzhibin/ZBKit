@@ -12,6 +12,8 @@
 
 @interface ZBControlTool : NSObject
 
++ (NSString *)stringDateWithTimeInterval:(NSString *)timeInterval;
+
 //字符串是否含有中文
 + (BOOL)checkIsChinese:(NSString *)string;
 

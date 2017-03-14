@@ -112,14 +112,10 @@
         //ZBimage
         //[cell.imageView zb_setImageWithURL:model.thumb placeholderImage:[UIImage imageNamed:@"zhanweitu"]];
       
-
     }
-
-  
-    
-    
     return cell;
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ListModel *model=[self.dataArray objectAtIndex:indexPath.row+3];
     DetailsViewController *detailsVC=[[DetailsViewController alloc]init];
@@ -153,7 +149,6 @@
             [titleArray addObject:model.title];
         }
         _carouselView.placeholderImage = [UIImage imageNamed:@"zhanweitu.png"];
-        
         _carouselView.imageArray = imageArray;
         _carouselView.describeArray = titleArray;
         _carouselView.time =3;

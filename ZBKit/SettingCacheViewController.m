@@ -54,7 +54,7 @@
         
         CGFloat cacheSize=[[ZBCacheManager sharedInstance]getCacheSize];//json缓存文件大小
         CGFloat sdimageSize = [[SDImageCache sharedImageCache]getSize];//图片缓存大小
-        CGFloat zbimage=[[ZBImageDownloader sharedInstance] imageFileSize];
+        CGFloat zbimage=[[ZBWebImageManager sharedInstance] imageFileSize];
         CGFloat fsCachedDataSize=[[ZBCacheManager sharedInstance]getFileSizeWithpath:self.path];//系统缓存沙盒路径文件大小
         CGFloat AppCacheSize=cacheSize+sdimageSize+zbimage+fsCachedDataSize;
         AppCacheSize=AppCacheSize/1000.0/1000.0;
@@ -67,7 +67,7 @@
         
         CGFloat cacheCount=[[ZBCacheManager sharedInstance]getCacheCount];//json缓存文件个数
         CGFloat imageCount=[[SDImageCache sharedImageCache]getDiskCount];//图片缓存个数
-        CGFloat zbimageCount=[[ZBImageDownloader sharedInstance] imageFileCount];
+        CGFloat zbimageCount=[[ZBWebImageManager sharedInstance] imageFileCount];
         CGFloat fsCachedDataCount=[[ZBCacheManager sharedInstance]getFileCountWithpath:self.path];//系统缓存沙盒路径文件个数
         CGFloat AppCacheCount=cacheCount+imageCount+zbimageCount+fsCachedDataCount;
         
@@ -108,7 +108,7 @@
     
     if (indexPath.row==6) {
         cell.textLabel.text=@"清除ZBImage缓存";
-        CGFloat ZBImageSize=[[ZBImageDownloader sharedInstance] imageFileSize];
+        CGFloat ZBImageSize=[[ZBWebImageManager sharedInstance] imageFileSize];
        
         ZBImageSize=ZBImageSize/1000.0/1000.0;
         
@@ -118,7 +118,7 @@
     if (indexPath.row==7) {
         cell.textLabel.text=@"ZBImage缓存数量";
         
-        CGFloat ZBImageCount=[[ZBImageDownloader sharedInstance] imageFileCount];
+        CGFloat ZBImageCount=[[ZBWebImageManager sharedInstance] imageFileCount];
         
         cell.detailTextLabel.text=[NSString stringWithFormat:@"%.f",ZBImageCount];
         
@@ -163,7 +163,7 @@
             [[SDImageCache sharedImageCache] clearDisk];
             [[SDImageCache sharedImageCache] clearMemory];
             //清除ZBImage缓存
-             [[ZBImageDownloader sharedInstance] clearImageFile];
+             [[ZBWebImageManager sharedInstance] clearImageFile];
             //清除系统缓存文件
             //[[NSURLCache sharedURLCache]removeAllCachedResponses];
             //用ZBCacheManager 方法代替上面的系统方法 清除系统缓存文件
@@ -195,7 +195,7 @@
     if (indexPath.row==6) {
         //清除ZBImage缓存
        // [[ZBImageDownloader sharedInstance] clearImageFile];
-        [[ZBImageDownloader sharedInstance] clearImageFileCompletion:^{
+        [[ZBWebImageManager sharedInstance] clearImageFileCompletion:^{
              [self.tableView reloadData];
         }];
        
@@ -297,13 +297,11 @@
                         //让 下载的url与模型的最后一个比较，如果相同证明下载完毕。
                         NSString *imageURLStr = [imageURL absoluteString];
                         NSString *lastImage=[NSString stringWithFormat:@"%@",((ListModel *)[self.imageArray lastObject]).thumb];
-                        
                         if ([imageURLStr isEqualToString:lastImage]) {
                             NSLog(@"下载完成");
                             
                             [self.offlineView hide];//取消下载进度视图
                             [self alertTitle:@"下载完成"andMessage:@""];
-                            // [self.tableView reloadData];
                         }
                         
                         if (error) {

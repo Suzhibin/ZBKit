@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "ZBKit.h"
 #import "HomeViewController.h"
-#import "ZBAnalytics.h"
+
 @interface AppDelegate ()
 
 @end
@@ -29,12 +29,6 @@
     
     //推送设置
     [self enablePush:[ZBGlobalSettingsTool sharedInstance].enabledPush];
-    
-   // [self TarckingConfig];// 定制追踪分析事件
-    
-    [ZBAnalytics sharedInstance].analyticsIdentifierBlock = ^(NSString *identifier) {
-        NSLog(@"追踪:%@", identifier);
-    };
 
     HomeViewController * home= [[HomeViewController alloc]init];
     UINavigationController *nc=[[UINavigationController alloc]initWithRootViewController:home];
@@ -43,56 +37,11 @@
     [self.window makeKeyAndVisible];
 
     
-    //广告
-    [ZBAdvertiseInfo getAdvertisingInfo:^(NSString *filePath,NSDictionary *urlDict,BOOL isExist){
-        if (isExist) {
-            ZBAdvertiseView *advertiseView = [[ZBAdvertiseView alloc] initWithFrame:self.window.bounds];
-            advertiseView.filePath = filePath;
-            advertiseView.ZBAdvertiseBlock=^{
-                if ([[urlDict objectForKey:@"link"]isEqualToString:@""]) {
-                    NSLog(@"没有url");
-                    return;
-                }else{
-                    NSLog(@"有url跳转");
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"pushtoad" object:nil userInfo:urlDict];
-                }
-            };
-            
-            NSLog(@"展示广告");
-        }else{
-            NSLog(@"无广告");
-        }
-    }];
-    
    
     
     return YES;
 }
 
-- (void)TarckingConfig{
-  
-    // 定制监控的页面
-    [ZBAnalytics sharedInstance].VCDictionary= @{
-        @"HomeViewController" : @"首页",
-        @"FirstViewController" : @"网络请求页面",
-        @"SecondViewController" : @"图片操作页面",
-        @"ThirdViewController":@"数据库页面",
-        @"FourViewController":@"开屏广告",
-        @"FiveViewController":@"工厂方法",
-        @"SettingViewController":@"设置页面",
-        /*
-        @"MenuViewController":@"菜单页面",
-        @"ListViewController":@"列表页",
-        @"DetailsViewController":@"详情页",
-        @"DBViewController":@"数据库页面",
-        @"SettingCacheViewController":@"缓存设置页面",
-        @"ClearCacheViewController":@"存储空间",
-        @"offlineViewController":@"离线下载页面"
-         */
-    };
-    
-
-}
 - (void)enablePush:(BOOL)enable{
     if(enable)
     {
@@ -131,6 +80,28 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      NSLog(@"已经获得焦点：%s",__func__);
     //恢复应用状态
+    
+    
+    //广告
+    [ZBAdvertiseInfo getAdvertisingInfo:^(NSString *filePath,NSDictionary *urlDict,BOOL isExist){
+        if (isExist) {
+            ZBAdvertiseView *advertiseView = [[ZBAdvertiseView alloc] initWithFrame:self.window.bounds];
+            advertiseView.filePath = filePath;
+            advertiseView.ZBAdvertiseBlock=^{
+                if ([[urlDict objectForKey:@"link"]isEqualToString:@""]) {
+                    NSLog(@"没有url");
+                    return;
+                }else{
+                    NSLog(@"有url跳转");
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"pushtoad" object:nil userInfo:urlDict];
+                }
+            };
+            
+            NSLog(@"展示广告");
+        }else{
+            NSLog(@"无广告");
+        }
+    }];
 }
 
 

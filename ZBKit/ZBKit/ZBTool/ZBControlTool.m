@@ -12,6 +12,16 @@
 
 @implementation ZBControlTool
 
++ (NSString *)stringDateWithTimeInterval:(NSString *)timeInterval
+{
+    NSTimeInterval seconds = [timeInterval integerValue];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:seconds];
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    
+    format.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    
+    return [format stringFromDate:date];
+}
 
 + (BOOL)checkIsChinese:(NSString *)string{
     for (int i=0; i<string.length; i++)

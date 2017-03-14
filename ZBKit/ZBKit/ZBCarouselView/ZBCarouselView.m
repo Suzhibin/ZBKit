@@ -9,6 +9,7 @@
 #import "ZBCarouselView.h"
 #import <ImageIO/ImageIO.h>
 #import <SDWebImageManager.h>
+#import "NSBundle+ZBKit.h"
 #define DEFAULTTIME 5
 #define HORMARGIN 10
 #define VERMARGIN 5
@@ -18,6 +19,8 @@
 @property (nonatomic, strong) NSMutableArray *images;
 //图片描述控件，默认在底部
 @property (nonatomic, strong) UILabel *describeLabel;
+//图片描述控件，默认中部
+@property (nonatomic, strong) UILabel *titleLabel;
 //滚动视图
 @property (nonatomic, strong) UIScrollView *scrollView;
 //分页控件
@@ -62,6 +65,7 @@
   
     [self addSubview:self.scrollView];
     [self addSubview:self.describeLabel];
+    [self addSubview:self.titleLabel];
     [self addSubview:self.pageControl];
 }
 
@@ -107,6 +111,18 @@
     return _describeLabel;
 }
 
+- (UILabel *)titleLabel {
+    if (!_titleLabel) {
+        _titleLabel = [[UILabel alloc] init];
+        _titleLabel.backgroundColor = [UIColor clearColor];
+        _titleLabel.textColor = [UIColor whiteColor];
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
+        _titleLabel.numberOfLines=0;
+        _titleLabel.font = [UIFont systemFontOfSize:20];
+        _titleLabel.hidden = YES;
+    }
+    return _titleLabel;
+}
 
 - (UIPageControl *)pageControl {
     if (!_pageControl) {
@@ -139,7 +155,7 @@
         } else if ([imageArray[i] isKindOfClass:[NSString class]]){
             //如果是网络图片，则先添加占位图片，下载完成后替换
             if (_placeholderImage) [_images addObject:_placeholderImage];
-            else [_images addObject:[UIImage imageNamed:@"zhanweitu"]];
+            else [_images addObject:[UIImage imageNamed:[NSBundle placeholderIcon]]];
             [self downloadImages:i];
         }
     }
@@ -148,6 +164,7 @@
     if (_currIndex >= _images.count) _currIndex = _images.count - 1;
     self.currImageView.image = _images[_currIndex];
     self.describeLabel.text = _describeArray[_currIndex];
+    self.titleLabel.text = _titleArray[_currIndex];
     self.pageControl.numberOfPages = _images.count;
     [self layoutSubviews];
 }
@@ -183,6 +200,28 @@
         }
         self.describeLabel.hidden = NO;
         _describeLabel.text = _describeArray[_currIndex];
+    }
+    //重新计算pageControl的位置
+    self.pagePosition = self.pagePosition;
+}
+
+#pragma mark 设置描述数组
+- (void)setTitleArray:(NSArray *)titleArray{
+    _titleArray = titleArray;
+    if (!titleArray.count) {
+        _titleArray = nil;
+        self.titleLabel.hidden = YES;
+    } else {
+        //如果描述的个数与图片个数不一致，则补空字符串
+        if (titleArray.count < _images.count) {
+            NSMutableArray *title = [NSMutableArray arrayWithArray:titleArray];
+            for (NSInteger i = titleArray.count; i < _images.count; i++) {
+                [title addObject:@""];
+            }
+            _titleArray = title;
+        }
+        self.titleLabel.hidden = NO;
+        _titleLabel.text = _titleArray[_currIndex];
     }
     //重新计算pageControl的位置
     self.pagePosition = self.pagePosition;
@@ -312,6 +351,7 @@
     
     _scrollView.frame = self.bounds;
     _describeLabel.frame = CGRectMake(0, self.height - DES_LABEL_H, self.width, DES_LABEL_H);
+    _titleLabel.frame=CGRectMake(0, self.height/2, self.frame.size.width,self.height/2-20);
     //重新计算pageControl的位置
     self.pagePosition = self.pagePosition;
     [self setScrollViewContentSize];
@@ -383,6 +423,7 @@
     self.currIndex = self.nextIndex;
     self.pageControl.currentPage = self.currIndex;
     self.describeLabel.text = self.describeArray[self.currIndex];
+    self.titleLabel.text = self.titleArray[self.currIndex];
 }
 // 将要开始拖拽的时候调用的方法
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {

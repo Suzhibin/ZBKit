@@ -49,10 +49,10 @@
         
         [self.imageView zb_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:@"zhanweitu"] completion:^(UIImage *image) {
             
-            float imageSize=[[ZBImageDownloader sharedInstance] imageFileSize];
+            float imageSize=[[ZBWebImageManager sharedInstance] imageFileSize];
             label1.text=[NSString stringWithFormat:@"缓存图片大小:%@",[[ZBCacheManager sharedInstance] fileUnitWithSize:imageSize]];
             
-            float count=[[ZBImageDownloader sharedInstance] imageFileCount];
+            float count=[[ZBWebImageManager sharedInstance] imageFileCount];
             label2.text=[NSString stringWithFormat:@"缓存图片数量:%.f",count];
             
             [label1 zb_animatedViewMoveWithRightX:60];//右平移 -30-60=30；
@@ -62,28 +62,29 @@
         
         /*
         //下载图片
-        [[ZBImageDownloader sharedInstance]  downloadImageUrl:imageUrl completion:^(UIImage *image){
+        [[ZBWebImageManager sharedInstance]  downloadImageUrl:imageUrl completion:^(UIImage *image){
      
             self.imageView.image=image;
             
-            float imageSize=[[ZBImageDownloader sharedInstance] imageFileSize];
+            float imageSize=[[ZBWebImageManager sharedInstance] imageFileSize];
             label1.text=[NSString stringWithFormat:@"缓存图片大小:%@",[[ZBCacheManager sharedInstance] fileUnitWithSize:imageSize]];
             
-            float count=[[ZBImageDownloader sharedInstance] imageFileCount];
+            float count=[[ZBWebImageManager sharedInstance] imageFileCount];
             label2.text=[NSString stringWithFormat:@"缓存图片数量:%.f",count];
             
-            [label1 animatedViewMoveWithRightX:60];//右平移 -30-60=30；
-            [label2 animatedViewMoveWithLeftX:100];//左平移 130-100=30；
+            [label1 zb_animatedViewMoveWithRightX:60];//右平移 -30-60=30；
+            [label2 zb_animatedViewMoveWithLeftX:100];//左平移 130-100=30；
             
         }];
          */
+        
         [self.view addSubview:self.imageView];
         
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         [self.imageView addGestureRecognizer:tap];
         
-        NSArray *titleArray=[NSArray arrayWithObjects:@"垂直翻转",@"水平翻转",@"灰度图",@"截取图上半部",@"向左",@"向右",@"向下",@"加水印",@"给view截图",@"平铺图片",@"圆形并浮动",@"小鸟Game over",@"透明度",@"压缩大小",nil];
+        NSArray *titleArray=[NSArray arrayWithObjects:@"垂直翻转",@"水平翻转",@"灰度图",@"截取图上半部",@"向左",@"向右",@"向下",@"加水印",@"给view截图",@"平铺图片",@"圆形并浮动",@"透明度",@"压缩大小",@"小鸟Game over",nil];
         CGFloat wSpace = (SCREEN_WIDTH-57*4)/5;
         CGFloat hSpace = (SCREEN_HEIGHT-64-4*100)/5;
         for (int i = 0; i<titleArray.count; i++) {
@@ -159,13 +160,13 @@
     
     if (sender.tag==2000) {
         //删除图片缓存 及完成操作
-        [[ZBImageDownloader sharedInstance] clearImageFileCompletion:^{
+        [[ZBWebImageManager sharedInstance] clearImageFileCompletion:^{
             [self sizeAndCount];
         }];
         
     }else if (sender.tag==2001){
         //删除单个图片缓存 及完成操作
-        [[ZBImageDownloader sharedInstance] clearImageForkey:imageUrl completion:^{
+        [[ZBWebImageManager sharedInstance] clearImageForkey:imageUrl completion:^{
             [self sizeAndCount];
         }];
     }
@@ -175,11 +176,11 @@
     UILabel* label1 = (UILabel *)[self.view viewWithTag:4000];
     UILabel* label2 = (UILabel *)[self.view viewWithTag:5000];
     [label1 zb_animatedTransitionWithoptions:UIViewAnimationOptionTransitionCrossDissolve];//过渡动画
-    float imageSize=[[ZBImageDownloader sharedInstance] imageFileSize];//图片大小
+    float imageSize=[[ZBWebImageManager sharedInstance] imageFileSize];//图片大小
     label1.text=[NSString stringWithFormat:@"缓存图片大小:%@",[[ZBCacheManager sharedInstance] fileUnitWithSize:imageSize]];
     
     [label2 zb_animatedTransitionWithoptions:UIViewAnimationOptionTransitionFlipFromTop];//过渡动画
-    float count=[[ZBImageDownloader sharedInstance] imageFileCount];//个数
+    float count=[[ZBWebImageManager sharedInstance] imageFileCount];//个数
     label2.text=[NSString stringWithFormat:@"缓存图片数量:%.f",count];
 }
 
@@ -239,19 +240,20 @@
             break;
         case 111:
           
-            [self.imageView1 zb_animatedKeyframes];//关键帧动画
-            [self.imageView1 stopAnimating];//暂停
+       
+            self.imageView.image =[self.imageView.image zb_imageWithAlpha:0.3];//透明度
          
             break;
         case 112:
-            
-            self.imageView.image =[self.imageView.image zb_imageWithAlpha:0.3];//透明度
+            [self.imageView1 stopAnimating];//暂停
+            self.imageView1.image=[self.imageView.image zb_imageWithScaleToSize:CGSizeMake(50, 50)];//压缩大小
+     
             break;
         case 113:
             
+
+            [self.imageView1 zb_animatedKeyframes];//关键帧动画
             [self.imageView1 stopAnimating];//暂停
-            self.imageView1.image=[self.imageView.image zb_imageWithScaleToSize:CGSizeMake(50, 50)];//压缩大小
-      
 
             break;
             

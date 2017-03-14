@@ -122,7 +122,7 @@
         [[SDImageCache sharedImageCache] clearDisk];
         [[SDImageCache sharedImageCache] clearMemory];
         //清除ZBImage缓存
-        [[ZBImageDownloader sharedInstance] clearImageFile];
+        [[ZBWebImageManager sharedInstance] clearImageFile];
         //清除沙盒某个文件夹
         [[ZBCacheManager sharedInstance]clearDiskWithpath:self.path];
         //清除系统缓存文件
@@ -145,7 +145,7 @@
     
     CGFloat cacheSize=[[ZBCacheManager sharedInstance]getCacheSize];//json缓存文件大小
     CGFloat sdimageSize = [[SDImageCache sharedImageCache]getSize];//图片缓存大小
-    CGFloat zbimageSize = [[ZBImageDownloader sharedInstance] imageFileSize];
+    CGFloat zbimageSize = [[ZBWebImageManager sharedInstance] imageFileSize];
     CGFloat fsCachedDataSize=[[ZBCacheManager sharedInstance]getFileSizeWithpath:self.path];//系统缓存 沙盒路径文件大小
     CGFloat AppCacheSize=cacheSize+sdimageSize+zbimageSize+fsCachedDataSize;
     AppCacheSize=AppCacheSize/1000.0/1000.0;

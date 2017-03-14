@@ -10,6 +10,8 @@
 
 @interface UIView (ZBAnimation)<CAAnimationDelegate>
 
+- (void )animationView;
+//圆角
 - (void)zb_circleView;
 //关键帧动画
 - (void)zb_animatedKeyframes;

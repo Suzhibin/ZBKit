@@ -8,37 +8,59 @@
 
 #import "DetailsViewController.h"
 #import "ZBKit.h"
-@interface DetailsViewController ()
-@property (nonatomic, strong) UIWebView *webView;
+#import <WebKit/WebKit.h>
+@interface DetailsViewController ()<WKNavigationDelegate,WKUIDelegate,UIScrollViewDelegate>
+@property (nonatomic, strong) WKWebView *webView;
+@property (nonatomic, strong) UIView *loadingView;
 @end
 
 @implementation DetailsViewController
+- (void)dealloc{
+    [self removeWKwebViewCache];
 
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+ 
+    [self createWebView];
     
-    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-49)];
-    _webView.backgroundColor = [UIColor whiteColor];
+    self.loadingView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
+    self.loadingView.center= self.view.center;
+    [self.loadingView animationView];
+    [self.view addSubview:self.loadingView];
+}
 
-    if (_functionType==Details) {
-        NSLog(@"weburl%@",self.model.weburl);
-        NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.model.weburl]];
-        [_webView loadRequest:request];
-        [self.view addSubview:_webView];
-        [self createToobar];
+- (void)createWebView{
+
+    WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+    config.userContentController = [[WKUserContentController alloc] init];
     
+    // 支持内嵌视频播放
+    config.allowsInlineMediaPlayback = YES;
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) configuration:config];
+    
+    [self.view addSubview:self.webView];
+    self.webView.scrollView.delegate = self;
+    
+    self.webView.navigationDelegate = self;
+    self.webView.UIDelegate = self;
+    // 开始右滑返回手势
+    self.webView.allowsBackForwardNavigationGestures = YES;
+    
+    if (_functionType==Details) {
+        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.model.weburl]]];
+
+         [self createToobar];
+        
     }else{
         if (!self.url) {
             self.url = @"https://github.com/Suzhibin";
         }
-        NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
-        [_webView loadRequest:request];
-        [self.view addSubview:_webView];
+        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
     }
-    
-   
 }
+
 
 - (void)createToobar{
     
@@ -91,6 +113,59 @@
      
         //为了区分按钮的状态
         sender.titleLabel.alpha = 1;
+    }
+}
+// 开始加载时调用
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation {
+    NSLog(@"didStartProvisionalNavigation   ====    %@", navigation);
+  
+}
+// 页面加载完调用
+- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation {
+    NSLog(@"didFinishNavigation   ====    %@", navigation);
+    [UIView animateWithDuration:0.50 animations:^{
+        self.loadingView.alpha = 0.0f;
+        
+    } completion:^(BOOL finished) {
+        [self.loadingView removeFromSuperview];
+    }];
+}
+// 页面加载失败时调用
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
+    NSLog(@"didFailProvisionalNavigation   ====    %@\nerror   ====   %@", navigation, error);
+}
+// 内容开始返回时调用
+- (void)webView:(WKWebView *)webView didCommitNavigation:(null_unspecified WKNavigation *)navigation {
+    NSLog(@"didCommitNavigation   ====    %@", navigation);
+  
+}
+
+- (void)removeWKwebViewCache{
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0) {
+        
+         NSSet *websiteDataTypes= [NSSet setWithArray:@[
+         WKWebsiteDataTypeDiskCache,
+         WKWebsiteDataTypeOfflineWebApplicationCache,
+         WKWebsiteDataTypeMemoryCache,
+         WKWebsiteDataTypeLocalStorage,
+        // WKWebsiteDataTypeCookies,
+         WKWebsiteDataTypeSessionStorage,
+         WKWebsiteDataTypeIndexedDBDatabases,
+         WKWebsiteDataTypeWebSQLDatabases
+         ]];
+        
+       // NSSet *websiteDataTypes = [WKWebsiteDataStore allWebsiteDataTypes];
+        
+        NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
+        [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:^{
+        }];
+    }else{
+        NSString *cachePath= [[ZBCacheManager sharedInstance]cachesPath];
+        NSString *appID=[[ZBGlobalSettingsTool sharedInstance]appBundleID];
+        NSString *WebKit=@"WebKit";
+        NSString *path=[NSString stringWithFormat:@"%@/%@/%@",cachePath,appID,WebKit];
+        
+        [[ZBCacheManager sharedInstance]clearDiskWithpath:path];
     }
 }
 

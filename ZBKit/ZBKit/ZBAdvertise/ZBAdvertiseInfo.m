@@ -9,7 +9,7 @@
 #import "ZBAdvertiseInfo.h"
 #import "ZBNetworking.h"
 #import "ZBConstants.h"                                                                                                                                                                                                             
-#import "ZBImageDownloader.h"
+#import "ZBWebImageManager.h"
 NSString *const urlString=@"http://192.168.33.186:9080/BOSS_APD_WEB//news/ad/screen_zh_CN";
 NSString *const AdDefaultPath =@"Advertise";
 
@@ -136,7 +136,7 @@ NSString *const AdDefaultPath =@"Advertise";
  */
 + (void)downloadAdWithImageUrl:(NSString *)imageUrl url:(NSString *)url imageName:(NSString *)imageName urlName:(NSString *)urlName{
     
-    [[ZBImageDownloader sharedInstance] requestImageUrl:imageUrl completion:^(UIImage *image){
+    [[ZBWebImageManager sharedInstance] requestImageUrl:imageUrl completion:^(UIImage *image){
         
         NSString *filePath = [ZBAdvertiseInfo getFilePathWithImageName:imageName]; // 保存图片文件的名称
         

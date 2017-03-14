@@ -66,6 +66,10 @@
 
 #pragma  mark -  请求
 
++ (void)requestWithConfig:(requestConfig)config success:(requestSuccess)success failed:(requestFailed)failed{
+    [[ZBURLSessionManager sharedInstance]requestWithConfig:config success:success failed:failed];
+}
+
 - (void)requestWithConfig:(requestConfig)config success:(requestSuccess)success failed:(requestFailed)failed{
     
     config ? config(self.request) : nil;

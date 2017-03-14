@@ -18,9 +18,9 @@
 #import "ZBDataBaseManager.h"
 #import "NSObject+ZBCoding.h"
 
-#import "ZBImageDownloader.h"
+#import "ZBWebImageManager.h"
 #import "UIImage+ZBKit.h"
-#import "UIImageView+ZBKit.h"
+#import "UIImageView+ZBWebCache.h"
 #import "UIView+ZBAnimation.h"
 
 #import "ZBAdvertiseView.h" //开屏广告view

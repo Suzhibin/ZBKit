@@ -398,10 +398,12 @@ static CGRect swapWidthAndHeight(CGRect rect)
     
     return newImage;
 }
+
 - (UIImage *)zb_imageWithScaleToSize:(CGSize)size{
 
      return [self zb_imageWithScaleToSize:size contentMode:UIViewContentModeScaleAspectFit];
 }
+
 - (UIImage *)zb_imageWithScaleToSize:(CGSize)size contentMode:(UIViewContentMode)contentMode {
     return [self zb_imageWithScaleToSize:size contentMode:contentMode scale:self.scale];
 }

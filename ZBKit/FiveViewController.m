@@ -81,10 +81,7 @@
     NSMutableAttributedString *str4=[ZBControlTool AttributedString:Attributed range:4 lengthString:ZBKit];//高亮文字
     
     AttributedString.rightAttributedText=str4;
-    
-    
-    
-    
+
     
     ZBTableGroup *group = [[ZBTableGroup alloc] init];
     group.items = @[reverse,phoneticize,translation,chinese,AttributedString];

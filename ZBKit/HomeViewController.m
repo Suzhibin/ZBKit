@@ -85,7 +85,7 @@
 - (void)add1SectionItems;
 {
     __weak typeof(self) weakSelf = self;
-    ZBTableItem *imageItem = [ZBTableItem itemWithTitle:@"ZBImage" type:ZBTableItemTypeArrow];
+    ZBTableItem *imageItem = [ZBTableItem itemWithTitle:@"ZBWebImage" type:ZBTableItemTypeArrow];
     imageItem.operation = ^{
         SecondViewController*secondVC = [[SecondViewController alloc] init];
         [weakSelf.navigationController pushViewController:secondVC animated:YES];

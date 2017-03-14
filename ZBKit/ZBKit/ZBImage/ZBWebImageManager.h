@@ -1,21 +1,20 @@
 //
-//  ZBImageDownloader.h
+//  ZBWebImageManager.h
 //  ZBKit
 //
-//  Created by NQ UEC on 17/1/20.
+//  Created by NQ UEC on 17/3/14.
 //  Copyright © 2017年 Suzhibin. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "ZBCacheManager.h"
+
 typedef void (^downloadCompletion)(UIImage *image);
 
-//typedef void (^requestCompletion)(UIImage *image);
+@interface ZBWebImageManager : NSObject
 
-@interface ZBImageDownloader : NSObject
-
-+ (ZBImageDownloader *)sharedInstance;
++ (ZBWebImageManager *)sharedInstance;
 /**
  *  图片请求 默认缓存路径  /Library/Caches/ZBKit/AppImage
  *
@@ -67,24 +66,24 @@ typedef void (^downloadCompletion)(UIImage *image);
 - (NSUInteger)imageFileCount;
 
 /**
- *  清除图片
+ *  清除图片缓存
  */
 - (void)clearImageFile;
 
 /**
- *  清除图片
+ *  清除图片缓存
  *  @param completion        block 后续操作
  */
 - (void)clearImageFileCompletion:(ZBCacheCompletedBlock)completion;
 
 /**
- *  清除某个图片
+ *  清除某个图片缓存
  *  @param key              图片的地址
  */
 - (void)clearImageForkey:(NSString *)key;
 
 /**
- *  清除某个图片
+ *  清除某个图片缓存
  *  @param key              图片的地址
  *  @param completion        block 后续操作
  */
@@ -94,7 +93,5 @@ typedef void (^downloadCompletion)(UIImage *image);
  *  图片存储路径 /Library/Caches/ZBKit/AppImage
  */
 - (NSString *)imageFilePath;
-/*
-- (void)saveThePhotoAlbum:(UIImage *)image;
-*/
+
 @end

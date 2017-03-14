@@ -11,6 +11,7 @@
 @interface SixViewController ()<ZBCarouselViewDelegate>
 @property (nonatomic, strong) ZBCarouselView *carouselView;
 @property (nonatomic, strong) ZBCarouselView *carouselView1;
+@property (nonatomic, strong) UIView *loadingView;
 @end
 
 @implementation SixViewController
@@ -18,11 +19,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"轮播Demo";
+    self.title = @"轮播";
     
     NSArray *arr = @[IMAGE1,IMAGE2,IMAGE3,];
     
-    NSArray *describeArray = @[@"网络图片", @"网络动态图"];
+    NSArray *describeArray = @[@"图片1", @"图片2",@"动态图"];
 
     self.carouselView = [[ZBCarouselView alloc] initWithFrame:CGRectMake(0, 100, [UIScreen mainScreen].bounds.size.width, 180)];
     //设置占位图片,须在设置图片数组之前设置,不设置则为默认占位图
@@ -65,7 +66,8 @@
     
     //设置图片数组及图片描述文字
     _carouselView1.imageArray = arr;
-    _carouselView1.describeArray = describeArray;
+    _carouselView1.titleArray = describeArray;
+  //  _carouselView1.describeArray = describeArray;
     //设置分页控件的位置，默认为PositionBottomCenter
     _carouselView1.pagePosition = PositionBottomCenter;
     _carouselView1.time = 2;
@@ -75,7 +77,12 @@
     _carouselView1.changeMode = ChangeModeDefault;
     [self.view addSubview:_carouselView1];
     
-
+    
+    
+    self.loadingView=[[UIView alloc]initWithFrame:CGRectMake(100, 500, 200, 180)];
+    [self.loadingView animationView];
+    [self.view addSubview:self.loadingView];
+    
 }
 
 #pragma mark XRCarouselViewDelegate
