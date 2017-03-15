@@ -48,12 +48,7 @@
         self.imageView.userInteractionEnabled = YES;
         
         [self.imageView zb_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:@"zhanweitu"] completion:^(UIImage *image) {
-            
-            float imageSize=[[ZBWebImageManager sharedInstance] imageFileSize];
-            label1.text=[NSString stringWithFormat:@"缓存图片大小:%@",[[ZBCacheManager sharedInstance] fileUnitWithSize:imageSize]];
-            
-            float count=[[ZBWebImageManager sharedInstance] imageFileCount];
-            label2.text=[NSString stringWithFormat:@"缓存图片数量:%.f",count];
+            [self sizeAndCount];
             
             [label1 zb_animatedViewMoveWithRightX:60];//右平移 -30-60=30；
             [label2 zb_animatedViewMoveWithLeftX:100];//左平移 130-100=30；
@@ -66,11 +61,7 @@
      
             self.imageView.image=image;
             
-            float imageSize=[[ZBWebImageManager sharedInstance] imageFileSize];
-            label1.text=[NSString stringWithFormat:@"缓存图片大小:%@",[[ZBCacheManager sharedInstance] fileUnitWithSize:imageSize]];
-            
-            float count=[[ZBWebImageManager sharedInstance] imageFileCount];
-            label2.text=[NSString stringWithFormat:@"缓存图片数量:%.f",count];
+            [self sizeAndCount];
             
             [label1 zb_animatedViewMoveWithRightX:60];//右平移 -30-60=30；
             [label2 zb_animatedViewMoveWithLeftX:100];//左平移 130-100=30；
@@ -155,7 +146,7 @@
 
 - (void)button1Clicked:(UIButton *)sender{
     
-    NSArray *imageArray = @[@"http://img04.tooopen.com/images/20130701/tooopen_10055061.jpg",@"http://img06.tooopen.com/images/20161214/tooopen_sy_190570171299.jpg"];
+    NSArray *imageArray = @[IMAGE1,IMAGE2];
     NSString *imageUrl = imageArray[arc4random() % imageArray.count];
     
     if (sender.tag==2000) {
