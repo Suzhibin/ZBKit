@@ -14,6 +14,7 @@
 #import "ListModel.h"
 #import <SDImageCache.h>
 #import <SDWebImageManager.h>
+static const NSInteger cacheTime = 30;
 @interface SettingCacheViewController ()<UITableViewDelegate,UITableViewDataSource,offlineDelegate>
 @property (nonatomic,copy)NSString *path;
 @property (nonatomic,strong)NSMutableArray *imageArray;
@@ -40,7 +41,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 12;
+    return 13;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -142,9 +143,14 @@
         cell.detailTextLabel.text= [NSString stringWithFormat:@"%.f",count];
     }
     if (indexPath.row==10) {
-        cell.textLabel.text=@"清除单个缓存文件(例:删除menu)";
+        cell.textLabel.text=@"清除单个json缓存文件(例:删除menu)";
     }
+    
     if (indexPath.row==11) {
+        cell.textLabel.text=@"按时间清除json缓存(例:超过30秒)";
+    }
+    
+    if (indexPath.row==12) {
         cell.textLabel.text=@"离线下载";
         cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     }
@@ -224,8 +230,14 @@
             [self.tableView reloadData];
         }];
     }
-    
     if (indexPath.row==11) {
+        //时间前要加 “-” 减号
+        [[ZBCacheManager sharedInstance]automaticCleanCacheWithTime:-cacheTime completion:^{
+             [self.tableView reloadData];
+        }];
+    }
+    
+    if (indexPath.row==12) {
         offlineViewController *offlineVC=[[offlineViewController alloc]init];
         offlineVC.delegate=self;
         [self.navigationController pushViewController:offlineVC animated:YES];
@@ -318,9 +330,9 @@
     } failed:^(NSError *error){
         if (error.code==NSURLErrorCancelled)return;
         if (error.code==NSURLErrorTimedOut){
-            [self alertTitle:@"请求超时" andMessage:@""];
+            NSLog(@"请求超时");
         }else{
-            [self alertTitle:@"请求失败" andMessage:@""];
+            NSLog(@"请求失败");
         }
     }];
     
