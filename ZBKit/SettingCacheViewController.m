@@ -17,6 +17,7 @@
 static const NSInteger cacheTime = 30;
 @interface SettingCacheViewController ()<UITableViewDelegate,UITableViewDataSource,offlineDelegate>
 @property (nonatomic,copy)NSString *path;
+@property (nonatomic,copy)NSString *imagePath;
 @property (nonatomic,strong)NSMutableArray *imageArray;
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)OfflineView *offlineView;
@@ -35,13 +36,16 @@ static const NSInteger cacheTime = 30;
     NSString *fsCachedData=@"fsCachedData";
     self.path=[NSString stringWithFormat:@"%@/%@/%@",cachePath,appID,fsCachedData];
     
+    NSString *sdImage=@"default/com.hackemist.SDWebImageCache.default";
+    self.imagePath=[NSString stringWithFormat:@"%@/%@",cachePath,sdImage];
+    
     [self.view addSubview:self.tableView];
     
     [self addItemWithTitle:@"star" selector:@selector(starBtnClick) location:NO];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 13;
+    return 14;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -149,8 +153,11 @@ static const NSInteger cacheTime = 30;
     if (indexPath.row==11) {
         cell.textLabel.text=@"按时间清除json缓存(例:超过30秒)";
     }
-    
     if (indexPath.row==12) {
+        cell.textLabel.text=@"按时间清除图片缓存(例:超过30秒)";
+    }
+    
+    if (indexPath.row==13) {
         cell.textLabel.text=@"离线下载";
         cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     }
@@ -232,12 +239,21 @@ static const NSInteger cacheTime = 30;
     }
     if (indexPath.row==11) {
         //时间前要加 “-” 减号
-        [[ZBCacheManager sharedInstance]automaticCleanCacheWithTime:-cacheTime completion:^{
+        [[ZBCacheManager sharedInstance]clearCacheWithTime:-cacheTime completion:^{
              [self.tableView reloadData];
         }];
     }
-    
     if (indexPath.row==12) {
+        //时间前要加 “-” 减号 ， 路径要准确
+        [[ZBCacheManager sharedInstance]clearCacheWithTime:-cacheTime path:self.imagePath completion:^{
+            
+            [[ZBCacheManager sharedInstance]clearCacheWithTime:-cacheTime path:[[ZBWebImageManager sharedInstance] imageFilePath] completion:nil];
+            
+            [self.tableView reloadData];
+        }];
+    }
+    
+    if (indexPath.row==13) {
         offlineViewController *offlineVC=[[offlineViewController alloc]init];
         offlineVC.delegate=self;
         [self.navigationController pushViewController:offlineVC animated:YES];
