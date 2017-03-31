@@ -49,7 +49,10 @@
     self.webView.allowsBackForwardNavigationGestures = YES;
     
     if (_functionType==Details) {
-        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.model.weburl]]];
+       // NSString *HTMLData = @"<hn>Hello World</hn>";
+        
+       // [self.webView loadHTMLString:HTMLData baseURL:nil];
+       [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.model.weburl]]];
 
          [self createToobar];
         
@@ -117,12 +120,12 @@
 }
 // 开始加载时调用
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation {
-    NSLog(@"didStartProvisionalNavigation   ====    %@", navigation);
+    //NSLog(@"didStartProvisionalNavigation   ====    %@", navigation);
   
 }
 // 页面加载完调用
 - (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation {
-    NSLog(@"didFinishNavigation   ====    %@", navigation);
+   // NSLog(@"didFinishNavigation   ====    %@", navigation);
     [UIView animateWithDuration:0.50 animations:^{
         self.loadingView.alpha = 0.0f;
         
@@ -132,11 +135,11 @@
 }
 // 页面加载失败时调用
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
-    NSLog(@"didFailProvisionalNavigation   ====    %@\nerror   ====   %@", navigation, error);
+   // NSLog(@"didFailProvisionalNavigation   ====    %@\nerror   ====   %@", navigation, error);
 }
 // 内容开始返回时调用
 - (void)webView:(WKWebView *)webView didCommitNavigation:(null_unspecified WKNavigation *)navigation {
-    NSLog(@"didCommitNavigation   ====    %@", navigation);
+   // NSLog(@"didCommitNavigation   ====    %@", navigation);
   
 }
 

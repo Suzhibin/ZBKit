@@ -26,8 +26,11 @@
 #import "ZBAdvertiseView.h" //开屏广告view
 #import "ZBAdvertiseInfo.h" //开屏广告数据操作
 
+#import "ZBCarouselView.h"  //轮播
+
 #import "ZBConstants.h"
 #import "ZBControlTool.h"
+#import "UIColor+ZBHexCode.h"
 
 #import "ZBChart.h"
 

@@ -11,7 +11,10 @@
 
 
 @interface ZBControlTool : NSObject
+//根据内容 获取动态行高
++ (CGFloat)textHeightWithString:(NSString *)text width:(CGFloat)width fontSize:(NSInteger)fontSize;
 
+//时间转换
 + (NSString *)stringDateWithTimeInterval:(NSString *)timeInterval;
 
 //字符串是否含有中文

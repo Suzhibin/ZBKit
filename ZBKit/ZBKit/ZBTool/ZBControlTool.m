@@ -12,9 +12,17 @@
 
 @implementation ZBControlTool
 
++ (CGFloat)textHeightWithString:(NSString *)text width:(CGFloat)width fontSize:(NSInteger)fontSize
+{
+    NSDictionary *dict = @{NSFontAttributeName: [UIFont systemFontOfSize:fontSize]};
+    // 根据第一个参数的文本内容，使用280*float最大值的大小，使用系统14号字，返回一个真实的frame size : (280*xxx)!!
+    CGRect frame = [text boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:dict context:nil];
+    return frame.size.height +5;
+}
+
 + (NSString *)stringDateWithTimeInterval:(NSString *)timeInterval
 {
-    NSTimeInterval seconds = [timeInterval integerValue];
+    NSTimeInterval seconds = [timeInterval doubleValue];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:seconds];
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     

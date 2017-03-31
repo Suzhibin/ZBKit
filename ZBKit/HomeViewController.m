@@ -133,7 +133,7 @@
 
 - (void)add4SectionItems{
     __weak typeof(self) weakSelf = self;
-    ZBTableItem *toolItem = [ZBTableItem itemWithTitle:@"ZBControlTool" type:ZBTableItemTypeArrow];
+    ZBTableItem *toolItem = [ZBTableItem itemWithTitle:@"ZBCarouselView" type:ZBTableItemTypeArrow];
     toolItem.operation = ^{
         FiveViewController*toolVC = [[FiveViewController alloc] init];
         
@@ -141,7 +141,7 @@
     };
     ZBTableGroup *group4 = [[ZBTableGroup alloc] init];
     group4.items = @[toolItem];
-    group4.header=@"常用工厂方法";
+    group4.header=@"轮播控件";
     group4.headerHeight=35;
     group4.footerHeight=5;
     [_allGroups addObject:group4];
@@ -152,14 +152,14 @@
   
     
     __weak typeof(self) weakSelf = self;
-    ZBTableItem *carouselItem = [ZBTableItem itemWithTitle:@"ZBCarouselView" type:ZBTableItemTypeArrow];
+    ZBTableItem *carouselItem = [ZBTableItem itemWithTitle:@"ZBControlTool" type:ZBTableItemTypeArrow];
     carouselItem.operation = ^{
         SixViewController *sixVC=[[SixViewController alloc]init];
         [weakSelf.navigationController pushViewController:sixVC animated:YES];
     };
     ZBTableGroup *group5 = [[ZBTableGroup alloc] init];
     group5.items = @[carouselItem];
-    group5.header=@"轮播控件";
+    group5.header=@"常用工厂方法";
     group5.headerHeight=35;
     group5.footerHeight=5;
     [_allGroups addObject:group5];

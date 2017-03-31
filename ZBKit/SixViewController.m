@@ -8,10 +8,8 @@
 
 #import "SixViewController.h"
 #import "ZBCarouselView.h"
-@interface SixViewController ()<ZBCarouselViewDelegate>
-@property (nonatomic, strong) ZBCarouselView *carouselView;
-@property (nonatomic, strong) ZBCarouselView *carouselView1;
-@property (nonatomic, strong) UIView *loadingView;
+@interface SixViewController ()<UITableViewDelegate,UITableViewDataSource>
+@property (nonatomic,strong)UITableView *tableView;
 @end
 
 @implementation SixViewController
@@ -19,77 +17,64 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"轮播";
     
-    NSArray *arr = @[IMAGE1,IMAGE2,IMAGE3,];
+    [self.view addSubview:self.tableView];
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 5;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *cellIde=@"cellIde";
+    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIde];
+    if (!cell) {
+        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIde];
+    }
+    if (indexPath.row==0) {
+        cell.textLabel.text=@"字符串反转";
+        
+        cell.detailTextLabel.text=[ZBControlTool reverseWordsInString:@"字符串反转"];
+    }
+    if (indexPath.row==1) {
+        cell.textLabel.text=@"获取汉字的拼音";
+        
+        cell.detailTextLabel.text=[ZBControlTool phoneticizeChinese:@"获取汉字的拼音"];
+    }
+    if (indexPath.row==2) {
+        cell.textLabel.text=@"阿拉伯数字2017转中文";
+        
+        cell.detailTextLabel.text=[ZBControlTool translation:@"2017"];
+    }
+    if (indexPath.row==3) {
+        cell.textLabel.text=@"是否包含中文";
+        
+        cell.detailTextLabel.text=[NSString stringWithFormat:@"%d",[ZBControlTool checkIsChinese:@"是否包含中文"]];
+    }
+    if (indexPath.row==4) {
+        cell.textLabel.text=@"高亮文字";
+        NSString *ZBKit=@"ZBKit";
+        NSString *Attributed=[NSString stringWithFormat:@"欢迎使用%@",ZBKit];
+        
+        NSMutableAttributedString *str4=[ZBControlTool AttributedString:Attributed range:4 lengthString:ZBKit];//高亮文字
+        cell.detailTextLabel.attributedText=str4;
+    }
     
-    NSArray *describeArray = @[@"图片1", @"图片2",@"动态图"];
+    return cell;
 
-    self.carouselView = [[ZBCarouselView alloc] initWithFrame:CGRectMake(0, 100, [UIScreen mainScreen].bounds.size.width, 180)];
-    //设置占位图片,须在设置图片数组之前设置,不设置则为默认占位图
-    _carouselView.placeholderImage = [UIImage imageNamed:@"zhanweitu.png"];
-    //设置图片数组及图片描述文字
-    _carouselView.imageArray = arr;
-    _carouselView.describeArray = describeArray;
-    //设置每张图片的停留时间，默认值为5s，最少为2s
-    _carouselView.time = 2;
-    //Block 优先级高于代理
-    _carouselView.imageClickBlock = ^(NSInteger index){
-        NSLog(@"Block点击了第%ld张图片", index);
-    };
-    //设置分页控件的图片,不设置则为系统默认
-  //  [_carouselView setPageImage:[UIImage imageNamed:@"other"] andCurrentPageImage:[UIImage imageNamed:@"current"]];
-    //设置分页控件的位置，默认为PositionBottomCenter
-    _carouselView.pagePosition = PositionBottomRight;
-    //设置图片切换的方式
-    _carouselView.changeMode = ChangeModeFade;
-    
-    /**
-     *  修改图片描述控件的外观，不需要修改的传nil
-     *
-     *  参数一 字体颜色，默认为白色
-     *  参数二 字体，默认为13号字体
-     *  参数三 背景颜色，默认为黑色半透明
-     */
-    UIColor *bgColor = [[UIColor blueColor] colorWithAlphaComponent:0.5];
-    UIFont *font = [UIFont systemFontOfSize:15];
-    UIColor *textColor = [UIColor greenColor];
-    [_carouselView setDescribeTextColor:textColor font:font bgColor:bgColor];
-    [self.view addSubview:_carouselView];
-    
-    
-    
-    
-    self.carouselView1 = [[ZBCarouselView alloc] initWithFrame:CGRectMake(0, 300, SCREEN_WIDTH, 180)];
-    //设置占位图片,须在设置图片数组之前设置,不设置则为默认占位图
-    _carouselView1.placeholderImage = [UIImage imageNamed:@"zhanweitu.png"];
-    
-    //设置图片数组及图片描述文字
-    _carouselView1.imageArray = arr;
-    _carouselView1.titleArray = describeArray;
-  //  _carouselView1.describeArray = describeArray;
-    //设置分页控件的位置，默认为PositionBottomCenter
-    _carouselView1.pagePosition = PositionBottomCenter;
-    _carouselView1.time = 2;
-    //用代理处理图片点击
-    _carouselView1.delegate = self;
-    //设置图片切换的方式
-    _carouselView1.changeMode = ChangeModeDefault;
-    [self.view addSubview:_carouselView1];
-    
-    
-    
-    self.loadingView=[[UIView alloc]initWithFrame:CGRectMake(100, 500, 200, 180)];
-    [self.loadingView animationView];
-    [self.view addSubview:self.loadingView];
-    
 }
 
-#pragma mark XRCarouselViewDelegate
-- (void)carouselView:(ZBCarouselView *)carouselView clickImageAtIndex:(NSInteger)index {
-    NSLog(@"Delegate点击了第%ld张图片", index);
+//懒加载
+- (UITableView *)tableView{
+    
+    if (!_tableView) {
+        _tableView=[[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        _tableView.delegate=self;
+        _tableView.dataSource=self;
+        _tableView.tableFooterView=[[UIView alloc]init];
+        
+    }
+    
+    return _tableView;
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
