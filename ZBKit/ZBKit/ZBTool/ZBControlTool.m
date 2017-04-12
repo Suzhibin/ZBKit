@@ -12,6 +12,13 @@
 
 @implementation ZBControlTool
 
++ (NSString *)stringWithUUID {
+    CFUUIDRef uuid = CFUUIDCreate(NULL);
+    CFStringRef string = CFUUIDCreateString(NULL, uuid);
+    CFRelease(uuid);
+    return (__bridge_transfer NSString *)string;
+}
+
 + (CGFloat)textHeightWithString:(NSString *)text width:(CGFloat)width fontSize:(NSInteger)fontSize
 {
     NSDictionary *dict = @{NSFontAttributeName: [UIFont systemFontOfSize:fontSize]};

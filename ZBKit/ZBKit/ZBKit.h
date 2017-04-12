@@ -30,7 +30,7 @@
 
 #import "ZBConstants.h"
 #import "ZBControlTool.h"
-#import "UIColor+ZBHexCode.h"
+#import "UIColor+ZBKit.h"
 
 #import "ZBChart.h"
 

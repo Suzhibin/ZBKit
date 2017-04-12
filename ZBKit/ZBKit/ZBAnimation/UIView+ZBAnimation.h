@@ -10,7 +10,8 @@
 
 @interface UIView (ZBAnimation)<CAAnimationDelegate>
 
-- (void )animationView;
+//加载等待动画
+- (void)zb_animationloadingView;
 //圆角
 - (void)zb_circleView;
 //关键帧动画

@@ -36,10 +36,13 @@
     
     [self.window makeKeyAndVisible];
 
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
    
     
     return YES;
+}
+- (void)becomeActive:(NSNotification *)notification {
+         NSLog(@"已经获得焦点：%s",__func__);
 }
 
 - (void)enablePush:(BOOL)enable{
@@ -78,8 +81,6 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      NSLog(@"已经获得焦点：%s",__func__);
     //恢复应用状态
-    
-    
     //广告
     [ZBAdvertiseInfo getAdvertisingInfo:^(NSString *filePath,NSDictionary *urlDict,BOOL isExist){
         if (isExist) {
@@ -100,6 +101,8 @@
             NSLog(@"无广告");
         }
     }];
+
+    
 }
 
 

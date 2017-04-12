@@ -1,16 +1,16 @@
 //
-//  UIColor+ZBHexCode.m
+//  UIColor+ZBKit.m
 //  ZBKit
 //
-//  Created by NQ UEC on 17/3/30.
+//  Created by NQ UEC on 17/3/31.
 //  Copyright © 2017年 Suzhibin. All rights reserved.
 //
 
-#import "UIColor+ZBHexCode.h"
+#import "UIColor+ZBKit.h"
 
-@implementation UIColor (ZBHexCode)
+@implementation UIColor (ZBKit)
 
-+ (UIColor *) colorFromHexString:(NSString *)hexString {
++ (UIColor *)zb_colorFromHexString:(NSString *)hexString {
     NSString *cleanString = [hexString stringByReplacingOccurrencesOfString:@"#" withString:@""];
     if([cleanString length] == 3) {
         cleanString = [NSString stringWithFormat:@"%@%@%@%@%@%@",
@@ -31,6 +31,22 @@
     float alpha = ((baseValue >> 0) & 0xFF)/255.0f;
     
     return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
+}
+
++ (UIColor *)zb_randomColor{
+    CGFloat red = ( arc4random() % 255 / 255.0 );
+    CGFloat green = ( arc4random() % 255 / 255.0 );
+    CGFloat blue = ( arc4random() % 255 / 255.0 );
+    return [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
+}
+
+- (UIColor *)zb_inverseColor {
+    const CGFloat *componentColors = CGColorGetComponents(self.CGColor);
+    UIColor *newColor = [[UIColor alloc] initWithRed:(1.0 - componentColors[0])
+                                               green:(1.0 - componentColors[1])
+                                                blue:(1.0 - componentColors[2])
+                                               alpha:componentColors[3]];
+    return newColor;
 }
 
 @end

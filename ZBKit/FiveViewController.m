@@ -82,7 +82,7 @@
      
      
      self.loadingView=[[UIView alloc]initWithFrame:CGRectMake(100, 500, 200, 180)];
-     [self.loadingView animationView];
+     [self.loadingView zb_animationloadingView];
      [self.view addSubview:self.loadingView];
     
 

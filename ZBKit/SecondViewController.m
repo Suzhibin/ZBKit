@@ -75,7 +75,7 @@
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         [self.imageView addGestureRecognizer:tap];
         
-        NSArray *titleArray=[NSArray arrayWithObjects:@"垂直翻转",@"水平翻转",@"灰度图",@"截取图上半部",@"向左",@"向右",@"向下",@"加水印",@"给view截图",@"平铺图片",@"圆形并浮动",@"透明度",@"压缩大小",@"小鸟Game over",nil];
+        NSArray *titleArray=[NSArray arrayWithObjects:@"垂直翻转",@"水平翻转",@"灰度图",@"加水印",@"向左",@"向右",@"向下",@"截取图上半部",@"给view截图",@"平铺图片",@"圆形并浮动",@"透明度",@"压缩大小",@"小鸟Game over",nil];
         CGFloat wSpace = (SCREEN_WIDTH-57*4)/5;
         CGFloat hSpace = (SCREEN_HEIGHT-64-4*100)/5;
         for (int i = 0; i<titleArray.count; i++) {
@@ -200,8 +200,7 @@
             self.imageView.image = [self.imageView.image zb_GrayImage];//灰度图
             break;
         case 103:
-            [self.imageView zb_animatedTransitionWithoptions:UIViewAnimationOptionTransitionCurlDown];//过渡动画
-            self.imageView.image = [self.imageView.image zb_SubImageWithRect:CGRectMake(0, 0,self.imageView.image.size.width, self.imageView.image.size.height / 2)];//截图
+            self.imageView.image = [self.imageView.image zb_ImageWithTitle:@"https://github.com/Suzhibin/ZBKit" fontSize:30];//加水印
             break;
         case 104:
             self.imageView.image = [self.imageView.image zb_Rotate:UIImageOrientationLeft];
@@ -213,7 +212,9 @@
             self.imageView.image = [self.imageView.image zb_Rotate:UIImageOrientationDown];
             break;
         case 107:
-            self.imageView.image = [self.imageView.image zb_ImageWithTitle:@"https://github.com/Suzhibin/ZBKit" fontSize:30];//加水印
+            [self.imageView zb_animatedTransitionWithoptions:UIViewAnimationOptionTransitionCurlDown];//过渡动画
+            self.imageView.image = [self.imageView.image zb_SubImageWithRect:CGRectMake(0, 0,self.imageView.image.size.width, self.imageView.image.size.height / 2)];//截图
+            
             break;
         case 108:
             self.imageView.image = [self.imageView.image zb_ViewConversionImage:self.view];//截屏幕

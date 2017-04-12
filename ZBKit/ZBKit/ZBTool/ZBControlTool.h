@@ -11,6 +11,10 @@
 
 
 @interface ZBControlTool : NSObject
+
+//uid
++ (NSString *)stringWithUUID;
+
 //根据内容 获取动态行高
 + (CGFloat)textHeightWithString:(NSString *)text width:(CGFloat)width fontSize:(NSInteger)fontSize;
 

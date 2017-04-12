@@ -11,7 +11,7 @@
 @implementation UIView (ZBAnimation)
 
 
-- (void)animationView {
+- (void)zb_animationloadingView {
     
     UIView  *shapeView1= [[UIView alloc] initWithFrame:CGRectMake(0, 7, 16, 16)];
     shapeView1.backgroundColor = [UIColor greenColor];

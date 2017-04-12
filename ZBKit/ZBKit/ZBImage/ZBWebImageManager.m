@@ -26,6 +26,7 @@ static const NSInteger ImageCacheMaxCacheAge  = 60*60*24*7;
     if (self) {
         
         [[ZBCacheManager sharedInstance]createDirectoryAtPath:[self imageFilePath]];
+        
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(automaticCleanImageCache) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(automaticCleanImageCache)

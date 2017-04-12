@@ -21,7 +21,7 @@
     [self.view addSubview:self.tableView];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 5;
+    return 10;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIde=@"cellIde";
@@ -57,9 +57,24 @@
         NSMutableAttributedString *str4=[ZBControlTool AttributedString:Attributed range:4 lengthString:ZBKit];//高亮文字
         cell.detailTextLabel.attributedText=str4;
     }
-    
-    return cell;
+    if (indexPath.row==5) {
+        cell.textLabel.text=@"十六进制色值";
+        cell.backgroundColor=[UIColor zb_colorFromHexString:@"#0077F6"];
 
+    }
+    UIColor *color=[UIColor zb_randomColor];
+    if (indexPath.row==6) {
+        cell.textLabel.text=@"随机颜色";
+        cell.backgroundColor=color;
+        
+    }
+    if (indexPath.row==7) {
+        cell.textLabel.text=@"上个cell颜色取反";
+        cell.backgroundColor=[color zb_inverseColor];
+        
+    }
+
+    return cell;
 }
 
 //懒加载
@@ -70,7 +85,6 @@
         _tableView.delegate=self;
         _tableView.dataSource=self;
         _tableView.tableFooterView=[[UIView alloc]init];
-        
     }
     
     return _tableView;

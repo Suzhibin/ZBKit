@@ -27,7 +27,7 @@
     
     self.loadingView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
     self.loadingView.center= self.view.center;
-    [self.loadingView animationView];
+    [self.loadingView zb_animationloadingView];
     [self.view addSubview:self.loadingView];
 }
 

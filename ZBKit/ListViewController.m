@@ -133,9 +133,7 @@
         _tableView.delegate=self;
         _tableView.dataSource=self;
         _tableView.tableHeaderView=self.carouselView;
-        
     }
-    
     return _tableView;
 }
 - (ZBCarouselView *)carouselView{
