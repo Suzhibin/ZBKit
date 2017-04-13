@@ -7,25 +7,16 @@
 //
 
 #import "NSString+ZBKit.h"
-
+#import "NSDate+ZBKit.h"
 @implementation NSString (ZBKit)
+
+
 
 + (NSString *)zb_stringWithUUID {
     CFUUIDRef uuid = CFUUIDCreate(NULL);
     CFStringRef string = CFUUIDCreateString(NULL, uuid);
     CFRelease(uuid);
     return (__bridge_transfer NSString *)string;
-}
-
-+ (NSString *)zb_stringDateWithTimeInterval:(NSString *)timeInterval
-{
-    NSTimeInterval seconds = [timeInterval doubleValue];
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:seconds];
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    
-    format.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    
-    return [format stringFromDate:date];
 }
 
 + (NSString*)zb_reverseWordsInString:(NSString*)string{

@@ -102,12 +102,12 @@
         
         NSInteger netStatus=[ZBNetworkManager startNetWorkMonitoring];
         if (netStatus==AFNetworkReachabilityStatusReachableViaWiFi) {
-            [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:@"zhanweitu"]];
+            [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:[NSBundle placeholderIcon]]];
         }else{
-             [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"zhanweitu"]];
+             [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:[NSBundle placeholderIcon]]];
         }
     }else{
-        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:@"zhanweitu"]];
+        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:[NSBundle placeholderIcon]]];
         
         //ZBimage
         //[cell.imageView zb_setImageWithURL:model.thumb placeholderImage:[UIImage imageNamed:@"zhanweitu"]];

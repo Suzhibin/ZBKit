@@ -10,6 +10,10 @@
 #import <UIKit/UIKit.h>
 @interface NSBundle (ZBKit)
 
++ (NSString *)navigationReturn;
+
++ (NSString *)navigationReturnClick;
+
 + (NSString *)placeholderIcon;
 
 + (NSString *)IDInfoIcon;

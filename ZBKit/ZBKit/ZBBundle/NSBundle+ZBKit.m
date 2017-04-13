@@ -9,10 +9,20 @@
 #import "NSBundle+ZBKit.h"
 
 @implementation NSBundle (ZBKit)
++ (NSString *)navigationReturn
+{
+    static NSString *placeholder=@"ZBKit.bundle/navigationButtonReturn";
+    return placeholder;
+}
 
++ (NSString *)navigationReturnClick
+{
+    static NSString *placeholder=@"ZBKit.bundle/navigationButtonReturnClick";
+    return placeholder;
+}
 + (NSString *)placeholderIcon
 {
-    static NSString *placeholder=@"ZBKit.bundle/ZBSetting/zhanweitu";
+    static NSString *placeholder=@"ZBKit.bundle/zhanweitu";
     return placeholder;
 }
 + (NSString *)IDInfoIcon

@@ -13,9 +13,6 @@
 //uid
 + (NSString *)zb_stringWithUUID;
 
-//时间转换
-+ (NSString *)zb_stringDateWithTimeInterval:(NSString *)timeInterval;
-
 //字符串反转
 + (NSString*)zb_reverseWordsInString:(NSString*)string;
 

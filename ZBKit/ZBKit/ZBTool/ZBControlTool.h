@@ -12,6 +12,12 @@
 
 @interface ZBControlTool : NSObject
 
+//时间转换
++ (NSString *)stringDateWithTimeInterval:(NSString *)timeInterval;
+
+//判断创建时间 格式
++ (NSString *)created_ate:(NSString *)created_ate;
+
 //字符串高亮
 + (NSMutableAttributedString *)AttributedString:(NSString *)string range:(NSUInteger)range lengthString:(NSString *)lengthString;
 

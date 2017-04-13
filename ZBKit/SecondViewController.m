@@ -47,7 +47,7 @@
         self.imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 240)];
         self.imageView.userInteractionEnabled = YES;
         
-        [self.imageView zb_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:@"zhanweitu"] completion:^(UIImage *image) {
+        [self.imageView zb_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:[NSBundle placeholderIcon]] completion:^(UIImage *image) {
             [self sizeAndCount];
             
             [label1 zb_animatedViewMoveWithRightX:60];//右平移 -30-60=30；
@@ -179,7 +179,7 @@
     
     CGPoint point = [tap locationInView:tap.view];
     
-    CGPoint pointInImage = CGPointMake(point.x * self.imageView.image.size.width / self.imageView.frame.size.width, point.y * self.imageView.image.size.height / self.imageView.frame.size.height);
+    CGPoint pointInImage = CGPointMake(point.x * self.imageView.zb_width / self.imageView.zb_width, point.y * self.imageView.zb_height/ self.imageView.zb_height);
     
     self.view.backgroundColor = [self.imageView.image zb_ColorAtPixel:pointInImage];//把图片像素颜色给view
 }
