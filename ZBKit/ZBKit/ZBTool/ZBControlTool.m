@@ -12,44 +12,6 @@
 
 @implementation ZBControlTool
 
-+ (NSString *)stringWithUUID {
-    CFUUIDRef uuid = CFUUIDCreate(NULL);
-    CFStringRef string = CFUUIDCreateString(NULL, uuid);
-    CFRelease(uuid);
-    return (__bridge_transfer NSString *)string;
-}
-
-+ (CGFloat)textHeightWithString:(NSString *)text width:(CGFloat)width fontSize:(NSInteger)fontSize
-{
-    NSDictionary *dict = @{NSFontAttributeName: [UIFont systemFontOfSize:fontSize]};
-    // 根据第一个参数的文本内容，使用280*float最大值的大小，使用系统14号字，返回一个真实的frame size : (280*xxx)!!
-    CGRect frame = [text boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:dict context:nil];
-    return frame.size.height +5;
-}
-
-+ (NSString *)stringDateWithTimeInterval:(NSString *)timeInterval
-{
-    NSTimeInterval seconds = [timeInterval doubleValue];
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:seconds];
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    
-    format.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    
-    return [format stringFromDate:date];
-}
-
-+ (BOOL)checkIsChinese:(NSString *)string{
-    for (int i=0; i<string.length; i++)
-    {
-        unichar ch = [string characterAtIndex:i];
-        if (0x4E00 <= ch  && ch <= 0x9FA5)
-        {
-            return YES;
-        }
-    }
-    return NO;
-}
-
 + (NSMutableAttributedString *)AttributedString:(NSString *)string range:(NSUInteger)range lengthString:(NSString *)lengthString{
     
     NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:string];
@@ -64,76 +26,26 @@
     return  AttributedStr;
 }
 
-
-+  (NSString * )str:(NSString *)string{
-
-    NSString *str = string;
-    // 去掉所有的空格
-    NSString *replaceStr = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
-
-    return replaceStr;
++ (CGFloat)textHeightWithString:(NSString *)text width:(CGFloat)width fontSize:(NSInteger)fontSize
+{
+    NSDictionary *dict = @{NSFontAttributeName: [UIFont systemFontOfSize:fontSize]};
+    // 根据第一个参数的文本内容，使用280*float最大值的大小，使用系统14号字，返回一个真实的frame size : (280*xxx)!!
+    CGRect frame = [text boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:dict context:nil];
+    return frame.size.height +5;
 }
 
-+ (NSString*)reverseWordsInString:(NSString*)string{
-    NSMutableString *reverString = [NSMutableString stringWithCapacity:string.length];
-    [string enumerateSubstringsInRange:NSMakeRange(0, string.length) options:NSStringEnumerationReverse | NSStringEnumerationByComposedCharacterSequences  usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
-        [reverString appendString:substring];
-    }];
-    return reverString;
-}
-
-+ (NSString *)phoneticizeChinese:(NSString *)string{
-    //将NSString装换成NSMutableString
-    NSMutableString *pinyin = [string mutableCopy];
-
-    //将汉字转换为拼音(带音标)
-    CFStringTransform((__bridge CFMutableStringRef)pinyin, NULL, kCFStringTransformMandarinLatin, NO);
-    //返回最近结果
-    return pinyin;
-}
-
-+(NSString *)translation:(NSString *)arebic{
-    NSString *str = arebic;
-    NSArray *arabic_numerals = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"0"];
-    NSArray *chinese_numerals = @[@"一",@"二",@"三",@"四",@"五",@"六",@"七",@"八",@"九",@"零"];
-    NSArray *digits = @[@"个",@"十",@"百",@"千",@"万",@"十",@"百",@"千",@"亿",@"十",@"百",@"千",@"兆"];
-    NSDictionary *dictionary = [NSDictionary dictionaryWithObjects:chinese_numerals forKeys:arabic_numerals];
-    
-    NSMutableArray *sums = [NSMutableArray array];
-    for (int i = 0; i < str.length; i ++) {
-        NSString *substr = [str substringWithRange:NSMakeRange(i, 1)];
-        NSString *a = [dictionary objectForKey:substr];
-        NSString *b = digits[str.length -i-1];
-        NSString *sum = [a stringByAppendingString:b];
-        if ([a isEqualToString:chinese_numerals[9]])
++ (BOOL)checkIsChinese:(NSString *)string{
+    for (int i=0; i<string.length; i++)
+    {
+        unichar ch = [string characterAtIndex:i];
+        if (0x4E00 <= ch  && ch <= 0x9FA5)
         {
-            if([b isEqualToString:digits[4]] || [b isEqualToString:digits[8]])
-            {
-                sum = b;
-                if ([[sums lastObject] isEqualToString:chinese_numerals[9]])
-                {
-                    [sums removeLastObject];
-                }
-            }else
-            {
-                sum = chinese_numerals[9];
-            }
-            
-            if ([[sums lastObject] isEqualToString:sum])
-            {
-                continue;
-            }
+            return YES;
         }
-        
-        [sums addObject:sum];
     }
-    
-    NSString *sumStr = [sums componentsJoinedByString:@""];
-    NSString *chinese = [sumStr substringToIndex:sumStr.length-1];
-    //NSLog(@"str%@",str);
-    //NSLog(@"chinese%@",chinese);
-    return chinese;
+    return NO;
 }
+
 
 + (void)timerDisabled{
     [UIApplication sharedApplication].idleTimerDisabled = YES;

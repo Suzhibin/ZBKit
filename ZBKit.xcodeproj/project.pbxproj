@@ -28,6 +28,7 @@
 		7D05F8AD1E4C29F1009F9D31 /* DOVE 9.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D05F89A1E4C29F1009F9D31 /* DOVE 9.png */; };
 		7D139CBB1E8DF76F005B89D7 /* FiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D139CBA1E8DF76F005B89D7 /* FiveViewController.m */; };
 		7D139CBF1E8E3D42005B89D7 /* UIColor+ZBKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D139CBE1E8E3D42005B89D7 /* UIColor+ZBKit.m */; };
+		7D183D881E9F1D7600376D0B /* NSString+ZBKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D183D871E9F1D7600376D0B /* NSString+ZBKit.m */; };
 		7D1C6DF91E35F8CE00495AB7 /* ZBAdvertiseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6DDD1E35F8CE00495AB7 /* ZBAdvertiseInfo.m */; };
 		7D1C6DFA1E35F8CE00495AB7 /* ZBAdvertiseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6DDF1E35F8CE00495AB7 /* ZBAdvertiseView.m */; };
 		7D1C6DFB1E35F8CE00495AB7 /* ZBDataBaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6DE21E35F8CE00495AB7 /* ZBDataBaseManager.m */; };
@@ -65,7 +66,6 @@
 		7DC2FB051E5EB6C200CEC472 /* ZBGlobalSettingsTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB031E5EB6C200CEC472 /* ZBGlobalSettingsTool.m */; };
 		7DC2FB091E5EB6C900CEC472 /* ZBTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB081E5EB6C900CEC472 /* ZBTableViewController.m */; };
 		7DD0B43E1E65692000E5634E /* StorageSpaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD0B43D1E65692000E5634E /* StorageSpaceViewController.m */; };
-		7DD399EC1E7BE1CB00D82002 /* WKWebView+ZBWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD399EB1E7BE1CB00D82002 /* WKWebView+ZBWebCache.m */; };
 		7DD9D6191E27820D00CFA0A9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD9D6181E27820D00CFA0A9 /* main.m */; };
 		7DD9D61C1E27820D00CFA0A9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD9D61B1E27820D00CFA0A9 /* AppDelegate.m */; };
 		7DD9D61F1E27820D00CFA0A9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD9D61E1E27820D00CFA0A9 /* ViewController.m */; };
@@ -127,6 +127,8 @@
 		7D139CBA1E8DF76F005B89D7 /* FiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FiveViewController.m; sourceTree = "<group>"; };
 		7D139CBD1E8E3D42005B89D7 /* UIColor+ZBKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ZBKit.h"; sourceTree = "<group>"; };
 		7D139CBE1E8E3D42005B89D7 /* UIColor+ZBKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ZBKit.m"; sourceTree = "<group>"; };
+		7D183D861E9F1D7600376D0B /* NSString+ZBKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+ZBKit.h"; sourceTree = "<group>"; };
+		7D183D871E9F1D7600376D0B /* NSString+ZBKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+ZBKit.m"; sourceTree = "<group>"; };
 		7D1C6DDC1E35F8CE00495AB7 /* ZBAdvertiseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBAdvertiseInfo.h; sourceTree = "<group>"; };
 		7D1C6DDD1E35F8CE00495AB7 /* ZBAdvertiseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBAdvertiseInfo.m; sourceTree = "<group>"; };
 		7D1C6DDE1E35F8CE00495AB7 /* ZBAdvertiseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBAdvertiseView.h; sourceTree = "<group>"; };
@@ -198,8 +200,6 @@
 		7DC2FB081E5EB6C900CEC472 /* ZBTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBTableViewController.m; sourceTree = "<group>"; };
 		7DD0B43C1E65692000E5634E /* StorageSpaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StorageSpaceViewController.h; sourceTree = "<group>"; };
 		7DD0B43D1E65692000E5634E /* StorageSpaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StorageSpaceViewController.m; sourceTree = "<group>"; };
-		7DD399EA1E7BE1CB00D82002 /* WKWebView+ZBWebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WKWebView+ZBWebCache.h"; sourceTree = "<group>"; };
-		7DD399EB1E7BE1CB00D82002 /* WKWebView+ZBWebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WKWebView+ZBWebCache.m"; sourceTree = "<group>"; };
 		7DD9D6141E27820D00CFA0A9 /* ZBKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZBKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DD9D6181E27820D00CFA0A9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7DD9D61A1E27820D00CFA0A9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -406,6 +406,8 @@
 				7DC2FB031E5EB6C200CEC472 /* ZBGlobalSettingsTool.m */,
 				7D139CBD1E8E3D42005B89D7 /* UIColor+ZBKit.h */,
 				7D139CBE1E8E3D42005B89D7 /* UIColor+ZBKit.m */,
+				7D183D861E9F1D7600376D0B /* NSString+ZBKit.h */,
+				7D183D871E9F1D7600376D0B /* NSString+ZBKit.m */,
 			);
 			path = ZBTool;
 			sourceTree = "<group>";
@@ -520,8 +522,6 @@
 				7DC2FAD81E5EB66D00CEC472 /* ZBAnimation */,
 				7DA919401E5BECF9006F347F /* ZBBundle */,
 				7DD9D6571E27838600CFA0A9 /* ZBKit.h */,
-				7DD399EA1E7BE1CB00D82002 /* WKWebView+ZBWebCache.h */,
-				7DD399EB1E7BE1CB00D82002 /* WKWebView+ZBWebCache.m */,
 			);
 			path = ZBKit;
 			sourceTree = "<group>";
@@ -780,6 +780,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D183D881E9F1D7600376D0B /* NSString+ZBKit.m in Sources */,
 				7DD9D61F1E27820D00CFA0A9 /* ViewController.m in Sources */,
 				7DD9D61C1E27820D00CFA0A9 /* AppDelegate.m in Sources */,
 				7D57D6521E37490E00529558 /* ListViewController.m in Sources */,
@@ -797,7 +798,6 @@
 				7D1C6DFA1E35F8CE00495AB7 /* ZBAdvertiseView.m in Sources */,
 				7D57D6411E373DD500529558 /* SettingCacheViewController.m in Sources */,
 				7DC2FADD1E5EB66D00CEC472 /* UIView+ZBAnimation.m in Sources */,
-				7DD399EC1E7BE1CB00D82002 /* WKWebView+ZBWebCache.m in Sources */,
 				7D57D6551E37494600529558 /* ListModel.m in Sources */,
 				7D31A4071E34AF5500D913A7 /* SecondViewController.m in Sources */,
 				7D1C6E0C1E360A3600495AB7 /* ThirdViewController.m in Sources */,

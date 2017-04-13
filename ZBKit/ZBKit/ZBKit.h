@@ -13,7 +13,7 @@
 
 #import "ZBGlobalSettingsTool.h"
 #import "ZBTableViewController.h"//设置页面
-#import "NSBundle+ZBKit.h"
+
 
 #import "ZBDataBaseManager.h"
 #import "NSObject+ZBCoding.h"
@@ -31,6 +31,8 @@
 #import "ZBConstants.h"
 #import "ZBControlTool.h"
 #import "UIColor+ZBKit.h"
+#import "NSString+ZBKit.h"
+#import "NSBundle+ZBKit.h"
 
 #import "ZBChart.h"
 

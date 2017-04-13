@@ -12,29 +12,14 @@
 
 @interface ZBControlTool : NSObject
 
-//uid
-+ (NSString *)stringWithUUID;
+//字符串高亮
++ (NSMutableAttributedString *)AttributedString:(NSString *)string range:(NSUInteger)range lengthString:(NSString *)lengthString;
 
 //根据内容 获取动态行高
 + (CGFloat)textHeightWithString:(NSString *)text width:(CGFloat)width fontSize:(NSInteger)fontSize;
 
-//时间转换
-+ (NSString *)stringDateWithTimeInterval:(NSString *)timeInterval;
-
 //字符串是否含有中文
 + (BOOL)checkIsChinese:(NSString *)string;
-
-//字符串高亮
-+ (NSMutableAttributedString *)AttributedString:(NSString *)string range:(NSUInteger)range lengthString:(NSString *)lengthString;
-
-//字符串反转
-+ (NSString*)reverseWordsInString:(NSString*)string;
-
-//获取汉字的拼音
-+ (NSString *)phoneticizeChinese:(NSString *)string;
-
-//阿拉伯数字转中文
-+ (NSString *)translation:(NSString *)arebic;
 
 //禁止锁屏，
 + (void)timerDisabled;

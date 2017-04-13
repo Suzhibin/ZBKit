@@ -32,17 +32,17 @@
     if (indexPath.row==0) {
         cell.textLabel.text=@"字符串反转";
         
-        cell.detailTextLabel.text=[ZBControlTool reverseWordsInString:@"字符串反转"];
+        cell.detailTextLabel.text=[NSString zb_reverseWordsInString:@"字符串反转"];
     }
     if (indexPath.row==1) {
         cell.textLabel.text=@"获取汉字的拼音";
         
-        cell.detailTextLabel.text=[ZBControlTool phoneticizeChinese:@"获取汉字的拼音"];
+        cell.detailTextLabel.text=[NSString zb_phoneticizeChinese:@"获取汉字的拼音"];
     }
     if (indexPath.row==2) {
         cell.textLabel.text=@"阿拉伯数字2017转中文";
         
-        cell.detailTextLabel.text=[ZBControlTool translation:@"2017"];
+        cell.detailTextLabel.text=[NSString zb_translation:@"2017"];
     }
     if (indexPath.row==3) {
         cell.textLabel.text=@"是否包含中文";
@@ -58,9 +58,9 @@
         cell.detailTextLabel.attributedText=str4;
     }
     if (indexPath.row==5) {
-        cell.textLabel.text=@"十六进制色值";
-        cell.backgroundColor=[UIColor zb_colorFromHexString:@"#0077F6"];
-
+        cell.textLabel.text=@"UUID";
+        cell.detailTextLabel.text=[NSString zb_stringWithUUID];
+   
     }
     UIColor *color=[UIColor zb_randomColor];
     if (indexPath.row==6) {
@@ -72,6 +72,10 @@
         cell.textLabel.text=@"上个cell颜色取反";
         cell.backgroundColor=[color zb_inverseColor];
         
+    }
+    if (indexPath.row==8) {
+        cell.textLabel.text=@"十六进制色值";
+        cell.backgroundColor=[UIColor zb_colorFromHexString:@"#0077F6"];
     }
 
     return cell;

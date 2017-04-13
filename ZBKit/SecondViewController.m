@@ -27,14 +27,14 @@
     //下个runloop
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        UILabel *label1=[[UILabel alloc]initWithFrame:CGRectMake(-30,640, 200, 30)];
+        UILabel *label1=[[UILabel alloc]initWithFrame:CGRectMake(-30,570, 200, 30)];
         
         label1.textAlignment=NSTextAlignmentLeft;
         label1.tag=4000;
         label1.backgroundColor=[UIColor whiteColor];
         [self.view addSubview:label1];
         
-        UILabel *label2=[[UILabel alloc]initWithFrame:CGRectMake(130,680, 200, 30)];
+        UILabel *label2=[[UILabel alloc]initWithFrame:CGRectMake(130,610, 200, 30)];
         
         label2.textAlignment=NSTextAlignmentLeft;
         label2.tag=5000;
@@ -89,7 +89,7 @@
             self.button.titleLabel.adjustsFontSizeToFitWidth = YES;
             [self.button addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
             //九宫格界面布局的小算法: 横向:控件的下标%横向的最大数目;纵向:控件的下标/纵向的最大数目
-            [self.button setFrame:CGRectMake(wSpace+(i%4)*(wSpace+50),260+ hSpace+(i/4)*(hSpace), 80, 30)];
+            [self.button setFrame:CGRectMake(wSpace+(i%4)*(wSpace+50),280+ hSpace+(i/4)*(hSpace), 60, 30)];
             
             CGPoint center = self.button.center;
             CGPoint startCenter = self.button.center;
@@ -105,10 +105,10 @@
         
         for (int i = 0; i<array.count; i++) {
             
-            UIButton *button1=[ZBControlTool createButtonWithFrame:CGRectMake(250, (SCREEN_HEIGHT+40)+40*i, 150, 30) title:[array objectAtIndex:i] target:self action:@selector(button1Clicked:) tag:2000+i];
+            UIButton *button1=[ZBControlTool createButtonWithFrame:CGRectMake(220, (SCREEN_HEIGHT+40)+40*i, 140, 30) title:[array objectAtIndex:i] target:self action:@selector(button1Clicked:) tag:2000+i];
             [button1 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             button1.backgroundColor=[UIColor brownColor];
-            [button1 zb_animatedViewMoveWithUpY:130];//上升
+            [button1 zb_animatedViewMoveWithUpY:200];//上升
             [self.view addSubview:button1];
         }
         
