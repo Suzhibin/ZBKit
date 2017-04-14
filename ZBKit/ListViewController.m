@@ -146,7 +146,7 @@
             [imageArray addObject:model.thumb];
             [titleArray addObject:model.title];
         }
-        _carouselView.placeholderImage = [UIImage imageNamed:@"zhanweitu.png"];
+        _carouselView.placeholderImage = [UIImage imageNamed:[NSBundle placeholderIcon]];
         _carouselView.imageArray = imageArray;
         _carouselView.describeArray = titleArray;
         _carouselView.time =3;

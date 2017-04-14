@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "ZBKit.h"
-#import "AppDelegate+ZBKit.h"
 #import "HomeViewController.h"
 
 @interface AppDelegate ()
@@ -21,16 +20,17 @@
     // Override point for customization after application launch.
     NSLog(@"程序启动完成：%s",__func__);
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    
     self.window.backgroundColor=[UIColor whiteColor];
     
-    [self zb_application:application didFinishLaunchingWithOptions:launchOptions];
-
     HomeViewController * home= [[HomeViewController alloc]init];
     ZBNavigationController *nc=[[ZBNavigationController alloc]initWithRootViewController:home];
     self.window.rootViewController = nc;
     
     [self.window makeKeyAndVisible];
+    
+    [self zb_application:application didFinishLaunchingWithOptions:launchOptions];
+
+   
     return YES;
 }
 

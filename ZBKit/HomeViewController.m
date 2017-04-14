@@ -55,9 +55,9 @@
     [self add2SectionItems];
     // 4.开屏广告
     [self add3SectionItems];
-    // 5.常用方法
+    // 5.轮播视图
     [self add4SectionItems];
-    // 6.轮播视图
+    // 6.常用方法
     [self add5SectionItems];
     // 6.设置页面
     [self add6SectionItems];
@@ -149,8 +149,6 @@
 }
 
 - (void)add5SectionItems{
-  
-    
     __weak typeof(self) weakSelf = self;
     ZBTableItem *carouselItem = [ZBTableItem itemWithTitle:@"ZBControlTool" type:ZBTableItemTypeArrow];
     carouselItem.operation = ^{

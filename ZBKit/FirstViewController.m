@@ -17,6 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title=@"网络请求";
     // 1.第0租
     [self add1SectionItems];
     // 2.第1组
@@ -31,6 +32,7 @@
     AFNetwork.operation = ^{
         MenuViewController *MenuVC = [[MenuViewController alloc] init];
         MenuVC.functionType=AFNetworking;
+        MenuVC.title=@"AFNetworking封装";
         [weakSelf.navigationController pushViewController:MenuVC animated:YES];
     };
     
@@ -49,13 +51,14 @@
     session1.operation = ^{
         MenuViewController *MenuVC1 = [[MenuViewController alloc] init];
         MenuVC1.functionType=sessionblock;
+        MenuVC1.title=@"sessionBlock封装";
         [weakSelf.navigationController pushViewController:MenuVC1 animated:YES];
         
     };
     
     ZBTableGroup *group2= [[ZBTableGroup alloc] init];
     group2.items = @[session1];
-    group2.header=@"NSURLSession封装";
+    group2.header=@"NSULSession封装";
     group2.footer=@"三种方法的缓存文件是相通共用的";
     group2.headerHeight=40;
     group2.footerHeight=25;
@@ -68,6 +71,7 @@
     session2.operation = ^{
         MenuViewController *MenuVC2 = [[MenuViewController alloc] init];
         MenuVC2.functionType=sessiondelegate;
+        MenuVC2.title=@"sessionDelegate封装";
         [weakSelf.navigationController pushViewController:MenuVC2 animated:YES];
     };
     ZBTableGroup *group3 = [[ZBTableGroup alloc] init];

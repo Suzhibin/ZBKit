@@ -14,14 +14,12 @@
 
 @implementation ZBNavigationController
 
-+ (void)initialize
-{
++ (void)initialize{
     UINavigationBar *bar = [UINavigationBar appearance];
     [bar setBackgroundImage:[UIImage imageNamed:@""] forBarMetrics:UIBarMetricsDefault];
-    [bar setTitleTextAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:20]}];
+    [bar setTitleTextAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:16]}];
 }
-- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated{
     if (self.childViewControllers.count) {
         viewController.hidesBottomBarWhenPushed = YES;
         
@@ -38,12 +36,10 @@
         button.titleLabel.font = [UIFont systemFontOfSize:15];
         viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     }
-    
     [super pushViewController:viewController animated:animated];
 }
 
-- (void)back
-{
+- (void)back{
     [self popViewControllerAnimated:YES];
 }
 

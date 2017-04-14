@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.title=@"设置页面";
     // 1.第0租
     [self add0SectionItems];
     // 2.第1组

@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.title=@"常用工程方法";
     [self.view addSubview:self.tableView];
     
 }

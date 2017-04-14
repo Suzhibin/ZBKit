@@ -35,7 +35,7 @@
 #import "NSBundle+ZBKit.h"
 #import "NSDate+ZBKit.h"
 #import "UIView+ZBKit.h"
-
+#import "AppDelegate+ZBKit.h"
 #import "ZBChart.h"
 
 #endif /* ZBKit_h */

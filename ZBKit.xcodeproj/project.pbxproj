@@ -31,7 +31,6 @@
 		7D183D881E9F1D7600376D0B /* NSString+ZBKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D183D871E9F1D7600376D0B /* NSString+ZBKit.m */; };
 		7D183D8F1E9F3ECA00376D0B /* ZBNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D183D8E1E9F3ECA00376D0B /* ZBNavigationController.m */; };
 		7D183D921E9F428B00376D0B /* NSDate+ZBKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D183D911E9F428B00376D0B /* NSDate+ZBKit.m */; };
-		7D183D961E9F45A900376D0B /* AppDelegate+ZBKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D183D951E9F45A900376D0B /* AppDelegate+ZBKit.m */; };
 		7D183D9C1E9F4AD600376D0B /* UIView+ZBKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D183D9B1E9F4AD600376D0B /* UIView+ZBKit.m */; };
 		7D1C6DF91E35F8CE00495AB7 /* ZBAdvertiseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6DDD1E35F8CE00495AB7 /* ZBAdvertiseInfo.m */; };
 		7D1C6DFA1E35F8CE00495AB7 /* ZBAdvertiseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6DDF1E35F8CE00495AB7 /* ZBAdvertiseView.m */; };
@@ -77,6 +76,7 @@
 		7DD9D6271E27820D00CFA0A9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7DD9D6251E27820D00CFA0A9 /* LaunchScreen.storyboard */; };
 		7DD9D6321E27820E00CFA0A9 /* ZBKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD9D6311E27820E00CFA0A9 /* ZBKitTests.m */; };
 		7DD9D63D1E27820E00CFA0A9 /* ZBKitUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD9D63C1E27820E00CFA0A9 /* ZBKitUITests.m */; };
+		7DED5D341EA0CD9400364D1A /* AppDelegate+ZBKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DED5D331EA0CD9400364D1A /* AppDelegate+ZBKit.m */; };
 		7DF54D751E69500000DC4A41 /* ZBCarouselView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF54D741E69500000DC4A41 /* ZBCarouselView.m */; };
 		7DF9915C1E48893600F0071D /* DBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF9915B1E48893600F0071D /* DBViewController.m */; };
 		7DFD7B421E306C1C00E38B8D /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFD7B411E306C1C00E38B8D /* BaseViewController.m */; };
@@ -136,8 +136,6 @@
 		7D183D8E1E9F3ECA00376D0B /* ZBNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBNavigationController.m; sourceTree = "<group>"; };
 		7D183D901E9F428B00376D0B /* NSDate+ZBKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+ZBKit.h"; sourceTree = "<group>"; };
 		7D183D911E9F428B00376D0B /* NSDate+ZBKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+ZBKit.m"; sourceTree = "<group>"; };
-		7D183D941E9F45A900376D0B /* AppDelegate+ZBKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+ZBKit.h"; sourceTree = "<group>"; };
-		7D183D951E9F45A900376D0B /* AppDelegate+ZBKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+ZBKit.m"; sourceTree = "<group>"; };
 		7D183D9A1E9F4AD600376D0B /* UIView+ZBKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ZBKit.h"; sourceTree = "<group>"; };
 		7D183D9B1E9F4AD600376D0B /* UIView+ZBKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ZBKit.m"; sourceTree = "<group>"; };
 		7D1C6DDC1E35F8CE00495AB7 /* ZBAdvertiseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBAdvertiseInfo.h; sourceTree = "<group>"; };
@@ -227,6 +225,8 @@
 		7DD9D63C1E27820E00CFA0A9 /* ZBKitUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZBKitUITests.m; sourceTree = "<group>"; };
 		7DD9D63E1E27820E00CFA0A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7DD9D6571E27838600CFA0A9 /* ZBKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZBKit.h; sourceTree = "<group>"; };
+		7DED5D321EA0CD9400364D1A /* AppDelegate+ZBKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+ZBKit.h"; sourceTree = "<group>"; };
+		7DED5D331EA0CD9400364D1A /* AppDelegate+ZBKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+ZBKit.m"; sourceTree = "<group>"; };
 		7DF54D731E69500000DC4A41 /* ZBCarouselView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBCarouselView.h; sourceTree = "<group>"; };
 		7DF54D741E69500000DC4A41 /* ZBCarouselView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBCarouselView.m; sourceTree = "<group>"; };
 		7DF9915A1E48893600F0071D /* DBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBViewController.h; sourceTree = "<group>"; };
@@ -431,8 +431,8 @@
 				7D183D911E9F428B00376D0B /* NSDate+ZBKit.m */,
 				7D183D9A1E9F4AD600376D0B /* UIView+ZBKit.h */,
 				7D183D9B1E9F4AD600376D0B /* UIView+ZBKit.m */,
-				7D183D941E9F45A900376D0B /* AppDelegate+ZBKit.h */,
-				7D183D951E9F45A900376D0B /* AppDelegate+ZBKit.m */,
+				7DED5D321EA0CD9400364D1A /* AppDelegate+ZBKit.h */,
+				7DED5D331EA0CD9400364D1A /* AppDelegate+ZBKit.m */,
 			);
 			path = ZBTool;
 			sourceTree = "<group>";
@@ -813,7 +813,6 @@
 				7DC2FAE81E5EB69A00CEC472 /* NSBundle+ZBKit.m in Sources */,
 				7D183D921E9F428B00376D0B /* NSDate+ZBKit.m in Sources */,
 				7DFD7B591E306F0B00E38B8D /* ZBURLSessionManager.m in Sources */,
-				7D183D961E9F45A900376D0B /* AppDelegate+ZBKit.m in Sources */,
 				7D5962001E529DB500E92F55 /* FirstViewController.m in Sources */,
 				7DFD7B571E306F0B00E38B8D /* ZBNetworkManager.m in Sources */,
 				7D57D6441E373E0D00529558 /* OfflineView.m in Sources */,
@@ -822,6 +821,7 @@
 				7DFD7B421E306C1C00E38B8D /* BaseViewController.m in Sources */,
 				7D183D8F1E9F3ECA00376D0B /* ZBNavigationController.m in Sources */,
 				7DC2FB041E5EB6C200CEC472 /* ZBControlTool.m in Sources */,
+				7DED5D341EA0CD9400364D1A /* AppDelegate+ZBKit.m in Sources */,
 				7D1C6DFA1E35F8CE00495AB7 /* ZBAdvertiseView.m in Sources */,
 				7D57D6411E373DD500529558 /* SettingCacheViewController.m in Sources */,
 				7DC2FADD1E5EB66D00CEC472 /* UIView+ZBAnimation.m in Sources */,

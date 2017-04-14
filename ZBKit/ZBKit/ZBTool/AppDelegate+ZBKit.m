@@ -7,21 +7,31 @@
 //
 
 #import "AppDelegate+ZBKit.h"
-#import "ZBKit.h"
-
+#import "ZBNetworking.h"
+#import "ZBGlobalSettingsTool.h"
+#import "ZBAdvertiseInfo.h"
+#import "ZBAdvertiseView.h"
+#import "ZBConstants.h"
 @implementation AppDelegate (ZBKit)
 -(void)zb_application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     NSString *cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
-    NSLog(@"cachePath = %@",cachePath);
+    ZBKLog(@"cachePath = %@",cachePath);
     
     // 检查版本更新
     [self updateApp];
-    
+    //初始化第三方授权
+    [self initializePlat];
+    //网络监测
     [self netWorkMonitoring];
     //程序获取焦点 展示广告
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application{
+    [[NSURLCache sharedURLCache]removeAllCachedResponses];
+}
+
 #pragma mark - 版本更新提示
 - (void)updateApp{
  
@@ -47,25 +57,30 @@
     }];
 }
 
+#pragma mark - 初始化第三方平台
+- (void)initializePlat{
+    
+}
+
 #pragma mark - 网络状态监测
 - (void)netWorkMonitoring{
     NSInteger netStatus=[ZBNetworkManager startNetWorkMonitoring];
     
     switch (netStatus) {
         case AFNetworkReachabilityStatusUnknown:
-            NSLog(@"未识别的网络");
+            ZBKLog(@"未识别的网络");
             break;
             
         case AFNetworkReachabilityStatusNotReachable:
-            NSLog(@"不可达的网络(未连接)");
+            ZBKLog(@"不可达的网络(未连接)");
             break;
             
         case AFNetworkReachabilityStatusReachableViaWWAN:
-            NSLog(@"2G,3G,4G...的网络");
+            ZBKLog(@"2G,3G,4G...的网络");
             break;
             
         case AFNetworkReachabilityStatusReachableViaWiFi:
-            NSLog(@"wifi的网络");
+            ZBKLog(@"wifi的网络");
             break;
         default:
             break;
