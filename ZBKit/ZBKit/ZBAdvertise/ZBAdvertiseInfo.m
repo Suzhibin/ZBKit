@@ -10,7 +10,7 @@
 #import "ZBNetworking.h"
 #import "ZBConstants.h"                                                                                                                                                                                                             
 #import "ZBWebImageManager.h"
-NSString *const urlString=@"http://192.168.33.186:9080/BOSS_APD_WEB//news/ad/screen_zh_CN";
+
 NSString *const AdDefaultPath =@"Advertise";
 
 @implementation ZBAdvertiseInfo
@@ -81,7 +81,6 @@ NSString *const AdDefaultPath =@"Advertise";
     //网络数据
      [[ZBURLSessionManager sharedManager]requestWithConfig:^(ZBURLRequest *request){
          request.urlString=@"请求的url";
-         request.timeoutInterval=5;
          request.apiType=ZBRequestTypeRefresh;//每次重新请求 查看是否有新图片
      } success:^(id responseObj,apiType type){
          id result = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
@@ -147,15 +146,10 @@ NSString *const AdDefaultPath =@"Advertise";
         
         //暂时没有使用 编码方法存储
         if ( [[ZBCacheManager sharedInstance]setContent:image writeToFile:filePath]) {// 保存成功
-        
-            ZBKLog(@"开屏image保存成功:%@",filePath);
             [[NSUserDefaults standardUserDefaults] setValue:imageName forKey:adImageName];
             [[NSUserDefaults standardUserDefaults] synchronize];
-
             // 如果有广告链接，将广告链接也保存下来
              [[ZBCacheManager sharedInstance]setContent:linkdict writeToFile:plistPath];
-            
-            ZBKLog(@"开屏url保存成功:%@",plistPath);
             [[NSUserDefaults standardUserDefaults] setValue:urlName forKey:adUrl];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }else{
@@ -175,8 +169,6 @@ NSString *const AdDefaultPath =@"Advertise";
           
             NSString *filePath = [ZBAdvertiseInfo getFilePathWithImageName:imageName];
             NSString *plistPath = [ZBAdvertiseInfo getFilePathWithPlistName:plistName];
-            ZBKLog(@"删除%@",filePath);
-            ZBKLog(@"删除%@",plistPath);
             [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
             [[NSFileManager defaultManager] removeItemAtPath:plistPath error:nil];
         }

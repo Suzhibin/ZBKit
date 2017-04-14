@@ -11,7 +11,7 @@
 static NSString *const adImageName = @"adImageName";
 static NSString *const adUrl = @"adUrl";
 
-typedef void (^ZBAdvertisingInfo)(NSString *filePath,NSDictionary *urlDict,BOOL isExist);
+typedef void (^ZBAdvertisingInfo)(NSString *imagePath,NSDictionary *urlDict,BOOL isExist);
 
 @interface ZBAdvertiseInfo : NSObject
 

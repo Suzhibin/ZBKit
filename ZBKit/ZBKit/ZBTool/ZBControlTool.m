@@ -104,7 +104,6 @@
     return NO;
 }
 
-
 + (void)timerDisabled{
     [UIApplication sharedApplication].idleTimerDisabled = YES;
 }

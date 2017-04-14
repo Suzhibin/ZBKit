@@ -10,4 +10,6 @@
 
 @interface AppDelegate (ZBKit)
 
+-(void)zb_application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
+
 @end

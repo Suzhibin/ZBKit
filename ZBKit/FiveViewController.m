@@ -11,6 +11,7 @@
 @interface FiveViewController ()<ZBCarouselViewDelegate>
 @property (nonatomic,strong)ZBCarouselView *carouselView;
 @property (nonatomic,strong)ZBCarouselView *carouselView1;
+@property (nonatomic,strong)ZBCarouselView *carouselView2;
 @property (nonatomic,strong)UIView *loadingView;
 
 @end
@@ -35,8 +36,10 @@
      //设置每张图片的停留时间，默认值为5s，最少为2s
      _carouselView.time = 2;
      //Block 优先级高于代理
+    // __weak typeof(self) weakSelf = self;
      _carouselView.imageClickBlock = ^(NSInteger index){
      NSLog(@"Block点击了第%ld张图片", index);
+        
      };
      //设置分页控件的图片,不设置则为系统默认
      //  [_carouselView setPageImage:[UIImage imageNamed:@"other"] andCurrentPageImage:[UIImage imageNamed:@"current"]];

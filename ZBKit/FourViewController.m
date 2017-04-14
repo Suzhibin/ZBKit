@@ -36,11 +36,11 @@
 
 - (void)createAdvertise{
     
-    [ZBAdvertiseInfo getAdvertisingInfo:^(NSString *filePath,NSDictionary *urlDict,BOOL isExist){
+    [ZBAdvertiseInfo getAdvertisingInfo:^(NSString *imagePath,NSDictionary *urlDict,BOOL isExist){
         if (isExist) {
-            ZBAdvertiseView *advertiseView2 = [[ZBAdvertiseView alloc] initWithFrame:self.view.bounds];
-            advertiseView2.filePath = filePath;
-            advertiseView2.ZBAdvertiseBlock=^{
+            ZBAdvertiseView *advertiseView = [[ZBAdvertiseView alloc] initWithFrame:self.view.bounds];
+            advertiseView.filePath = imagePath;
+            advertiseView.ZBAdvertiseBlock=^{
                 if ([[urlDict objectForKey:@"link"]isEqualToString:@""]) {
                     NSLog(@"没有url");
                     return;

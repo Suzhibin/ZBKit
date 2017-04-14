@@ -30,7 +30,7 @@
 //禁止锁屏，
 + (void)timerDisabled;
 
-//改变状态栏颜色
+//改变状态栏背景颜色
 + (void)setStatusBarBackgroundColor:(UIColor *)color;
 
 + (UIButton *)createButtonWithFrame:(CGRect)frame title:(NSString *)title target:(id)target action:(SEL)action tag:(NSInteger)tag;

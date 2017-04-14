@@ -129,7 +129,7 @@
 - (UITableView *)tableView{
     
     if (!_tableView) {
-        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64) style:UITableViewStylePlain];
+        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 64, self.view.zb_width, self.view.zb_height-64) style:UITableViewStylePlain];
         _tableView.delegate=self;
         _tableView.dataSource=self;
         _tableView.tableHeaderView=self.carouselView;
@@ -138,7 +138,7 @@
 }
 - (ZBCarouselView *)carouselView{
     if (!_carouselView) {
-        _carouselView = [[ZBCarouselView alloc] initWithFrame:CGRectMake(0, 100, [UIScreen mainScreen].bounds.size.width, 180)];
+        _carouselView = [[ZBCarouselView alloc] initWithFrame:CGRectMake(0, 100, SCREEN_WIDTH, 180)];
         NSMutableArray *imageArray=[[NSMutableArray alloc]init];
         NSMutableArray *titleArray=[[NSMutableArray alloc]init];
         NSArray *array = [self.dataArray subarrayWithRange:NSMakeRange(0, 3)];

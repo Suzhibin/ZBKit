@@ -135,6 +135,11 @@ typedef enum {
  */
 - (void)stopTimer;
 
+/**
+ *  移除视图
+ *  移除视图，停止定时器
+ */
+- (void)dismiss;
 
 /**
  *  设置分页控件指示器的图片

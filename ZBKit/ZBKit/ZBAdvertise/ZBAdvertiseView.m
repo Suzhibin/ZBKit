@@ -140,7 +140,7 @@ static int const showtime = 3;
     [self.countTimer invalidate];
     self.countTimer = nil;
     
-    [UIView animateWithDuration:0.3f animations:^{
+    [UIView animateWithDuration:1.0f animations:^{
         
         self.alpha = 0.f;
         

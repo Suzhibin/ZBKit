@@ -7,6 +7,7 @@
 //
 
 #import "OfflineView.h"
+#import "ZBKit.h"
 @interface OfflineView()
 
 @end
@@ -41,7 +42,7 @@
 
 - (UIView *)bjView{
     if (!_bjView) {
-        _bjView=[[UIView alloc]initWithFrame:CGRectMake(0, 0,self.frame.size.width, 64)];
+        _bjView=[[UIView alloc]initWithFrame:CGRectMake(0, 0,self.zb_width, 64)];
         _bjView.backgroundColor=[UIColor whiteColor];
     }
     return _bjView;

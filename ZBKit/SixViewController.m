@@ -19,6 +19,7 @@
     // Do any additional setup after loading the view.
     
     [self.view addSubview:self.tableView];
+    
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 10;
@@ -77,6 +78,7 @@
         cell.textLabel.text=@"十六进制色值";
         cell.backgroundColor=[UIColor zb_colorFromHexString:@"#0077F6"];
     }
+  
 
     return cell;
 }

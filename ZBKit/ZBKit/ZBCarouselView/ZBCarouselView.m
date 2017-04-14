@@ -9,7 +9,6 @@
 #import "ZBCarouselView.h"
 #import <ImageIO/ImageIO.h>
 #import <SDWebImageManager.h>
-#import "NSBundle+ZBKit.h"
 #define DEFAULTTIME 5
 #define HORMARGIN 10
 #define VERMARGIN 5
@@ -155,7 +154,7 @@
         } else if ([imageArray[i] isKindOfClass:[NSString class]]){
             //如果是网络图片，则先添加占位图片，下载完成后替换
             if (_placeholderImage) [_images addObject:_placeholderImage];
-            else [_images addObject:[UIImage imageNamed:[NSBundle placeholderIcon]]];
+            else [_images addObject:[UIImage new]];
             [self downloadImages:i];
         }
     }
@@ -378,6 +377,16 @@
     } else {
         _pageControl.currentPage = self.currIndex;
     }
+}
+
+#pragma mark 移除广告页面
+- (void)dismiss{
+    [self stopTimer];
+    [UIView animateWithDuration:0.3f animations:^{
+        self.alpha = 0.f;
+    } completion:^(BOOL finished) {
+        [self removeFromSuperview];
+    }];
 }
 
 #pragma mark- --------UIScrollViewDelegate--------

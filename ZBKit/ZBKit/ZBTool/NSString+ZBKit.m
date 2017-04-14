@@ -11,7 +11,6 @@
 @implementation NSString (ZBKit)
 
 
-
 + (NSString *)zb_stringWithUUID {
     CFUUIDRef uuid = CFUUIDCreate(NULL);
     CFStringRef string = CFUUIDCreateString(NULL, uuid);

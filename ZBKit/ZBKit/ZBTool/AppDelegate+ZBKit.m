@@ -8,99 +8,91 @@
 
 #import "AppDelegate+ZBKit.h"
 #import "ZBKit.h"
-#import "HomeViewController.h"
+
 @implementation AppDelegate (ZBKit)
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    NSLog(@"程序启动完成：%s",__func__);
-    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    
-    self.window.backgroundColor=[UIColor whiteColor];
-    
+-(void)zb_application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
     NSString *cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
     NSLog(@"cachePath = %@",cachePath);
     
-    //推送设置
-    [self enablePush:[ZBGlobalSettingsTool sharedInstance].enabledPush];
+    // 检查版本更新
+    [self updateApp];
     
-    HomeViewController * home= [[HomeViewController alloc]init];
-    ZBNavigationController *nc=[[ZBNavigationController alloc]initWithRootViewController:home];
-    self.window.rootViewController = nc;
-    
-    [self.window makeKeyAndVisible];
-    
+    [self netWorkMonitoring];
+    //程序获取焦点 展示广告
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    
-    
-    return YES;
 }
-- (void)becomeActive:(NSNotification *)notification {
-    NSLog(@"已经获得焦点：%s",__func__);
+#pragma mark - 版本更新提示
+- (void)updateApp{
+ 
+    [[ZBURLSessionManager sharedInstance]requestWithConfig:^(ZBURLRequest *request) {
+        request.urlString=@"http://itunes.apple.com/cn/lookup?id=123456789";
+        request.apiType=ZBRequestTypeRefresh;
+    } success:^(id responseObj, apiType type) {
+        if (type==ZBRequestTypeRefresh) {
+            NSDictionary *Obj = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
+            ZBKLog(@"版本信息:%@",Obj);
+            NSArray *results= [Obj objectForKey:@"results"];
+            for (NSDictionary *dict in results) {
+                NSString * version= [dict objectForKey:@"version"];
+                if ([version isEqualToString:[[ZBGlobalSettingsTool sharedInstance] appVersion]]) {
+                    ZBKLog(@"不升级");
+                }else{
+                    ZBKLog(@"需要升级");
+                }
+            }
+        }
+    } failed:^(NSError *error) {
+        
+    }];
 }
 
-- (void)enablePush:(BOOL)enable{
-    if(enable)
-    {
-        NSLog(@"应用内开启推送／不知道系统是否开启");
-        //[self createPush];
-        
-    }else
-    {
-        NSLog(@"应用内关闭推送／不知道系统是否开启");
-        //  [UMessage unregisterForRemoteNotifications];
+#pragma mark - 网络状态监测
+- (void)netWorkMonitoring{
+    NSInteger netStatus=[ZBNetworkManager startNetWorkMonitoring];
+    
+    switch (netStatus) {
+        case AFNetworkReachabilityStatusUnknown:
+            NSLog(@"未识别的网络");
+            break;
+            
+        case AFNetworkReachabilityStatusNotReachable:
+            NSLog(@"不可达的网络(未连接)");
+            break;
+            
+        case AFNetworkReachabilityStatusReachableViaWWAN:
+            NSLog(@"2G,3G,4G...的网络");
+            break;
+            
+        case AFNetworkReachabilityStatusReachableViaWiFi:
+            NSLog(@"wifi的网络");
+            break;
+        default:
+            break;
     }
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-    NSLog(@"将要释放焦点：%s",__func__);
-    //保存数据
-}
+#pragma mark - 开屏广告
+- (void)becomeActive:(NSNotification *)notification {
 
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    NSLog(@"已经进入后台：%s",__func__);
-}
-
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    NSLog(@"将要进入前台：%s",__func__);
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    NSLog(@"已经获得焦点：%s",__func__);
-    //恢复应用状态
-    //广告
-    [ZBAdvertiseInfo getAdvertisingInfo:^(NSString *filePath,NSDictionary *urlDict,BOOL isExist){
+    [ZBAdvertiseInfo getAdvertisingInfo:^(NSString *imagePath,NSDictionary *urlDict,BOOL isExist){
         if (isExist) {
             ZBAdvertiseView *advertiseView = [[ZBAdvertiseView alloc] initWithFrame:self.window.bounds];
-            advertiseView.filePath = filePath;
+            advertiseView.filePath = imagePath;
             advertiseView.ZBAdvertiseBlock=^{
                 if ([[urlDict objectForKey:@"link"]isEqualToString:@""]) {
-                    NSLog(@"没有url");
+                    ZBKLog(@"没有url");
                     return;
                 }else{
-                    NSLog(@"有url跳转");
+                    ZBKLog(@"有url跳转");
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"pushtoad" object:nil userInfo:urlDict];
                 }
             };
-            
-            NSLog(@"展示广告");
+            ZBKLog(@"展示广告");
         }else{
-            NSLog(@"无广告");
+            ZBKLog(@"无广告");
         }
     }];
-
-}
-
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    NSLog(@"程序将要退出：%s",__func__);
 }
 
 
