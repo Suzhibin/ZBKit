@@ -53,13 +53,13 @@
             }
         }
     } failed:^(NSError *error) {
-        
+         ZBKLog(@"版本更新error:%@",error);
     }];
 }
 
 #pragma mark - 初始化第三方平台
 - (void)initializePlat{
-    
+    ZBKLog(@"初始化微信,微博,QQ等等");
 }
 
 #pragma mark - 网络状态监测

@@ -43,6 +43,38 @@
     [self popViewControllerAnimated:YES];
 }
 
+#pragma mark -  横屏设置
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return (toInterfaceOrientation == UIDeviceOrientationPortrait);
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+/*
+ //需要横屏页面使用  改页面要用present 推出
+ - (BOOL)shouldAutorotate
+ {
+ return NO;
+ }
+ 
+ - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+ {
+ return UIInterfaceOrientationLandscapeRight;
+ }
+ 
+ - (UIInterfaceOrientationMask)supportedInterfaceOrientations
+ {
+ return UIInterfaceOrientationMaskLandscapeRight;
+ }
+ */
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

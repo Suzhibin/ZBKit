@@ -187,6 +187,7 @@
     cacheItem.operation = ^{
         StorageSpaceViewController *spaceVC=[[StorageSpaceViewController alloc]init];
         [weakSelf.navigationController pushViewController:spaceVC animated:YES];
+        
     };
     
     ZBTableGroup *group2 = [[ZBTableGroup alloc] init];

@@ -80,7 +80,7 @@
     
     NSArray *titleArray=[NSArray arrayWithObjects:[[ZBGlobalSettingsTool sharedInstance] appBundleName],@"其他",@"可用",nil];
     for (int i = 0; i<titleArray.count; i++) {
-        UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(20+140*i ,410, 100, 20)];
+        UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(20+120*i ,410, 100, 20)];
         label.text=[titleArray objectAtIndex:i];
         label.textAlignment=NSTextAlignmentCenter;
         label.backgroundColor=[colorArr objectAtIndex:i];
@@ -91,7 +91,7 @@
     
     
     for (int i = 0; i<sizeArray.count; i++) {
-        UILabel *label1=[[UILabel alloc]initWithFrame:CGRectMake(20+140*i,430, 100, 20)];
+        UILabel *label1=[[UILabel alloc]initWithFrame:CGRectMake(20+120*i,430, 100, 20)];
         label1.tag=3000+i;
         label1.text=[sizeArray objectAtIndex:i];
         label1.font=[UIFont systemFontOfSize:12];

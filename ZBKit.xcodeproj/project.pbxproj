@@ -61,9 +61,6 @@
 		7DC2FAE41E5EB68800CEC472 /* NSObject+ZBCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FAE31E5EB68800CEC472 /* NSObject+ZBCoding.m */; };
 		7DC2FAE81E5EB69A00CEC472 /* NSBundle+ZBKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FAE61E5EB69A00CEC472 /* NSBundle+ZBKit.m */; };
 		7DC2FAE91E5EB69A00CEC472 /* ZBKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DC2FAE71E5EB69A00CEC472 /* ZBKit.bundle */; };
-		7DC2FAF11E5EB6AB00CEC472 /* ZBInteractiveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FAEC1E5EB6AB00CEC472 /* ZBInteractiveTransition.m */; };
-		7DC2FAF21E5EB6AB00CEC472 /* ZBPopTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FAEE1E5EB6AB00CEC472 /* ZBPopTransitioning.m */; };
-		7DC2FAF31E5EB6AB00CEC472 /* ZBPushTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FAF01E5EB6AB00CEC472 /* ZBPushTransitioning.m */; };
 		7DC2FB041E5EB6C200CEC472 /* ZBControlTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB011E5EB6C200CEC472 /* ZBControlTool.m */; };
 		7DC2FB051E5EB6C200CEC472 /* ZBGlobalSettingsTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB031E5EB6C200CEC472 /* ZBGlobalSettingsTool.m */; };
 		7DC2FB091E5EB6C900CEC472 /* ZBTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB081E5EB6C900CEC472 /* ZBTableViewController.m */; };
@@ -193,12 +190,6 @@
 		7DC2FAE51E5EB69A00CEC472 /* NSBundle+ZBKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSBundle+ZBKit.h"; path = "ZBBundle/NSBundle+ZBKit.h"; sourceTree = "<group>"; };
 		7DC2FAE61E5EB69A00CEC472 /* NSBundle+ZBKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSBundle+ZBKit.m"; path = "ZBBundle/NSBundle+ZBKit.m"; sourceTree = "<group>"; };
 		7DC2FAE71E5EB69A00CEC472 /* ZBKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ZBKit.bundle; path = ZBBundle/ZBKit.bundle; sourceTree = "<group>"; };
-		7DC2FAEB1E5EB6AB00CEC472 /* ZBInteractiveTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBInteractiveTransition.h; sourceTree = "<group>"; };
-		7DC2FAEC1E5EB6AB00CEC472 /* ZBInteractiveTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBInteractiveTransition.m; sourceTree = "<group>"; };
-		7DC2FAED1E5EB6AB00CEC472 /* ZBPopTransitioning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBPopTransitioning.h; sourceTree = "<group>"; };
-		7DC2FAEE1E5EB6AB00CEC472 /* ZBPopTransitioning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBPopTransitioning.m; sourceTree = "<group>"; };
-		7DC2FAEF1E5EB6AB00CEC472 /* ZBPushTransitioning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBPushTransitioning.h; sourceTree = "<group>"; };
-		7DC2FAF01E5EB6AB00CEC472 /* ZBPushTransitioning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBPushTransitioning.m; sourceTree = "<group>"; };
 		7DC2FAFF1E5EB6C200CEC472 /* ZBConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBConstants.h; sourceTree = "<group>"; };
 		7DC2FB001E5EB6C200CEC472 /* ZBControlTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBControlTool.h; sourceTree = "<group>"; };
 		7DC2FB011E5EB6C200CEC472 /* ZBControlTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBControlTool.m; sourceTree = "<group>"; };
@@ -402,19 +393,6 @@
 			path = ZBAnimation;
 			sourceTree = "<group>";
 		};
-		7DC2FAEA1E5EB6AB00CEC472 /* ZBTransition */ = {
-			isa = PBXGroup;
-			children = (
-				7DC2FAEB1E5EB6AB00CEC472 /* ZBInteractiveTransition.h */,
-				7DC2FAEC1E5EB6AB00CEC472 /* ZBInteractiveTransition.m */,
-				7DC2FAED1E5EB6AB00CEC472 /* ZBPopTransitioning.h */,
-				7DC2FAEE1E5EB6AB00CEC472 /* ZBPopTransitioning.m */,
-				7DC2FAEF1E5EB6AB00CEC472 /* ZBPushTransitioning.h */,
-				7DC2FAF01E5EB6AB00CEC472 /* ZBPushTransitioning.m */,
-			);
-			path = ZBTransition;
-			sourceTree = "<group>";
-		};
 		7DC2FAFE1E5EB6C200CEC472 /* ZBTool */ = {
 			isa = PBXGroup;
 			children = (
@@ -543,7 +521,6 @@
 				7D1C6DE01E35F8CE00495AB7 /* ZBDataBase */,
 				7DC2FB061E5EB6C900CEC472 /* ZBTableView */,
 				7DC2FAFE1E5EB6C200CEC472 /* ZBTool */,
-				7DC2FAEA1E5EB6AB00CEC472 /* ZBTransition */,
 				7DC2FAD81E5EB66D00CEC472 /* ZBAnimation */,
 				7DA919401E5BECF9006F347F /* ZBBundle */,
 				7DD9D6571E27838600CFA0A9 /* ZBKit.h */,
@@ -839,7 +816,6 @@
 				7D1C6DFB1E35F8CE00495AB7 /* ZBDataBaseManager.m in Sources */,
 				7D139CBB1E8DF76F005B89D7 /* FiveViewController.m in Sources */,
 				7DC2FADE1E5EB66D00CEC472 /* ZBChart.m in Sources */,
-				7DC2FAF21E5EB6AB00CEC472 /* ZBPopTransitioning.m in Sources */,
 				7DD0B43E1E65692000E5634E /* StorageSpaceViewController.m in Sources */,
 				7D1C6DFC1E35F8CE00495AB7 /* UIImage+ZBKit.m in Sources */,
 				7D183D9C1E9F4AD600376D0B /* UIView+ZBKit.m in Sources */,
@@ -850,8 +826,6 @@
 				7D139CBF1E8E3D42005B89D7 /* UIColor+ZBKit.m in Sources */,
 				7D4F74DA1E77A1BE00C6A03E /* UIImageView+ZBWebCache.m in Sources */,
 				7D57D64F1E37489C00529558 /* MenuModel.m in Sources */,
-				7DC2FAF31E5EB6AB00CEC472 /* ZBPushTransitioning.m in Sources */,
-				7DC2FAF11E5EB6AB00CEC472 /* ZBInteractiveTransition.m in Sources */,
 				7D5962031E529DFA00E92F55 /* SettingViewController.m in Sources */,
 				7DC006871E6816090047213C /* SixViewController.m in Sources */,
 			);

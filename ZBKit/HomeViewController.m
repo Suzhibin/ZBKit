@@ -15,25 +15,16 @@
 #import "FourViewController.h"
 #import "FiveViewController.h"
 #import "SixViewController.h"
-#import "ZBPushTransitioning.h"
-#import "ZBPopTransitioning.h"
-#import "ZBInteractiveTransition.h"
-@interface HomeViewController ()<UINavigationControllerDelegate>
-@property (strong, nonatomic) ZBPushTransitioning *pushAnimation;
 
-@property (strong, nonatomic) ZBPopTransitioning  *popAnimation;
+@interface HomeViewController ()
 
-@property (strong, nonatomic) ZBInteractiveTransition  *interaction;
 @end
 
 @implementation HomeViewController
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    
-    self.navigationController.delegate = self;
-    
-    [self.interaction wireToViewController:self];
 }
+
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushtoad" object:nil];
 }
@@ -185,46 +176,6 @@
     detailsVC.url=[noti.userInfo objectForKey:@"link"];
     detailsVC.functionType=Advertise;
     [self.navigationController pushViewController:detailsVC animated:YES];
-}
-
-
-#pragma mark - **************** Navgation delegate
-
-- (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
-                                  animationControllerForOperation:(UINavigationControllerOperation)operation
-                                               fromViewController:(UIViewController *)fromVC
-                                                 toViewController:(UIViewController *)toVC
-{
-    if (operation == UINavigationControllerOperationPush) {
-        return self.pushAnimation;
-    }else if (operation == UINavigationControllerOperationPop){
-        return self.popAnimation;
-    }
-    return nil;
-}
-
--(ZBPushTransitioning *)pushAnimation
-{
-    if (!_pushAnimation) {
-        _pushAnimation = [[ZBPushTransitioning alloc] init];
-    }
-    return _pushAnimation;
-}
-
--(ZBPopTransitioning *)popAnimation
-{
-    if (!_popAnimation) {
-        _popAnimation = [[ZBPopTransitioning alloc] init];
-    }
-    return _popAnimation;
-}
-
--(ZBInteractiveTransition *)interaction
-{
-    if (!_interaction) {
-        _interaction = [[ZBInteractiveTransition alloc] init];
-    }
-    return _interaction;
 }
 
 - (void)didReceiveMemoryWarning {

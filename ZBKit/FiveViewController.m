@@ -28,7 +28,7 @@
      NSArray *describeArray = @[@"图片1", @"图片2",@"动态图"];
      
      self.carouselView = [[ZBCarouselView alloc] initWithFrame:CGRectMake(0, 100, SCREEN_WIDTH, 180)];
-     //设置占位图片,须在设置图片数组之前设置,不设置则为默认占位图
+     //设置占位图片,须在设置图片数组之前设置
      _carouselView.placeholderImage = [UIImage imageNamed:[NSBundle placeholderIcon]];
      //设置图片数组及图片描述文字
      _carouselView.imageArray = arr;
@@ -67,8 +67,8 @@
     
     
      self.carouselView1 = [[ZBCarouselView alloc] initWithFrame:CGRectMake(0, 300, SCREEN_WIDTH, 180)];
-     //设置占位图片,须在设置图片数组之前设置,不设置则为默认占位图
-     _carouselView1.placeholderImage = [UIImage imageNamed:@"zhanweitu.png"];
+     //设置占位图片,须在设置图片数组之前设置3
+     _carouselView1.placeholderImage = [UIImage imageNamed:[NSBundle placeholderIcon]];
      
      //设置图片数组及图片描述文字
      _carouselView1.imageArray = arr;
