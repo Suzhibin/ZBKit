@@ -103,9 +103,17 @@
  */
 - (void)offlineDownload:(NSMutableArray *)downloadArray target:(id<ZBURLSessionDelegate>)delegate apiType:(apiType)type;
 
-+ (void)requestWithConfig:(requestConfig)config success:(requestSuccess)success failed:(requestFailed)failed;
 /**
- *  get请求 不能post
+ *  类请求方法
+ *
+ *  @param config          请求配置  Block
+ *  @param success         请求成功的 Block
+ *  @param failed          请求失败的 Block
+ */
++ (void)requestWithConfig:(requestConfig)config success:(requestSuccess)success failed:(requestFailed)failed;
+
+/**
+ *  实例请求方法
  *
  *  @param config          请求配置  Block
  *  @param success         请求成功的 Block

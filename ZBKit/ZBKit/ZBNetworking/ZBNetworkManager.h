@@ -24,6 +24,7 @@
  @return  ZBNetworkManager 对象
  */
 + (ZBNetworkManager *)sharedInstance;
+
 /**
  *  请求方法 get/post
  *
@@ -32,6 +33,7 @@
  *  @param failed           请求失败的 Block
  */
 + (ZBNetworkManager *)requestWithConfig:(requestConfig)config  success:(requestSuccess)success failed:(requestFailed)failed;
+
 /**
  *  请求方法 get/post
  *
