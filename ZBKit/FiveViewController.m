@@ -29,7 +29,7 @@
      
      self.carouselView = [[ZBCarouselView alloc] initWithFrame:CGRectMake(0, 100, SCREEN_WIDTH, 180)];
      //设置占位图片,须在设置图片数组之前设置
-     _carouselView.placeholderImage = [UIImage imageNamed:[NSBundle placeholderIcon]];
+     _carouselView.placeholderImage = [UIImage imageNamed:[NSBundle zb_placeholder]];
      //设置图片数组及图片描述文字
      _carouselView.imageArray = arr;
      _carouselView.describeArray = describeArray;
@@ -68,7 +68,7 @@
     
      self.carouselView1 = [[ZBCarouselView alloc] initWithFrame:CGRectMake(0, 300, SCREEN_WIDTH, 180)];
      //设置占位图片,须在设置图片数组之前设置3
-     _carouselView1.placeholderImage = [UIImage imageNamed:[NSBundle placeholderIcon]];
+     _carouselView1.placeholderImage = [UIImage imageNamed:[NSBundle zb_placeholder]];
      
      //设置图片数组及图片描述文字
      _carouselView1.imageArray = arr;

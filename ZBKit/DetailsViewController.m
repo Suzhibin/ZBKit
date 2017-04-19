@@ -9,6 +9,7 @@
 #import "DetailsViewController.h"
 #import "ZBKit.h"
 #import <WebKit/WebKit.h>
+#import "DBViewController.h"
 @interface DetailsViewController ()<WKNavigationDelegate,WKUIDelegate,UIScrollViewDelegate>
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) UIView *loadingView;
@@ -29,6 +30,7 @@
     self.loadingView.center= self.view.center;
     [self.loadingView zb_animationloadingView];
     [self.view addSubview:self.loadingView];
+    [self itemWithTitle:@"收藏页面" selector:@selector(btnDBClick) location:NO];
 }
 
 - (void)createWebView{
@@ -170,6 +172,11 @@
         
         [[ZBCacheManager sharedInstance]clearDiskWithpath:path];
     }
+}
+- (void)btnDBClick{
+    DBViewController *dbVC=[[DBViewController alloc]init];
+    dbVC.functionType=collectionTable;
+    [self.navigationController pushViewController:dbVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

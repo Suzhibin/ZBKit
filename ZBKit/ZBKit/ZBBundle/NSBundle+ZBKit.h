@@ -10,29 +10,29 @@
 #import <UIKit/UIKit.h>
 @interface NSBundle (ZBKit)
 
-+ (NSString *)navigationReturn;
++ (NSString *)zb_navigationReturn;
 
-+ (NSString *)navigationReturnClick;
++ (NSString *)zb_navigationReturnClick;
 
-+ (NSString *)placeholderIcon;
++ (NSString *)zb_placeholder;
 
-+ (NSString *)IDInfoIcon;
++ (NSString *)zb_IDInfo;
 
-+ (NSString *)handShakeIcon;
++ (NSString *)zb_handShake;
 
-+ (NSString *)MoreAboutIcon;
++ (NSString *)zb_MoreAbout;
 
-+ (NSString *)MoreHelpIcon;
++ (NSString *)zb_MoreHelp;
 
-+ (NSString *)MoreMessageIcon;
++ (NSString *)zb_MoreMessage;
 
-+ (NSString *)MorePushIcon;
++ (NSString *)zb_MorePush;
 
-+ (NSString *)MoreShareIcon;
++ (NSString *)zb_MoreShare;
 
-+ (NSString *)MoreUpdateIcon;
++ (NSString *)zb_MoreUpdate;
 
-+ (NSString *)ArrowIcon;
++ (NSString *)zb_Arrow;
 
 
 @end

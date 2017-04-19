@@ -42,7 +42,7 @@
     // 账号
     //itemWithIcon
     //itemWithTitle
-    ZBTableItem *IDItem = [ZBTableItem itemWithIcon:[NSBundle IDInfoIcon] title:@"账号管理" type:ZBTableItemTypeArrow];
+    ZBTableItem *IDItem = [ZBTableItem itemWithIcon:[NSBundle zb_IDInfo] title:@"账号管理" type:ZBTableItemTypeArrow];
     IDItem.operation = ^{
         UIViewController *helpVC = [[UIViewController alloc] init];
         helpVC.view.backgroundColor = [UIColor grayColor];
@@ -51,7 +51,7 @@
     };
     
     // 字体
-    ZBTableItem *fontItem  = [ZBTableItem itemWithIcon:[NSBundle MoreHelpIcon] title:@"字体大小" type:ZBTableItemTypeRightText];
+    ZBTableItem *fontItem  = [ZBTableItem itemWithIcon:[NSBundle zb_MoreHelp] title:@"字体大小" type:ZBTableItemTypeRightText];
     fontItem.rightText=[self setFont];
     __block ZBTableItem *weakFont = fontItem;
     fontItem.operation = ^{
@@ -207,13 +207,13 @@
     };
     
     //意见反馈
-    ZBTableItem *feedbackItem = [ZBTableItem itemWithIcon:[NSBundle MoreMessageIcon] title:@"意见反馈" type:ZBTableItemTypeArrow];
+    ZBTableItem *feedbackItem = [ZBTableItem itemWithIcon:[NSBundle zb_MoreMessage] title:@"意见反馈" type:ZBTableItemTypeArrow];
     feedbackItem.operation = ^{
         [weakSelf createMail];
     };
     
     // 分享
-    ZBTableItem *shareItem = [ZBTableItem itemWithIcon:[NSBundle MoreShareIcon] title:@"分享" type:ZBTableItemTypeArrow];
+    ZBTableItem *shareItem = [ZBTableItem itemWithIcon:[NSBundle zb_MoreShare] title:@"分享" type:ZBTableItemTypeArrow];
     shareItem.operation = ^{
         NSArray *activityItems=@[@"ZBKit"];
         UIActivityViewController *activityController =
@@ -223,7 +223,7 @@
                                animated:YES completion:nil];
     };
     // 关于
-    ZBTableItem *aboutItem = [ZBTableItem itemWithIcon:[NSBundle MoreAboutIcon] title:@"关于" type:ZBTableItemTypeArrow];
+    ZBTableItem *aboutItem = [ZBTableItem itemWithIcon:[NSBundle zb_MoreAbout] title:@"关于" type:ZBTableItemTypeArrow];
     
     aboutItem.operation = ^{
         NSString *aboutString=[NSString stringWithFormat:@"应用名字:%@\n应用ID:%@\n应用版本:%@\n应用build:%@\n设备名字:%@",[[ZBGlobalSettingsTool sharedInstance]appBundleName],[[ZBGlobalSettingsTool sharedInstance]appBundleID],[[ZBGlobalSettingsTool sharedInstance]appVersion],[[ZBGlobalSettingsTool sharedInstance]appBuildVersion],[[ZBGlobalSettingsTool sharedInstance]deviceName]];

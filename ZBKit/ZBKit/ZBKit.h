@@ -9,33 +9,39 @@
 #ifndef ZBKit_h
 #define ZBKit_h
 
-#import "ZBNetworking.h"//网络请求框架
+#import "ZBNetworking.h"           //网络请求框架
 
-#import "ZBGlobalSettingsTool.h"//设置页面助手
-#import "ZBTableViewController.h"//设置页面
+#import "ZBGlobalSettingsTool.h"   //设置页面助手
+#import "ZBTableViewController.h"  //自定义table（设置页面）
 
-#import "ZBDataBaseManager.h"//数据库
-#import "NSObject+ZBCoding.h"//数据库助手
+#import "ZBDataBaseManager.h"      //数据库
+#import "NSObject+ZBCoding.h"      //数据库助手
 
-#import "ZBWebImageManager.h"//简单的图片缓存器
-#import "UIImage+ZBKit.h"//图片UI操作
-#import "UIImageView+ZBWebCache.h"//简单的图片缓存器
-#import "UIView+ZBAnimation.h"//动画
+#import "ZBWebImageManager.h"      //简单的图片缓存器
+#import "UIImage+ZBKit.h"          //图片UI操作
+#import "UIImageView+ZBWebCache.h" //简单的图片缓存器
+#import "UIView+ZBAnimation.h"     //动画
 
-#import "ZBAdvertiseView.h" //开屏广告view
-#import "ZBAdvertiseInfo.h" //开屏广告数据操作
+#import "ZBAdvertiseView.h"        //开屏广告view
+#import "ZBAdvertiseInfo.h"        //开屏广告数据操作
 
-#import "ZBCarouselView.h"  //轮播控件
-#import "ZBNavigationController.h"//自定义导航
+#import "ZBCarouselView.h"         //轮播控件
+#import "ZBNavigationController.h" //自定义导航
 
-#import "ZBConstants.h"
-#import "ZBControlTool.h"
+#import "ZBConstants.h"            //常量类
+#import "ZBControlTool.h"          //助手
+
+#import "ZBChart.h" //环形动画
+/*
+  Category
+ */
 #import "UIColor+ZBKit.h"
 #import "NSString+ZBKit.h"
-#import "NSBundle+ZBKit.h"
 #import "NSDate+ZBKit.h"
 #import "UIView+ZBKit.h"
 #import "AppDelegate+ZBKit.h"
-#import "ZBChart.h"
+#import "NSBundle+ZBKit.h"
+#import "UIBarButtonItem+ZBKit.h"
+#import "UIViewController+ZBKit.h"
 
 #endif /* ZBKit_h */

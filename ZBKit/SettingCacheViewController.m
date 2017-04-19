@@ -269,9 +269,8 @@ static const NSInteger cacheTime = 30;
     self.offlineView=[[OfflineView alloc]initWithFrame:CGRectMake(0, 0, [UIApplication sharedApplication].keyWindow .frame.size.width,[UIApplication sharedApplication].keyWindow .frame.size.height)];
     [self.offlineView.cancelButton addTarget:self action:@selector(cancelClick) forControlEvents:UIControlEventTouchUpInside];
     [[UIApplication sharedApplication].keyWindow addSubview:self.offlineView];
-    
-    
 }
+
 - (void)reloadJsonNumber{
     //离线页面的频道列表也会缓存的 如果之前清除了缓存，就刷新显示出来+1个缓存数量
     [self.tableView reloadData];
@@ -374,9 +373,7 @@ static const NSInteger cacheTime = 30;
         _tableView.delegate=self;
         _tableView.dataSource=self;
         _tableView.tableFooterView=[[UIView alloc]init];
-        
     }
-    
     return _tableView;
 }
 

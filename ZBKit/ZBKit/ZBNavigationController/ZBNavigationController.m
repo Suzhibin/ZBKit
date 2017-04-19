@@ -24,8 +24,8 @@
         viewController.hidesBottomBarWhenPushed = YES;
         
         UIButton *button = [[UIButton alloc] init];
-        [button setImage:[UIImage imageNamed:[NSBundle navigationReturn]] forState:UIControlStateNormal];
-        [button setImage:[UIImage imageNamed:[NSBundle navigationReturnClick]] forState:UIControlStateHighlighted];
+        [button setImage:[UIImage imageNamed:[NSBundle zb_navigationReturn]] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:[NSBundle zb_navigationReturnClick]] forState:UIControlStateHighlighted];
         button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [button setTitle:@"返回" forState:UIControlStateNormal];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];

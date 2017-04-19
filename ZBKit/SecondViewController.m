@@ -47,7 +47,7 @@
         self.imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 240)];
         self.imageView.userInteractionEnabled = YES;
         
-        [self.imageView zb_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:[NSBundle placeholderIcon]] completion:^(UIImage *image) {
+        [self.imageView zb_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]] completion:^(UIImage *image) {
             [self sizeAndCount];
             
             [label1 zb_animatedViewMoveWithRightX:60];//右平移 -30-60=30；

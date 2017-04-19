@@ -18,10 +18,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
-    
-    
-    
+
 }
+
 - (void)alertTitle:(NSString *)title andMessage:(NSString *)message{
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
     
@@ -38,7 +37,6 @@
 
         self.navigationItem.rightBarButtonItem = item;
     }
-    
 }
 
 - (void)didReceiveMemoryWarning {
