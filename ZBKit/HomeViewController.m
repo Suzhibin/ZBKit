@@ -34,10 +34,9 @@
     self.view.backgroundColor=[UIColor whiteColor];
     
     //self.title=@"ZBKit";
-    
     //点击广告链接 事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushToAd:) name:@"pushtoad" object:nil];
-    
+
     // 1.网络请求
     //[self add0SectionItems];
     // 2.图片操作
@@ -170,12 +169,12 @@
     [_allGroups addObject:group6];
 }
 
-- (void)pushToAd:(NSNotification *)noti{
-    
-    DetailsViewController* detailsVC=[[DetailsViewController alloc]init];
-    detailsVC.url=[noti.userInfo objectForKey:@"link"];
-    detailsVC.functionType=Advertise;
-    [self.navigationController pushViewController:detailsVC animated:YES];
+ - (void)pushToAd:(NSNotification *)noti{
+ 
+     DetailsViewController* detailsVC=[[DetailsViewController alloc]init];
+     detailsVC.url=[noti.userInfo objectForKey:@"link"];
+     detailsVC.functionType=Advertise;
+     [self.navigationController pushViewController:detailsVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

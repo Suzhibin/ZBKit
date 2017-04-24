@@ -112,12 +112,11 @@
             advertiseView.filePath = imagePath;
             advertiseView.ZBAdvertiseBlock=^{
                 if ([[urlDict objectForKey:@"link"]isEqualToString:@""]) {
-                    NSLog(@"没有url");
                     return;
                 }else{
-                    NSLog(@"有url跳转");
+                    ///有url跳转 要在tabbarController 里 presentViewController
                     [weakSelf dismiss:nil];//跳转时 移除view
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"pushtoad" object:nil userInfo:urlDict];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"tabbarPushToAd" object:nil userInfo:urlDict];
                 }
             };
             [self addSubview:advertiseView];

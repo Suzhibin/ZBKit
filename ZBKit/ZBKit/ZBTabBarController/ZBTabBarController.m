@@ -13,6 +13,7 @@
 #import "ZBTabBar.h"
 #import "ZBTabBarItem.h"
 #import "ViewController.h"
+#import "DetailsViewController.h"
 @interface ZBTabBarController ()<UITabBarControllerDelegate>
 @property (nonatomic,weak) UIViewController *lastViewController;
 @property (nonatomic,strong) UIButton *middleButton;
@@ -20,7 +21,9 @@
 @end
 
 @implementation ZBTabBarController
-
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"tabbarPushToAd" object:nil];
+}
 + (void)initialize
 {
     UITabBarItem *appearance = [UITabBarItem appearance];
@@ -48,7 +51,22 @@
     // 设置代理 监听tabBar上按钮点击
     self.delegate = self;
     _lastViewController = self.childViewControllers.firstObject;
+    
+    //点击广告链接 事件
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushToAd:) name:@"tabbarPushToAd" object:nil];
 }
+
+- (void)pushToAd:(NSNotification *)noti{
+ 
+    DetailsViewController* detailsVC=[[DetailsViewController alloc]init];
+    detailsVC.url=[noti.userInfo objectForKey:@"link"];
+    detailsVC.functionType=tabbarAdvertise;
+    ZBNavigationController *nav = [[ZBNavigationController alloc] initWithRootViewController:detailsVC];
+    ZBTabBarController * rootView = (ZBTabBarController *)[[UIApplication sharedApplication].delegate window].rootViewController;
+    [rootView presentViewController:nav animated:YES completion:nil];
+
+}
+
 -(void)publishClick{
     ZBTabBarItem *tableItem=[[ZBTabBarItem alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     
@@ -91,7 +109,7 @@
     NSArray *images=@[@"tabBar_essence_icon",@"tabBar_new_icon",@"tabBar_friendTrends_icon",@"tabBar_me_icon"];
     NSArray *seleImages=@[@"tabBar_essence_click_icon",@"tabBar_new_click_icon",@"tabBar_friendTrends_click_icon",@"tabBar_me_click_icon"];
 
-    NSArray *titles=@[@"首页",@"ZBNetworking",@"ZBCarouselView",@"ZBTableView"];
+    NSArray *titles=@[@"Home",@"ZBNetworking",@"ZBCarouselView",@"ZBTableView"];
 
    // NSArray *badgeValueArr=@[@"N",@"1",@"2",@"3"];
     

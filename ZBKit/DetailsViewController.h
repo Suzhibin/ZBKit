@@ -11,7 +11,8 @@
 //用于标识不同方法
 typedef NS_ENUM(NSInteger,functionType) {
     Details,
-    Advertise
+    Advertise,
+    tabbarAdvertise
 } ;
 @interface DetailsViewController : BaseViewController
 @property (nonatomic,assign) functionType functionType;

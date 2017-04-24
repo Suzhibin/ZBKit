@@ -96,10 +96,8 @@
             advertiseView.filePath = imagePath;
             advertiseView.ZBAdvertiseBlock=^{
                 if ([[urlDict objectForKey:@"link"]isEqualToString:@""]) {
-                    ZBKLog(@"没有url");
                     return;
                 }else{
-                    ZBKLog(@"有url跳转");
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"pushtoad" object:nil userInfo:urlDict];
                 }
             };

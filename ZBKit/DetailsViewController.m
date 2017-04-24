@@ -30,7 +30,15 @@
     self.loadingView.center= self.view.center;
     [self.loadingView zb_animationloadingView];
     [self.view addSubview:self.loadingView];
-    [self itemWithTitle:@"收藏页面" selector:@selector(btnDBClick) location:NO];
+    if (_functionType==Details) {
+        [self itemWithTitle:@"收藏页面" selector:@selector(btnDBClick) location:NO];
+    }
+    if (_functionType== tabbarAdvertise){
+        [self itemWithTitle:@"返回" selector:@selector(back) location:YES];
+    }
+}
+- (void)back{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)createWebView{
