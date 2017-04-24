@@ -25,10 +25,13 @@
 @end
 
 @implementation FirstViewController
-
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refresh" object:nil];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
      self.automaticallyAdjustsScrollViewInsets = NO;
     // 加载左边数据
     [self loadData:menu_URL];
@@ -37,11 +40,17 @@
     [self.view addSubview:self.listTableView];
     [self.listTableView addSubview:self.refreshControl];
     [self itemWithTitle:@"缓存设置" selector:@selector(btnClick) location:NO];
+    //点击广告链接 事件
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(homeRefresh:) name:@"refresh" object:nil];
+
 }
 - (void)loadData:(NSString *)url{
+    //AFNetworking 封装 请求
     [ZBNetworkManager requestWithConfig:^(ZBURLRequest *request){
         request.urlString=menu_URL;
+        request.apiType=ZBRequestTypeDefault;
     }  success:^(id responseObj,apiType type){
+ 
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
         NSArray *array=[dict objectForKey:@"authors"];
         for (NSDictionary *dic in array) {
@@ -52,10 +61,11 @@
             [self.menuArray addObject:model];
         }
         [self.menuTableView reloadData];
-        MenuModel *model=[self.menuArray objectAtIndex:0];
         // 选中首行
-       [self.menuTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
-         NSString *url=[NSString stringWithFormat:list_URL,model.wid];
+        [self.menuTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
+        
+        MenuModel *model=[self.menuArray objectAtIndex:0];
+        NSString *url=[NSString stringWithFormat:list_URL,model.wid];
 
         [self loadlist: url type:ZBRequestTypeDefault];
         
@@ -69,7 +79,8 @@
     }];
 }
 - (void)loadlist:(NSString *)listUrl type:(apiType)type{
-    [ZBNetworkManager requestWithConfig:^(ZBURLRequest *request){
+    //session 封装 请求
+    [[ZBURLSessionManager sharedInstance] requestWithConfig:^(ZBURLRequest *request){
         request.urlString=listUrl;
         request.apiType=type;
     }  success:^(id responseObj,apiType type){
@@ -77,7 +88,7 @@
         if (type==ZBRequestTypeRefresh) {
             [_refreshControl endRefreshing];    //结束刷新
         }
-        [self.listArray removeAllObjects];
+        [self.listArray removeAllObjects]; 
         NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
         NSArray *array=[dataDict objectForKey:@"videos"];
         for (NSDictionary *dict in array) {
@@ -144,7 +155,6 @@
             }
         }else{
             [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]]];
-
         }
 
         return cell;
@@ -169,14 +179,14 @@
     if (!_refreshControl) {
         _refreshControl = [[UIRefreshControl alloc] init];    //下拉刷新
         _refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉刷新..."];      //标题
-        [_refreshControl addTarget:self action:@selector(refreshDown) forControlEvents:UIControlEventValueChanged];  //事件
+        [_refreshControl addTarget:self action:@selector(refreshDown:) forControlEvents:UIControlEventValueChanged];  //事件
     }
     return _refreshControl;
 }
-- (void)refreshDown{
+- (void)refreshDown:(UIRefreshControl*)refreshControl{
     //开始刷新
-    [_refreshControl beginRefreshing];
-    _refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"加载中"];
+    [refreshControl beginRefreshing];
+    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"加载中"];
     [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timer) userInfo:nil repeats:NO];
 }
 
@@ -198,7 +208,10 @@
     SettingCacheViewController *cacheVC=[[SettingCacheViewController alloc]init];
     [self.navigationController pushViewController:cacheVC animated:YES];
 }
-
+- (void)homeRefresh:(NSNotification *)noti{
+    self.listTableView.contentOffset = CGPointMake(0, -100);
+    [self refreshDown:self.refreshControl];
+}
 //懒加载
 - (UITableView *)menuTableView{
     if (!_menuTableView) {

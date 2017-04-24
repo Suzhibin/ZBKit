@@ -113,5 +113,7 @@
 
 //uuid
 - (NSString *)uuid;
+ //客户端类型 iphone ipad
+- (NSString *) clientType;
 
 @end

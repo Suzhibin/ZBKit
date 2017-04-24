@@ -9,18 +9,35 @@
 #import <UIKit/UIKit.h>
 
 
+typedef NS_ENUM(NSInteger,AdvertiseType) {
+    
+    ZBAdvertiseTypeScreen,
+    ZBAdvertiseTypeView
+} ;
+
 @interface ZBAdvertiseView : UIView
 
 @property (copy, nonatomic) void (^ZBAdvertiseBlock)();
+
+/**
+ *  用于标识不同类型的request
+ */
+@property (nonatomic,assign) AdvertiseType adType;
+
 /*
  *  创建广告视图
  */
-- (instancetype)initWithFrame:(CGRect)frame ;
+- (instancetype)initWithFrame:(CGRect)frame type:(AdvertiseType)type;
 /*
- *  显示
+ *  显示到UIWindow上 
+ *  如果不是开屏广告 不用此方法，添加到对应的视图上即可
  */
-- (void)show;
+- (void)showWindow;
 
+/**
+ 移除广告
+ */
+- (void)dismiss;
 /*
  *  图片
  */

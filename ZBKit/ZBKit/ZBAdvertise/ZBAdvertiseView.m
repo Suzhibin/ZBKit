@@ -32,32 +32,35 @@ static int const showtime = 3;
     return _countTimer;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame type:(AdvertiseType)type
 {
     if (self = [super initWithFrame:frame]) {
-        
+        self.adType=type;
         // 1.广告图片
-        _adView = [[UIImageView alloc] initWithFrame:frame];
+        _adView = [[UIImageView alloc] initWithFrame:self.bounds];
         _adView.userInteractionEnabled = YES;
         _adView.contentMode = UIViewContentModeScaleAspectFill;
         _adView.clipsToBounds = YES;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushToAd)];
         [_adView addGestureRecognizer:tap];
-        
-        // 2.跳过按钮
-        CGFloat btnW = 60;
-        CGFloat btnH = 30;
-        _countBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.frame.size.width - btnW - 24, btnH, btnW, btnH)];
-        [_countBtn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
-        [_countBtn setTitle:[NSString stringWithFormat:@"跳过%d", showtime] forState:UIControlStateNormal];
-        _countBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-        [_countBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _countBtn.backgroundColor = [UIColor colorWithRed:38 /255.0 green:38 /255.0 blue:38 /255.0 alpha:0.6];
-        _countBtn.layer.cornerRadius = 4;
-        
         [self addSubview:_adView];
-        [self addSubview:_countBtn];
-        [self show];
+        if (type==ZBAdvertiseTypeScreen) {
+            // 2.跳过按钮
+            CGFloat btnW = 60;
+            CGFloat btnH = 30;
+            _countBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.frame.size.width - btnW - 24, btnH, btnW, btnH)];
+            [_countBtn addTarget:self action:@selector(dismissClick) forControlEvents:UIControlEventTouchUpInside];
+            [_countBtn setTitle:[NSString stringWithFormat:@"跳过%d", showtime] forState:UIControlStateNormal];
+            _countBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+            [_countBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            _countBtn.backgroundColor = [UIColor colorWithRed:38 /255.0 green:38 /255.0 blue:38 /255.0 alpha:0.6];
+            _countBtn.layer.cornerRadius = 4;
+            [self addSubview:_countBtn];
+
+        }else{
+            //不创建倒计时按钮
+        }
+        [self showWindow];
     }
     return self;
 }
@@ -91,15 +94,22 @@ static int const showtime = 3;
     }
 }
 
-- (void)show
+- (void)showWindow
 {
     // 倒计时方法1：GCD
     //    [self startCoundown];
     
     // 倒计时方法2：定时器
-    [self startTimer];
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    [window addSubview:self];
+    if (self.adType==ZBAdvertiseTypeScreen){
+        [self startTimer];
+        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        [window addSubview:self];
+    }else{
+         //不显示倒计时 不添加到window
+        
+    }
+   
+
 }
 
 // 定时器倒计时
@@ -151,7 +161,9 @@ static int const showtime = 3;
     }];
     
 }
-
+- (void)dismissClick{
+    [self dismiss];
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

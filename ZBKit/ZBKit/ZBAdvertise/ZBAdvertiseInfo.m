@@ -69,10 +69,10 @@ NSString *const AdDefaultPath =@"Advertise";
         BOOL plistExist=  [[NSFileManager defaultManager] fileExistsAtPath:plistPath isDirectory:FALSE];
         
         if (!isExist||!plistExist){// 如果该图片不存在，则删除老图片，下载新图片
-            ZBKLog(@"下载图片和url");
+           // ZBKLog(@"下载图片和url");
             [ZBAdvertiseInfo downloadAdWithImageUrl:imageUrl url:url imageName:imageName urlName:urlName];
         }else{
-            ZBKLog(@"有开屏缓存图片");
+           // ZBKLog(@"有开屏缓存图片");
         }
     }
     

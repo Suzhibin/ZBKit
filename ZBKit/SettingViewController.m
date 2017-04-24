@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title=@"设置页面";
+
     // 1.第0租
     [self add0SectionItems];
     // 2.第1组
@@ -265,21 +265,6 @@
     
 }
 
-- (NSString *)getCacheSize{
-    
-    float cacheSize=[[ZBCacheManager sharedInstance]getCacheSize];//json缓存文件大小
-    float imageSize = [[SDImageCache sharedImageCache]getSize];//图片缓存大小
-    
-    float AppCacheSize=cacheSize+imageSize;
-    AppCacheSize=AppCacheSize/1000.0/1000.0;
-    return [NSString stringWithFormat:@"%.2fM",AppCacheSize];
-}
-- (NSString *)getCacheCount{
-    float cacheCount=[[ZBCacheManager sharedInstance]getCacheCount];//json缓存文件个数
-    float imageCount=[[SDImageCache sharedImageCache]getDiskCount];//图片缓存个数
-    float AppCacheCount=cacheCount+imageCount;
-    return [NSString stringWithFormat:@"%.f",AppCacheCount];
-}
 #pragma mark - mail delegate
 - (void)createMail
 {

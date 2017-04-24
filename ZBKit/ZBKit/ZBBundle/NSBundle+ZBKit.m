@@ -9,16 +9,17 @@
 #import "NSBundle+ZBKit.h"
 
 @implementation NSBundle (ZBKit)
+
 + (NSString *)zb_navigationReturn
 {
-    static NSString *placeholder=@"ZBKit.bundle/navigationButtonReturn";
-    return placeholder;
+    static NSString *navigationReturn=@"ZBKit.bundle/ZBNavigation/navigationButtonReturn";
+    return navigationReturn;
 }
 
 + (NSString *)zb_navigationReturnClick
 {
-    static NSString *placeholder=@"ZBKit.bundle/navigationButtonReturnClick";
-    return placeholder;
+    static NSString *navigationReturnClick=@"ZBKit.bundle/ZBNavigation/navigationButtonReturnClick";
+    return navigationReturnClick;
 }
 + (NSString *)zb_placeholder
 {

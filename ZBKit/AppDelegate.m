@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "ZBKit.h"
 #import "HomeViewController.h"
-
+#import "ZBTabBarController.h"
 @interface AppDelegate ()
 
 @end
@@ -22,9 +22,10 @@
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor=[UIColor whiteColor];
     
-    HomeViewController * home= [[HomeViewController alloc]init];
-    ZBNavigationController *nc=[[ZBNavigationController alloc]initWithRootViewController:home];
-    self.window.rootViewController = nc;
+ 
+    ZBTabBarController *tabbar=[[ZBTabBarController alloc]init];
+    
+    self.window.rootViewController = tabbar;
     
     [self.window makeKeyAndVisible];
     

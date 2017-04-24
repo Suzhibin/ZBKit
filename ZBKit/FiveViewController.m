@@ -12,7 +12,6 @@
 @property (nonatomic,strong)ZBCarouselView *carouselView;
 @property (nonatomic,strong)ZBCarouselView *carouselView1;
 @property (nonatomic,strong)ZBCarouselView *carouselView2;
-@property (nonatomic,strong)UIView *loadingView;
 
 @end
 
@@ -21,7 +20,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"轮播";
     
      NSArray *arr = @[IMAGE1,IMAGE2,IMAGE3,];
      
@@ -82,12 +80,6 @@
      //设置图片切换的方式
      _carouselView1.changeMode = ChangeModeDefault;
      [self.view addSubview:_carouselView1];
-     
-     
-     self.loadingView=[[UIView alloc]initWithFrame:CGRectMake(100, 500, 200, 180)];
-     [self.loadingView zb_animationloadingView];
-     [self.view addSubview:self.loadingView];
-    
 
 }
 

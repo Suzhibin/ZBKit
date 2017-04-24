@@ -21,7 +21,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title=@"存储空间";
-    
+
     float system=  [[ZBCacheManager sharedInstance]diskSystemSpace];
     NSLog(@"磁盘总空间:%@",[[ZBCacheManager sharedInstance] fileUnitWithSize:system]);
     
@@ -112,6 +112,7 @@
     [self.view addSubview:button];
 
 }
+
 - (void)btnClicked
 {
     [self alertTitle:@"清除缓存" andMessage:[self getAllCacheSize]];

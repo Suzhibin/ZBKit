@@ -38,7 +38,7 @@
     
     [ZBAdvertiseInfo getAdvertisingInfo:^(NSString *imagePath,NSDictionary *urlDict,BOOL isExist){
         if (isExist) {
-            ZBAdvertiseView *advertiseView = [[ZBAdvertiseView alloc] initWithFrame:self.view.bounds];
+            ZBAdvertiseView *advertiseView = [[ZBAdvertiseView alloc] initWithFrame:self.view.bounds type:ZBAdvertiseTypeScreen];
             advertiseView.filePath = imagePath;
             advertiseView.ZBAdvertiseBlock=^{
                 if ([[urlDict objectForKey:@"link"]isEqualToString:@""]) {

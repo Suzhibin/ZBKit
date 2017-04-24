@@ -127,6 +127,17 @@
     return  [[[UIDevice currentDevice] identifierForVendor] UUIDString];
 }
 
++ (NSString *)zb_stringWithUUID {
+    CFUUIDRef uuid = CFUUIDCreate(NULL);
+    CFStringRef string = CFUUIDCreateString(NULL, uuid);
+    CFRelease(uuid);
+    return (__bridge_transfer NSString *)string;
+}
+
+- (NSString *) clientType{
+     return [[UIDevice currentDevice]model];
+}
+
 
 @end
 

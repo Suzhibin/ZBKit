@@ -33,13 +33,13 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
     
-    self.title=@"ZBKit";
+    //self.title=@"ZBKit";
     
     //点击广告链接 事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushToAd:) name:@"pushtoad" object:nil];
     
     // 1.网络请求
-    [self add0SectionItems];
+    //[self add0SectionItems];
     // 2.图片操作
     [self add1SectionItems];
     // 3.数据库
@@ -47,11 +47,11 @@
     // 4.开屏广告
     [self add3SectionItems];
     // 5.轮播视图
-    [self add4SectionItems];
+   // [self add4SectionItems];
     // 6.常用方法
     [self add5SectionItems];
     // 6.设置页面
-    [self add6SectionItems];
+   // [self add6SectionItems];
 
 }
 

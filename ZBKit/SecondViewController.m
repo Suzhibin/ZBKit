@@ -22,19 +22,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    self.title=@"图片操作";
+    //self.title=@"图片操作";
     
     //下个runloop
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        UILabel *label1=[[UILabel alloc]initWithFrame:CGRectMake(-30,570, 200, 30)];
+        UILabel *label1=[[UILabel alloc]initWithFrame:CGRectMake(-30,500, 200, 30)];
         
         label1.textAlignment=NSTextAlignmentLeft;
         label1.tag=4000;
         label1.backgroundColor=[UIColor whiteColor];
         [self.view addSubview:label1];
         
-        UILabel *label2=[[UILabel alloc]initWithFrame:CGRectMake(130,610, 200, 30)];
+        UILabel *label2=[[UILabel alloc]initWithFrame:CGRectMake(130,540, 200, 30)];
         
         label2.textAlignment=NSTextAlignmentLeft;
         label2.tag=5000;
@@ -134,6 +134,7 @@
 }
 
 #pragma mark - UITouch方法
+
 // 用户触碰时自动调用的方法
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     // 获取到触碰的对象
@@ -143,6 +144,7 @@
     
     [self.imageView1 zb_animatedDampingWithCenter:point];//弹簧效果
 }
+ 
 
 - (void)button1Clicked:(UIButton *)sender{
     
@@ -178,8 +180,8 @@
 - (void)handleTap:(UITapGestureRecognizer *)tap{
     
     CGPoint point = [tap locationInView:tap.view];
-    
-    CGPoint pointInImage = CGPointMake(point.x * self.imageView.zb_width / self.imageView.zb_width, point.y * self.imageView.zb_height/ self.imageView.zb_height);
+    //注意 是self.imageView.image 的size
+    CGPoint pointInImage = CGPointMake(point.x * self.imageView.image.size.width/ self.imageView.zb_width, point.y * self.imageView.image.size.height/ self.imageView.zb_height);
     
     self.view.backgroundColor = [self.imageView.image zb_ColorAtPixel:pointInImage];//把图片像素颜色给view
 }

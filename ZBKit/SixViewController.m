@@ -77,6 +77,7 @@
     if (indexPath.row==8) {
         cell.textLabel.text=@"十六进制色值";
         cell.backgroundColor=[UIColor zb_colorFromHexString:@"#0077F6"];
+        
     }
   
 

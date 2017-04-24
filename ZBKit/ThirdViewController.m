@@ -24,7 +24,7 @@ NSString *const user=@"user";
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
 
-    self.title=@"数据库操作";
+  //  self.title=@"数据库操作";
     
     __weak typeof(self) weakSelf = self;
     
