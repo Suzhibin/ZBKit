@@ -10,6 +10,7 @@
 #import "ZBKit.h"
 #import "HomeViewController.h"
 #import "ZBTabBarController.h"
+#import "ZBLocationManager.h"
 @interface AppDelegate ()
 
 @end
@@ -21,14 +22,13 @@
     NSLog(@"程序启动完成：%s",__func__);
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor=[UIColor whiteColor];
-    
  
     ZBTabBarController *tabbar=[[ZBTabBarController alloc]init];
     
     self.window.rootViewController = tabbar;
     
     [self.window makeKeyAndVisible];
-    
+   
     [self zb_application:application didFinishLaunchingWithOptions:launchOptions];
 
    
@@ -57,7 +57,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     NSLog(@"已经获得焦点：%s",__func__);
-    //恢复应用状态
+
 }
 
 

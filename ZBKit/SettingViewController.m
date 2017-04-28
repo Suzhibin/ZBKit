@@ -13,7 +13,7 @@
 #import "ZBNetworking.h"
 #import <UIImageView+WebCache.h>
 #import "StorageSpaceViewController.h"
-#define list_URL @"http://api.dotaly.com/lol/api/v1/shipin/latest?author=xiaocang&iap=0jb=0&limit=50&offset=0"
+
 @interface SettingViewController ()<MFMailComposeViewControllerDelegate>
 
 @end

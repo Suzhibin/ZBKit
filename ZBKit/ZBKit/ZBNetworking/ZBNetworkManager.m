@@ -102,7 +102,7 @@
     if (![urlString isKindOfClass:NSString.class]) {
         urlString = nil;
     }
-
+  
     if ([[ZBCacheManager sharedInstance]diskCacheExistsWithKey:urlString]&&type!=ZBRequestTypeRefresh&&type!=ZBRequestTypeOffline){
         
         [[ZBCacheManager sharedInstance]getCacheDataForKey:urlString value:^(NSData *data,NSString *filePath) {

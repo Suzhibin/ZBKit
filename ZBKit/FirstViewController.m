@@ -7,13 +7,13 @@
 //
 
 #import "FirstViewController.h"
-#import "ZBNetworking.h"
 #import "MenuModel.h"
 #import "ListModel.h"
 #import "SettingCacheViewController.h"
-#import "APIConstants.h"
 #import <UIImageView+WebCache.h>
+#import <SDWebImageManager.h>
 #import "DetailsViewController.h"
+#import "MenuTableViewCell.h"
 @interface FirstViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong)UITableView *menuTableView;
@@ -34,17 +34,17 @@
 
      self.automaticallyAdjustsScrollViewInsets = NO;
     // 加载左边数据
-    [self loadData:menu_URL];
+    [self loadData];
         
     [self.view addSubview:self.menuTableView];
     [self.view addSubview:self.listTableView];
     [self.listTableView addSubview:self.refreshControl];
     [self itemWithTitle:@"缓存设置" selector:@selector(btnClick) location:NO];
-    //点击广告链接 事件
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(homeRefresh:) name:@"refresh" object:nil];
 
 }
-- (void)loadData:(NSString *)url{
+- (void)loadData{
     //AFNetworking 封装 请求
     [ZBNetworkManager requestWithConfig:^(ZBURLRequest *request){
         request.urlString=menu_URL;
@@ -60,6 +60,7 @@
             model.detail=[dic objectForKey:@"detail"];
             [self.menuArray addObject:model];
         }
+   
         [self.menuTableView reloadData];
         // 选中首行
         [self.menuTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
@@ -126,13 +127,14 @@
     if (tableView==self.menuTableView) {
         static NSString *menuID=@"menu";
         
-        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:menuID];
+        MenuTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:menuID];
         if (cell==nil) {
-            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:menuID];
+            cell=[[MenuTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:menuID];
+            //设置点击cell不变色
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        MenuModel *model=[self.menuArray objectAtIndex:indexPath.row];
-        cell.textLabel.text=model.name;
-        cell.textLabel.font=[UIFont systemFontOfSize:12];
+       cell.menuModel=self.menuArray [indexPath.row];
+  
         return cell;
 
     }else{
@@ -162,6 +164,8 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView==self.menuTableView) {
+        
+        [[SDWebImageManager sharedManager]cancelAll];//如果点了其他频道 应暂停所在频道的图片下载  节省流量  具体看产品需求
         MenuModel *model=[self.menuArray objectAtIndex:indexPath.row];
         NSString *url=[NSString stringWithFormat:list_URL,model.wid];
         [self loadlist:url type:ZBRequestTypeDefault];
@@ -209,6 +213,9 @@
     [self.navigationController pushViewController:cacheVC animated:YES];
 }
 - (void)homeRefresh:(NSNotification *)noti{
+    [self homeRefresh];
+}
+- (void)homeRefresh{
     self.listTableView.contentOffset = CGPointMake(0, -100);
     [self refreshDown:self.refreshControl];
 }

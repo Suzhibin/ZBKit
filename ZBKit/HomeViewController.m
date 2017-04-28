@@ -15,7 +15,9 @@
 #import "FourViewController.h"
 #import "FiveViewController.h"
 #import "SixViewController.h"
-
+#import "SevenViewController.h"
+#import "ZBLocationManager.h"
+#import "YYFPSLabel.h"
 @interface HomeViewController ()
 
 @end
@@ -28,16 +30,17 @@
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushtoad" object:nil];
 }
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
-    
-    //self.title=@"ZBKit";
+    YYFPSLabel *fps = [[YYFPSLabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-100,0, 60, 20)];//fps监测
+    [[UIApplication sharedApplication].keyWindow addSubview:fps];
     //点击广告链接 事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushToAd:) name:@"pushtoad" object:nil];
-
-    // 1.网络请求
+       // 1.网络请求
     //[self add0SectionItems];
     // 2.图片操作
     [self add1SectionItems];
@@ -52,7 +55,9 @@
     // 6.设置页面
    // [self add6SectionItems];
 
+
 }
+
 
 - (void)add0SectionItems{
     __weak typeof(self) weakSelf = self;
@@ -169,7 +174,7 @@
     [_allGroups addObject:group6];
 }
 
- - (void)pushToAd:(NSNotification *)noti{
+- (void)pushToAd:(NSNotification *)noti{
  
      DetailsViewController* detailsVC=[[DetailsViewController alloc]init];
      detailsVC.url=[noti.userInfo objectForKey:@"link"];

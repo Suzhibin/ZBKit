@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D0530A71EB09DDB0060909D /* ZBCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0530A61EB09DDB0060909D /* ZBCityViewController.m */; };
+		7D0530A91EB09E320060909D /* cityGroups.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D0530A81EB09E320060909D /* cityGroups.plist */; };
 		7D05F89B1E4C29F1009F9D31 /* back2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7D05F8881E4C29F1009F9D31 /* back2.jpg */; };
 		7D05F89C1E4C29F1009F9D31 /* DOVE 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D05F8891E4C29F1009F9D31 /* DOVE 1.png */; };
 		7D05F89D1E4C29F1009F9D31 /* DOVE 10.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D05F88A1E4C29F1009F9D31 /* DOVE 10.png */; };
@@ -46,6 +48,9 @@
 		7D2EF40F1EA738E9000734F0 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2EF40E1EA738E9000734F0 /* FirstViewController.m */; };
 		7D31A4011E34536400D913A7 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D31A4001E34536400D913A7 /* libsqlite3.tbd */; };
 		7D31A4071E34AF5500D913A7 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D31A4061E34AF5500D913A7 /* SecondViewController.m */; };
+		7D3346DC1EB3372400C04EA0 /* MenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3346DB1EB3372400C04EA0 /* MenuTableViewCell.m */; };
+		7D3346E11EB34B7600C04EA0 /* YYWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3346DE1EB34B7600C04EA0 /* YYWeakProxy.m */; };
+		7D3346E21EB34B7600C04EA0 /* YYFPSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3346E01EB34B7600C04EA0 /* YYFPSLabel.m */; };
 		7D4F74D41E77A13A00C6A03E /* ZBWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D4F74D31E77A13A00C6A03E /* ZBWebImageManager.m */; };
 		7D4F74DA1E77A1BE00C6A03E /* UIImageView+ZBWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D4F74D91E77A1BE00C6A03E /* UIImageView+ZBWebCache.m */; };
 		7D57D62C1E36E5E100529558 /* FourViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D57D62B1E36E5E100529558 /* FourViewController.m */; };
@@ -58,6 +63,10 @@
 		7D57D6591E3761F400529558 /* adData2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D57D6581E3761F400529558 /* adData2.plist */; };
 		7D5961FD1E529D5D00E92F55 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5961FC1E529D5D00E92F55 /* HomeViewController.m */; };
 		7D5962031E529DFA00E92F55 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5962021E529DFA00E92F55 /* SettingViewController.m */; };
+		7D608FFB1EB1977100B9B07F /* ZBWeatherView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D608FFA1EB1977100B9B07F /* ZBWeatherView.m */; };
+		7D608FFD1EB1B1F500B9B07F /* rainData.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D608FFC1EB1B1F500B9B07F /* rainData.json */; };
+		7D6090041EB1F58500B9B07F /* ZBLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6090031EB1F58500B9B07F /* ZBLocationManager.m */; };
+		7D6D75481EAF4BC50072F775 /* SevenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6D75471EAF4BC50072F775 /* SevenViewController.m */; };
 		7DC006871E6816090047213C /* SixViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC006861E6816090047213C /* SixViewController.m */; };
 		7DC2FADD1E5EB66D00CEC472 /* UIView+ZBAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FADA1E5EB66D00CEC472 /* UIView+ZBAnimation.m */; };
 		7DC2FADE1E5EB66D00CEC472 /* ZBChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FADC1E5EB66D00CEC472 /* ZBChart.m */; };
@@ -85,7 +94,6 @@
 		7DFD7B581E306F0B00E38B8D /* ZBURLRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFD7B521E306F0B00E38B8D /* ZBURLRequest.m */; };
 		7DFD7B591E306F0B00E38B8D /* ZBURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFD7B541E306F0B00E38B8D /* ZBURLSessionManager.m */; };
 		7DFEBD8A1EA9D7FB008CD824 /* ZBTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFEBD891EA9D7FB008CD824 /* ZBTabBarItem.m */; };
-		7DFEBD8D1EAA0BB0008CD824 /* ZBEditMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFEBD8C1EAA0BB0008CD824 /* ZBEditMenuView.m */; };
 		93D1664BA27A8E5D9B6658C2 /* libPods-ZBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC7A090E6668FB7B3DBB751 /* libPods-ZBKit.a */; };
 /* End PBXBuildFile section */
 
@@ -108,6 +116,9 @@
 
 /* Begin PBXFileReference section */
 		1BC7A090E6668FB7B3DBB751 /* libPods-ZBKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZBKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D0530A51EB09DDB0060909D /* ZBCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBCityViewController.h; sourceTree = "<group>"; };
+		7D0530A61EB09DDB0060909D /* ZBCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBCityViewController.m; sourceTree = "<group>"; };
+		7D0530A81EB09E320060909D /* cityGroups.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = cityGroups.plist; sourceTree = "<group>"; };
 		7D05F8881E4C29F1009F9D31 /* back2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = back2.jpg; sourceTree = "<group>"; };
 		7D05F8891E4C29F1009F9D31 /* DOVE 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DOVE 1.png"; sourceTree = "<group>"; };
 		7D05F88A1E4C29F1009F9D31 /* DOVE 10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DOVE 10.png"; sourceTree = "<group>"; };
@@ -166,6 +177,12 @@
 		7D31A4001E34536400D913A7 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		7D31A4051E34AF5500D913A7 /* SecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
 		7D31A4061E34AF5500D913A7 /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		7D3346DA1EB3372400C04EA0 /* MenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewCell.h; sourceTree = "<group>"; };
+		7D3346DB1EB3372400C04EA0 /* MenuTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewCell.m; sourceTree = "<group>"; };
+		7D3346DD1EB34B7600C04EA0 /* YYWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYWeakProxy.h; sourceTree = "<group>"; };
+		7D3346DE1EB34B7600C04EA0 /* YYWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYWeakProxy.m; sourceTree = "<group>"; };
+		7D3346DF1EB34B7600C04EA0 /* YYFPSLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYFPSLabel.h; sourceTree = "<group>"; };
+		7D3346E01EB34B7600C04EA0 /* YYFPSLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYFPSLabel.m; sourceTree = "<group>"; };
 		7D4F74D21E77A13A00C6A03E /* ZBWebImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBWebImageManager.h; sourceTree = "<group>"; };
 		7D4F74D31E77A13A00C6A03E /* ZBWebImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBWebImageManager.m; sourceTree = "<group>"; };
 		7D4F74D81E77A1BE00C6A03E /* UIImageView+ZBWebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+ZBWebCache.h"; sourceTree = "<group>"; };
@@ -189,6 +206,13 @@
 		7D5961FC1E529D5D00E92F55 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		7D5962011E529DFA00E92F55 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		7D5962021E529DFA00E92F55 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		7D608FF91EB1977100B9B07F /* ZBWeatherView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBWeatherView.h; sourceTree = "<group>"; };
+		7D608FFA1EB1977100B9B07F /* ZBWeatherView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBWeatherView.m; sourceTree = "<group>"; };
+		7D608FFC1EB1B1F500B9B07F /* rainData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rainData.json; sourceTree = "<group>"; };
+		7D6090021EB1F58500B9B07F /* ZBLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBLocationManager.h; sourceTree = "<group>"; };
+		7D6090031EB1F58500B9B07F /* ZBLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBLocationManager.m; sourceTree = "<group>"; };
+		7D6D75461EAF4BC50072F775 /* SevenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SevenViewController.h; sourceTree = "<group>"; };
+		7D6D75471EAF4BC50072F775 /* SevenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SevenViewController.m; sourceTree = "<group>"; };
 		7DC006851E6816090047213C /* SixViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SixViewController.h; sourceTree = "<group>"; };
 		7DC006861E6816090047213C /* SixViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SixViewController.m; sourceTree = "<group>"; };
 		7DC2FAD91E5EB66D00CEC472 /* UIView+ZBAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ZBAnimation.h"; sourceTree = "<group>"; };
@@ -245,8 +269,6 @@
 		7DFD7B541E306F0B00E38B8D /* ZBURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBURLSessionManager.m; sourceTree = "<group>"; };
 		7DFEBD881EA9D7FB008CD824 /* ZBTabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBTabBarItem.h; sourceTree = "<group>"; };
 		7DFEBD891EA9D7FB008CD824 /* ZBTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBTabBarItem.m; sourceTree = "<group>"; };
-		7DFEBD8B1EAA0BB0008CD824 /* ZBEditMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBEditMenuView.h; sourceTree = "<group>"; };
-		7DFEBD8C1EAA0BB0008CD824 /* ZBEditMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBEditMenuView.m; sourceTree = "<group>"; };
 		9F0201619D9037371B53A2DD /* Pods-ZBKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZBKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZBKit/Pods-ZBKit.debug.xcconfig"; sourceTree = "<group>"; };
 		B6C69C13416B9D701F068A51 /* Pods-ZBKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZBKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZBKit/Pods-ZBKit.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -285,6 +307,16 @@
 				B6C69C13416B9D701F068A51 /* Pods-ZBKit.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		7D0530A41EB09DBC0060909D /* ZBCityViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7D0530A81EB09E320060909D /* cityGroups.plist */,
+				7D0530A51EB09DDB0060909D /* ZBCityViewController.h */,
+				7D0530A61EB09DDB0060909D /* ZBCityViewController.m */,
+			);
+			path = ZBCityViewController;
 			sourceTree = "<group>";
 		};
 		7D05F8871E4C29F1009F9D31 /* bird */ = {
@@ -392,15 +424,6 @@
 			path = ZBTabBarController;
 			sourceTree = "<group>";
 		};
-		7D298A511EA8C205002092EF /* ZBView */ = {
-			isa = PBXGroup;
-			children = (
-				7DFEBD8B1EAA0BB0008CD824 /* ZBEditMenuView.h */,
-				7DFEBD8C1EAA0BB0008CD824 /* ZBEditMenuView.m */,
-			);
-			path = ZBView;
-			sourceTree = "<group>";
-		};
 		7D57D6491E37476800529558 /* FirstViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -410,6 +433,8 @@
 				7D220DAF1E35A40500A29791 /* DetailsViewController.m */,
 				7D57D64D1E37489C00529558 /* MenuModel.h */,
 				7D57D64E1E37489C00529558 /* MenuModel.m */,
+				7D3346DA1EB3372400C04EA0 /* MenuTableViewCell.h */,
+				7D3346DB1EB3372400C04EA0 /* MenuTableViewCell.m */,
 				7D57D6531E37494600529558 /* ListModel.h */,
 				7D57D6541E37494600529558 /* ListModel.m */,
 				7D57D63F1E373DD500529558 /* SettingCacheViewController.h */,
@@ -421,6 +446,15 @@
 				7D57D6481E373EC200529558 /* APIConstants.h */,
 			);
 			name = FirstViewController;
+			sourceTree = "<group>";
+		};
+		7D608FFE1EB1E71A00B9B07F /* ZBLocation */ = {
+			isa = PBXGroup;
+			children = (
+				7D6090021EB1F58500B9B07F /* ZBLocationManager.h */,
+				7D6090031EB1F58500B9B07F /* ZBLocationManager.m */,
+			);
+			path = ZBLocation;
 			sourceTree = "<group>";
 		};
 		7DA919401E5BECF9006F347F /* ZBBundle */ = {
@@ -440,6 +474,9 @@
 				7DC2FADA1E5EB66D00CEC472 /* UIView+ZBAnimation.m */,
 				7DC2FADB1E5EB66D00CEC472 /* ZBChart.h */,
 				7DC2FADC1E5EB66D00CEC472 /* ZBChart.m */,
+				7D608FF91EB1977100B9B07F /* ZBWeatherView.h */,
+				7D608FFA1EB1977100B9B07F /* ZBWeatherView.m */,
+				7D608FFC1EB1B1F500B9B07F /* rainData.json */,
 			);
 			path = ZBAnimation;
 			sourceTree = "<group>";
@@ -503,6 +540,8 @@
 				7D139CBA1E8DF76F005B89D7 /* FiveViewController.m */,
 				7DC006851E6816090047213C /* SixViewController.h */,
 				7DC006861E6816090047213C /* SixViewController.m */,
+				7D6D75461EAF4BC50072F775 /* SevenViewController.h */,
+				7D6D75471EAF4BC50072F775 /* SevenViewController.m */,
 				7D5962011E529DFA00E92F55 /* SettingViewController.h */,
 				7D5962021E529DFA00E92F55 /* SettingViewController.m */,
 				7DD0B43C1E65692000E5634E /* StorageSpaceViewController.h */,
@@ -515,6 +554,10 @@
 				7DD9D61E1E27820D00CFA0A9 /* ViewController.m */,
 				7DD9D61A1E27820D00CFA0A9 /* AppDelegate.h */,
 				7DD9D61B1E27820D00CFA0A9 /* AppDelegate.m */,
+				7D3346DD1EB34B7600C04EA0 /* YYWeakProxy.h */,
+				7D3346DE1EB34B7600C04EA0 /* YYWeakProxy.m */,
+				7D3346DF1EB34B7600C04EA0 /* YYFPSLabel.h */,
+				7D3346E01EB34B7600C04EA0 /* YYFPSLabel.m */,
 				7D05F8871E4C29F1009F9D31 /* bird */,
 				7DD9D6201E27820D00CFA0A9 /* Main.storyboard */,
 				7DD9D6231E27820D00CFA0A9 /* Assets.xcassets */,
@@ -554,7 +597,8 @@
 		7DD9D64A1E27823C00CFA0A9 /* ZBKit */ = {
 			isa = PBXGroup;
 			children = (
-				7D298A511EA8C205002092EF /* ZBView */,
+				7D608FFE1EB1E71A00B9B07F /* ZBLocation */,
+				7D0530A41EB09DBC0060909D /* ZBCityViewController */,
 				7D15A04C1EA6135C00D712E6 /* ZBCategory */,
 				7D298A461EA859D8002092EF /* ZBTabBarController */,
 				7D183D8C1E9F3EB000376D0B /* ZBNavigationController */,
@@ -740,6 +784,7 @@
 				7D05F8A11E4C29F1009F9D31 /* DOVE 14.png in Resources */,
 				7D05F8A21E4C29F1009F9D31 /* DOVE 15.png in Resources */,
 				7D05F8A51E4C29F1009F9D31 /* DOVE 18.png in Resources */,
+				7D608FFD1EB1B1F500B9B07F /* rainData.json in Resources */,
 				7DC2FAE91E5EB69A00CEC472 /* ZBKit.bundle in Resources */,
 				7D05F89B1E4C29F1009F9D31 /* back2.jpg in Resources */,
 				7D05F8AA1E4C29F1009F9D31 /* DOVE 6.png in Resources */,
@@ -747,6 +792,7 @@
 				7DD9D6241E27820D00CFA0A9 /* Assets.xcassets in Resources */,
 				7D05F89C1E4C29F1009F9D31 /* DOVE 1.png in Resources */,
 				7D05F8AB1E4C29F1009F9D31 /* DOVE 7.png in Resources */,
+				7D0530A91EB09E320060909D /* cityGroups.plist in Resources */,
 				7D05F8AD1E4C29F1009F9D31 /* DOVE 9.png in Resources */,
 				7D05F8A01E4C29F1009F9D31 /* DOVE 13.png in Resources */,
 				7DD9D6221E27820D00CFA0A9 /* Main.storyboard in Resources */,
@@ -829,10 +875,14 @@
 				7DD9D61C1E27820D00CFA0A9 /* AppDelegate.m in Sources */,
 				7D2EF40F1EA738E9000734F0 /* FirstViewController.m in Sources */,
 				7D298A4C1EA8AC9D002092EF /* ZBTabBar.m in Sources */,
+				7D6D75481EAF4BC50072F775 /* SevenViewController.m in Sources */,
+				7D6090041EB1F58500B9B07F /* ZBLocationManager.m in Sources */,
 				7D57D62C1E36E5E100529558 /* FourViewController.m in Sources */,
+				7D3346DC1EB3372400C04EA0 /* MenuTableViewCell.m in Sources */,
 				7DD9D6191E27820D00CFA0A9 /* main.m in Sources */,
 				7DC2FAE81E5EB69A00CEC472 /* NSBundle+ZBKit.m in Sources */,
 				7DFD7B591E306F0B00E38B8D /* ZBURLSessionManager.m in Sources */,
+				7D608FFB1EB1977100B9B07F /* ZBWeatherView.m in Sources */,
 				7DFD7B571E306F0B00E38B8D /* ZBNetworkManager.m in Sources */,
 				7D57D6441E373E0D00529558 /* OfflineView.m in Sources */,
 				7DC2FAE41E5EB68800CEC472 /* NSObject+ZBCoding.m in Sources */,
@@ -856,13 +906,15 @@
 				7DF9915C1E48893600F0071D /* DBViewController.m in Sources */,
 				7D5961FD1E529D5D00E92F55 /* HomeViewController.m in Sources */,
 				7DC2FB051E5EB6C200CEC472 /* ZBGlobalSettingsTool.m in Sources */,
+				7D0530A71EB09DDB0060909D /* ZBCityViewController.m in Sources */,
+				7D3346E21EB34B7600C04EA0 /* YYFPSLabel.m in Sources */,
+				7D3346E11EB34B7600C04EA0 /* YYWeakProxy.m in Sources */,
 				7D1C6DF91E35F8CE00495AB7 /* ZBAdvertiseInfo.m in Sources */,
 				7D15A05A1EA6135C00D712E6 /* UIColor+ZBKit.m in Sources */,
 				7DFD7B551E306F0B00E38B8D /* NSFileManager+pathMethod.m in Sources */,
 				7DF54D751E69500000DC4A41 /* ZBCarouselView.m in Sources */,
 				7D220DB01E35A40500A29791 /* DetailsViewController.m in Sources */,
 				7D15A0571EA6135C00D712E6 /* AppDelegate+ZBKit.m in Sources */,
-				7DFEBD8D1EAA0BB0008CD824 /* ZBEditMenuView.m in Sources */,
 				7D1C6DFB1E35F8CE00495AB7 /* ZBDataBaseManager.m in Sources */,
 				7D139CBB1E8DF76F005B89D7 /* FiveViewController.m in Sources */,
 				7DC2FADE1E5EB66D00CEC472 /* ZBChart.m in Sources */,

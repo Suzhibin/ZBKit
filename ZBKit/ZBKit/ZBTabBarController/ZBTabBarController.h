@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ZBTabBarController : UITabBarController
-
+@property (nonatomic,copy)NSString *city;
 @end

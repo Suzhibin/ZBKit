@@ -11,6 +11,26 @@
 
 @implementation ZBControlTool
 
++ (BOOL)isNight{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"HH"];
+    NSString *str = [formatter stringFromDate:[NSDate date]];
+    int time = [str intValue];
+    if (time>=18||time<=06) {
+        return YES;
+    }else{
+        return NO;
+    }
+}
+
++ (NSString *)currentDate{
+    NSDate *currentDate = [NSDate date];
+    NSLocale *locale = [NSLocale localeWithLocaleIdentifier:@"zh_CN"];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setLocale:locale];
+    [dateFormatter setDateFormat:@"yyyy/MM/dd"];
+    return [dateFormatter stringFromDate:currentDate];
+}
 
 + (NSString *)stringDateWithTimeInterval:(NSString *)timeInterval
 {

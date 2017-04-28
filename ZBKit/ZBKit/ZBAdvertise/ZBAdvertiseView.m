@@ -102,8 +102,19 @@ static int const showtime = 3;
     // 倒计时方法2：定时器
     if (self.adType==ZBAdvertiseTypeScreen){
         [self startTimer];
+        UIViewController *appRootViewController;
         UIWindow *window = [UIApplication sharedApplication].keyWindow;
-        [window addSubview:self];
+        appRootViewController = window.rootViewController;
+        UIViewController *topViewController = appRootViewController;
+        while (topViewController.presentedViewController != nil)
+        {
+            topViewController = topViewController.presentedViewController;
+        }
+        if ([topViewController.view viewWithTag:2999]) {
+            [[topViewController.view viewWithTag:2999] removeFromSuperview];
+        }
+        self.frame = topViewController.view.bounds;
+        [topViewController.view addSubview:self];
     }else{
          //不显示倒计时 不添加到window
         

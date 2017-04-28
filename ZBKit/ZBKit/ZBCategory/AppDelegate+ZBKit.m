@@ -12,26 +12,32 @@
 #import "ZBAdvertiseInfo.h"
 #import "ZBAdvertiseView.h"
 #import "ZBConstants.h"
+#import "ZBLocationManager.h"
 @implementation AppDelegate (ZBKit)
 -(void)zb_application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     NSString *cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
     ZBKLog(@"cachePath = %@",cachePath);
-    
+    [self location];
     // 检查版本更新
     [self updateApp];
     //初始化第三方授权
     [self initializePlat];
     //网络监测
     [self netWorkMonitoring];
-    //程序获取焦点 展示广告
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    //展示广告
+    [self advertise];
+
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application{
     [[NSURLCache sharedURLCache]removeAllCachedResponses];
 }
-
+#pragma mark - 定位
+- (void)location{
+      [[ZBLocationManager sharedInstance]startlocation];
+}
 #pragma mark - 版本更新提示
 - (void)updateApp{
  
@@ -55,11 +61,6 @@
     } failed:^(NSError *error) {
          ZBKLog(@"版本更新error:%@",error);
     }];
-}
-
-#pragma mark - 初始化第三方平台
-- (void)initializePlat{
-    ZBKLog(@"初始化微信,微博,QQ等等");
 }
 
 #pragma mark - 网络状态监测
@@ -88,8 +89,7 @@
 }
 
 #pragma mark - 开屏广告
-- (void)becomeActive:(NSNotification *)notification {
-
+- (void)advertise{
     [ZBAdvertiseInfo getAdvertisingInfo:^(NSString *imagePath,NSDictionary *urlDict,BOOL isExist){
         if (isExist) {
             ZBAdvertiseView *advertiseView = [[ZBAdvertiseView alloc] initWithFrame:self.window.bounds type:ZBAdvertiseTypeScreen];
@@ -101,12 +101,17 @@
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"pushtoad" object:nil userInfo:urlDict];
                 }
             };
-            ZBKLog(@"展示广告");
+            NSLog(@"展示广告");
         }else{
-            ZBKLog(@"无广告");
+            NSLog(@"无广告");
         }
     }];
+
 }
 
+#pragma mark - 初始化第三方平台
+- (void)initializePlat{
+    //初始化微信,微博,QQ等等
+}
 
 @end

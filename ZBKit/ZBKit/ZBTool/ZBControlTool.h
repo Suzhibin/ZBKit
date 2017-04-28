@@ -12,6 +12,10 @@
 
 @interface ZBControlTool : NSObject
 
+//是否为晚上
++ (BOOL)isNight;
+//当前时间
++ (NSString *)currentDate;
 //时间转换
 + (NSString *)stringDateWithTimeInterval:(NSString *)timeInterval;
 

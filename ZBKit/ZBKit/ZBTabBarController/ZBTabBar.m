@@ -8,16 +8,17 @@
 
 #import "ZBTabBar.h"
 #import "UIView+ZBKit.h"
+#import "ZBConstants.h"
+
 @implementation ZBTabBar
-- (nonnull instancetype)initWithFrame:(CGRect)frame
-{
+- (nonnull instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
         UIButton *publishButton = [[UIButton alloc] init];
         [publishButton setBackgroundImage:[UIImage imageNamed:@"tabBar_publish_icon"] forState:UIControlStateNormal];
         [publishButton setBackgroundImage:[UIImage imageNamed:@"tabBar_publish_click_icon"] forState:UIControlStateHighlighted];
+       // [publishButton setImage:[UIImage imageNamed:@"tabBar_publish_icon"] forState:UIControlStateNormal];
         publishButton.bounds = (CGRect){CGPointZero, [publishButton backgroundImageForState:UIControlStateNormal].size};
-        
-      //  [publishButton addTarget:self action:@selector(publishClick) forControlEvents:UIControlEventTouchUpInside];
+        //[publishButton sizeToFit];
         publishButton.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:publishButton];
         self.publishButton=publishButton;
@@ -32,14 +33,13 @@
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews{
     [super layoutSubviews];
     
-    // 原来的4个
-    CGFloat width = self.zb_width / 5;
+    CGFloat width = self.zb_width /(self.items.count+1);
     int index = 0;
     for (UIControl *control in self.subviews) {
+       // control.backgroundColor=randomColor;
         if (![control isKindOfClass:[UIControl class]] || [control isKindOfClass:[UIButton class]]) continue;
         control.zb_width = width;
         control.zb_x = index > 1 ? width * (index + 1) : width * index;

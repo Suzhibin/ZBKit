@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ZBConstants.h"
 #import "ZBKit.h"
-
+#import "APIConstants.h"
 
 #define IMAGE1   @"http://img04.tooopen.com/images/20130701/tooopen_10055061.jpg"
 

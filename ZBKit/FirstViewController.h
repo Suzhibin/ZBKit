@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface FirstViewController : BaseViewController
-
+- (void)homeRefresh;
 @end

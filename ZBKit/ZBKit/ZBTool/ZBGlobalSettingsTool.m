@@ -66,17 +66,33 @@
             break;
     }
 }
-
+- (void)openScheme:(NSString *)scheme {
+    UIApplication *application = [UIApplication sharedApplication];
+    NSURL *URL = [NSURL URLWithString:scheme];
+    
+    if ([application respondsToSelector:@selector(openURL:options:completionHandler:)]) {
+        [application openURL:URL options:@{}
+           completionHandler:^(BOOL success) {
+               NSLog(@"Open %@: %d",scheme,success);
+           }];
+    } else {
+        if([[UIApplication sharedApplication] canOpenURL:URL]) {
+            BOOL success = [application openURL:URL];
+            NSLog(@"Open %@: %d",scheme,success);
+        }
+    }
+}
 - (void)openSettings{
     NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
     if([[UIApplication sharedApplication] canOpenURL:url]) {
         [[UIApplication sharedApplication]openURL:url];
     }
+    
 }
 
 - (void)openURL:(NSString *)APPID{
     NSString *appstr=[NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@",APPID];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appstr]];
+    [self openScheme:appstr];
 }
 
 - (NSString *)appBundleName {
