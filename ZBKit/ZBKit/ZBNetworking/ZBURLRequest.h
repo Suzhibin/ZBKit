@@ -46,7 +46,7 @@ typedef void (^progressBlock)(NSProgress * progress);
 @interface ZBURLRequest : NSObject
 
 /**
- *  用于标识不同类型的request
+ *  用于标识不同类型的request状态
  */
 @property (nonatomic,assign) apiType apiType;
 /**
@@ -134,7 +134,6 @@ typedef void (^progressBlock)(NSProgress * progress);
  */
 - (NSMutableArray *)offlineKeyArray;
 
-
 /**
  离线下载 将url 添加到请求列队
  
@@ -195,14 +194,14 @@ typedef void (^progressBlock)(NSProgress * progress);
 - (void)removeObjectWithForkey:(NSString *)key isUrl:(BOOL)isUrl;
 
 /**
- *
+ *  添加请求对象
  *  @param obj request 对象
  *  @param key key
  */
 - (void)setRequestObject:(id)obj forkey:(NSString *)key;
 
 /**
- 删除对应的key
+ 删除请求对象的key
  
  @param key key
  */

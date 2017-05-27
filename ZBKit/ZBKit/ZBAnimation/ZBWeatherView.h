@@ -14,8 +14,9 @@
  添加天气动画
 
  @param weatherType 动画类型
+ @param isNight     是否为夜晚
  */
-- (void)addAnimationWithType:(NSString *)weatherType;
+- (void)addAnimationWithType:(NSString *)weatherType isNight:(BOOL)isNight;
 
 /**
  删除动画

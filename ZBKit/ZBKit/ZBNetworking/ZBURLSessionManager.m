@@ -36,11 +36,7 @@
 - (id)init{
     self = [super init];
     if (self) {
-        
-        self.request.responseObj = [[NSMutableData alloc] init];
-      
         self.request.timeoutInterval=15;
-        
     }
     return self;
 }
@@ -337,7 +333,6 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
                 [mutableRequest setValue:value forHTTPHeaderField:field];
             }
         }];
-        
     }
     
     [mutableRequest setTimeoutInterval:self.request.timeoutInterval];

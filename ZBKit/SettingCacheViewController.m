@@ -24,7 +24,9 @@ static const NSInteger cacheTime = 30;
 @end
 
 @implementation SettingCacheViewController
-
+- (void)dealloc{
+    NSLog(@"释放%s",__func__);
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -35,7 +37,7 @@ static const NSInteger cacheTime = 30;
     NSString *appID=[[ZBGlobalSettingsTool sharedInstance]appBundleID];
     NSString *fsCachedData=@"fsCachedData";
     self.path=[NSString stringWithFormat:@"%@/%@/%@",cachePath,appID,fsCachedData];
-    
+  
     //得到沙盒cache文件夹下的 SDWebimage 存储路径
     NSString *sdImage=@"default/com.hackemist.SDWebImageCache.default";
     self.imagePath=[NSString stringWithFormat:@"%@/%@",cachePath,sdImage];
@@ -46,7 +48,7 @@ static const NSInteger cacheTime = 30;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 14;
+    return 17;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -150,15 +152,28 @@ static const NSInteger cacheTime = 30;
     if (indexPath.row==10) {
         cell.textLabel.text=@"清除单个json缓存文件(例:删除menu)";
     }
-    
     if (indexPath.row==11) {
-        cell.textLabel.text=@"按时间清除json缓存(例:超过30秒)";
-    }
-    if (indexPath.row==12) {
-        cell.textLabel.text=@"按时间清除图片缓存(例:超过30秒)";
+        cell.textLabel.text=@"清除单个图片缓存文件(手动添加url)";
     }
     
+    if (indexPath.row==12) {
+        cell.textLabel.text=@"按时间清除“单个”json缓存文件(例:删除menu,例:超过30秒)";
+        cell.textLabel.font=[UIFont systemFontOfSize:14];
+    }
     if (indexPath.row==13) {
+        cell.textLabel.text=@"按时间清除“单个”图片缓存文件(手动添加url,例:超过30秒)";
+        cell.textLabel.font=[UIFont systemFontOfSize:14];
+    }
+ 
+    if (indexPath.row==14) {//清除路径下的全部过期缓存文件
+        cell.textLabel.text=@"按时间清除全部过期json缓存(例:超过30秒)";
+    }
+    
+    if (indexPath.row==15) {//清除路径下的全部过期缓存文件
+        cell.textLabel.text=@"按时间清除全部过期图片缓存(例:超过30秒)";
+    }
+    
+    if (indexPath.row==16) {
         cell.textLabel.text=@"离线下载";
         cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     }
@@ -239,12 +254,39 @@ static const NSInteger cacheTime = 30;
         }];
     }
     if (indexPath.row==11) {
+        
+        //清除单个图片缓存文件
+        //url 过期 去log里找新的
+        [[ZBCacheManager sharedInstance]clearCacheForkey:@"https://r1.ykimg.com/054101015918B62E8B3255666622E929" path:self.imagePath  completion:^{
+            
+            [self.tableView reloadData];
+        }];
+    }
+    
+    if (indexPath.row==12) {
+         //时间前要加 “-” 减号
+        //[[ZBCacheManager sharedInstance]clearCacheForkey:menu_URL time:-cacheTime]
+        [[ZBCacheManager sharedInstance]clearCacheForkey:menu_URL time:-cacheTime completion:^{
+            [self.tableView reloadData];
+        }];
+        
+    }
+    if (indexPath.row==13) {
+        //时间前要加 “-” 减号
+        //url 过期 去log里找新的
+        [[ZBCacheManager sharedInstance]clearCacheForkey:@"https://r1.ykimg.com/054101015918B62E8B3255666622E929" time:-cacheTime path:self.imagePath completion:^{
+            [self.tableView reloadData];
+        }];
+    }
+    
+    if (indexPath.row==14) {
         //时间前要加 “-” 减号
         [[ZBCacheManager sharedInstance]clearCacheWithTime:-cacheTime completion:^{
              [self.tableView reloadData];
         }];
     }
-    if (indexPath.row==12) {
+    
+    if (indexPath.row==15) {
         //时间前要加 “-” 减号 ， 路径要准确
         [[ZBCacheManager sharedInstance]clearCacheWithTime:-cacheTime path:self.imagePath completion:^{
             
@@ -254,7 +296,7 @@ static const NSInteger cacheTime = 30;
         }];
     }
     
-    if (indexPath.row==13) {
+    if (indexPath.row==16) {
         offlineViewController *offlineVC=[[offlineViewController alloc]init];
         offlineVC.delegate=self;
         [self.navigationController pushViewController:offlineVC animated:YES];
@@ -355,7 +397,7 @@ static const NSInteger cacheTime = 30;
 }
 
 - (void)cancelClick{
-    [ZBNetworkManager requestToCancel:YES];//取消网络请求
+    [ZBNetworkManager requestToCancel:NO];//取消网络请求
     [[SDWebImageManager sharedManager] cancelAll];//取消图片下载
     [self.offlineView hide];//取消下载进度视图
     NSLog(@"取消下载");

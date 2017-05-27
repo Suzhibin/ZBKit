@@ -17,7 +17,10 @@
 
 @implementation SecondViewController
 
-
+- (void)dealloc{
+    
+    NSLog(@"释放%s",__func__);
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

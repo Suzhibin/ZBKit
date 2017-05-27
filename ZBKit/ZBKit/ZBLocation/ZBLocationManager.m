@@ -8,7 +8,10 @@
 
 #import "ZBLocationManager.h"
 #import <UIKit/UIKit.h>
-#import "ZBCacheManager.h"
+
+//城市 Name
+#define CITY @"locationCity"
+
 @interface ZBLocationManager (){
     CLLocation *_lastLocation;
 }
@@ -23,12 +26,10 @@
     });
     return location;
 }
-- (instancetype)init
-{
-    if (self = [super init]) {
-   
-    }
-    return self;
+
+- (void)clearMapView{
+    self.locManager = nil;
+    self.locManager.delegate =nil;
 }
 - (void)startlocation
 {
@@ -37,22 +38,18 @@
     self.locManager = [[CLLocationManager alloc] init];
     self.locManager .delegate = self;
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
-        
         [self.locManager  requestWhenInUseAuthorization];//使用程序其间允许访问位置数据（iOS8定位需要）
     }
-    if ([[UIDevice currentDevice].systemVersion floatValue] > 9)
-    {
+    if ([[UIDevice currentDevice].systemVersion floatValue] > 9){
         /** iOS9新特性：将允许出现这种场景：同一app中多个location manager：一些只能在前台定位，另一些可在后台定位（并可随时禁止其后台定位）。 */
- 
           self.locManager.allowsBackgroundLocationUpdates = YES;
     }
     // 方法二:判断位置管理者能否响应iOS8之后的授权方法
     if ([self.locManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
-        
-        //            // 前台定位授权 官方文档中说明info.plist中必须有NSLocationWhenInUseUsageDescription键
-        //            [_mgr requestWhenInUseAuthorization];
+    // 前台定位授权 官方文档中说明info.plist中必须有NSLocationWhenInUseUsageDescription键
+        [self.locManager requestWhenInUseAuthorization];
         // 前后台定位授权 官方文档中说明info.plist中必须有NSLocationAlwaysUsageDescription键
-        [self.locManager requestAlwaysAuthorization];
+      //  [self.locManager requestAlwaysAuthorization];
     }
     //判断用户定位服务是否开启
     if ([CLLocationManager locationServicesEnabled]) {
@@ -67,14 +64,9 @@
         self.locManager.distanceFilter = 3000.0f;
         //开始定位用户的位置
         [self.locManager startUpdatingLocation];
- 
-        
-    }else{//不能定位用户的位置
-        //1.提醒用户检查当前的网络状况
-        //2.提醒用户打开定位开关
+    }else{
         return;
     }
-    
 }
 
 
@@ -90,7 +82,7 @@
 }
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
     
-    NSLog(@"lati : %f  longti : %f",manager.location.coordinate.latitude,manager.location.coordinate.longitude);
+  //  NSLog(@"lati : %f  longti : %f",manager.location.coordinate.latitude,manager.location.coordinate.longitude);
     //设置经纬度
  //   CLLocation *cllocation = [[CLLocation alloc]initWithLatitude:manager.location.coordinate.latitude longitude:manager.location.coordinate.longitude];
     
@@ -101,19 +93,15 @@
     // 通过定位获取的经纬度坐标，反编码获取地理信息标记并打印改标记下得城市名
     [geocoder reverseGeocodeLocation:[locations lastObject] completionHandler:^(NSArray *placemarks, NSError *error) {
         if (error) {
-              NSLog(@"error - %@", error);
-            /*
-            [[ZBCacheManager sharedInstance]storeContent:@"北京" forKey:@"city" path:[self locationFilePath] isSuccess:^(BOOL isSuccess) {
-                if (isSuccess) {
-                    NSLog(@"city存储成功");
-                }
-            }];
-             */
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setObject:@"北京" forKey:@"city"];
-            //这里建议同步存储到磁盘中，但是不是必须的
-            [userDefaults synchronize];
-    
+              NSLog(@"定位error - %@", error);
+            NSString *city = [[NSUserDefaults standardUserDefaults] objectForKey:CITY];
+            //如果city有值
+            if (city.length>0) {
+                NSLog(@"自定义城市1:%@",city);
+            }else{
+             //  [[NSUserDefaults standardUserDefaults] setObject:@"北京" forKey:@"city"];
+               // [[NSUserDefaults standardUserDefaults] synchronize];
+            }
         }else{
             CLPlacemark *mark = [placemarks lastObject];
             NSString *countryName = mark.country;
@@ -121,22 +109,18 @@
             
             NSLog(@"国家 - %@", countryName);
             NSLog(@"城市 - %@", cityName);
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setObject:cityName forKey:@"city"];
-            //这里建议同步存储到磁盘中，但是不是必须的
-            [userDefaults synchronize];
-            /*
-              [[ZBCacheManager sharedInstance]storeContent:cityName forKey:@"city" path:[self locationFilePath] isSuccess:^(BOOL isSuccess) {
-                  if (isSuccess) {
-                      NSLog(@"city存储成功");
-                  }
-              }];
-             */
+            NSString *city = [[NSUserDefaults standardUserDefaults] objectForKey:CITY];
+            //如果city有值
+            if (city.length>0) {
+                NSLog(@"自定义城市2:%@",city);
+            }else{
+                [[NSUserDefaults standardUserDefaults] setObject:cityName forKey:CITY];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+            }
+    
         }
-     
     }];
-    
-    
+    /*
     CLLocation *location = [locations lastObject];
     if(location.horizontalAccuracy < 0)
         return;
@@ -186,9 +170,9 @@
     {
         noticeStr = [NSString stringWithFormat:@"%@%zd方向, 移动了%f米", angleStr, angle, distance];
     }
-    
-    
-    NSLog(@"%@", noticeStr);
+      //  NSLog(@"%@", noticeStr);
+    */
+
     [manager stopUpdatingLocation];
     
 }

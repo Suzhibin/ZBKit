@@ -16,7 +16,7 @@
 
 typedef void (^ZBTabBarItemSelectedBlock)();
 
-@interface ZBTabBarItem : UIView<UIGestureRecognizerDelegate,CAAnimationDelegate>
+@interface ZBTabBarItem : UIView
 @property (nonatomic, strong)UIButton *cityBtn;
 @property (nonatomic, strong)UIButton *locationButton;
 @property (nonatomic, strong)UILabel *weatherLabel;

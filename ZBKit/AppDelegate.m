@@ -8,9 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ZBKit.h"
-#import "HomeViewController.h"
-#import "ZBTabBarController.h"
-#import "ZBLocationManager.h"
+
 @interface AppDelegate ()
 
 @end

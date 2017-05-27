@@ -9,7 +9,7 @@
 #import "SevenViewController.h"
 
 @interface SevenViewController ()
-
+@property (strong, nonatomic) NSCache *memCache;
 @end
 
 @implementation SevenViewController
@@ -17,8 +17,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
 
+  
 }
 
 - (void)didReceiveMemoryWarning {

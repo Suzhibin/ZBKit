@@ -13,7 +13,10 @@
 @end
 
 @implementation FourViewController
+- (void)dealloc{
 
+    NSLog(@"释放%s",__func__);
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -35,10 +38,10 @@
 }
 
 - (void)createAdvertise{
-    
+     __weak typeof(self) weakSelf = self;
     [ZBAdvertiseInfo getAdvertisingInfo:^(NSString *imagePath,NSDictionary *urlDict,BOOL isExist){
         if (isExist) {
-            ZBAdvertiseView *advertiseView = [[ZBAdvertiseView alloc] initWithFrame:self.view.bounds type:ZBAdvertiseTypeScreen];
+            ZBAdvertiseView *advertiseView = [[ZBAdvertiseView alloc] initWithFrame:weakSelf.view.bounds type:ZBAdvertiseTypeScreen];
             advertiseView.filePath = imagePath;
             advertiseView.ZBAdvertiseBlock=^{
                 if ([[urlDict objectForKey:@"link"]isEqualToString:@""]) {

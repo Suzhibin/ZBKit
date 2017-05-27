@@ -164,7 +164,7 @@ static int const showtime = 3;
     [UIView animateWithDuration:1.0f animations:^{
         
         self.alpha = 0.f;
-        
+        self.layer.transform = CATransform3DScale(CATransform3DIdentity, 1.2, 1.2, 1);
     } completion:^(BOOL finished) {
         
         [self removeFromSuperview];

@@ -7,13 +7,28 @@
 //
 
 #import <UIKit/UIKit.h>
+
 @interface ZBCityGroup : NSObject
 @property (nonatomic, strong) NSArray *cities;
 @property (nonatomic, copy) NSString *title;
 
 @end
+
+@protocol ZBCityDelegate <NSObject>
+/**
+ *
+ *  @param cityName cityName
+ */
+- (void)cityName:(NSString *)cityName;
+
+@end
+
 typedef void(^ZBCityBlock)(NSString *cityName);
+
 @interface ZBCityViewController : UIViewController
+
+@property(nonatomic,weak)id<ZBCityDelegate>delegate;
+
 @property(nonatomic,copy)NSString *currentCity;
 //block传值
 @property(nonatomic,copy)ZBCityBlock cityBlock;

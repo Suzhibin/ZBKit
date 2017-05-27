@@ -12,6 +12,5 @@
 + (ZBLocationManager *)sharedInstance;
 //@property (nonatomic, copy) void (^LocationBlock)(NSString *cityName); // 右侧头像点击
 - (void)startlocation;
-
-- (NSString *)locationFilePath;
+- (void)clearMapView;
 @end

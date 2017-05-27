@@ -16,7 +16,9 @@
 @end
 
 @implementation StorageSpaceViewController
-
+- (void)dealloc{
+    NSLog(@"释放%s",__func__);
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -56,7 +58,7 @@
     
     NSArray *sizeArray=[NSArray arrayWithObjects:[self getAllCacheSize],[[ZBCacheManager sharedInstance] fileUnitWithSize:otherSystem],[[ZBCacheManager sharedInstance] fileUnitWithSize:freeSystem],nil];
     
-    ZBChart *ring = [[ZBChart alloc] initWithFrame:CGRectMake(0,20, SCREEN_WIDTH, SCREEN_WIDTH)];
+    ZBChart *ring = [[ZBChart alloc] initWithFrame:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_WIDTH)];
     
     ring.backgroundColor = [UIColor whiteColor];
     
@@ -70,8 +72,10 @@
     
     [self.view addSubview:ring];
     
-    UILabel * totalLabel=[[UILabel alloc]initWithFrame:CGRectMake(155 ,160, 100, 100)];
+    UILabel * totalLabel=[[UILabel alloc]initWithFrame:CGRectMake(0 ,0, 100, 60)];
     totalLabel.text=[NSString stringWithFormat:@"磁盘总空间\n%@",[[ZBCacheManager sharedInstance] fileUnitWithSize:system]];
+    totalLabel.center=ring.center;
+
     totalLabel.textAlignment=NSTextAlignmentCenter;
     totalLabel.numberOfLines=0;
     [ring addSubview:totalLabel];

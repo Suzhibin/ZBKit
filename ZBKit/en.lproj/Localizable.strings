@@ -1,0 +1,49 @@
+/* 
+  Localizable.strings
+  ZBKit
+
+  Created by NQ UEC on 2017/5/3.
+  Copyright © 2017年 Suzhibin. All rights reserved.
+*/
+//ZBTabBarController
+"Home"="Home";
+"ZBNetworking"="ZBNetworking";
+"ZBCarouselView"="ZBCarouselView";
+"ZBTableView"="ZBTableView";
+//ZBTabBarItem
+"itemText"="text";
+"itemAlbum"="album";
+"itemcamera"="camera";
+"itemSignIn"="signIn";
+"itemComments"="comments";
+"itemMore"="more";
+"itemcity"="city";
+"itemDateFormat"="yyyy/MMM/dd";
+//homeViewController
+"homeWebimage"="ZBWebimage";
+"homeDatabase"="ZBDatabase";
+"homeAdvertise"="ZBAdvertise";
+"homeControlTool"="ZBControlTool";
+//firstViewController
+"cachebtn"="SettingCache";
+//settingViewController
+"ID"="ID";
+"fontSize"="fontSize";
+"language"="Language switching";
+"push"="push";
+"nightmode"="Night mode";
+"daytimemode"="Daytime mode";
+"wifi"="Only - wifi network to download image";
+"clearcache"="clearCache";
+"rate_Me"="Give me the score";
+"share"="share";
+"feedback"="feedback";
+"about"="about";
+
+//languageViewController
+"content1"="Mobile phone system";
+"content2"="Chinese";
+"content3"="English";
+"content4"="Chinese";
+//ZBNavigationController
+"back"="back";

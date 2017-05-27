@@ -18,7 +18,7 @@
 @implementation DetailsViewController
 - (void)dealloc{
     [self removeWKwebViewCache];
-
+    NSLog(@"释放%s",__func__);
 }
 - (void)viewDidLoad {
     [super viewDidLoad];

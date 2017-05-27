@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D0062ED1EBB27D0001EDACE /* UIViewController+ZBAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0062EA1EBB27D0001EDACE /* UIViewController+ZBAnalytics.m */; };
 		7D0530A71EB09DDB0060909D /* ZBCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0530A61EB09DDB0060909D /* ZBCityViewController.m */; };
 		7D0530A91EB09E320060909D /* cityGroups.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D0530A81EB09E320060909D /* cityGroups.plist */; };
 		7D05F89B1E4C29F1009F9D31 /* back2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7D05F8881E4C29F1009F9D31 /* back2.jpg */; };
@@ -44,6 +45,8 @@
 		7D220DB01E35A40500A29791 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D220DAF1E35A40500A29791 /* DetailsViewController.m */; };
 		7D298A491EA85A02002092EF /* ZBTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D298A481EA85A02002092EF /* ZBTabBarController.m */; };
 		7D298A4C1EA8AC9D002092EF /* ZBTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D298A4B1EA8AC9D002092EF /* ZBTabBar.m */; };
+		7D2A270A1EB9644C004C09B4 /* LanguageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2A27091EB9644C004C09B4 /* LanguageViewController.m */; };
+		7D2A27341EB9910F004C09B4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7D2A27361EB9910F004C09B4 /* Localizable.strings */; };
 		7D2EF40B1EA70947000734F0 /* UIBarButtonItem+ZBKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2EF40A1EA70947000734F0 /* UIBarButtonItem+ZBKit.m */; };
 		7D2EF40F1EA738E9000734F0 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2EF40E1EA738E9000734F0 /* FirstViewController.m */; };
 		7D31A4011E34536400D913A7 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D31A4001E34536400D913A7 /* libsqlite3.tbd */; };
@@ -66,7 +69,9 @@
 		7D608FFB1EB1977100B9B07F /* ZBWeatherView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D608FFA1EB1977100B9B07F /* ZBWeatherView.m */; };
 		7D608FFD1EB1B1F500B9B07F /* rainData.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D608FFC1EB1B1F500B9B07F /* rainData.json */; };
 		7D6090041EB1F58500B9B07F /* ZBLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6090031EB1F58500B9B07F /* ZBLocationManager.m */; };
+		7D6439DF1EB89417005D3D37 /* confirmedition.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D6439DE1EB89417005D3D37 /* confirmedition.png */; };
 		7D6D75481EAF4BC50072F775 /* SevenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6D75471EAF4BC50072F775 /* SevenViewController.m */; };
+		7DBCB4DC1EBC4D35005954D4 /* ZBDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBCB4DB1EBC4D35005954D4 /* ZBDateFormatter.m */; };
 		7DC006871E6816090047213C /* SixViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC006861E6816090047213C /* SixViewController.m */; };
 		7DC2FADD1E5EB66D00CEC472 /* UIView+ZBAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FADA1E5EB66D00CEC472 /* UIView+ZBAnimation.m */; };
 		7DC2FADE1E5EB66D00CEC472 /* ZBChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FADC1E5EB66D00CEC472 /* ZBChart.m */; };
@@ -80,13 +85,13 @@
 		7DD9D6191E27820D00CFA0A9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD9D6181E27820D00CFA0A9 /* main.m */; };
 		7DD9D61C1E27820D00CFA0A9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD9D61B1E27820D00CFA0A9 /* AppDelegate.m */; };
 		7DD9D61F1E27820D00CFA0A9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD9D61E1E27820D00CFA0A9 /* ViewController.m */; };
-		7DD9D6221E27820D00CFA0A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7DD9D6201E27820D00CFA0A9 /* Main.storyboard */; };
 		7DD9D6241E27820D00CFA0A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7DD9D6231E27820D00CFA0A9 /* Assets.xcassets */; };
 		7DD9D6271E27820D00CFA0A9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7DD9D6251E27820D00CFA0A9 /* LaunchScreen.storyboard */; };
 		7DD9D6321E27820E00CFA0A9 /* ZBKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD9D6311E27820E00CFA0A9 /* ZBKitTests.m */; };
 		7DD9D63D1E27820E00CFA0A9 /* ZBKitUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD9D63C1E27820E00CFA0A9 /* ZBKitUITests.m */; };
 		7DF54D751E69500000DC4A41 /* ZBCarouselView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF54D741E69500000DC4A41 /* ZBCarouselView.m */; };
 		7DF9915C1E48893600F0071D /* DBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF9915B1E48893600F0071D /* DBViewController.m */; };
+		7DFBAB8D1EC5A6EF00F0239D /* ZBLocalized.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFBAB8C1EC5A6EF00F0239D /* ZBLocalized.m */; };
 		7DFD7B421E306C1C00E38B8D /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFD7B411E306C1C00E38B8D /* BaseViewController.m */; };
 		7DFD7B551E306F0B00E38B8D /* NSFileManager+pathMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFD7B4B1E306F0B00E38B8D /* NSFileManager+pathMethod.m */; };
 		7DFD7B561E306F0B00E38B8D /* ZBCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFD7B4D1E306F0B00E38B8D /* ZBCacheManager.m */; };
@@ -116,6 +121,8 @@
 
 /* Begin PBXFileReference section */
 		1BC7A090E6668FB7B3DBB751 /* libPods-ZBKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZBKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D0062E91EBB27D0001EDACE /* UIViewController+ZBAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ZBAnalytics.h"; sourceTree = "<group>"; };
+		7D0062EA1EBB27D0001EDACE /* UIViewController+ZBAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ZBAnalytics.m"; sourceTree = "<group>"; };
 		7D0530A51EB09DDB0060909D /* ZBCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBCityViewController.h; sourceTree = "<group>"; };
 		7D0530A61EB09DDB0060909D /* ZBCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBCityViewController.m; sourceTree = "<group>"; };
 		7D0530A81EB09E320060909D /* cityGroups.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = cityGroups.plist; sourceTree = "<group>"; };
@@ -170,6 +177,11 @@
 		7D298A481EA85A02002092EF /* ZBTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBTabBarController.m; sourceTree = "<group>"; };
 		7D298A4A1EA8AC9D002092EF /* ZBTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBTabBar.h; sourceTree = "<group>"; };
 		7D298A4B1EA8AC9D002092EF /* ZBTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBTabBar.m; sourceTree = "<group>"; };
+		7D2A27081EB9644C004C09B4 /* LanguageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanguageViewController.h; sourceTree = "<group>"; };
+		7D2A27091EB9644C004C09B4 /* LanguageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanguageViewController.m; sourceTree = "<group>"; };
+		7D2A27351EB9910F004C09B4 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		7D2A27371EB99110004C09B4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7D2A27381EB9AD7F004C09B4 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		7D2EF4091EA70947000734F0 /* UIBarButtonItem+ZBKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+ZBKit.h"; sourceTree = "<group>"; };
 		7D2EF40A1EA70947000734F0 /* UIBarButtonItem+ZBKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+ZBKit.m"; sourceTree = "<group>"; };
 		7D2EF40D1EA738E9000734F0 /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
@@ -211,8 +223,11 @@
 		7D608FFC1EB1B1F500B9B07F /* rainData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rainData.json; sourceTree = "<group>"; };
 		7D6090021EB1F58500B9B07F /* ZBLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBLocationManager.h; sourceTree = "<group>"; };
 		7D6090031EB1F58500B9B07F /* ZBLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBLocationManager.m; sourceTree = "<group>"; };
+		7D6439DE1EB89417005D3D37 /* confirmedition.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = confirmedition.png; sourceTree = "<group>"; };
 		7D6D75461EAF4BC50072F775 /* SevenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SevenViewController.h; sourceTree = "<group>"; };
 		7D6D75471EAF4BC50072F775 /* SevenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SevenViewController.m; sourceTree = "<group>"; };
+		7DBCB4DA1EBC4D35005954D4 /* ZBDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBDateFormatter.h; sourceTree = "<group>"; };
+		7DBCB4DB1EBC4D35005954D4 /* ZBDateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBDateFormatter.m; sourceTree = "<group>"; };
 		7DC006851E6816090047213C /* SixViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SixViewController.h; sourceTree = "<group>"; };
 		7DC006861E6816090047213C /* SixViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SixViewController.m; sourceTree = "<group>"; };
 		7DC2FAD91E5EB66D00CEC472 /* UIView+ZBAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ZBAnimation.h"; sourceTree = "<group>"; };
@@ -239,7 +254,6 @@
 		7DD9D61B1E27820D00CFA0A9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7DD9D61D1E27820D00CFA0A9 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		7DD9D61E1E27820D00CFA0A9 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		7DD9D6211E27820D00CFA0A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7DD9D6231E27820D00CFA0A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7DD9D6261E27820D00CFA0A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7DD9D6281E27820D00CFA0A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -254,6 +268,8 @@
 		7DF54D741E69500000DC4A41 /* ZBCarouselView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBCarouselView.m; sourceTree = "<group>"; };
 		7DF9915A1E48893600F0071D /* DBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBViewController.h; sourceTree = "<group>"; };
 		7DF9915B1E48893600F0071D /* DBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBViewController.m; sourceTree = "<group>"; };
+		7DFBAB8B1EC5A6EF00F0239D /* ZBLocalized.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBLocalized.h; sourceTree = "<group>"; };
+		7DFBAB8C1EC5A6EF00F0239D /* ZBLocalized.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBLocalized.m; sourceTree = "<group>"; };
 		7DFD7B401E306C1C00E38B8D /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		7DFD7B411E306C1C00E38B8D /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		7DFD7B4A1E306F0B00E38B8D /* NSFileManager+pathMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+pathMethod.h"; sourceTree = "<group>"; };
@@ -424,6 +440,16 @@
 			path = ZBTabBarController;
 			sourceTree = "<group>";
 		};
+		7D2A273C1EB9D97D004C09B4 /* ZBLocalized */ = {
+			isa = PBXGroup;
+			children = (
+				7DFBAB8B1EC5A6EF00F0239D /* ZBLocalized.h */,
+				7DFBAB8C1EC5A6EF00F0239D /* ZBLocalized.m */,
+			);
+			name = ZBLocalized;
+			path = ZBAppLanguage;
+			sourceTree = "<group>";
+		};
 		7D57D6491E37476800529558 /* FirstViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -489,6 +515,8 @@
 				7DC2FB011E5EB6C200CEC472 /* ZBControlTool.m */,
 				7DC2FB021E5EB6C200CEC472 /* ZBGlobalSettingsTool.h */,
 				7DC2FB031E5EB6C200CEC472 /* ZBGlobalSettingsTool.m */,
+				7DBCB4DA1EBC4D35005954D4 /* ZBDateFormatter.h */,
+				7DBCB4DB1EBC4D35005954D4 /* ZBDateFormatter.m */,
 			);
 			path = ZBTool;
 			sourceTree = "<group>";
@@ -542,10 +570,7 @@
 				7DC006861E6816090047213C /* SixViewController.m */,
 				7D6D75461EAF4BC50072F775 /* SevenViewController.h */,
 				7D6D75471EAF4BC50072F775 /* SevenViewController.m */,
-				7D5962011E529DFA00E92F55 /* SettingViewController.h */,
-				7D5962021E529DFA00E92F55 /* SettingViewController.m */,
-				7DD0B43C1E65692000E5634E /* StorageSpaceViewController.h */,
-				7DD0B43D1E65692000E5634E /* StorageSpaceViewController.m */,
+				7DFBAB8A1EC5737D00F0239D /* SettingViewController */,
 				7D57D6561E3755C200529558 /* adData.plist */,
 				7D57D6581E3761F400529558 /* adData2.plist */,
 				7DFD7B401E306C1C00E38B8D /* BaseViewController.h */,
@@ -558,12 +583,13 @@
 				7D3346DE1EB34B7600C04EA0 /* YYWeakProxy.m */,
 				7D3346DF1EB34B7600C04EA0 /* YYFPSLabel.h */,
 				7D3346E01EB34B7600C04EA0 /* YYFPSLabel.m */,
+				7D6439DE1EB89417005D3D37 /* confirmedition.png */,
 				7D05F8871E4C29F1009F9D31 /* bird */,
-				7DD9D6201E27820D00CFA0A9 /* Main.storyboard */,
 				7DD9D6231E27820D00CFA0A9 /* Assets.xcassets */,
 				7DD9D6251E27820D00CFA0A9 /* LaunchScreen.storyboard */,
 				7DD9D6281E27820D00CFA0A9 /* Info.plist */,
 				7DD9D6171E27820D00CFA0A9 /* Supporting Files */,
+				7D2A27361EB9910F004C09B4 /* Localizable.strings */,
 			);
 			path = ZBKit;
 			sourceTree = "<group>";
@@ -597,6 +623,9 @@
 		7DD9D64A1E27823C00CFA0A9 /* ZBKit */ = {
 			isa = PBXGroup;
 			children = (
+				7D0062E91EBB27D0001EDACE /* UIViewController+ZBAnalytics.h */,
+				7D0062EA1EBB27D0001EDACE /* UIViewController+ZBAnalytics.m */,
+				7D2A273C1EB9D97D004C09B4 /* ZBLocalized */,
 				7D608FFE1EB1E71A00B9B07F /* ZBLocation */,
 				7D0530A41EB09DBC0060909D /* ZBCityViewController */,
 				7D15A04C1EA6135C00D712E6 /* ZBCategory */,
@@ -634,6 +663,19 @@
 				7DF9915B1E48893600F0071D /* DBViewController.m */,
 			);
 			name = ThirdViewController;
+			sourceTree = "<group>";
+		};
+		7DFBAB8A1EC5737D00F0239D /* SettingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7D5962011E529DFA00E92F55 /* SettingViewController.h */,
+				7D5962021E529DFA00E92F55 /* SettingViewController.m */,
+				7D2A27081EB9644C004C09B4 /* LanguageViewController.h */,
+				7D2A27091EB9644C004C09B4 /* LanguageViewController.m */,
+				7DD0B43C1E65692000E5634E /* StorageSpaceViewController.h */,
+				7DD0B43D1E65692000E5634E /* StorageSpaceViewController.m */,
+			);
+			name = SettingViewController;
 			sourceTree = "<group>";
 		};
 		7DFD7B491E306F0B00E38B8D /* ZBNetworking */ = {
@@ -754,6 +796,8 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = 7DD9D60B1E27820D00CFA0A9;
 			productRefGroup = 7DD9D6151E27820D00CFA0A9 /* Products */;
@@ -773,6 +817,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D05F8A61E4C29F1009F9D31 /* DOVE 2.png in Resources */,
+				7D6439DF1EB89417005D3D37 /* confirmedition.png in Resources */,
 				7D05F89E1E4C29F1009F9D31 /* DOVE 11.png in Resources */,
 				7D05F89D1E4C29F1009F9D31 /* DOVE 10.png in Resources */,
 				7D05F8A31E4C29F1009F9D31 /* DOVE 16.png in Resources */,
@@ -788,6 +833,7 @@
 				7DC2FAE91E5EB69A00CEC472 /* ZBKit.bundle in Resources */,
 				7D05F89B1E4C29F1009F9D31 /* back2.jpg in Resources */,
 				7D05F8AA1E4C29F1009F9D31 /* DOVE 6.png in Resources */,
+				7D2A27341EB9910F004C09B4 /* Localizable.strings in Resources */,
 				7DD9D6271E27820D00CFA0A9 /* LaunchScreen.storyboard in Resources */,
 				7DD9D6241E27820D00CFA0A9 /* Assets.xcassets in Resources */,
 				7D05F89C1E4C29F1009F9D31 /* DOVE 1.png in Resources */,
@@ -795,7 +841,6 @@
 				7D0530A91EB09E320060909D /* cityGroups.plist in Resources */,
 				7D05F8AD1E4C29F1009F9D31 /* DOVE 9.png in Resources */,
 				7D05F8A01E4C29F1009F9D31 /* DOVE 13.png in Resources */,
-				7DD9D6221E27820D00CFA0A9 /* Main.storyboard in Resources */,
 				7D05F8A41E4C29F1009F9D31 /* DOVE 17.png in Resources */,
 				7D05F8A71E4C29F1009F9D31 /* DOVE 3.png in Resources */,
 				7D57D6571E3755C200529558 /* adData.plist in Resources */,
@@ -873,6 +918,7 @@
 			files = (
 				7DD9D61F1E27820D00CFA0A9 /* ViewController.m in Sources */,
 				7DD9D61C1E27820D00CFA0A9 /* AppDelegate.m in Sources */,
+				7D2A270A1EB9644C004C09B4 /* LanguageViewController.m in Sources */,
 				7D2EF40F1EA738E9000734F0 /* FirstViewController.m in Sources */,
 				7D298A4C1EA8AC9D002092EF /* ZBTabBar.m in Sources */,
 				7D6D75481EAF4BC50072F775 /* SevenViewController.m in Sources */,
@@ -894,6 +940,7 @@
 				7D183D8F1E9F3ECA00376D0B /* ZBNavigationController.m in Sources */,
 				7DC2FB041E5EB6C200CEC472 /* ZBControlTool.m in Sources */,
 				7D1C6DFA1E35F8CE00495AB7 /* ZBAdvertiseView.m in Sources */,
+				7D0062ED1EBB27D0001EDACE /* UIViewController+ZBAnalytics.m in Sources */,
 				7D57D6411E373DD500529558 /* SettingCacheViewController.m in Sources */,
 				7D15A0691EA61A1300D712E6 /* UIViewController+ZBKit.m in Sources */,
 				7DC2FADD1E5EB66D00CEC472 /* UIView+ZBAnimation.m in Sources */,
@@ -902,6 +949,7 @@
 				7D2EF40B1EA70947000734F0 /* UIBarButtonItem+ZBKit.m in Sources */,
 				7D31A4071E34AF5500D913A7 /* SecondViewController.m in Sources */,
 				7D1C6E0C1E360A3600495AB7 /* ThirdViewController.m in Sources */,
+				7DBCB4DC1EBC4D35005954D4 /* ZBDateFormatter.m in Sources */,
 				7D57D6471E373E4A00529558 /* offlineViewController.m in Sources */,
 				7DF9915C1E48893600F0071D /* DBViewController.m in Sources */,
 				7D5961FD1E529D5D00E92F55 /* HomeViewController.m in Sources */,
@@ -928,6 +976,7 @@
 				7D57D64F1E37489C00529558 /* MenuModel.m in Sources */,
 				7D5962031E529DFA00E92F55 /* SettingViewController.m in Sources */,
 				7DC006871E6816090047213C /* SixViewController.m in Sources */,
+				7DFBAB8D1EC5A6EF00F0239D /* ZBLocalized.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -963,12 +1012,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		7DD9D6201E27820D00CFA0A9 /* Main.storyboard */ = {
+		7D2A27361EB9910F004C09B4 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				7DD9D6211E27820D00CFA0A9 /* Base */,
+				7D2A27351EB9910F004C09B4 /* zh-Hans */,
+				7D2A27371EB99110004C09B4 /* en */,
+				7D2A27381EB9AD7F004C09B4 /* zh-Hant */,
 			);
-			name = Main.storyboard;
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		7DD9D6251E27820D00CFA0A9 /* LaunchScreen.storyboard */ = {
@@ -986,6 +1037,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1033,6 +1085,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";

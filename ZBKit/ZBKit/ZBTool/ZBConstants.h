@@ -38,12 +38,28 @@
 // 打印当前方法名
 #define JSPRINT_METHOD JSLog(@"==%@:%p running method '%@'==", self.class, self, NSStringFromSelector(_cmd));
 
-//夜间模式 显示图片 Name
-#define READStyle @"showNightView"
+//取消键盘响应
+#define HIDE_KEYBOARD [[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];[[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 
-//wifi 显示图片 Name
-#define READIMAGE @"showImage"
+/** 判断是否为iPhone*/
+#define ISiPhone   (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+/** 判断是否为iPad*/
+#define ISiPad     (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
+/** 判断是真机还是模拟器*/
+#if TARGET_OS_IPHONE
+//真机
+#endif
+#if TARGET_IPHONE_SIMULATOR
+//模拟器
+#endif
+
+//夜间模式
+static NSString * const READStyle = @"showNightView";
+//无网不显示图片
+static NSString * const READIMAGE = @"showImage";
+//定位城市
+static NSString * const CITY = @"locationCity";
 /*
  platform:ios,'8.0'
  target :'应用名字' do

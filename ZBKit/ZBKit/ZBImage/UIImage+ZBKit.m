@@ -325,7 +325,7 @@
     
     copy = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+    CGImageRelease(imag);
     return copy;
 }
 
@@ -534,6 +534,8 @@ flatSpecificScale(CGFloat floatValue, CGFloat scale) {
     [secondImage drawInRect:CGRectMake(0, 0, secondWidth, secondHeight)];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+    CGImageRelease(firstImageRef);
+    CGImageRelease(secondImageRef);
     return image;
 }
 

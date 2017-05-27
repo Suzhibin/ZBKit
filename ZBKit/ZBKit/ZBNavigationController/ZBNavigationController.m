@@ -8,6 +8,7 @@
 
 #import "ZBNavigationController.h"
 #import "NSBundle+ZBKit.h"
+#import "ZBLocalized.h"
 @interface ZBNavigationController ()<UIGestureRecognizerDelegate>
 
 @end
@@ -27,7 +28,7 @@
         [button setImage:[UIImage imageNamed:[NSBundle zb_navigationReturn]] forState:UIControlStateNormal];
         [button setImage:[UIImage imageNamed:[NSBundle zb_navigationReturnClick]] forState:UIControlStateHighlighted];
         button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        [button setTitle:@"返回" forState:UIControlStateNormal];
+        [button setTitle:ZBLocalized(@"back",nil) forState:UIControlStateNormal];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
         [button addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
@@ -59,7 +60,7 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 /*
- //需要横屏页面使用  改页面要用present 推出
+ //需要横屏页面使用  该页面要用present 推出
  - (BOOL)shouldAutorotate
  {
  return NO;

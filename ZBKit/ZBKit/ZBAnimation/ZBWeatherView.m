@@ -42,7 +42,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.userInteractionEnabled = YES;
-        
         [self createBackgroundView];
     }
     
@@ -66,6 +65,20 @@
 }
 
 - (void)removeAnimationView {
+     [self.birdImage stopAnimating];
+    self.birdImage.animationImages=nil;
+    [self.birdImage.layer removeAllAnimations];
+    
+    [self.birdRefImage stopAnimating];
+    self.birdRefImage.animationImages=nil;
+    [self.birdRefImage.layer removeAllAnimations];
+    
+    [self.cloudImageViewF.layer removeAllAnimations];
+    [self.cloudImageViewS.layer removeAllAnimations];
+    [self.sunImage.layer removeAllAnimations];
+    [self.sunshineImage.layer removeAllAnimations];
+    [self.sunCloudImage.layer removeAllAnimations];
+    [self.rainCloudImage.layer removeAllAnimations];
     //先将所有的动画移除
     [self.birdImage removeFromSuperview];
     [self.birdRefImage removeFromSuperview];
@@ -75,25 +88,38 @@
     [self.sunshineImage removeFromSuperview];
     [self.sunCloudImage removeFromSuperview];
     [self.rainCloudImage removeFromSuperview];
+    self.birdImage=nil;
+    self.birdRefImage=nil;
+    self.cloudImageViewF =nil;
+    self.cloudImageViewS =nil;
+    self.sunImage =nil;
+    self.sunshineImage =nil;
+    self.sunCloudImage =nil;
+    self.rainCloudImage =nil;
     
     for (NSInteger i = 0; i < _jsonArray.count; i++) {
         UIImageView *rainLineView = (UIImageView *)[self viewWithTag:100+i];
+        [rainLineView.layer removeAllAnimations];
         [rainLineView removeFromSuperview];//移除下雨
         
         UIImageView *snowView = (UIImageView *)[self viewWithTag:1000+i];
+        [snowView.layer removeAllAnimations];
         [snowView removeFromSuperview];//移除雪
     }
 }
 
 //添加动画
-- (void)addAnimationWithType:(NSString *)weatherType{
+- (void)addAnimationWithType:(NSString *)weatherType isNight:(BOOL)isNight{
      if(!weatherType)return;
     //先将所有的动画移除
     [self removeAnimationView];
   //doubleValue integerValue
     NSInteger type = [weatherType doubleValue];
+  
     if (type >= 0 && type < 4) { //晴天
-        if ([ZBControlTool isNight]) {
+        if (isNight==YES) {
+            //iphone_bg_sunny_day.jpg
+            //iphone_bg_sunny_night.jpg
             [self changeImageAnimated:[UIImage imageNamed:@"bg_sunny_night.jpg"]];
             [self sunAndNight:NO];//动画
         }else{
@@ -102,32 +128,36 @@
         }
     }
     else if (type >= 4 && type < 7) { //多云
-        [self changeImageAnimated:[UIImage imageNamed:@"bg_na.jpg"]];
-        if ([ZBControlTool isNight]) {
+       
+        if (isNight==YES) {
+            
+             [self changeImageAnimated:[UIImage imageNamed:@"iphone_bg_cloudy_night.jpg"]];
             [self rainCloud];
         }else{
-
+            [self changeImageAnimated:[UIImage imageNamed:@"iphone_bg_cloudy_day.jpg"]];
+            
             //云朵效果
             _cloudImageViewF = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ele_sunnyCloud2"]];
             CGRect frame = _cloudImageViewF.frame;
             frame.size = CGSizeMake(self.zb_height *0.7, self.zb_width*0.5);
             _cloudImageViewF.frame = frame;
-            _cloudImageViewF.center = CGPointMake(self.zb_width * 0.25, self.zb_height*0.7);
+            _cloudImageViewF.center = CGPointMake(self.zb_width * 0.25, self.zb_height*0.2);
             [_cloudImageViewF.layer addAnimation:[self birdFlyAnimationWithToValue:@(self.zb_width+30) duration:70] forKey:nil];
             [self addSubview:_cloudImageViewF];
             
             
             _cloudImageViewS = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ele_sunnyCloud1"]];
             _cloudImageViewS.frame = self.cloudImageViewF.frame;
-            _cloudImageViewS.center = CGPointMake(self.zb_width * 0.05, self.zb_height*0.7);
+            _cloudImageViewS.center = CGPointMake(self.zb_width * 0.05, self.zb_height*0.2);
             [_cloudImageViewS.layer addAnimation:[self birdFlyAnimationWithToValue:@(self.zb_width+30) duration:70] forKey:nil];
             [self addSubview:_cloudImageViewS];
+            
         }
        
     }
     else if (type >= 7 && type < 10) { //阴
         [self changeImageAnimated:[UIImage imageNamed:@"bg_normal.jpg"]];
-        if ([ZBControlTool isNight]) {
+        if (isNight==YES) {
             [self rainCloud];
         }else{
             [self wind];//动画
@@ -135,7 +165,9 @@
 
     }
     else if (type >= 10 && type < 20) { //雨
-        if ([ZBControlTool isNight]) {
+        if (isNight==YES) {
+           // iphone_bg_rain_day.jpg
+            //iphone_bg_rain_night.jpg
             [self changeImageAnimated:[UIImage imageNamed:@"bg_rain_night.jpg"]];
         }else{
             [self changeImageAnimated:[UIImage imageNamed:@"bg_rain_day.jpg"]];
@@ -144,15 +176,17 @@
  
     }
     else if (type >= 20 && type < 26) { //雪
-        if ([ZBControlTool isNight]) {
+        if (isNight==YES) {
+            //iphone_bg_snow_day.jpg
+            //iphone_bg_snow_night.jpg
             [self changeImageAnimated:[UIImage imageNamed:@"bg_snow_night.jpg"]];
         }else{
             [self changeImageAnimated:[UIImage imageNamed:@"bg_snow_day.jpg"]];
         }
         [self snow];
     }
-    else if (type >= 26 && type < 30) { //沙尘暴
-        [self changeImageAnimated:[UIImage imageNamed:@"bg_sunny_day.jpg"]];
+    else if (type >= 26 && type < 30) { //浮尘
+        [self changeImageAnimated:[UIImage imageNamed:@"iphone_bg_haze_day.jpg"]];
         
     }
     else if (type >= 30 && type < 32) { //雾霾
@@ -288,20 +322,20 @@
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     _jsonArray = dict[@"weather"][@"image"];
     
-    for (NSInteger i = 0; i < _jsonArray.count; i++) {
-        
-        NSDictionary *dic = [_jsonArray objectAtIndex:i];
+    [_jsonArray enumerateObjectsUsingBlock:^(NSString *urlString, NSUInteger idx, BOOL *stop) {
+        NSDictionary *dic = [_jsonArray objectAtIndex:idx];
         UIImageView *rainLineView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:dic[@"-imageName"]]];
-       
-        rainLineView.tag = 100+i;
+        
+        rainLineView.tag = 100+idx;
         NSArray *sizeArr = [dic[@"-size"] componentsSeparatedByString:@","];
         NSArray *originArr = [dic[@"-origin"] componentsSeparatedByString:@","];
         rainLineView.frame = CGRectMake([originArr[0] integerValue]*widthPix , [originArr[1] integerValue], [sizeArr[0] integerValue], [sizeArr[1] integerValue]);
         [self addSubview:rainLineView];
-        [rainLineView.layer addAnimation:[self rainAnimationWithDuration:2+i%5] forKey:nil];
-        [rainLineView.layer addAnimation:[self rainAlphaWithDuration:2+i%5] forKey:nil];
-    }
-    
+        [rainLineView.layer addAnimation:[self rainAnimationWithDuration:2+idx%5] forKey:nil];
+        [rainLineView.layer addAnimation:[self rainAlphaWithDuration:2+idx%5] forKey:nil];
+
+    }];
+ 
     //乌云
     [self rainCloud];
 }
@@ -315,21 +349,19 @@
     //将JSON数据转为NSArray或NSDictionary
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     _jsonArray = dict[@"weather"][@"image"];
-    for (NSInteger i = 0; i < _jsonArray.count; i++) {
-        
-        NSDictionary *dic = [_jsonArray objectAtIndex:i];
+    [_jsonArray enumerateObjectsUsingBlock:^(NSString *urlString, NSUInteger idx, BOOL *stop) {
+        NSDictionary *dic = [_jsonArray objectAtIndex:idx];
         UIImageView *snowView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"snow"]];
-        snowView.tag = 1000+i;
+        snowView.tag = 1000+idx;
         NSArray *originArr = [dic[@"-origin"] componentsSeparatedByString:@","];
         snowView.frame = CGRectMake([originArr[0] integerValue]*widthPix , [originArr[1] integerValue], arc4random()%7+3, arc4random()%7+3);
         [self addSubview:snowView];
-        [snowView.layer addAnimation:[self rainAnimationWithDuration:5+i%5] forKey:nil];
-        [snowView.layer addAnimation:[self rainAlphaWithDuration:5+i%5] forKey:nil];
+        [snowView.layer addAnimation:[self rainAnimationWithDuration:5+idx%5] forKey:nil];
+        [snowView.layer addAnimation:[self rainAlphaWithDuration:5+idx%5] forKey:nil];
         [snowView.layer addAnimation:[self sunshineAnimationWithDuration:5] forKey:nil];//雪花旋转
-    }
-    
-}
 
+    }];
+  }
 
 //动画横向移动方法
 - (CABasicAnimation *)birdFlyAnimationWithToValue:(NSNumber *)toValue duration:(NSInteger)duration{
@@ -390,14 +422,15 @@
 //--getter----------------------------------------------------
 -(NSMutableArray *)imageArr {
     if (!_imageArr) {
-        _imageArr = [NSMutableArray array];
+        _imageArr = [NSMutableArray array];        
         for (int i=1; i<9; i++) {
-            NSString *imageName = [NSString stringWithFormat:@"ele_sunnyBird%d",i];
-            UIImage *image = [UIImage imageNamed:imageName];
-           // NSLog(@"image:%@",image);
-            [_imageArr addObject:image];
+            @autoreleasepool {
+                NSString *imageName = [NSString stringWithFormat:@"ele_sunnyBird%d",i];
+                UIImage *image = [UIImage imageNamed:imageName];
+                // NSLog(@"image:%@",image);
+                [_imageArr addObject:image];
+            }
         }
-
     }
     return _imageArr;
 }

@@ -26,12 +26,24 @@
 #import "ZBAdvertiseInfo.h"        //开屏广告数据操作
 
 #import "ZBCarouselView.h"         //轮播控件
+
 #import "ZBNavigationController.h" //自定义导航
+/*
+ tabbar
+ */
+#import "ZBTabBarController.h"
+#import "ZBTabBar.h"
+#import "ZBTabBarItem.h"
 
 #import "ZBConstants.h"            //常量类
 #import "ZBControlTool.h"          //助手
+#import "ZBDateFormatter.h"        //时间助手
 
-#import "ZBChart.h" //环形动画
+#import "ZBWeatherView.h"          //天气动画
+#import "ZBChart.h"                //环形动画
+
+#import "ZBLocationManager.h"      //定位
+#import "ZBLocalized.h"            //语言设置
 /*
   Category
  */

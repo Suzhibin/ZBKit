@@ -1,0 +1,49 @@
+/* 
+  Localizable.strings
+  ZBKit
+
+  Created by NQ UEC on 2017/5/3.
+  Copyright © 2017年 Suzhibin. All rights reserved.
+*/
+//ZBTabBarController
+"Home"="首页";
+"ZBNetworking"="网络请求";
+"ZBCarouselView"="轮播控件";
+"ZBTableView"="设置页面";
+//ZBTabBarItem
+"itemText"="文字";
+"itemAlbum"="相册";
+"itemcamera"="拍摄";
+"itemSignIn"="签到";
+"itemComments"="点评";
+"itemMore"="更多";
+"itemcity"="选择城市";
+"itemDateFormat"="yyyy/MM/dd";
+//homeViewController
+"homeWebimage"="图片缓存器/动画";
+"homeDatabase"="数据库";
+"homeAdvertise"="广告";
+"homeControlTool"="常用工厂方法";
+//firstViewController
+"cachebtn"="缓存设置";
+//settingViewController
+"ID"="账号管理";
+"fontSize"="字体大小";
+"language"="语言设置";
+"push"="推送";
+"nightmode"="夜间模式";
+"daytimemode"="日间模式";
+"wifi"="仅-wifi网络下载图片";
+"clearcache"="清除缓存";
+"rate_Me"="给我评分";
+"share"="分享给朋友";
+"feedback"="问题反馈";
+"about"="关于";
+
+//languageViewController
+"content1"="跟随手机系统";
+"content2"="中文";
+"content3"="英文";
+"content4"="繁体";
+//ZBNavigationController
+"back"="返回";

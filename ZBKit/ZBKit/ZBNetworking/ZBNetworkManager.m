@@ -42,18 +42,9 @@
 - (id)init{
     self = [super init];
     if (self) {
-        
-        self.request.responseObj=[[NSMutableData alloc]init];
-        
         self.request.timeoutInterval=15;
-        
     }
     return self;
-}
-- (void)dealloc {
-    if (self.AFmanager) {
-        [ZBNetworkManager requestToCancel:YES];
-    }
 }
 
 + (ZBNetworkManager *)requestWithConfig:(requestConfig)config success:(requestSuccess)success failed:(requestFailed)failed{
@@ -102,7 +93,7 @@
     if (![urlString isKindOfClass:NSString.class]) {
         urlString = nil;
     }
-  
+
     if ([[ZBCacheManager sharedInstance]diskCacheExistsWithKey:urlString]&&type!=ZBRequestTypeRefresh&&type!=ZBRequestTypeOffline){
         
         [[ZBCacheManager sharedInstance]getCacheDataForKey:urlString value:^(NSData *data,NSString *filePath) {
@@ -115,9 +106,14 @@
     }
 }
 
+- (NSString *)strUTF8Encoding:(NSString *)urlString{
+    return [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+}
+
 - (void)GETRequest:(NSString *)urlString parameters:(id)parameters progress:(progressBlock)progress success:(requestSuccess)success failed:(requestFailed)failed{
-    if(!urlString)return;
-    [self.AFmanager GET:urlString parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+    if(!urlString||urlString==nil)return;
+    NSString *URL = [urlString  stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [self.AFmanager GET:URL parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
         
         progress ? progress(downloadProgress) : nil;
         
@@ -208,7 +204,6 @@
     if (!_request) {
         _request=[[ZBURLRequest alloc]init];
     }
-    
     return _request;
 }
 

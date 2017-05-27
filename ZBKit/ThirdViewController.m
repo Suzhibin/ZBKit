@@ -18,6 +18,9 @@ NSString *const user=@"user";
 @end
 
 @implementation ThirdViewController
+- (void)dealloc{
+    NSLog(@"释放%s",__func__);
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -117,7 +120,7 @@ NSString *const user=@"user";
    
     if (sender.tag==1000) {
         if ([[ZBDataBaseManager sharedInstance]isCollectedWithTable:user itemId:model.wid]) {
-             weakSelf.label.text=@"数据已存在";
+             self.label.text=@"数据已存在";
         }else{
             [[ZBDataBaseManager sharedInstance]table:user insertDataWithObj:model ItemId:model.wid isSuccess:^(BOOL isSuccess) {
                 if (isSuccess) {

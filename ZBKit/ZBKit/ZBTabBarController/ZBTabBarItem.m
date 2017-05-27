@@ -11,7 +11,11 @@
 #import "UIView+ZBKit.h"
 #import "ZBAdvertiseInfo.h"
 #import "ZBAdvertiseView.h"
-#import "ZBControlTool.h"
+#import "ZBDateFormatter.h"
+#import "ZBLocalized.h"
+#import "UIView+ZBAnimation.h"
+#import "YYWeakProxy.h"
+
 #define ZBTabBarItemTag 1999
 #define ZBTabBarItemImageHeight 71
 #define ZBTabBarItemImageHeight 71
@@ -62,7 +66,8 @@
 
 @end
 
-@interface ZBTabBarItem()
+@interface ZBTabBarItem()<UIGestureRecognizerDelegate,CAAnimationDelegate>
+
 @property (nonatomic, strong)ZBAdvertiseView *advertiseView;
 @property (nonatomic, strong) UIImageView  *backgroudView;
 @end
@@ -102,14 +107,16 @@
 }
 
 - (void)createTime{    
-    UILabel *timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-140, 64,120, 20)];
-    timeLabel.text=[ZBControlTool currentDate];
+    UILabel *timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-170, 64,150, 20)];
+    timeLabel.text=[[ZBDateFormatter sharedInstance] currentDate];
     timeLabel.font = [UIFont boldSystemFontOfSize:20];
+    timeLabel.textAlignment=NSTextAlignmentRight;
     timeLabel.textColor=[UIColor whiteColor];
     [self addSubview: timeLabel];
 
 }
 - (void)locationAndWeather{
+    /*
     UIButton *locationButton = [UIButton buttonWithType:UIButtonTypeCustom];
     locationButton.frame=CGRectMake(SCREEN_WIDTH-144, 90, 44, 44);
     // locationButton.backgroundColor=[UIColor yellowColor];
@@ -117,22 +124,35 @@
     [locationButton setImage:[UIImage imageNamed:@"location_hardware"] forState:UIControlStateNormal];
     [self addSubview:locationButton];
     self.locationButton=locationButton;
+    */
+    UIImageView *locationImage=[[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-134, 100, 24, 24)];
+    locationImage.image=[UIImage imageNamed:@"location_hardware"] ;
+    [self addSubview:locationImage];
     
-    UIButton *cityButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    cityButton.frame=CGRectMake(SCREEN_WIDTH-100, 90, 80, 44);
-    //  cityButton.backgroundColor=[UIColor redColor];
-    [cityButton setTitle:@"选择城市" forState:UIControlStateNormal];
-    cityButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    //cityButton.titleLabel.font = [UIFont boldSystemFontOfSize:20];
-    cityButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    [self addSubview:cityButton];
-    self.cityBtn=cityButton;
-    
-    UILabel *weatherLabel=[[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-140, 134,120, 20)];
-    weatherLabel.textColor=[UIColor whiteColor];
-    weatherLabel.adjustsFontSizeToFitWidth = YES;
-    [self addSubview: weatherLabel];
-    self.weatherLabel=weatherLabel;
+    [self addSubview:self.cityBtn];
+ 
+    [self addSubview:self.weatherLabel];
+
+}
+- (UIButton *)cityBtn{
+    if (!_cityBtn) {
+        _cityBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _cityBtn.frame=CGRectMake(SCREEN_WIDTH-100, 90, 80, 44);
+        //  cityButton.backgroundColor=[UIColor redColor];
+        [_cityBtn setTitle:ZBLocalized(@"itemcity",nil) forState:UIControlStateNormal];
+        _cityBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        //cityButton.titleLabel.font = [UIFont boldSystemFontOfSize:20];
+        _cityBtn.titleLabel.adjustsFontSizeToFitWidth = YES;
+    }
+    return _cityBtn;
+}
+- (UILabel *)weatherLabel{
+    if (!_weatherLabel) {
+        _weatherLabel=[[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-140, 134,120, 20)];
+        _weatherLabel.textColor=[UIColor whiteColor];
+        _weatherLabel.adjustsFontSizeToFitWidth = YES;
+    }
+    return _weatherLabel;
 }
 - (void)createBottomButton{
     UIView *addView=[[UIView alloc]init];
@@ -186,9 +206,11 @@
         [UIView animateWithDuration:0.5f animations:^{
             self.alpha = 0.f;
         } completion:^(BOOL finished) {
+            [_addBut.layer removeAnimationForKey:@"transform"];
+
             [self.weatherView removeAnimationView];
+            [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
             [self removeFromSuperview];
-          
         }];
     });
 }
@@ -215,12 +237,12 @@
     NSUInteger columnCount = 3;
     NSUInteger rowCount = buttons_.count / columnCount + (buttons_.count%columnCount>0?1:0);
     
-    for (NSUInteger index = 0; index < buttons_.count; index++) {
-        ZBTabBarItemButton *button = buttons_[index];
+    [buttons_ enumerateObjectsUsingBlock:^(NSString *urlString, NSUInteger idx, BOOL *stop) {
+        ZBTabBarItemButton *button = buttons_[idx];
         button.layer.opacity = 0;
-        CGRect frame = [self frameForButtonAtIndex:index];
-        NSUInteger rowIndex = index / columnCount;
-        NSUInteger columnIndex = index % columnCount;
+        CGRect frame = [self frameForButtonAtIndex:idx];
+        NSUInteger rowIndex = idx / columnCount;
+        NSUInteger columnIndex = idx % columnCount;
         CGPoint fromPosition = CGPointMake(frame.origin.x + ZBTabBarItemImageHeight / 2.0,frame.origin.y +  (rowCount - rowIndex + 2)*200 + (ZBTabBarItemImageHeight + ZBTabBarItemTitleHeight) / 2.0);
         
         CGPoint toPosition = CGPointMake(frame.origin.x + ZBTabBarItemImageHeight / 2.0,frame.origin.y + (ZBTabBarItemImageHeight + ZBTabBarItemTitleHeight) / 2.0);
@@ -241,10 +263,9 @@
         positionAnimation.timingFunction = [CAMediaTimingFunction functionWithControlPoints:0.45f :1.2f :0.75f :1.0f];
         positionAnimation.duration = ZBTabBarItemAnimationTime;
         positionAnimation.beginTime = [button.layer convertTime:CACurrentMediaTime() fromLayer:nil] + delayInSeconds;
-        [positionAnimation setValue:[NSNumber numberWithUnsignedInteger:index] forKey:ZBTabBarItemRriseAnimationID];
-        positionAnimation.delegate = self;
+        [positionAnimation setValue:[NSNumber numberWithUnsignedInteger:idx] forKey:ZBTabBarItemRriseAnimationID];
+        positionAnimation.delegate = [YYWeakProxy proxyWithTarget:self];;
         [button.layer addAnimation:positionAnimation forKey:@"riseAnimation"];
-        
         
         CABasicAnimation* anim = [CABasicAnimation animationWithKeyPath:@"transform"];
         CATransform3D fromValue = _addBut.layer.transform;
@@ -259,8 +280,8 @@
         _addBut.layer.transform = toValue;
         anim.removedOnCompletion = YES;
         [_addBut.layer addAnimation:anim forKey:nil];
-        
-    }
+
+    }];
 }
 
 - (void)dropAnimation{
@@ -268,11 +289,11 @@
     NSUInteger columnCount = 3;
     NSUInteger rowCount = buttons_.count / columnCount + (buttons_.count%columnCount>0?1:0);
     
-    for (NSInteger index = buttons_.count-1; index >= 0; index--) {
-        ZBTabBarItemButton *button = buttons_[index];
-        CGRect frame = [self frameForButtonAtIndex:index];
-        NSUInteger rowIndex = (buttons_.count - 1 - index) / columnCount;
-        NSUInteger columnIndex = index % columnCount;
+    [buttons_ enumerateObjectsUsingBlock:^(NSString *urlString, NSUInteger idx, BOOL *stop) {
+        ZBTabBarItemButton *button = buttons_[idx];
+        CGRect frame = [self frameForButtonAtIndex:idx];
+        NSUInteger rowIndex = (buttons_.count - 1 - idx) / columnCount;
+        NSUInteger columnIndex = idx % columnCount;
         
         CGPoint toPosition = CGPointMake(frame.origin.x + ZBTabBarItemImageHeight / 2.0,frame.origin.y +  (rowCount - rowIndex + 2)*200 + (ZBTabBarItemImageHeight + ZBTabBarItemTitleHeight) / 2.0);
         
@@ -294,11 +315,10 @@
         positionAnimation.timingFunction = [CAMediaTimingFunction functionWithControlPoints:0.3 :0.5f :1.0f :1.0f];
         positionAnimation.duration = ZBTabBarItemAnimationTime;
         positionAnimation.beginTime = [button.layer convertTime:CACurrentMediaTime() fromLayer:nil] + delayInSeconds;
-        [positionAnimation setValue:[NSNumber numberWithUnsignedInteger:index] forKey:ZBTabBarItemDismissAnimationID];
-        positionAnimation.delegate = self;
+        [positionAnimation setValue:[NSNumber numberWithUnsignedInteger:idx] forKey:ZBTabBarItemDismissAnimationID];
+        positionAnimation.delegate =  [YYWeakProxy proxyWithTarget:self];;
         
         [button.layer addAnimation:positionAnimation forKey:@"riseAnimation"];
-        
         
         
         CABasicAnimation* anim = [CABasicAnimation animationWithKeyPath:@"transform"];
@@ -314,8 +334,8 @@
         _addBut.layer.transform = toValue;
         anim.removedOnCompletion = YES;
         [_addBut.layer addAnimation:anim forKey:nil];
-        
-    }
+    }];
+  
 }
 
 - (void)animationDidStart:(CAAnimation *)anim{
@@ -343,6 +363,7 @@
         view.layer.position = toPosition;
     }
 }
+
 
 - (CGRect)frameForButtonAtIndex:(NSUInteger)index{
     NSUInteger columnCount = 3;

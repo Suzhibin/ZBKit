@@ -27,19 +27,27 @@
 @implementation FirstViewController
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refresh" object:nil];
+      NSLog(@"释放%s",__func__);
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
      self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    
+     [[SDWebImageManager sharedManager] setCacheKeyFilter:^(NSURL *url) {
+         url =[[NSURL alloc] initWithScheme:url.scheme host:url.host path:url.path];
+         return [url absoluteString];
+    }];
+    
     // 加载左边数据
     [self loadData];
         
     [self.view addSubview:self.menuTableView];
     [self.view addSubview:self.listTableView];
     [self.listTableView addSubview:self.refreshControl];
-    [self itemWithTitle:@"缓存设置" selector:@selector(btnClick) location:NO];
+    [self itemWithTitle:ZBLocalized(@"cachebtn",nil) selector:@selector(btnClick) location:NO];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(homeRefresh:) name:@"refresh" object:nil];
 
@@ -59,6 +67,7 @@
             model.wid=[dic objectForKey:@"id"];
             model.detail=[dic objectForKey:@"detail"];
             [self.menuArray addObject:model];
+            
         }
    
         [self.menuTableView reloadData];
@@ -147,6 +156,7 @@
         ListModel *model=[self.listArray objectAtIndex:indexPath.row];
         cell.textLabel.text=model.title;
         cell.detailTextLabel.text=[NSString stringWithFormat:@"发布时间:%@",model.date];
+        //NSLog(@"图片ulr:%@",model.thumb);
         //判断是否是wifi环境
         if ([[ZBGlobalSettingsTool sharedInstance] downloadImagePattern]==YES) {
             NSInteger netStatus=[ZBNetworkManager startNetWorkMonitoring];
@@ -257,6 +267,7 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+ 
 }
 
 /*

@@ -13,13 +13,18 @@
 #import "ZBNetworking.h"
 #import <UIImageView+WebCache.h>
 #import "StorageSpaceViewController.h"
-
-@interface SettingViewController ()<MFMailComposeViewControllerDelegate>
+#import "LanguageViewController.h"
+#import <StoreKit/StoreKit.h>
+@interface SettingViewController ()<MFMailComposeViewControllerDelegate,SKStoreProductViewControllerDelegate>
 
 @end
 
 @implementation SettingViewController
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
 
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -32,7 +37,7 @@
     [self add2SectionItems];
     // 4.第3组
     [self add3SectionItems];
-    
+   
 }
 
 #pragma mark - 设置页面
@@ -42,7 +47,7 @@
     // 账号
     //itemWithIcon
     //itemWithTitle
-    ZBTableItem *IDItem = [ZBTableItem itemWithIcon:[NSBundle zb_IDInfo] title:@"账号管理" type:ZBTableItemTypeArrow];
+    ZBTableItem *IDItem = [ZBTableItem itemWithIcon:[NSBundle zb_IDInfo] title:ZBLocalized(@"ID",nil) type:ZBTableItemTypeArrow];
     IDItem.operation = ^{
         UIViewController *helpVC = [[UIViewController alloc] init];
         helpVC.view.backgroundColor = [UIColor grayColor];
@@ -51,7 +56,7 @@
     };
     
     // 字体
-    ZBTableItem *fontItem  = [ZBTableItem itemWithIcon:[NSBundle zb_MoreHelp] title:@"字体大小" type:ZBTableItemTypeRightText];
+    ZBTableItem *fontItem  = [ZBTableItem itemWithIcon:[NSBundle zb_MoreHelp] title:ZBLocalized(@"fontSize",nil) type:ZBTableItemTypeRightText];
     fontItem.rightText=[self setFont];
     __block ZBTableItem *weakFont = fontItem;
     fontItem.operation = ^{
@@ -79,8 +84,21 @@
         [weakSelf presentViewController:alert animated:YES completion:nil]; //呈现
     };
     
+    ZBTableItem *langItem = [ZBTableItem itemWithTitle:ZBLocalized(@"language",nil) type:ZBTableItemTypeArrow];
+    langItem.operation = ^{
+        LanguageViewController *languageView=[[LanguageViewController alloc]init];
+
+        //cityVC.currentCity=sender.titleLabel.text;
+        ZBNavigationController *nav = [[ZBNavigationController alloc] initWithRootViewController:languageView];
+        ZBTabBarController * rootView = (ZBTabBarController *)[[UIApplication sharedApplication].delegate window].rootViewController;
+        [rootView presentViewController:nav animated:YES completion:nil];
+
+      //  [weakSelf presentViewController:languageView animated:YES completion:nil];
+       // [weakSelf.navigationController pushViewController:languageView animated:YES];
+    };
+    
     ZBTableGroup *group = [[ZBTableGroup alloc] init];
-    group.items = @[IDItem,fontItem];
+    group.items = @[IDItem,fontItem,langItem];
     group.headerHeight=5;
     group.footerHeight=5;
     [_allGroups addObject:group];
@@ -91,7 +109,7 @@
     __weak typeof(self) weakSelf = self;
     
     // 1.1.推送和提醒
-    ZBTableItem *pushItem = [ZBTableItem itemWithTitle:@"新消息通知" type:ZBTableItemTypeSwitch];
+    ZBTableItem *pushItem = [ZBTableItem itemWithTitle:ZBLocalized(@"push",nil) type:ZBTableItemTypeSwitch];
     
     __block ZBTableItem *weakPush = pushItem;
     UIUserNotificationSettings *setting = [[UIApplication sharedApplication] currentUserNotificationSettings];
@@ -130,19 +148,18 @@
     group1.footerHeight=5;
     [_allGroups addObject:group1];
     
-    
-    
 }
+
 - (void)add2SectionItems{
     
     __weak typeof(self) weakSelf = self;
     
     NSString *title=nil;
     if ([[ZBGlobalSettingsTool sharedInstance] getNightPattern]==YES) {
-        title=@"日间模式";
+        title=ZBLocalized(@"daytimemode",nil);
         
     }else{
-        title=@"夜间模式";
+        title=ZBLocalized(@"nightmode",nil);
     }
     
     // 夜间模式
@@ -168,7 +185,7 @@
     };
     
     // Wifi
-    ZBTableItem *wifiItem = [ZBTableItem itemWithTitle:@"仅-Wifi网络下载图片" type:ZBTableItemTypeSwitch];
+    ZBTableItem *wifiItem = [ZBTableItem itemWithTitle:ZBLocalized(@"wifi",nil) type:ZBTableItemTypeSwitch];
     wifiItem.isOpenSwitch=[[ZBGlobalSettingsTool sharedInstance] downloadImagePattern];
     wifiItem.switchBlock = ^(BOOL on) {
         
@@ -182,7 +199,7 @@
     };
     
     // 存储空间
-    ZBTableItem *cacheItem= [ZBTableItem itemWithTitle:@"存储空间" type:ZBTableItemTypeArrow];
+    ZBTableItem *cacheItem= [ZBTableItem itemWithTitle:ZBLocalized(@"clearcache",nil) type:ZBTableItemTypeArrow];
     
     cacheItem.operation = ^{
         StorageSpaceViewController *spaceVC=[[StorageSpaceViewController alloc]init];
@@ -201,29 +218,41 @@
     __weak typeof(self) weakSelf = self;
     
     //去评分
-    ZBTableItem *openItem = [ZBTableItem itemWithTitle:@"为ZBKit评分" type:ZBTableItemTypeArrow];
+    ZBTableItem *openItem = [ZBTableItem itemWithTitle:ZBLocalized(@"rate_Me",nil) type:ZBTableItemTypeArrow];
     openItem.operation = ^{
-        [[ZBGlobalSettingsTool sharedInstance]openURL:@"123456789"];
+        if ([UIDevice currentDevice].systemVersion.floatValue >= 10.3) {
+            SKStoreProductViewController *storeProductVC =[[SKStoreProductViewController alloc]init];
+            storeProductVC.delegate =self;
+            
+            // 第一个参数为应用标识(appid NSNumber类型)构成的字典。第二个参数是一个block回调。
+            [storeProductVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:@(123456789)}completionBlock:^(BOOL result,NSError *error) {
+                
+                if (result) {
+                    [self presentViewController:storeProductVC animated:YES completion:nil];
+                }else{
+                    NSLog(@"错误：%@" ,error);
+                }
+            }];
+            
+        }else{
+            [[ZBGlobalSettingsTool sharedInstance]openURL:@"123456789"];
+        }
+        
     };
     
     //意见反馈
-    ZBTableItem *feedbackItem = [ZBTableItem itemWithIcon:[NSBundle zb_MoreMessage] title:@"意见反馈" type:ZBTableItemTypeArrow];
+    ZBTableItem *feedbackItem = [ZBTableItem itemWithIcon:[NSBundle zb_MoreMessage] title:ZBLocalized(@"feedback",nil) type:ZBTableItemTypeArrow];
     feedbackItem.operation = ^{
         [weakSelf createMail];
     };
     
     // 分享
-    ZBTableItem *shareItem = [ZBTableItem itemWithIcon:[NSBundle zb_MoreShare] title:@"分享" type:ZBTableItemTypeArrow];
+    ZBTableItem *shareItem = [ZBTableItem itemWithIcon:[NSBundle zb_MoreShare] title:ZBLocalized(@"share",nil) type:ZBTableItemTypeArrow];
     shareItem.operation = ^{
-        NSArray *activityItems=@[@"ZBKit"];
-        UIActivityViewController *activityController =
-        [[UIActivityViewController alloc] initWithActivityItems:activityItems
-                                          applicationActivities:nil];
-        [weakSelf presentViewController:activityController
-                               animated:YES completion:nil];
+      
     };
-    // 关于
-    ZBTableItem *aboutItem = [ZBTableItem itemWithIcon:[NSBundle zb_MoreAbout] title:@"关于" type:ZBTableItemTypeArrow];
+    // 关于about
+    ZBTableItem *aboutItem = [ZBTableItem itemWithIcon:[NSBundle zb_MoreAbout] title:ZBLocalized(@"about",nil) type:ZBTableItemTypeArrow];
     
     aboutItem.operation = ^{
         NSString *aboutString=[NSString stringWithFormat:@"应用名字:%@\n应用ID:%@\n应用版本:%@\n应用build:%@\n设备名字:%@",[[ZBGlobalSettingsTool sharedInstance]appBundleName],[[ZBGlobalSettingsTool sharedInstance]appBundleID],[[ZBGlobalSettingsTool sharedInstance]appVersion],[[ZBGlobalSettingsTool sharedInstance]appBuildVersion],[[ZBGlobalSettingsTool sharedInstance]deviceName]];
@@ -318,6 +347,12 @@
     [controller dismissViewControllerAnimated:YES completion:^{
         
     }];
+}
+// SKStoreProductViewController代理方法
+- (void)productViewControllerDidFinish:(SKStoreProductViewController*)viewController
+{
+    //返回上一个页面
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

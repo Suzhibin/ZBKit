@@ -19,9 +19,14 @@
 @interface ZBCityViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) NSMutableArray *cityArray;
 @property (nonatomic, strong) UITableView *cityTableView;
+
 @end
 
 @implementation ZBCityViewController
+- (void)dealloc{
+    self.cityArray=nil;
+    self.cityTableView=nil;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -29,6 +34,7 @@
     self.automaticallyAdjustsScrollViewInsets=NO;
     self.view.backgroundColor=[UIColor whiteColor];
     self.title=[NSString stringWithFormat:@"当前城市-%@" ,self.currentCity];
+    
     NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"cityGroups.plist" ofType:nil];
     NSArray *cityGroupArray = [NSArray arrayWithContentsOfFile:plistPath];
 
@@ -40,14 +46,12 @@
         [ self.cityArray addObject:cityGroup];
     }
     [self.view addSubview:self.cityTableView];
+
     [self itemWithTitle:@"返回" selector:@selector(dismiss) location:NO];
 }
 
-- (void)dismiss{
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+   // 控制器使用的时候，就是点击了搜索框的时候
     return self.cityArray.count;
 }
 
@@ -56,27 +60,30 @@
     return cityGroup.cities.count;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    // Configure the cell...
+
     ZBCityGroup *cityGroup =  self.cityArray[indexPath.section];
     cell.textLabel.text = cityGroup.cities[indexPath.row];
-    
+        
     return cell;
+
 }
 //返回section的头部文本
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+
     ZBCityGroup *cityGroup =  self.cityArray[section];
     return cityGroup.title;
 }
 
 //返回tableViewIndex数组
 - (nullable NSArray<NSString *> *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+
     return [self.cityArray valueForKeyPath:@"title"];
+    
 }
 
 //选中那一行
@@ -88,6 +95,13 @@
         
        self.cityBlock(cityName);
     }
+    if ([self.delegate respondsToSelector:@selector(cityName:)]) {
+        [self.delegate cityName:cityName];
+    }
+    [self dismiss];
+}
+
+- (void)dismiss{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -103,6 +117,7 @@
     }
     return _cityTableView;
 }
+
 - (NSMutableArray *)cityArray {
     if (!_cityArray) {
         _cityArray = [[NSMutableArray alloc] init];
@@ -113,6 +128,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    if (self.isViewLoaded && !self.view.window) {
+        self.view=nil;
+        [self.cityArray removeAllObjects];
+        self.cityArray=nil;
+    }
 }
 
 /*

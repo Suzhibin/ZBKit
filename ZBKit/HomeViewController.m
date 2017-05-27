@@ -16,7 +16,7 @@
 #import "FiveViewController.h"
 #import "SixViewController.h"
 #import "SevenViewController.h"
-#import "ZBLocationManager.h"
+
 #import "YYFPSLabel.h"
 @interface HomeViewController ()
 
@@ -38,6 +38,8 @@
     self.view.backgroundColor=[UIColor whiteColor];
     YYFPSLabel *fps = [[YYFPSLabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-100,0, 60, 20)];//fps监测
     [[UIApplication sharedApplication].keyWindow addSubview:fps];
+    
+   
     //点击广告链接 事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushToAd:) name:@"pushtoad" object:nil];
        // 1.网络请求
@@ -54,17 +56,22 @@
     [self add5SectionItems];
     // 6.设置页面
    // [self add6SectionItems];
-
-
+   // [self add7SectionItems];
+    /*
+     //homeViewController
+     "homeWebimage"="圖片緩存器/動畫";
+     "homeDatabase"="數據庫";
+     "homeAdvertise"="廣告";
+     "homeControlTool"="常用工廠方法";
+     */
 }
-
 
 - (void)add0SectionItems{
     __weak typeof(self) weakSelf = self;
     
     //itemWithIcon
     //itemWithTitle
-    ZBTableItem *requestItem = [ZBTableItem itemWithTitle:@"ZBNetWorking" type:ZBTableItemTypeArrow];
+    ZBTableItem *requestItem = [ZBTableItem itemWithTitle:@"ZBNetworking" type:ZBTableItemTypeArrow];
     requestItem.operation = ^{
         FirstViewController *firstVC=[[FirstViewController alloc]init];
         [weakSelf.navigationController pushViewController:firstVC animated:YES];
@@ -80,7 +87,7 @@
 - (void)add1SectionItems;
 {
     __weak typeof(self) weakSelf = self;
-    ZBTableItem *imageItem = [ZBTableItem itemWithTitle:@"ZBWebImage" type:ZBTableItemTypeArrow];
+    ZBTableItem *imageItem = [ZBTableItem itemWithTitle:ZBLocalized(@"homeWebimage",nil) type:ZBTableItemTypeArrow];
     imageItem.operation = ^{
         SecondViewController*secondVC = [[SecondViewController alloc] init];
         [weakSelf.navigationController pushViewController:secondVC animated:YES];
@@ -96,7 +103,7 @@
 - (void)add2SectionItems{
     
     __weak typeof(self) weakSelf = self;
-    ZBTableItem *dbItem = [ZBTableItem itemWithTitle:@"ZBDataBase" type:ZBTableItemTypeArrow];
+    ZBTableItem *dbItem = [ZBTableItem itemWithTitle:ZBLocalized(@"homeDatabase",nil) type:ZBTableItemTypeArrow];
     dbItem.operation = ^{
         ThirdViewController*ThirdVC = [[ThirdViewController alloc] init];
         [weakSelf.navigationController pushViewController:ThirdVC animated:YES];
@@ -111,7 +118,7 @@
 
 - (void)add3SectionItems{
     __weak typeof(self) weakSelf = self;
-    ZBTableItem *adItem = [ZBTableItem itemWithTitle:@"ZBAdvertise" type:ZBTableItemTypeArrow];
+    ZBTableItem *adItem = [ZBTableItem itemWithTitle:ZBLocalized(@"homeAdvertise",nil) type:ZBTableItemTypeArrow];
     adItem.operation = ^{
         FourViewController*adVC = [[FourViewController alloc] init];
         
@@ -145,7 +152,7 @@
 
 - (void)add5SectionItems{
     __weak typeof(self) weakSelf = self;
-    ZBTableItem *carouselItem = [ZBTableItem itemWithTitle:@"ZBControlTool" type:ZBTableItemTypeArrow];
+    ZBTableItem *carouselItem = [ZBTableItem itemWithTitle:ZBLocalized(@"homeControlTool",nil) type:ZBTableItemTypeArrow];
     carouselItem.operation = ^{
         SixViewController *sixVC=[[SixViewController alloc]init];
         [weakSelf.navigationController pushViewController:sixVC animated:YES];
@@ -173,7 +180,21 @@
     group6.footerHeight=5;
     [_allGroups addObject:group6];
 }
-
+- (void)add7SectionItems{
+    __weak typeof(self) weakSelf = self;
+    ZBTableItem *item = [ZBTableItem itemWithTitle:@"练习" type:ZBTableItemTypeArrow];
+    item.operation = ^{
+        SevenViewController*itemVC = [[SevenViewController alloc] init];
+        
+        [weakSelf.navigationController pushViewController:itemVC animated:YES];
+    };
+    ZBTableGroup *group7 = [[ZBTableGroup alloc] init];
+    group7.items = @[item];
+    group7.header=@"练习";
+    group7.headerHeight=35;
+    group7.footerHeight=5;
+    [_allGroups addObject:group7];
+}
 - (void)pushToAd:(NSNotification *)noti{
  
      DetailsViewController* detailsVC=[[DetailsViewController alloc]init];
