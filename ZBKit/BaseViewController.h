@@ -11,7 +11,7 @@
 #import "ZBKit.h"
 #import "APIConstants.h"
 
-#define IMAGE1   @"http://img04.tooopen.com/images/20130701/tooopen_10055061.jpg"
+#define IMAGE1   @"http://pic22.nipic.com/20120701/6799069_110859633000_2.jpg"
 
 #define IMAGE2   @"http://img06.tooopen.com/images/20161214/tooopen_sy_190570171299.jpg"
 

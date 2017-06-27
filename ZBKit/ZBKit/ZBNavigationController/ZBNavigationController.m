@@ -37,7 +37,10 @@
         button.titleLabel.font = [UIFont systemFontOfSize:15];
         viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     }
-    [super pushViewController:viewController animated:animated];
+    if (![[super topViewController] isKindOfClass:[viewController class]]) {  // 如果和上一个控制器一样，隔绝此操作
+        [super pushViewController:viewController animated:animated];
+    }
+
 }
 
 - (void)back{

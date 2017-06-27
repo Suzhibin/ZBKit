@@ -3,7 +3,7 @@
 //  ZBNetworkingDemo
 //
 //  Created by NQ UEC on 16/12/20.
-//  Copyright © 2016年 Suzhibin. All rights reserved.
+//  Copyright © 2016年 ;. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -31,8 +31,8 @@ typedef NS_ENUM(NSInteger,apiType) {
 
 typedef NS_ENUM(NSInteger,MethodType) {
     
-    ZBMethodTypeGET,
-    ZBMethodTypePOST
+    GET,
+    POST
 } ;
 
 typedef void (^requestConfig)(ZBURLRequest *request);
@@ -207,5 +207,22 @@ typedef void (^progressBlock)(NSProgress * progress);
  */
 - (void)removeRequestForkey:(NSString *)key;
 
+
+/**
+ UTF8 编码
+
+ @param urlString 请求协议
+ @return 编码后的字符串
+ */
+- (NSString *)stringUTF8Encoding:(NSString *)urlString;
+
+/**
+ 附加参数 拼接
+
+ @param urlString 请求主协议
+ @param parameters 附加参数
+ @return 完整的请求协议
+ */
+- (NSString *)urlString:(NSString *)urlString appendingParameters:(id)parameters;
 
 @end

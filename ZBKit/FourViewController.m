@@ -7,7 +7,7 @@
 //
 
 #import "FourViewController.h"
-
+#import "ZBLabel.h"
 @interface FourViewController ()
 
 @end
@@ -26,10 +26,18 @@
 
     [self createAdvertise];
     
-    UILabel *label=[ZBControlTool createLabelWithFrame:CGRectMake(195, 220, 25,200) text:@"点\n击\n屏\n幕\n显\n示\n广\n告" tag:0];
-    label.numberOfLines = [label.text length];
-    label.font=[UIFont boldSystemFontOfSize:20];
+    ZBLabel *label=[[ZBLabel alloc]initWithFrame:CGRectMake(20, 100, SCREEN_WIDTH-40,200)];
+    [label setAlignment:ZBTextAlignmentTop];
+    label.backgroundColor=[UIColor redColor];
+    label.textAlignment=NSTextAlignmentRight;
+    label.text=@"点击显示广告(text显示在label的top)";
     [self.view addSubview:label];
+    
+    ZBLabel *label1=[[ZBLabel alloc]initWithFrame:CGRectMake(20, 300, SCREEN_WIDTH-40,200)];
+    [label1 setAlignment:ZBTextAlignmentBottom];
+    label1.backgroundColor=[UIColor yellowColor];
+    label1.text=@"点击显示广告(text显示在label的Bottom)";
+    [self.view addSubview:label1];
 
 }
 

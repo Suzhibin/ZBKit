@@ -31,16 +31,16 @@
 - (void)zb_viewDidAppear:(BOOL)animated {
     [self zb_viewDidAppear:animated];
     
-   // NSString *disappear=[NSString stringWithFormat:@"进入:%@",NSStringFromClass([self class])];
-    //NSLog(@"%@",disappear);
+    NSString *class=[NSString stringWithFormat:@"进入:%@",NSStringFromClass([self class])];
+    NSLog(@"%@",class);
     
 }
 
 - (void)zb_viewDidDisappear:(BOOL)animated {
     [self zb_viewDidDisappear:animated];
 
-   // NSString *disappear=[NSString stringWithFormat:@"退出:%@",NSStringFromClass([self class])];
-   // NSLog(@"%@",disappear);
+    NSString *class=[NSString stringWithFormat:@"退出:%@",NSStringFromClass([self class])];
+    NSLog(@"%@",class);
 }
 
 

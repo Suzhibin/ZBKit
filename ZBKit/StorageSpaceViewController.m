@@ -127,7 +127,7 @@
         [[SDImageCache sharedImageCache] clearDisk];
         [[SDImageCache sharedImageCache] clearMemory];
         //清除ZBImage缓存
-        [[ZBWebImageManager sharedInstance] clearImageFile];
+        [[ZBWebImageManager sharedInstance] clearImageCache];
         //清除沙盒某个文件夹
         [[ZBCacheManager sharedInstance]clearDiskWithpath:self.path];
         //清除系统缓存文件

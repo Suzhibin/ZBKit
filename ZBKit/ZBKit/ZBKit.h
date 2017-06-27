@@ -38,6 +38,7 @@
 #import "ZBConstants.h"            //常量类
 #import "ZBControlTool.h"          //助手
 #import "ZBDateFormatter.h"        //时间助手
+#import "ZBLabel.h"                //label的内容 可以自定义位置
 
 #import "ZBWeatherView.h"          //天气动画
 #import "ZBChart.h"                //环形动画

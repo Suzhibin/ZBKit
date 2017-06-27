@@ -38,7 +38,7 @@
         [self.view addSubview:label1];
         
         UILabel *label2=[[UILabel alloc]initWithFrame:CGRectMake(130,540, 200, 30)];
-        
+        [label2 zb_shimmer];
         label2.textAlignment=NSTextAlignmentLeft;
         label2.tag=5000;
         label2.backgroundColor=[UIColor whiteColor];
@@ -156,7 +156,7 @@
     
     if (sender.tag==2000) {
         //删除图片缓存 及完成操作
-        [[ZBWebImageManager sharedInstance] clearImageFileCompletion:^{
+        [[ZBWebImageManager sharedInstance] clearImageCacheCompletion:^{
             [self sizeAndCount];
         }];
         

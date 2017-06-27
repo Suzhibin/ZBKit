@@ -90,7 +90,7 @@
 }
 - (void)loadlist:(NSString *)listUrl type:(apiType)type{
     //session 封装 请求
-    [[ZBURLSessionManager sharedInstance] requestWithConfig:^(ZBURLRequest *request){
+    [ZBNetworkManager requestWithConfig:^(ZBURLRequest *request){
         request.urlString=listUrl;
         request.apiType=type;
     }  success:^(id responseObj,apiType type){
@@ -101,6 +101,7 @@
         [self.listArray removeAllObjects]; 
         NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
         NSArray *array=[dataDict objectForKey:@"videos"];
+        
         for (NSDictionary *dict in array) {
             ListModel *model=[[ListModel alloc]init];
             model.wid=[dict objectForKey:@"id"];
@@ -211,6 +212,7 @@
      */
     MenuModel *model= self.menuArray[[[self.menuTableView indexPathForSelectedRow] row]];
     NSString *url=[NSString stringWithFormat:list_URL,model.wid];
+    
     [self loadlist: url type:ZBRequestTypeRefresh];
 
     _refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉刷新..."];

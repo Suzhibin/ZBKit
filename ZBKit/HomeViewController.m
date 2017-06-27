@@ -56,7 +56,7 @@
     [self add5SectionItems];
     // 6.设置页面
    // [self add6SectionItems];
-   // [self add7SectionItems];
+    [self add7SectionItems];
     /*
      //homeViewController
      "homeWebimage"="圖片緩存器/動畫";

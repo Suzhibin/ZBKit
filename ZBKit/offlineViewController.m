@@ -34,7 +34,7 @@
     
     self.request=[[ZBURLRequest alloc]init];
     
-    [[ZBURLSessionManager sharedInstance] getRequestWithURL:menu_URL target:self apiType:ZBRequestTypeRefresh];
+    [[ZBURLSessionManager sharedInstance] GET:menu_URL parameters:nil target:self apiType:ZBRequestTypeRefresh];
     
     [self.view addSubview:self.tableView];
     

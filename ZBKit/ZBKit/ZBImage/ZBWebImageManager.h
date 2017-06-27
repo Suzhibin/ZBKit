@@ -68,13 +68,13 @@ typedef void (^downloadCompletion)(UIImage *image);
 /**
  *  清除图片缓存
  */
-- (void)clearImageFile;
+- (void)clearImageCache;
 
 /**
  *  清除图片缓存
  *  @param completion        block 后续操作
  */
-- (void)clearImageFileCompletion:(ZBCacheCompletedBlock)completion;
+- (void)clearImageCacheCompletion:(ZBCacheCompletedBlock)completion;
 
 /**
  *  清除某个图片缓存

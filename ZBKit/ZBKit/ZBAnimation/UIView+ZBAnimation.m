@@ -193,6 +193,21 @@
     [self.layer addAnimation:scaleY forKey:@"scaleY"];
     
 }
+
+- (void)zb_shimmer{
+    __weak typeof(self) weakSelf = self;
+    [UIView animateWithDuration:0.75f delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.transform = CGAffineTransformMakeScale(0.98, 0.98);
+        self.alpha = 0.3;
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.75f delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            self.alpha = 1.0;
+            self.transform = CGAffineTransformIdentity;
+        } completion:^(BOOL finished) {
+            [weakSelf zb_shimmer];
+        }];
+    }];
+}
 #pragma mark CAKeyframeAnimation delegate
 - (void)animationDidStart:(CAAnimation *)anim{
    // NSLog(@"开始了");

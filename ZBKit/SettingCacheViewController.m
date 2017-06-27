@@ -157,11 +157,11 @@ static const NSInteger cacheTime = 30;
     }
     
     if (indexPath.row==12) {
-        cell.textLabel.text=@"按时间清除“单个”json缓存文件(例:删除menu,例:超过30秒)";
+        cell.textLabel.text=@"按时间清除“单个”json缓存(例:删除menu,例:超过30秒)";
         cell.textLabel.font=[UIFont systemFontOfSize:14];
     }
     if (indexPath.row==13) {
-        cell.textLabel.text=@"按时间清除“单个”图片缓存文件(手动添加url,例:超过30秒)";
+        cell.textLabel.text=@"按时间清除“单个”图片缓存(手动添加url,例:超过30秒)";
         cell.textLabel.font=[UIFont systemFontOfSize:14];
     }
  
@@ -192,7 +192,8 @@ static const NSInteger cacheTime = 30;
             [[SDImageCache sharedImageCache] clearDisk];
             [[SDImageCache sharedImageCache] clearMemory];
             //清除ZBImage缓存
-             [[ZBWebImageManager sharedInstance] clearImageFile];
+             [[ZBWebImageManager sharedInstance] clearImageCache];
+
             //清除系统缓存文件
             //[[NSURLCache sharedURLCache]removeAllCachedResponses];
             //用ZBCacheManager 方法代替上面的系统方法 清除系统缓存文件
@@ -224,7 +225,7 @@ static const NSInteger cacheTime = 30;
     if (indexPath.row==6) {
         //清除ZBImage缓存
        // [[ZBImageDownloader sharedInstance] clearImageFile];
-        [[ZBWebImageManager sharedInstance] clearImageFileCompletion:^{
+        [[ZBWebImageManager sharedInstance] clearImageCacheCompletion:^{
              [self.tableView reloadData];
         }];
        

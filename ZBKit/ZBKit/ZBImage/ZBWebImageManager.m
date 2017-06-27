@@ -27,16 +27,21 @@ static const NSInteger ImageCacheMaxCacheAge  = 60*60*24*7;
         
         [[ZBCacheManager sharedInstance]createDirectoryAtPath:[self imageFilePath]];
         
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(automaticCleanImageCache) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(automaticCleanImageCache)
                                                      name:UIApplicationWillTerminateNotification
                                                    object:nil];
+        
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(backgroundCleanImageCache) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
 }
-
+- (void)dealloc{
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+}
 - (void)downloadImageUrl:(NSString *)imageUrl{
     [self downloadImageUrl:imageUrl completion:nil];
 }
@@ -53,9 +58,9 @@ static const NSInteger ImageCacheMaxCacheAge  = 60*60*24*7;
     
     if ([[ZBCacheManager sharedInstance]diskCacheExistsWithKey:imageUrl path:path]) {
         
-        [[ZBCacheManager sharedInstance]getCacheDataForKey:imageUrl path:path value:^(NSData *data,NSString *filePath) {
+        [[ZBCacheManager sharedInstance]getCacheDataForKey:imageUrl path:path value:^(id responseObj,NSString *filePath) {
             
-            UIImage *image=[UIImage imageWithData:data];
+            UIImage *image=[UIImage imageWithData:responseObj];
             
             completion(image) ;
         }];
@@ -94,11 +99,11 @@ static const NSInteger ImageCacheMaxCacheAge  = 60*60*24*7;
     return [[ZBCacheManager sharedInstance]getFileCountWithpath:[self imageFilePath]];
 }
 
-- (void)clearImageFile{
-    [self clearImageFileCompletion:nil];
+- (void)clearImageCache{
+    [self clearImageCacheCompletion:nil];
 }
 
-- (void)clearImageFileCompletion:(ZBCacheCompletedBlock)completion{
+- (void)clearImageCacheCompletion:(ZBCacheCompletedBlock)completion{
     [[ZBCacheManager sharedInstance]clearDiskWithpath:[self imageFilePath] completion:completion];
 }
 

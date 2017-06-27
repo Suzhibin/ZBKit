@@ -37,5 +37,6 @@
 
 //浮动动画
 -(void)zb_animationFloating;
-
+//闪耀
+- (void)zb_shimmer;
 @end
