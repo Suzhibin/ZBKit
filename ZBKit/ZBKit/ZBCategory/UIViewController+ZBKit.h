@@ -34,4 +34,10 @@
  */
 - (void)titleViewWithImage:(NSString *)imageName;
 
+/**
+ 获取任意ViewController的navigationController
+
+ @return navigationController
+ */
+- (UINavigationController *)zb_navigationController;
 @end

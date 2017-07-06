@@ -57,4 +57,11 @@
 #import "UIBarButtonItem+ZBKit.h"
 #import "UIViewController+ZBKit.h"
 
+/*
+ Libraries
+ */
+#import "YYFPSLabel.h"
+#import "YYWeakProxy.h"
+#import "TVMagicData.h"
+
 #endif /* ZBKit_h */

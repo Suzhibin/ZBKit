@@ -33,4 +33,22 @@
     
     [alertView show];
 }
+
+- (UINavigationController *)zb_navigationController
+{
+    UINavigationController* nav = nil;
+    if ([self isKindOfClass:[UINavigationController class]]) {
+        nav = (id)self;
+    }
+    else {
+        if ([self isKindOfClass:[UITabBarController class]]) {
+            nav = [((UITabBarController*)self).selectedViewController zb_navigationController];
+        }
+        else {
+            nav = self.navigationController;
+        }
+    }
+    return nav;
+}
+
 @end

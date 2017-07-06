@@ -54,7 +54,7 @@
 }
 - (void)loadData{
     //AFNetworking 封装 请求
-    [ZBNetworkManager requestWithConfig:^(ZBURLRequest *request){
+    [ZBURLSessionManager requestWithConfig:^(ZBURLRequest *request){
         request.urlString=menu_URL;
         request.apiType=ZBRequestTypeDefault;
     }  success:^(id responseObj,apiType type){
@@ -90,7 +90,7 @@
 }
 - (void)loadlist:(NSString *)listUrl type:(apiType)type{
     //session 封装 请求
-    [ZBNetworkManager requestWithConfig:^(ZBURLRequest *request){
+    [ZBURLSessionManager requestWithConfig:^(ZBURLRequest *request){
         request.urlString=listUrl;
         request.apiType=type;
     }  success:^(id responseObj,apiType type){

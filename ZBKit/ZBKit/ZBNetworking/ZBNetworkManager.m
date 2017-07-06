@@ -236,7 +236,7 @@
         //和urlsession类 公用一个chche容器 返回类型全部是二进制
         _AFmanager.requestSerializer  = [AFHTTPRequestSerializer serializer];// 设置请求格式
         _AFmanager.responseSerializer = [AFHTTPResponseSerializer serializer]; // 设置返回格式
-        
+    
         [[self.request mutableHTTPRequestHeaders] enumerateKeysAndObjectsUsingBlock:^(id field, id value, BOOL * __unused stop) {
             [_AFmanager.requestSerializer setValue:value forHTTPHeaderField:field];
         }];

@@ -13,6 +13,34 @@ typedef void (^downloadImageCompletion)();
 @interface UIImage (ZBKit)
 
 /**
+ 图片添加主题色
+
+ @param color 颜色
+ @param level 透明度
+ @return 改变颜色后的图片
+ */
+-(UIImage*)zb_tintedImageWithColor:(UIColor*)color level:(CGFloat)level;
+
+/**
+ 图片添加主题色
+ 
+ @param color 颜色
+ @param rect  图片改变的坐标
+ @return 改变颜色后的图片
+ */
+-(UIImage*)zb_tintedImageWithColor:(UIColor*)color rect:(CGRect)rect;
+
+/**
+ 图片添加主题色
+ 
+ @param color 颜色
+ @param rect  图片改变的坐标
+ @param level 透明度
+ @return 改变颜色后的图片
+ */
+-(UIImage*)zb_tintedImageWithColor:(UIColor*)color rect:(CGRect)rect level:(CGFloat)level;
+
+/**
  图片切圆
 
  @return 返回圆形的图片

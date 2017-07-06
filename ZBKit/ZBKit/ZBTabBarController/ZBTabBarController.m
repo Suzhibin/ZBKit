@@ -26,7 +26,6 @@
 #import "ZBNetworking.h"
 #import "ZBWeatherView.h"
 #import "ZBDateFormatter.h"
-#import "ZBLocalized.h"
 
 #define weatherURL   @"https://api.thinkpage.cn/v3/weather/daily.json?key=osoydf7ademn8ybv&location=%@&language=zh-Hans&start=0&days=3"
 
@@ -63,7 +62,7 @@
   
     //__weak typeof(self) weakSelf = self;
 
-  //  [[ZBLocalized sharedInstance]initLanguage];//放在控件前初始化
+
     
     [self createTabBar];
     
@@ -220,17 +219,17 @@
      */
     
     HomeViewController *home=[[HomeViewController alloc]init];
-    [self setupChildViewController:home title:@"首页" image:@"tabBar_essence_icon" selectedImage:@"tabBar_essence_click_icon"];
+    [self setupChildViewController:home title:ZBLocalized(@"Home",nil) image:@"tabBar_essence_icon" selectedImage:@"tabBar_essence_click_icon"];
     
     FirstViewController *first=[[FirstViewController alloc]init];
-    [self setupChildViewController:first title:@"网络请求" image:@"tabBar_new_icon" selectedImage:@"tabBar_new_click_icon"];
+    [self setupChildViewController:first title:ZBLocalized(@"ZBNetworking",nil) image:@"tabBar_new_icon" selectedImage:@"tabBar_new_click_icon"];
     
     FiveViewController *five=[[FiveViewController alloc]init];
-    [self setupChildViewController:five title:@"轮播" image:@"tabBar_friendTrends_icon" selectedImage:@"tabBar_friendTrends_click_icon"];
+    [self setupChildViewController:five title:ZBLocalized(@"ZBCarouselView",nil) image:@"tabBar_friendTrends_icon" selectedImage:@"tabBar_friendTrends_click_icon"];
     
     SettingViewController *setting=[[SettingViewController alloc]
                                init];
-    [self setupChildViewController:setting title:@"设置"  image:@"tabBar_me_icon" selectedImage:@"tabBar_me_click_icon"];
+    [self setupChildViewController:setting title:ZBLocalized(@"ZBTableView",nil)  image:@"tabBar_me_icon" selectedImage:@"tabBar_me_click_icon"];
     
 }
 
@@ -258,7 +257,7 @@
        _lastViewController = viewController;
 }
 
-
+/*
  //点击tiem动画
  -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
  {
@@ -281,7 +280,7 @@
      pulse.toValue= [NSNumber numberWithFloat:1.3];
      [[tabbarbuttonArray[index] layer]addAnimation:pulse forKey:nil];
  }
-
+*/
 
 /*
  - (void)tabbarPushToAd:(NSNotification *)noti{

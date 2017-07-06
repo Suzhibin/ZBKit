@@ -32,7 +32,7 @@
     [self zb_viewDidAppear:animated];
     
     NSString *class=[NSString stringWithFormat:@"进入:%@",NSStringFromClass([self class])];
-    NSLog(@"%@",class);
+   // NSLog(@"%@",class);
     
 }
 
@@ -40,7 +40,7 @@
     [self zb_viewDidDisappear:animated];
 
     NSString *class=[NSString stringWithFormat:@"退出:%@",NSStringFromClass([self class])];
-    NSLog(@"%@",class);
+   // NSLog(@"%@",class);
 }
 
 

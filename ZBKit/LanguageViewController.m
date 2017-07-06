@@ -92,8 +92,7 @@
 - (void)initRootVC{
     ZBTabBarController *tab=[[ZBTabBarController alloc]init];
     tab.selectedIndex=3;
-    LanguageViewController*LanguageVC=[[LanguageViewController alloc]init];
-    LanguageVC=tab.selectedViewController;
+
     [self dismissViewControllerAnimated:YES completion:^{
         [UIApplication sharedApplication].keyWindow.rootViewController = tab;
     }];

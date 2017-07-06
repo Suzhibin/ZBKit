@@ -16,6 +16,41 @@
 
 @implementation UIImage (ZBKit)
 
+// Tint: Color + level
+-(UIImage*)zb_tintedImageWithColor:(UIColor*)color level:(CGFloat)level {
+    CGRect rect = CGRectMake(0.0f, 0.0f, self.size.width, self.size.height);
+    return [self zb_tintedImageWithColor:color rect:rect level:level];
+}
+// Tint: Color + Rect
+-(UIImage*)zb_tintedImageWithColor:(UIColor*)color rect:(CGRect)rect {
+    return [self zb_tintedImageWithColor:color rect:rect level:1.0f];
+}
+
+// Tint: Color + Rect + level
+-(UIImage*)zb_tintedImageWithColor:(UIColor*)color rect:(CGRect)rect level:(CGFloat)level {
+    CGRect imageRect = CGRectMake(0.0f, 0.0f, self.size.width, self.size.height);
+    
+    UIGraphicsBeginImageContextWithOptions(imageRect.size, NO, self.scale);
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    
+    [self drawInRect:imageRect];
+    
+    CGContextSetFillColorWithColor(ctx, [color CGColor]);
+    CGContextSetAlpha(ctx, level);
+    CGContextSetBlendMode(ctx, kCGBlendModeSourceAtop);
+    CGContextFillRect(ctx, rect);
+    
+    CGImageRef imageRef = CGBitmapContextCreateImage(ctx);
+    UIImage *darkImage = [UIImage imageWithCGImage:imageRef
+                                             scale:self.scale
+                                       orientation:self.imageOrientation];
+    CGImageRelease(imageRef);
+    
+    UIGraphicsEndImageContext();
+    
+    return darkImage;
+}
+
 - (UIImage *)zb_circleImage {
     // 开始图形上下文
     UIGraphicsBeginImageContextWithOptions(self.size, NO, 0.0);

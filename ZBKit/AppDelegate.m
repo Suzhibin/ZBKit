@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "ZBKit.h"
-
 @interface AppDelegate ()
 
 @end
@@ -18,14 +17,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     NSLog(@"程序启动完成：%s",__func__);
-    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.backgroundColor=[UIColor whiteColor];
- 
-    ZBTabBarController *tabbar=[[ZBTabBarController alloc]init];
-    
-    self.window.rootViewController = tabbar;
-    
-    [self.window makeKeyAndVisible];
+
    
     [self zb_application:application didFinishLaunchingWithOptions:launchOptions];
 

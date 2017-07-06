@@ -14,12 +14,19 @@
 #import "ZBConstants.h"
 #import "ZBLocationManager.h"
 #import "ZBLocalized.h"
+#import "ZBTabBarController.h"
+
 @implementation AppDelegate (ZBKit)
 -(void)zb_application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     NSString *cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
     ZBKLog(@"cachePath = %@",cachePath);
-    [self location];
+    
+     [[ZBLocalized sharedInstance]initLanguage];//放在控件前初始化
+    //初始化vc
+    [self initRoot];
+ 
+   // [self location];
     // 检查版本更新
     [self updateApp];
     //初始化第三方授权
@@ -27,14 +34,24 @@
     //网络监测
     [self netWorkMonitoring];
     //展示广告
-    [self advertise];
-    //获取当前设备语言
-    //[self language];
-    
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+   // [self advertise];
+
+
     // app从后台进入前台都会调用这个方法
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+   // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
+
+- (void)initRoot{
+    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor=[UIColor whiteColor];
+    
+    ZBTabBarController *tabbar=[[ZBTabBarController alloc]init];
+    
+    self.window.rootViewController = tabbar;
+    
+    [self.window makeKeyAndVisible];
+}
+
 - (void)applicationEnterForeground{
     [self advertise];
 }
