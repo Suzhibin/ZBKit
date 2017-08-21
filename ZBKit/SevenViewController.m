@@ -88,12 +88,32 @@
     
     
     
-     NSMutableDictionary *parameters=[[NSMutableDictionary alloc]init];
+   //  NSDictionary *parameters=[[NSMutableDictionary alloc]init];
      
-     [parameters setValue:@"0" forKey:@"launchCount"];
-     [parameters setValue:@"zh_CN" forKey:@"assignLang"];
-     [parameters setValue:@"1001" forKey:@"channelId"];
-     [parameters setValue:@"D53AA748-7AD3-47A5-B11C-5CC216518471" forKey:@"userId"];
+     //[parameters setValue:@"0" forKey:@"launchCount"];
+    // [parameters setValue:@"zh_CN" forKey:@"assignLang"];
+    // [parameters setValue:@"1001" forKey:@"channelId"];
+    // [parameters setValue:@"D53AA748-7AD3-47A5-B11C-5CC216518471" forKey:@"userId"];
+    
+   NSDictionary *  parameters=@{
+        @"assignLang": @"zh_CN",
+        @"channelId" : @"1001",
+        @"deviceInfo":@{
+                @"imei" : @"ACC53CC3-7B29-4CE4-A9E3-2D3EA7460DF4",
+                @"imsi" : @"ACC53CC3-7B29-4CE4-A9E3-2D3EA7460DF4"
+            },
+        @"launchCount" : @"11",
+        @"softwareInfo" :@{
+        @"buildNo" : @"186",
+        @"business":@"0",
+           @"country" : @"CN",
+        @"idfv"  : @"060C9C43-DF70-41B0-86D8-6D760160728E",
+        @"language"  : @"zh_CN",
+        @"partner"  : @"0",
+        @"platformId": @"225",
+        @"timezone"  : @"Asia/Shanghai"
+        },
+        @"userId":@"ACC53CC3-7B29-4CE4-A9E3-2D3EA7460DF4"};
      
      [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
      request.urlString=@"http://192.168.33.186:9080/BOSS_APD_WEB/user/information";
