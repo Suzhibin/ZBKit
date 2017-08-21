@@ -1,6 +1,6 @@
 //
 //  NSFileManager+pathMethod.m
-//  ZBURLSessionManager
+//  ZBNetworking
 //
 //  Created by NQ UEC on 16/5/13.
 //  Copyright © 2016年 Suzhibin. All rights reserved.
@@ -40,4 +40,28 @@
     }
     
 }
+@end
+
+@implementation NSString (UTF8Encoding)
+
+- (NSString *)stringUTF8Encoding:(NSString *)urlString{
+    return [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+}
+
+- (NSString *)urlString:(NSString *)urlString appendingParameters:(id)parameters{
+    if (parameters==nil) {
+        return urlString;
+    }else{
+        NSMutableArray *array = [[NSMutableArray alloc] init];
+        for (NSString *key in parameters) {
+            id obj = [parameters objectForKey:key];
+            NSString *str = [NSString stringWithFormat:@"%@=%@",key,obj];
+            [array addObject:str];
+        }
+        
+        NSString *parametersString = [array componentsJoinedByString:@"&"];
+        return  [urlString stringByAppendingString:[NSString stringWithFormat:@"?%@",parametersString]];
+    }
+}
+
 @end

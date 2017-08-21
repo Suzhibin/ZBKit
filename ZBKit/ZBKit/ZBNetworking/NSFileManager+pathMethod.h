@@ -1,6 +1,6 @@
 //
 //  NSFileManager+pathMethod.h
-//  ZBURLSessionManager
+//  ZBNetworking
 //
 //  Created by NQ UEC on 16/5/13.
 //  Copyright © 2016年 Suzhibin. All rights reserved.
@@ -33,5 +33,13 @@
  *  @return 是否超时
  */
 +(BOOL)isTimeOutWithPath:(NSString *)path timeOut:(NSTimeInterval)time;
+
+@end
+
+@interface NSString (UTF8Encoding)
+
+- (NSString *)stringUTF8Encoding:(NSString *)urlString;
+
+- (NSString *)urlString:(NSString *)urlString appendingParameters:(id)parameters;
 
 @end

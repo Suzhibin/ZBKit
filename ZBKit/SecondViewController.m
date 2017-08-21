@@ -190,7 +190,7 @@
 }
 
 - (void)btnClicked:(UIButton *)sender{
-  
+    UIImage *circleImage=nil;
     switch (sender.tag) {
         case 100:
             [self.imageView zb_animatedTransitionWithoptions:UIViewAnimationOptionTransitionFlipFromTop];//过渡动画
@@ -230,10 +230,17 @@
             break;
         case 110:
             [self.imageView zb_animatedTransitionWithoptions:UIViewAnimationOptionTransitionCrossDissolve];//过渡动画
-            self.imageView.image = [self.imageView.image zb_circleImage];;//圆形
+            circleImage=[self.imageView.image zb_circleImage];//圆形
+            self.imageView.image = circleImage;//圆形
             [self.imageView zb_animationFloating];//浮动动画
-            
-            [[ZBCacheManager sharedInstance]storeContent:[self.imageView.image zb_circleImage] forKey:@"qwerty" path:[[ZBCacheManager sharedInstance]tmpPath]];//存储变形后的图片 
+            //存储变形后的图片
+            [[ZBCacheManager sharedInstance]storeContent:circleImage forKey:@"qwerty" path:[[ZBCacheManager sharedInstance]tmpPath] isSuccess:^(BOOL isSuccess) {
+                if (isSuccess) {
+                    NSLog(@"存储成功");
+                }else{
+                    NSLog(@"存储失败");
+                }
+            }];
             break;
         case 111:
           

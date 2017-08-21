@@ -1,8 +1,6 @@
-
-
 //
 //  ZBURLRequest.m
-//  ZBNetworkingDemo
+//  ZBNetworking
 //
 //  Created by NQ UEC on 16/12/20.
 //  Copyright © 2016年 Suzhibin. All rights reserved.
@@ -28,15 +26,6 @@
 
 - (void)dealloc{
     ZBLog(@"%s",__func__);
-}
-
-+ (ZBURLRequest *)sharedInstance {
-    static ZBURLRequest *request=nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        request = [[ZBURLRequest alloc] init];
-    });
-    return request;
 }
 
 - (void)setValue:(NSString *)value forHeaderField:(NSString *)field{
@@ -145,49 +134,24 @@
     }
 }
 
-- (void)setRequestObject:(id)obj forkey:(NSString *)key{
-    
-    if (obj) {
-        @synchronized (self.requestDic){
-            [self.requestDic setObject:obj forKey:key];
-        }
-    }
+- (void)addFormDataWithName:(NSString *)name fileData:(NSData *)fileData {
+    ZBUploadData *formData = [ZBUploadData formDataWithName:name fileData:fileData];
+    [self.uploadDatas addObject:formData];
 }
 
-- (void)removeRequestForkey:(NSString *)key{
-    
-    if(!key)return;
-        @synchronized (self.requestDic){
-          [self.requestDic removeObjectForKey:key];
-        }
+- (void)addFormDataWithName:(NSString *)name fileName:(NSString *)fileName mimeType:(NSString *)mimeType fileData:(NSData *)fileData {
+    ZBUploadData *formData = [ZBUploadData formDataWithName:name fileName:fileName mimeType:mimeType fileData:fileData];
+    [self.uploadDatas addObject:formData];
 }
 
-- (NSString *)stringUTF8Encoding:(NSString *)urlString{
-    return [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+- (void)addFormDataWithName:(NSString *)name fileURL:(NSURL *)fileURL {
+    ZBUploadData *formData = [ZBUploadData formDataWithName:name fileURL:fileURL];
+    [self.uploadDatas addObject:formData];
 }
 
-- (NSString *)urlString:(NSString *)urlString appendingParameters:(id)parameters{
-    if (parameters==nil) {
-        return urlString;
-    }else{
-        NSMutableArray *array = [[NSMutableArray alloc] init];
-        for (NSString *key in parameters) {
-            id obj = [parameters objectForKey:key];
-            NSString *str = [NSString stringWithFormat:@"%@=%@",key,obj];
-            [array addObject:str];
-        }
-        
-        NSString *parametersString = [array componentsJoinedByString:@"&"];
-        return  [urlString stringByAppendingString:[NSString stringWithFormat:@"?%@",parametersString]];
-    }
-}
-
-- (NSMutableDictionary *)requestDic{
-    
-    if (!_requestDic) {
-        _requestDic  = [[NSMutableDictionary alloc]init];
-    }
-    return _requestDic;
+- (void)addFormDataWithName:(NSString *)name fileName:(NSString *)fileName mimeType:(NSString *)mimeType fileURL:(NSURL *)fileURL {
+    ZBUploadData *formData = [ZBUploadData formDataWithName:name fileName:fileName mimeType:mimeType fileURL:fileURL];
+    [self.uploadDatas addObject:formData];
 }
 
 - (NSMutableArray *)channelUrlArray{
@@ -214,11 +178,57 @@
     return _mutableHTTPRequestHeaders;
 }
 
-- (NSMutableData *)responseObj {
-    if (!_responseObj) {
-        _responseObj=[[NSMutableData alloc]init];
+- (NSMutableArray<ZBUploadData *> *)uploadDatas {
+    if (!_uploadDatas) {
+        _uploadDatas = [NSMutableArray array];
     }
-    return _responseObj;
+    return _uploadDatas;
 }
+
+- (NSMutableData *)responseObject {
+    if (!_responseObject) {
+        _responseObject=[[NSMutableData alloc]init];
+    }
+    return _responseObject;
+}
+
+@end
+
+#pragma mark - ZBUploadData
+
+@implementation ZBUploadData
+
++ (instancetype)formDataWithName:(NSString *)name fileData:(NSData *)fileData {
+    ZBUploadData *formData = [[ZBUploadData alloc] init];
+    formData.name = name;
+    formData.fileData = fileData;
+    return formData;
+}
+
++ (instancetype)formDataWithName:(NSString *)name fileName:(NSString *)fileName mimeType:(NSString *)mimeType fileData:(NSData *)fileData {
+    ZBUploadData *formData = [[ZBUploadData alloc] init];
+    formData.name = name;
+    formData.fileName = fileName;
+    formData.mimeType = mimeType;
+    formData.fileData = fileData;
+    return formData;
+}
+
++ (instancetype)formDataWithName:(NSString *)name fileURL:(NSURL *)fileURL {
+    ZBUploadData *formData = [[ZBUploadData alloc] init];
+    formData.name = name;
+    formData.fileURL = fileURL;
+    return formData;
+}
+
++ (instancetype)formDataWithName:(NSString *)name fileName:(NSString *)fileName mimeType:(NSString *)mimeType fileURL:(NSURL *)fileURL {
+    ZBUploadData *formData = [[ZBUploadData alloc] init];
+    formData.name = name;
+    formData.fileName = fileName;
+    formData.mimeType = mimeType;
+    formData.fileURL = fileURL;
+    return formData;
+}
+
 
 @end

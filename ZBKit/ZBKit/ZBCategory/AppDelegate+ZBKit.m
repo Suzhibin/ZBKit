@@ -31,8 +31,6 @@
     [self updateApp];
     //初始化第三方授权
     [self initializePlat];
-    //网络监测
-    [self netWorkMonitoring];
     //展示广告
    // [self advertise];
 
@@ -70,7 +68,7 @@
     if (sanboxVersion.length>0) {
         if (![appVersion isEqualToString:sanboxVersion]) {
             ZBKLog(@"需要升级");
-            [[ZBURLSessionManager sharedInstance]requestWithConfig:^(ZBURLRequest *request) {
+            [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
                 request.urlString=@"http://itunes.apple.com/cn/lookup?id=123456789";
                 request.apiType=ZBRequestTypeRefresh;
             } success:^(id responseObj, apiType type) {
@@ -99,31 +97,6 @@
         // 存储版本号
         [[NSUserDefaults standardUserDefaults]  setObject:appVersion forKey:key];
         [[NSUserDefaults standardUserDefaults]  synchronize];
-    }
-}
-
-#pragma mark - 网络状态监测
-- (void)netWorkMonitoring{
-    NSInteger netStatus=[ZBNetworkManager startNetWorkMonitoring];
-    
-    switch (netStatus) {
-        case AFNetworkReachabilityStatusUnknown:
-            ZBKLog(@"未识别的网络");
-            break;
-            
-        case AFNetworkReachabilityStatusNotReachable:
-            ZBKLog(@"不可达的网络(未连接)");
-            break;
-            
-        case AFNetworkReachabilityStatusReachableViaWWAN:
-            ZBKLog(@"2G,3G,4G...的网络");
-            break;
-            
-        case AFNetworkReachabilityStatusReachableViaWiFi:
-            ZBKLog(@"wifi的网络");
-            break;
-        default:
-            break;
     }
 }
 

@@ -1,77 +1,50 @@
 //
 //  ZBURLRequest.h
-//  ZBNetworkingDemo
+//  ZBNetworking
 //
 //  Created by NQ UEC on 16/12/20.
-//  Copyright © 2016年 ;. All rights reserved.
+//  Copyright © 2016年 Suzhibin. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-@class  ZBURLRequest;
-
-#define ZBBUG_LOG 0
-
-#if(ZBBUG_LOG == 1)
-# define ZBLog(fmt, ...) NSLog((@"[函数名:%s]" " [第 %d 行]\n" fmt),  __FUNCTION__, __LINE__, ##__VA_ARGS__);
-#else
-# define ZBLog(...);
-#endif
-
-//用于标识不同类型的请求
-typedef NS_ENUM(NSInteger,apiType) {
-    
-    ZBRequestTypeDefault,   //默认类型
-    ZBRequestTypeRefresh,   //重新请求 （有缓存，不读取，重新请求）
-    ZBRequestTypeLoadMore,  //加载更多
-    ZBRequestTypeDetail,    //详情
-    ZBRequestTypeOffline,   //离线    （有缓存，不读取，重新请求）
-    ZBRequestTypeCustom     //自定义
-    
-} ;
-
-typedef NS_ENUM(NSInteger,MethodType) {
-    
-    GET,
-    POST
-} ;
-
-typedef void (^requestConfig)(ZBURLRequest *request);
-
-typedef void (^requestSuccess)(id responseObj,apiType type);
-
-typedef void (^requestFailed)(NSError *error);
-
-typedef void (^progressBlock)(NSProgress * progress);
-
+#import "ZBRequestConst.h"
+@class ZBUploadData;
 @interface ZBURLRequest : NSObject
 
 /**
  *  用于标识不同类型的request状态
  */
 @property (nonatomic,assign) apiType apiType;
+
 /**
  *  用于标识不同类型的request
  */
 @property (nonatomic,assign) MethodType methodType;
+
+/**
+ *  请求参数的类型
+ */
+@property (nonatomic,assign) requestSerializer requestSerializer;
+
 /**
  *  接口(请求地址)
  */
-@property (nonatomic,copy) NSString *urlString;
+@property (nonatomic,copy) NSString * _Nonnull urlString;
 
 /**
  请求url列队容器
  */
-@property (nonatomic,strong) NSMutableArray *urlArray;
+@property (nonatomic,strong) NSMutableArray * _Nonnull urlArray;
 
 /**
  *  提供给外部配置参数使用
  */
-@property (nonatomic,strong) id parameters;
+@property (nonatomic,strong) id _Nonnull parameters;
 
 /**
  *  数据,提供给外部使用
  */
-@property (nonatomic,strong) NSMutableData *responseObj;
+@property (nonatomic,strong) NSMutableData * _Nonnull responseObject;
 
 /**
  *  设置超时时间  默认15秒
@@ -80,26 +53,19 @@ typedef void (^progressBlock)(NSProgress * progress);
 @property (nonatomic, assign) NSTimeInterval timeoutInterval;
 
 /**
- *  请求错误
+ *  存储路径 只有下载方法有用
  */
-@property (nonatomic,strong)NSError *error;
+@property (nonatomic,copy,nullable) NSString *downloadSavePath;
 
 /**
- *  用于维护多个request对象
+ *  为上传请求提供数据
  */
-@property ( nonatomic, strong) NSMutableDictionary *requestDic;
+@property (nonatomic, strong, nullable) NSMutableArray<ZBUploadData *> *uploadDatas;
 
 /**
  *  用于维护 请求头的request对象
  */
-@property ( nonatomic, strong) NSMutableDictionary *mutableHTTPRequestHeaders;
-
-/**
- *  用于判断是否有请求头
- */
-@property (nonatomic,copy) NSString *value;
-
-+ (ZBURLRequest *)sharedInstance;
+@property ( nonatomic, strong) NSMutableDictionary * _Nonnull mutableHTTPRequestHeaders;
 
 /**
  *  添加请求头
@@ -107,7 +73,7 @@ typedef void (^progressBlock)(NSProgress * progress);
  *  @param value value
  *  @param field field
  */
-- (void)setValue:(NSString *)value forHeaderField:(NSString *)field;
+- (void)setValue:(NSString *_Nonnull)value forHeaderField:(NSString *_Nonnull)field;
 
 /**
  *
@@ -115,52 +81,52 @@ typedef void (^progressBlock)(NSProgress * progress);
  *
  *  @return request 对象
  */
-- (NSString *)objectHeaderForKey:(NSString *)key;
+- (NSString *_Nonnull)objectHeaderForKey:(NSString *_Nonnull)key;
 
 /**
  *  删除请求头的key
  *
  *  @param key key
  */
-- (void)removeHeaderForkey:(NSString *)key;
+- (void)removeHeaderForkey:(NSString *_Nonnull)key;
 
 /**
  *  @return urlArray 返回url数组
  */
-- (NSMutableArray *)offlineUrlArray;
+- (NSMutableArray *_Nonnull)offlineUrlArray;
 
 /**
  *  @return urlArray 返回其他参数数组
  */
-- (NSMutableArray *)offlineKeyArray;
+- (NSMutableArray *_Nonnull)offlineKeyArray;
 
 /**
  离线下载 将url 添加到请求列队
  
  @param urlString 请求地址
  */
-- (void)addObjectWithUrl:(NSString *)urlString;
+- (void)addObjectWithUrl:(NSString *_Nonnull)urlString;
 
 /**
  离线下载 将url 从请求列队删除
  
  @param urlString 请求地址
  */
-- (void)removeObjectWithUrl:(NSString *)urlString;
+- (void)removeObjectWithUrl:(NSString *_Nonnull)urlString;
 
 /**
  离线下载 将栏目其他参数  添加到容器
  
  @param name 栏目名字 或 其他 key
  */
-- (void)addObjectWithKey:(NSString *)name;
+- (void)addObjectWithKey:(NSString *_Nonnull)name;
 
 /**
  离线下载 将栏目其他参数 从容器删除
  
  @param name 请求地址 或 其他 key
  */
-- (void)removeObjectWithKey:(NSString *)name;
+- (void)removeObjectWithKey:(NSString *_Nonnull)name;
 
 /**
  离线下载 删除全部请求列队
@@ -175,7 +141,7 @@ typedef void (^progressBlock)(NSProgress * progress);
  
  @return 1:0
  */
-- (BOOL)isAddForKey:(NSString *)key isUrl:(BOOL)isUrl;
+- (BOOL)isAddForKey:(NSString *_Nonnull)key isUrl:(BOOL)isUrl;
 
 /**
  离线下载 将url 或 其他参数 添加到请求列队
@@ -183,7 +149,7 @@ typedef void (^progressBlock)(NSProgress * progress);
  @param key   请求地址 或 其他参数
  @param isUrl 是否是url
  */
-- (void)addObjectWithForKey:(NSString *)key isUrl:(BOOL)isUrl;
+- (void)addObjectWithForKey:(NSString *_Nonnull)key isUrl:(BOOL)isUrl;
 
 /**
  离线下载 将url 或 其他参数 从请求列队删除
@@ -191,38 +157,52 @@ typedef void (^progressBlock)(NSProgress * progress);
  @param key   请求地址 或 其他参数
  @param isUrl 是否是url
  */
-- (void)removeObjectWithForkey:(NSString *)key isUrl:(BOOL)isUrl;
+- (void)removeObjectWithForkey:(NSString *_Nonnull)key isUrl:(BOOL)isUrl;
+
+- (void)addFormDataWithName:(NSString *_Nonnull)name fileData:(NSData *_Nonnull)fileData;
+- (void)addFormDataWithName:(NSString *_Nonnull)name fileName:(NSString *_Nonnull)fileName mimeType:(NSString *_Nonnull)mimeType fileData:(NSData *_Nonnull)fileData;
+- (void)addFormDataWithName:(NSString *_Nonnull)name fileURL:(NSURL *_Nonnull)fileURL;
+- (void)addFormDataWithName:(NSString *_Nonnull)name fileName:(NSString *_Nonnull)fileName mimeType:(NSString *_Nonnull)mimeType fileURL:(NSURL *_Nonnull)fileURL;
+@end
+
+
+#pragma mark - ZBUploadData
+/**
+ 上传文件数据的类
+ */
+@interface ZBUploadData : NSObject
 
 /**
- *  添加请求对象
- *  @param obj request 对象
- *  @param key key
+ 文件对应服务器上的字段
  */
-- (void)setRequestObject:(id)obj forkey:(NSString *)key;
+@property (nonatomic, copy) NSString * _Nonnull name;
 
 /**
- 删除请求对象的key
- 
- @param key key
+ 文件名
  */
-- (void)removeRequestForkey:(NSString *)key;
-
+@property (nonatomic, copy, nullable) NSString *fileName;
 
 /**
- UTF8 编码
-
- @param urlString 请求协议
- @return 编码后的字符串
+ 图片文件的类型,例:png、jpeg....
  */
-- (NSString *)stringUTF8Encoding:(NSString *)urlString;
+@property (nonatomic, copy, nullable) NSString *mimeType;
 
 /**
- 附加参数 拼接
-
- @param urlString 请求主协议
- @param parameters 附加参数
- @return 完整的请求协议
+ The data to be encoded and appended to the form data, and it is prior than `fileURL`.
  */
-- (NSString *)urlString:(NSString *)urlString appendingParameters:(id)parameters;
+@property (nonatomic, strong, nullable) NSData *fileData;
+
+/**
+ The URL corresponding to the file whose content will be appended to the form, BUT, when the `fileData` is assigned，the `fileURL` will be ignored.
+ */
+@property (nonatomic, strong, nullable) NSURL *fileURL;
+
+//注意:“fileData”和“fileURL”中的任何一个都不应该是“nil”，“fileName”和“mimeType”都必须是“nil”，或者同时被分配，
+
++ (instancetype _Nonnull )formDataWithName:(NSString *_Nonnull)name fileData:(NSData *_Nonnull)fileData;
++ (instancetype _Nonnull )formDataWithName:(NSString *_Nonnull)name fileName:(NSString *_Nonnull)fileName mimeType:(NSString *_Nonnull)mimeType fileData:(NSData *_Nonnull)fileData;
++ (instancetype _Nonnull )formDataWithName:(NSString *_Nonnull)name fileURL:(NSURL *_Nonnull)fileURL;
++ (instancetype _Nonnull )formDataWithName:(NSString *_Nonnull)name fileName:(NSString *_Nonnull)fileName mimeType:(NSString *_Nonnull)mimeType fileURL:(NSURL *_Nonnull)fileURL;
+
 
 @end

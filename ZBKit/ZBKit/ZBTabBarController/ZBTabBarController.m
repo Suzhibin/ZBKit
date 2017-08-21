@@ -173,7 +173,7 @@
      __weak typeof(self) weakSelf = self;
     NSString *url= [NSString stringWithFormat:weatherURL,cityName];
 
-    [ZBURLSessionManager requestWithConfig:^(ZBURLRequest *request) {
+    [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
         request.urlString=url;
         request.apiType=ZBRequestTypeRefresh;
      

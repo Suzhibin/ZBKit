@@ -10,6 +10,12 @@
 
 @interface NSArray (ZBKit)
 
+/**
+ 俩个数组相同的值 返回得数组
+
+ @param array 要比较的数组
+ @return 过滤后的数组
+ */
 - (NSArray *)zb_filterArray:(NSArray *)array;
 /**
  返回包含某个元素的数组

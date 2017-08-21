@@ -16,7 +16,6 @@
 #import <SDWebImageManager.h>
 static const NSInteger cacheTime = 30;
 @interface SettingCacheViewController ()<UITableViewDelegate,UITableViewDataSource,offlineDelegate>
-@property (nonatomic,copy)NSString *path;
 @property (nonatomic,copy)NSString *imagePath;
 @property (nonatomic,strong)NSMutableArray *imageArray;
 @property (nonatomic,strong)UITableView *tableView;
@@ -31,13 +30,8 @@ static const NSInteger cacheTime = 30;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    //得到沙盒cache文件夹下的系统缓存文件路径
+
     NSString *cachePath= [[ZBCacheManager sharedInstance]cachesPath];
-  //  NSString *appID=@"github.com-Suzhibin.ZBKit";
-    NSString *appID=[[ZBGlobalSettingsTool sharedInstance]appBundleID];
-    NSString *fsCachedData=@"fsCachedData";
-    self.path=[NSString stringWithFormat:@"%@/%@/%@",cachePath,appID,fsCachedData];
-  
     //得到沙盒cache文件夹下的 SDWebimage 存储路径
     NSString *sdImage=@"default/com.hackemist.SDWebImageCache.default";
     self.imagePath=[NSString stringWithFormat:@"%@/%@",cachePath,sdImage];
@@ -63,8 +57,7 @@ static const NSInteger cacheTime = 30;
         CGFloat cacheSize=[[ZBCacheManager sharedInstance]getCacheSize];//json缓存文件大小
         CGFloat sdimageSize = [[SDImageCache sharedImageCache]getSize];//图片缓存大小
         CGFloat zbimage=[[ZBWebImageManager sharedInstance] imageFileSize];
-        CGFloat fsCachedDataSize=[[ZBCacheManager sharedInstance]getFileSizeWithpath:self.path];//系统缓存沙盒路径文件大小
-        CGFloat AppCacheSize=cacheSize+sdimageSize+zbimage+fsCachedDataSize;
+        CGFloat AppCacheSize=cacheSize+sdimageSize+zbimage;
         AppCacheSize=AppCacheSize/1000.0/1000.0;
 
         cell.detailTextLabel.text=[NSString stringWithFormat:@"%.2fM",AppCacheSize];
@@ -76,8 +69,8 @@ static const NSInteger cacheTime = 30;
         CGFloat cacheCount=[[ZBCacheManager sharedInstance]getCacheCount];//json缓存文件个数
         CGFloat imageCount=[[SDImageCache sharedImageCache]getDiskCount];//图片缓存个数
         CGFloat zbimageCount=[[ZBWebImageManager sharedInstance] imageFileCount];
-        CGFloat fsCachedDataCount=[[ZBCacheManager sharedInstance]getFileCountWithpath:self.path];//系统缓存沙盒路径文件个数
-        CGFloat AppCacheCount=cacheCount+imageCount+zbimageCount+fsCachedDataCount;
+
+        CGFloat AppCacheCount=cacheCount+imageCount+zbimageCount;
         
         cell.detailTextLabel.text= [NSString stringWithFormat:@"%.f",AppCacheCount];
     }
@@ -133,19 +126,24 @@ static const NSInteger cacheTime = 30;
     }
     if (indexPath.row==8) {
 
-        cell.textLabel.text=@"清除系统缓存路径下的所有文件";
+        cell.textLabel.text=@"清除自定义路径缓存";
         
-        CGFloat size=[[ZBCacheManager sharedInstance]getFileSizeWithpath:self.path];
+        CGFloat cacheSize=[[ZBCacheManager sharedInstance]getFileSizeWithpath:self.imagePath];
+        
+        cacheSize=cacheSize/1000.0/1000.0;
+        
+        CGFloat size=[[ZBCacheManager sharedInstance]getFileSizeWithpath:self.imagePath];
         
         //fileUnitWithSize 转换单位方法
-        cell.detailTextLabel.text=[[ZBCacheManager sharedInstance] fileUnitWithSize:size];
+        cell.detailTextLabel.text=[NSString stringWithFormat:@"%.2fM(%@)",cacheSize,[[ZBCacheManager sharedInstance] fileUnitWithSize:size]];
+        ;
     }
     if (indexPath.row==9) {
      
         cell.textLabel.text=@"系统缓存路径下所有文件数量";
         cell.userInteractionEnabled = NO;
         
-        CGFloat count=[[ZBCacheManager sharedInstance]getFileCountWithpath:self.path];
+        CGFloat count=[[ZBCacheManager sharedInstance]getFileCountWithpath:self.imagePath];
         
         cell.detailTextLabel.text= [NSString stringWithFormat:@"%.f",count];
     }
@@ -192,12 +190,7 @@ static const NSInteger cacheTime = 30;
             [[SDImageCache sharedImageCache] clearDisk];
             [[SDImageCache sharedImageCache] clearMemory];
             //清除ZBImage缓存
-             [[ZBWebImageManager sharedInstance] clearImageCache];
-
-            //清除系统缓存文件
-            //[[NSURLCache sharedURLCache]removeAllCachedResponses];
-            //用ZBCacheManager 方法代替上面的系统方法 清除系统缓存文件
-            [[ZBCacheManager sharedInstance]clearDiskWithpath:self.path];
+            [[ZBWebImageManager sharedInstance] clearImageCache];
             
             [self.tableView reloadData];
         }];
@@ -233,12 +226,8 @@ static const NSInteger cacheTime = 30;
     
     if (indexPath.row==8) {
         
-        //清除系统缓存路径下所有文件
-        //[[NSURLCache sharedURLCache]removeAllCachedResponses];
-        
-        //用ZBCacheManager 方法代替上面的系统方法 清除系统缓存文件
-        // [[ZBCacheManager sharedManager]clearDiskWithpath:self.path];
-        [[ZBCacheManager sharedInstance]clearDiskWithpath:self.path completion:^{
+        // [[ZBCacheManager sharedManager]clearDiskWithpath:self.imagePath];
+        [[ZBCacheManager sharedInstance]clearDiskWithpath:self.imagePath completion:^{
             
             [self.tableView reloadData];
             
@@ -325,7 +314,7 @@ static const NSInteger cacheTime = 30;
     
     //[ZBURLSessionManager sharedManager]requestWithConfig
     
-    [ZBNetworkManager requestWithConfig:^(ZBURLRequest *request){
+    [ZBRequestManager requestWithConfig:^(ZBURLRequest *request){
         
         request.urlArray=offlineArray;
         request.apiType=ZBRequestTypeOffline;   //离线请求 apiType:ZBRequestTypeOffline
@@ -398,7 +387,7 @@ static const NSInteger cacheTime = 30;
 }
 
 - (void)cancelClick{
-    [ZBNetworkManager requestToCancel:NO];//取消网络请求
+   
     [[SDWebImageManager sharedManager] cancelAll];//取消图片下载
     [self.offlineView hide];//取消下载进度视图
     NSLog(@"取消下载");

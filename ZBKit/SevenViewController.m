@@ -21,9 +21,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    [self filter];
+   // [self filter];
     
-   // [self request];
+    [self request];
   
 }
 - (void)filter{
@@ -61,7 +61,7 @@
 - (void)request{
     NSDictionary *dict=@{@"a":@"tag_recommend",@"c":@"topic",@"action":@"sub"};
     
-    [ZBNetworkManager requestWithConfig:^(ZBURLRequest *request) {
+    [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
         request.urlString=budejieURL;
         request.parameters=dict;
     } success:^(id responseObj, apiType type) {
@@ -74,7 +74,7 @@
     }];
     
     
-    [ZBURLSessionManager requestWithConfig:^(ZBURLRequest *request) {
+    [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
         request.urlString=budejieURL;
         request.parameters=dict;
     } success:^(id responseObj, apiType type) {
@@ -87,7 +87,7 @@
     
     
     
-    /*
+    
      NSMutableDictionary *parameters=[[NSMutableDictionary alloc]init];
      
      [parameters setValue:@"0" forKey:@"launchCount"];
@@ -95,19 +95,19 @@
      [parameters setValue:@"1001" forKey:@"channelId"];
      [parameters setValue:@"D53AA748-7AD3-47A5-B11C-5CC216518471" forKey:@"userId"];
      
-     [ZBNetworkManager requestWithConfig:^(ZBURLRequest *request) {
-     request.urlString=@"";
-     request.methodType=POST;
+     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
+     request.urlString=@"http://192.168.33.186:9080/BOSS_APD_WEB/user/information";
+     request.methodType=ZBMethodTypePOST;
      request.parameters=parameters;
      } success:^(id responseObj, apiType type) {
-     //  NSLog(@"postresponseObj:%@",responseObj);
+       NSLog(@"postresponseObj:%@",responseObj);
      
      NSDictionary * dataDict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
-     //   NSLog(@"post:%@",dataDict);
+        NSLog(@"post:%@",dataDict);
      } failed:^(NSError *error) {
-     //   NSLog(@"posterror:%@",error);
+        NSLog(@"posterror:%@",error);
      }];
-     */
+    
     /*
      [ZBURLSessionManager requestWithConfig:^(ZBURLRequest *request) {
      request.urlString=@"";

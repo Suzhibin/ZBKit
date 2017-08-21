@@ -35,12 +35,6 @@
 
      self.automaticallyAdjustsScrollViewInsets = NO;
     
-    
-     [[SDWebImageManager sharedManager] setCacheKeyFilter:^(NSURL *url) {
-         url =[[NSURL alloc] initWithScheme:url.scheme host:url.host path:url.path];
-         return [url absoluteString];
-    }];
-    
     // 加载左边数据
     [self loadData];
         
@@ -53,10 +47,10 @@
 
 }
 - (void)loadData{
-    //AFNetworking 封装 请求
-    [ZBURLSessionManager requestWithConfig:^(ZBURLRequest *request){
+
+    [ZBRequestManager requestWithConfig:^(ZBURLRequest *request){
         request.urlString=menu_URL;
-        request.apiType=ZBRequestTypeDefault;
+        request.apiType=ZBRequestTypeCache;
     }  success:^(id responseObj,apiType type){
  
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
@@ -77,7 +71,7 @@
         MenuModel *model=[self.menuArray objectAtIndex:0];
         NSString *url=[NSString stringWithFormat:list_URL,model.wid];
 
-        [self loadlist: url type:ZBRequestTypeDefault];
+        [self loadlist: url type:ZBRequestTypeCache];
         
     } failed:^(NSError *error){
         if (error.code==NSURLErrorCancelled)return;
@@ -89,8 +83,8 @@
     }];
 }
 - (void)loadlist:(NSString *)listUrl type:(apiType)type{
-    //session 封装 请求
-    [ZBURLSessionManager requestWithConfig:^(ZBURLRequest *request){
+ 
+    [ZBRequestManager requestWithConfig:^(ZBURLRequest *request){
         request.urlString=listUrl;
         request.apiType=type;
     }  success:^(id responseObj,apiType type){
@@ -160,12 +154,15 @@
         //NSLog(@"图片ulr:%@",model.thumb);
         //判断是否是wifi环境
         if ([[ZBGlobalSettingsTool sharedInstance] downloadImagePattern]==YES) {
-            NSInteger netStatus=[ZBNetworkManager startNetWorkMonitoring];
-            if (netStatus==AFNetworkReachabilityStatusReachableViaWiFi) {
+            AFNetworkReachabilityManager *mgr = [AFNetworkReachabilityManager sharedManager];
+            // 在使用Wifi, 下载原图
+            if (mgr.isReachableViaWiFi)     {
                 [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]]];
+            
             }else{
-                [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]]];
+                  [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]]];
             }
+          
         }else{
             [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]]];
         }
@@ -179,7 +176,7 @@
         [[SDWebImageManager sharedManager]cancelAll];//如果点了其他频道 应暂停所在频道的图片下载  节省流量  具体看产品需求
         MenuModel *model=[self.menuArray objectAtIndex:indexPath.row];
         NSString *url=[NSString stringWithFormat:list_URL,model.wid];
-        [self loadlist:url type:ZBRequestTypeDefault];
+        [self loadlist:url type:ZBRequestTypeCache];
     }else{
         ListModel *model=[self.listArray objectAtIndex:indexPath.row];
         DetailsViewController *detailsVC=[[DetailsViewController alloc]init];

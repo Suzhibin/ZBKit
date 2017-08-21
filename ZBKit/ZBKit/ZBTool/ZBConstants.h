@@ -65,10 +65,9 @@ static NSString * const CITY = @"locationCity";
  target :'应用名字' do
  pod 'VTMagic'
  pod 'SDWebImage'
- pod 'XRCarouselView'
+ pod 'AFNetworking'
  pod 'MJRefresh'
  pod 'UITableView+FDTemplateLayoutCell'
- pod 'SDAutoLayout'
  pod 'Masonry'
  end
  
