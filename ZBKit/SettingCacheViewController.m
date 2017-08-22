@@ -317,11 +317,11 @@ static const NSInteger cacheTime = 30;
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request){
         
         request.urlArray=offlineArray;
-        request.apiType=ZBRequestTypeOffline;   //离线请求 apiType:ZBRequestTypeOffline
+        request.apiType=ZBRequestTypeBatch;   //离线请求 apiType:ZBRequestTypeOffline
         
     }  success:^(id responseObj,apiType type){
         //如果是离线请求的数据
-        if (type==ZBRequestTypeOffline) {
+        if (type==ZBRequestTypeBatch) {
             NSLog(@"添加了几个url请求  就会走几遍");
             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
             NSArray *array=[dict objectForKey:@"videos"];
