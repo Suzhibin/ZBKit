@@ -38,7 +38,6 @@
     self.view.backgroundColor=[UIColor whiteColor];
     YYFPSLabel *fps = [[YYFPSLabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-100,0, 60, 20)];//fps监测
     [[UIApplication sharedApplication].keyWindow addSubview:fps];
-    
    
     //点击广告链接 事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushToAd:) name:@"pushtoad" object:nil];
