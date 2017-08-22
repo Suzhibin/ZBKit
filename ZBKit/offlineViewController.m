@@ -14,7 +14,7 @@
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)NSMutableArray *dataArray;
 
-@property (nonatomic,strong)ZBURLRequest *request;
+@property (nonatomic,strong)ZBBatchRequest *batchRequest;
 @end
 
 @implementation offlineViewController
@@ -22,7 +22,7 @@
     [super viewDidDisappear:animated];
     
     NSLog(@"离开页面时 清空容器");
-    [self.request removeOfflineArray];
+    [self.batchRequest removeOfflineArray];
     
     [self.delegate reloadJsonNumber];
 }
@@ -32,7 +32,7 @@
     // Do any additional setup after loading the view.
     self.dataArray=[[NSMutableArray alloc]init];
     
-    self.request=[[ZBURLRequest alloc]init];
+    self.batchRequest=[[ZBBatchRequest alloc]init];
     
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
         request.urlString=menu_URL;
@@ -94,32 +94,32 @@
     
     if (sw.isOn == YES) {
         //添加请求列队
-        [self.request addObjectWithUrl:url];
-        [self.request addObjectWithKey:model.name];
-        NSLog(@"离线请求的url:%@",self.request.offlineUrlArray);
+        [self.batchRequest addObjectWithUrl:url];
+        [self.batchRequest addObjectWithKey:model.name];
+        NSLog(@"离线请求的url:%@",self.batchRequest.offlineUrlArray);
     }else{
         //删除请求列队
-        [self.request removeObjectWithUrl:url];
-        [self.request removeObjectWithKey:model.name];
-        NSLog(@"离线请求的url:%@",self.request.offlineUrlArray);
+        [self.batchRequest removeObjectWithUrl:url];
+        [self.batchRequest removeObjectWithKey:model.name];
+        NSLog(@"离线请求的url:%@",self.batchRequest.offlineUrlArray);
     }
 }
 
 - (void)offlineBtnClick{
     
-    if (self.request.offlineUrlArray.count==0) {
+    if (self.batchRequest.offlineUrlArray.count==0) {
         
         [self alertTitle:@"请添加栏目" andMessage:@""];
         
     }else{
         
-        NSLog(@"离线请求的栏目/url个数:%lu",self.request.offlineUrlArray.count);
+        NSLog(@"离线请求的栏目/url个数:%lu",self.batchRequest.offlineUrlArray.count);
         
-        for (NSString *name in self.request.offlineKeyArray) {
+        for (NSString *name in self.batchRequest.offlineKeyArray) {
             NSLog(@"离线请求的name:%@",name);
         }
         
-        [self.delegate downloadWithArray:self.request.offlineUrlArray];
+        [self.delegate downloadWithArray:self.batchRequest.offlineUrlArray];
         
         [self.navigationController popViewControllerAnimated:YES];
     }

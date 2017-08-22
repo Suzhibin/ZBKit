@@ -20,6 +20,7 @@ static const NSInteger cacheTime = 30;
 @property (nonatomic,strong)NSMutableArray *imageArray;
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)OfflineView *offlineView;
+@property (nonatomic,strong)ZBBatchRequest *batchRequest;
 @end
 
 @implementation SettingCacheViewController
@@ -312,67 +313,63 @@ static const NSInteger cacheTime = 30;
 #pragma mark - AFNetworking
 - (void)requestOffline:(NSMutableArray *)offlineArray{
     
-    //[ZBURLSessionManager sharedManager]requestWithConfig
-    
-    [ZBRequestManager requestWithConfig:^(ZBURLRequest *request){
+    self.batchRequest =[ZBRequestManager batchRequest:^(ZBBatchRequest *  batchRequest){
         
-        request.urlArray=offlineArray;
-        request.apiType=ZBRequestTypeBatch;   //离线请求 apiType:ZBRequestTypeOffline
-        
+        for (NSString *urlString in offlineArray) {
+            ZBURLRequest *request=[[ZBURLRequest alloc]init];
+            request.urlString=urlString;
+            [batchRequest.urlArray addObject:request];
+        }
+ 
     }  success:^(id responseObj,apiType type){
-        //如果是离线请求的数据
-        if (type==ZBRequestTypeBatch) {
-            NSLog(@"添加了几个url请求  就会走几遍");
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
-            NSArray *array=[dict objectForKey:@"videos"];
-            for (NSDictionary *dic in array) {
-                ListModel *model=[[ListModel alloc]init];
-                model.thumb=[dic objectForKey:@"thumb"]; //找到图片的key
-                [self.imageArray addObject:model];
-                
-                //使用SDWebImage 下载图片
-                BOOL isKey=[[SDImageCache sharedImageCache]diskImageExistsWithKey:model.thumb];
-                if (isKey) {
-                    self.offlineView.progressLabel.text=@"已经下载了";
-                } else{
-                    
-                    [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:model.thumb] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize){
-                        
-                        NSLog(@"%@",[self progressStrWithSize:(double)receivedSize/expectedSize]);
-                        
-                        self.offlineView.progressLabel.text=[self progressStrWithSize:(double)receivedSize/expectedSize];
-                        
-                        self.offlineView.pv.progress =(double)receivedSize/expectedSize;
-                        
-                    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType,BOOL finished,NSURL *imageURL){
-                        
-                        NSLog(@"单个图片下载完成");
-                        self.offlineView.progressLabel.text=nil;
-                        
-                        self.offlineView.progressLabel.text=[self progressStrWithSize:0.0];
-                        
-                        self.offlineView.pv.progress = 0.0;
-                        
-                        [self.tableView reloadData];
-                        //让 下载的url与模型的最后一个比较，如果相同证明下载完毕。
-                        NSString *imageURLStr = [imageURL absoluteString];
-                        NSString *lastImage=[NSString stringWithFormat:@"%@",((ListModel *)[self.imageArray lastObject]).thumb];
-                        if ([imageURLStr isEqualToString:lastImage]) {
-                            NSLog(@"下载完成");
-                            
-                            [self.offlineView hide];//取消下载进度视图
-                            [self alertTitle:@"下载完成"andMessage:@""];
-                        }
-                        
-                        if (error) {
-                            NSLog(@"下载失败");
-                        }
-                    }];
-                    
-                }
-                
-            }
+   
+        NSLog(@"添加了几个url请求  就会走几遍");
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
+        NSArray *array=[dict objectForKey:@"videos"];
+        for (NSDictionary *dic in array) {
+            ListModel *model=[[ListModel alloc]init];
+            model.thumb=[dic objectForKey:@"thumb"]; //找到图片的key
+            [self.imageArray addObject:model];
             
+            //使用SDWebImage 下载图片
+            BOOL isKey=[[SDImageCache sharedImageCache]diskImageExistsWithKey:model.thumb];
+            if (isKey) {
+                self.offlineView.progressLabel.text=@"已经下载了";
+            } else{
+                
+                [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:model.thumb] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize){
+                    
+                    NSLog(@"%@",[self progressStrWithSize:(double)receivedSize/expectedSize]);
+                    
+                    self.offlineView.progressLabel.text=[self progressStrWithSize:(double)receivedSize/expectedSize];
+                    
+                    self.offlineView.pv.progress =(double)receivedSize/expectedSize;
+                    
+                } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType,BOOL finished,NSURL *imageURL){
+                    
+                    NSLog(@"单个图片下载完成");
+                    self.offlineView.progressLabel.text=nil;
+                    
+                    self.offlineView.progressLabel.text=[self progressStrWithSize:0.0];
+                    
+                    self.offlineView.pv.progress = 0.0;
+                    
+                    [self.tableView reloadData];
+                    //让 下载的url与模型的最后一个比较，如果相同证明下载完毕。
+                    NSString *imageURLStr = [imageURL absoluteString];
+                    NSString *lastImage=[NSString stringWithFormat:@"%@",((ListModel *)[self.imageArray lastObject]).thumb];
+                    if ([imageURLStr isEqualToString:lastImage]) {
+                        NSLog(@"下载完成");
+                        
+                        [self.offlineView hide];//取消下载进度视图
+                        [self alertTitle:@"下载完成"andMessage:@""];
+                    }
+                    
+                    if (error) {
+                        NSLog(@"下载失败");
+                    }
+                }];
+            }
         }
         
     } failed:^(NSError *error){
