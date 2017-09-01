@@ -119,10 +119,10 @@
      request.urlString=@"http://192.168.33.186:9080/BOSS_APD_WEB/user/information";
      request.methodType=ZBMethodTypePOST;
      request.parameters=parameters;
-     } success:^(id responseObj, apiType type) {
-       NSLog(@"postresponseObj:%@",responseObj);
+     } success:^(id responseObject, apiType type) {
+       NSLog(@"postresponseObj:%@",responseObject);
      
-     NSDictionary * dataDict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
+     NSDictionary * dataDict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSLog(@"post:%@",dataDict);
      } failed:^(NSError *error) {
         NSLog(@"posterror:%@",error);

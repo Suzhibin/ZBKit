@@ -31,6 +31,8 @@
     [self updateApp];
     //初始化第三方授权
     [self initializePlat];
+    //网络监测
+    [self  netWorkMonitoring];
     //展示广告
    // [self advertise];
 
@@ -49,7 +51,12 @@
     
     [self.window makeKeyAndVisible];
 }
-
+#pragma mark - 网络状态监测
+- (void)netWorkMonitoring{
+    
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    
+}
 - (void)applicationEnterForeground{
     [self advertise];
 }

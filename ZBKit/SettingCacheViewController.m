@@ -384,7 +384,9 @@ static const NSInteger cacheTime = 30;
 }
 
 - (void)cancelClick{
-   
+    
+    [self.batchRequest cancelbatchRequest:nil];//取消所有网络请求
+    
     [[SDWebImageManager sharedManager] cancelAll];//取消图片下载
     [self.offlineView hide];//取消下载进度视图
     NSLog(@"取消下载");

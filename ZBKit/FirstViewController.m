@@ -87,13 +87,13 @@
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request){
         request.urlString=listUrl;
         request.apiType=type;
-    }  success:^(id responseObj,apiType type){
+    }  success:^(id responseObject,apiType type){
         //如果是刷新的数据
         if (type==ZBRequestTypeRefresh) {
             [_refreshControl endRefreshing];    //结束刷新
         }
         [self.listArray removeAllObjects]; 
-        NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
+        NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSArray *array=[dataDict objectForKey:@"videos"];
         
         for (NSDictionary *dict in array) {
