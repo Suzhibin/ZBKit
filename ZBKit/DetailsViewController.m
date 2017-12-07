@@ -10,7 +10,9 @@
 #import "ZBKit.h"
 #import <WebKit/WebKit.h>
 #import "DBViewController.h"
-@interface DetailsViewController ()<WKNavigationDelegate,WKUIDelegate,UIScrollViewDelegate>
+@interface DetailsViewController ()<WKNavigationDelegate,WKUIDelegate,UIScrollViewDelegate>{
+ 
+}
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) UIView *loadingView;
 @end
@@ -18,13 +20,16 @@
 @implementation DetailsViewController
 - (void)dealloc{
     [self removeWKwebViewCache];
-    NSLog(@"释放%s",__func__);
+    ZBKLog(@"释放%s",__func__);
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
- 
+    //美思瑞 Mosonry
+  
     [self createWebView];
+    
+  
     
     self.loadingView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
     self.loadingView.center= self.view.center;
@@ -48,7 +53,7 @@
     
     // 支持内嵌视频播放
     config.allowsInlineMediaPlayback = YES;
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) configuration:config];
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, ZB_SCREEN_WIDTH, ZB_SCREEN_HEIGHT-ZB_TABBAR_HEIGHT) configuration:config];
     
     [self.view addSubview:self.webView];
     self.webView.scrollView.delegate = self;
@@ -57,8 +62,8 @@
     self.webView.UIDelegate = self;
     // 开始右滑返回手势
     self.webView.allowsBackForwardNavigationGestures = YES;
-    
-    if (_functionType==Details) {
+     ZBKLog(@"functionType:%zd",self.functionType);
+    if (self.functionType==Details) {
        // NSString *HTMLData = @"<hn>Hello World</hn>";
         
        // [self.webView loadHTMLString:HTMLData baseURL:nil];
@@ -66,34 +71,33 @@
 
          [self createToobar];
         
-    }else{
-        if (!self.url) {
-            self.url = @"https://github.com/Suzhibin";
-        }
+    }else if(self.functionType==Advertise){
+        ZBKLog(@"self.url:%@",self.url);
         [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
     }
 }
 
-
+- (NSString *)keyedArchivePath{
+    return [[[ZBCacheManager sharedInstance]ZBKitPath]stringByAppendingPathComponent:@"keyedArchive"];
+}
 - (void)createToobar{
     
-    [[ZBDataBaseManager sharedInstance]createTable:@"collection"];
+   // [[ZBDataBaseManager sharedInstance]createTable:@"collection"];
+    [[ZBCacheManager sharedInstance]createDirectoryAtPath:[self keyedArchivePath]];
     
     UIButton *btn=[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    btn.frame=CGRectMake(0, SCREEN_HEIGHT-49, SCREEN_WIDTH, 49);
-    [btn setTitle:@"收藏(添加/删除 数据库)" forState:UIControlStateNormal];
+    [btn setFrame:CGRectMake(0, ZB_SCREEN_HEIGHT - ZB_TABBAR_HEIGHT, ZB_SCREEN_WIDTH, ZB_TABBAR_HEIGHT)];
+
+    [btn setTitle:@"收藏(添加/删除)" forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     btn.backgroundColor=[UIColor blackColor];
     [btn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
     //看该条数据是否被收藏过
     //NSLog(@"%@",self.model.wid);
-    if ([[ZBDataBaseManager sharedInstance] isCollectedWithTable:@"collection" itemId:self.model.wid]) {
-        
+    if ([[ZBCacheManager sharedInstance]diskCacheExistsWithKey:self.model.wid path:[self keyedArchivePath]]) {
         btn.selected=YES;
-        //  [btn setTitleColor:[UIColor brownColor] forState:UIControlStateSelected];
         btn.titleLabel.alpha = 0.5;
     }
-
     [self.view addSubview:btn];
 }
 - (void)btnClicked:(UIButton *)sender{
@@ -101,29 +105,23 @@
         sender.selected = YES;
         //收藏数据
         NSLog(@"收藏数据");
-        //储存的model 对象必须准守Codeing协议  在listModel里 用了NSObject+ZBCoding 的宏定义
-        [[ZBDataBaseManager sharedInstance]table:@"collection" insertDataWithObj:self.model ItemId:self.model.wid isSuccess:^(BOOL isSuccess){
+  
+        [[ZBCacheManager sharedInstance]storeContent:self.model forKey:self.model.wid path:[self keyedArchivePath] isSuccess:^(BOOL isSuccess) {
             if (isSuccess) {
                 NSLog(@"添加成功");
             }else{
                 NSLog(@"添加失败");
             }
-           
         }];
         //为了区分按钮的状态
         sender.titleLabel.alpha = 0.5;
     }else{
         sender.selected =NO;
-        //删除数据
-          NSLog(@"删除数据");
-        [[ZBDataBaseManager sharedInstance]table:@"collection"deleteDataWithItemId:self.model.wid isSuccess:^(BOOL isSuccess){
-            if (isSuccess) {
-                NSLog(@"删除成功");
-            }else{
-                NSLog(@"删除失败");
-            }
+      
+        [[ZBCacheManager sharedInstance]clearCacheForkey:self.model.wid path:[self keyedArchivePath] completion:^{
+                NSLog(@"删除数据");
         }];
-     
+   
         //为了区分按钮的状态
         sender.titleLabel.alpha = 1;
     }

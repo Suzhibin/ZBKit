@@ -91,7 +91,7 @@
 }
 - (void)initRootVC{
     ZBTabBarController *tab=[[ZBTabBarController alloc]init];
-    tab.selectedIndex=3;
+    tab.selectedIndex=4;
 
     [self dismissViewControllerAnimated:YES completion:^{
         [UIApplication sharedApplication].keyWindow.rootViewController = tab;
@@ -100,7 +100,7 @@
 //懒加载
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStylePlain];
+        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, ZB_SCREEN_WIDTH, ZB_SCREEN_HEIGHT-64) style:UITableViewStylePlain];
         _tableView.delegate=self;
         _tableView.dataSource=self;
         _tableView.tableFooterView=[[UIView alloc]init];

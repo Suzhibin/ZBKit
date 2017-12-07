@@ -27,7 +27,7 @@
      
      NSArray *describeArray = @[@"图片1", @"图片2",@"动态图"];
      
-     self.carouselView = [[ZBCarouselView alloc] initWithFrame:CGRectMake(0, 100, SCREEN_WIDTH, 180)];
+     self.carouselView = [[ZBCarouselView alloc] initWithFrame:CGRectMake(0, 100, ZB_SCREEN_WIDTH, 180)];
      //设置占位图片,须在设置图片数组之前设置
      _carouselView.placeholderImage = [UIImage imageNamed:[NSBundle zb_placeholder]];
      //设置图片数组及图片描述文字
@@ -38,11 +38,11 @@
      //Block 优先级高于代理
     // __weak typeof(self) weakSelf = self;
      _carouselView.imageClickBlock = ^(NSInteger index){
-     NSLog(@"Block点击了第%ld张图片", index);
+     NSLog(@"Block点击了第%@张图片", @(index));
         
      };
      //设置分页控件的图片,不设置则为系统默认
-     //  [_carouselView setPageImage:[UIImage imageNamed:@"other"] andCurrentPageImage:[UIImage imageNamed:@"current"]];
+    //[_carouselView setPageImage:[UIImage imageNamed:@"time1.png"] andCurrentPageImage:[UIImage imageNamed:@"laiyuan.png"]];
      //设置分页控件的位置，默认为PositionBottomCenter
      _carouselView.pagePosition = PositionBottomRight;
      //设置图片切换的方式
@@ -66,7 +66,7 @@
     
     
     
-     self.carouselView1 = [[ZBCarouselView alloc] initWithFrame:CGRectMake(0, 300, SCREEN_WIDTH, 180)];
+     self.carouselView1 = [[ZBCarouselView alloc] initWithFrame:CGRectMake(0, 300, ZB_SCREEN_WIDTH, 180)];
      //设置占位图片,须在设置图片数组之前设置3
      _carouselView1.placeholderImage = [UIImage imageNamed:[NSBundle zb_placeholder]];
      
@@ -88,7 +88,7 @@
  #pragma mark XRCarouselViewDelegate
 - (void)carouselView:(ZBCarouselView *)carouselView clickImageAtIndex:(NSInteger)index {
  
-    NSLog(@"Delegate点击了第%ld张图片", index);
+    NSLog(@"Delegate点击了第%@张图片", @(index));
  
 }
 

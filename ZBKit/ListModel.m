@@ -13,9 +13,10 @@
 
 @implementation ListModel
 
-ZBCodingImplementation
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key{
-    //  NSLog(@"undefinedKey:%@",key);
+    if ([key isEqualToString:@"id"]) {
+        self.wid=value;
+    }
 }
 
 -(instancetype)initWithDict:(NSDictionary *)dict{
@@ -24,4 +25,6 @@ ZBCodingImplementation
     }
     return self;
 }
+
+
 @end

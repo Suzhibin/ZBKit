@@ -14,7 +14,12 @@
 #import <SDWebImageManager.h>
 #import "DetailsViewController.h"
 #import "MenuTableViewCell.h"
-@interface FirstViewController ()<UITableViewDelegate,UITableViewDataSource>
+#import <FLAnimatedImageView.h>
+#import <YYCache.h>
+@interface FirstViewController ()<UITableViewDelegate,UITableViewDataSource>{
+    
+        YYCache *_dataCache;
+}
 
 @property (nonatomic,strong)UITableView *menuTableView;
 @property (nonatomic,strong)UITableView *listTableView;
@@ -34,7 +39,9 @@
     // Do any additional setup after loading the view.
 
      self.automaticallyAdjustsScrollViewInsets = NO;
+
     
+    _dataCache=[YYCache cacheWithName:@"xinCache"];
     // 加载左边数据
     [self loadData];
         
@@ -44,26 +51,22 @@
     [self itemWithTitle:ZBLocalized(@"cachebtn",nil) selector:@selector(btnClick) location:NO];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(homeRefresh:) name:@"refresh" object:nil];
-
 }
+
 - (void)loadData{
 
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request){
         request.urlString=menu_URL;
         request.apiType=ZBRequestTypeCache;
-    }  success:^(id responseObj,apiType type){
- 
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
+        
+    }  success:^(id responseObject,apiType type){
+        
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSArray *array=[dict objectForKey:@"authors"];
         for (NSDictionary *dic in array) {
-            MenuModel *model=[[MenuModel alloc]init];
-            model.name=[dic objectForKey:@"name"];
-            model.wid=[dic objectForKey:@"id"];
-            model.detail=[dic objectForKey:@"detail"];
+            MenuModel *model=[[MenuModel alloc]initWithDict:dic];
             [self.menuArray addObject:model];
-            
         }
-   
         [self.menuTableView reloadData];
         // 选中首行
         [self.menuTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
@@ -72,6 +75,7 @@
         NSString *url=[NSString stringWithFormat:list_URL,model.wid];
 
         [self loadlist: url type:ZBRequestTypeCache];
+         
         
     } failed:^(NSError *error){
         if (error.code==NSURLErrorCancelled)return;
@@ -84,31 +88,22 @@
 }
 - (void)loadlist:(NSString *)listUrl type:(apiType)type{
  
+ 
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request){
         request.urlString=listUrl;
         request.apiType=type;
     }  success:^(id responseObject,apiType type){
-        //如果是刷新的数据
-        if (type==ZBRequestTypeRefresh) {
-            [_refreshControl endRefreshing];    //结束刷新
-        }
+
         [self.listArray removeAllObjects]; 
         NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSArray *array=[dataDict objectForKey:@"videos"];
         
         for (NSDictionary *dict in array) {
-            ListModel *model=[[ListModel alloc]init];
-            model.wid=[dict objectForKey:@"id"];
-            model.title=[dict objectForKey:@"title"];
-            model.time=[dict objectForKey:@"time"];
-            model.thumb=[dict objectForKey:@"thumb"];
-            model.weburl=[dict objectForKey:@"weburl"];
-            model.date=[dict objectForKey:@"date"];
-            model.author=[dict objectForKey:@"author"];
+            ListModel *model=[[ListModel alloc]initWithDict:dict];
             [self.listArray addObject:model];
         }
         [self.listTableView reloadData];
-     
+        [_refreshControl endRefreshing];    //结束刷新
     } failed:^(NSError *error){
          [_refreshControl endRefreshing];    //结束刷新
         if (error.code==NSURLErrorCancelled)return;
@@ -118,6 +113,7 @@
             [self alertTitle:@"请求失败" andMessage:@""];
         }
     }];
+     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -151,12 +147,25 @@
         ListModel *model=[self.listArray objectAtIndex:indexPath.row];
         cell.textLabel.text=model.title;
         cell.detailTextLabel.text=[NSString stringWithFormat:@"发布时间:%@",model.date];
+        
+        FLAnimatedImageView *FLView = [[FLAnimatedImageView alloc]init];
+        FLView.frame = CGRectMake(0, 0, 44, 44);
+        [cell.contentView addSubview:FLView];
+    
+        [FLView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]]];
+        
+       // [ cell.imageView zb_original:model.thumb thumbnail:model.thumb placeholder:[NSBundle zb_placeholder]];
+        
+       // cell.imageView.image=[UIImage imageNamed:@"laiyuanapd"];
+        /*
         //NSLog(@"图片ulr:%@",model.thumb);
         //判断是否是wifi环境
         if ([[ZBGlobalSettingsTool sharedInstance] downloadImagePattern]==YES) {
             AFNetworkReachabilityManager *mgr = [AFNetworkReachabilityManager sharedManager];
             // 在使用Wifi, 下载原图
             if (mgr.isReachableViaWiFi)     {
+                
+                
                 [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]]];
             
             }else{
@@ -166,7 +175,7 @@
         }else{
             [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]]];
         }
-
+         */
         return cell;
     }
 }
@@ -199,10 +208,10 @@
     //开始刷新
     [refreshControl beginRefreshing];
     refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"加载中"];
-    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timer) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerClick) userInfo:nil repeats:NO];
 }
 
-- (void)timer{
+- (void)timerClick{
     /**
      *  下拉刷新是不读缓存的 要添加 apiType 类型 ZBRequestTypeRefresh  每次就会重新请求url
      *  请求下来的缓存会覆盖原有的缓存文件
@@ -231,7 +240,7 @@
 //懒加载
 - (UITableView *)menuTableView{
     if (!_menuTableView) {
-        _menuTableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 64, 100, SCREEN_HEIGHT) style:UITableViewStylePlain];
+        _menuTableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 64, 100, ZB_SCREEN_HEIGHT) style:UITableViewStylePlain];
         _menuTableView.delegate=self;
         _menuTableView.dataSource=self;
         _menuTableView.tableFooterView=[[UIView alloc]init];
@@ -242,7 +251,7 @@
 - (UITableView *)listTableView{
     
     if (!_listTableView) {
-        _listTableView=[[UITableView alloc]initWithFrame:CGRectMake(100, 64,SCREEN_WIDTH-100, SCREEN_HEIGHT) style:UITableViewStylePlain];
+        _listTableView=[[UITableView alloc]initWithFrame:CGRectMake(100, 64,ZB_SCREEN_WIDTH-100, ZB_SCREEN_HEIGHT) style:UITableViewStylePlain];
         _listTableView.delegate=self;
         _listTableView.dataSource=self;
         _listTableView.tableFooterView=[[UIView alloc]init];

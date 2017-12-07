@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ZBTabBar : UITabBar
-@property (nonatomic, strong) UIButton *publishButton;
+
 @end

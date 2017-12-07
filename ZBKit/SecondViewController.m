@@ -38,7 +38,7 @@
         [self.view addSubview:label1];
         
         UILabel *label2=[[UILabel alloc]initWithFrame:CGRectMake(130,540, 200, 30)];
-        [label2 zb_shimmer];
+        //[label2 zb_shimmer];
         label2.textAlignment=NSTextAlignmentLeft;
         label2.tag=5000;
         label2.backgroundColor=[UIColor whiteColor];
@@ -47,7 +47,7 @@
         NSArray *imageArray = @[IMAGE1,IMAGE2];
         NSString *imageUrl = imageArray[arc4random() % imageArray.count];
         
-        self.imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 240)];
+        self.imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 64, ZB_SCREEN_WIDTH, 240)];
         self.imageView.userInteractionEnabled = YES;
         
         [self.imageView zb_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]] completion:^(UIImage *image) {
@@ -60,7 +60,7 @@
         
         /*
         //下载图片
-        [[ZBWebImageManager sharedInstance]  downloadImageUrl:imageUrl completion:^(UIImage *image){
+        [[ZBWebImageManager sharedInstance]  downloadImageUrl:imageUrl completion:^(UIImage *image,BOOL isCache){
      
             self.imageView.image=image;
             
@@ -79,8 +79,8 @@
         [self.imageView addGestureRecognizer:tap];
         
         NSArray *titleArray=[NSArray arrayWithObjects:@"垂直翻转",@"水平翻转",@"灰度图",@"加水印",@"向左",@"向右",@"向下",@"截取图上半部",@"给view截图",@"平铺图片",@"圆形并浮动",@"透明度",@"压缩大小",@"小鸟Game over",nil];
-        CGFloat wSpace = (SCREEN_WIDTH-57*4)/5;
-        CGFloat hSpace = (SCREEN_HEIGHT-64-4*100)/5;
+        CGFloat wSpace = (ZB_SCREEN_WIDTH-57*4)/5;
+        CGFloat hSpace = (ZB_SCREEN_HEIGHT-64-4*100)/5;
         for (int i = 0; i<titleArray.count; i++) {
             self.button =  [UIButton buttonWithType:UIButtonTypeCustom];
             //  [btn setTitle:array[i]  forState:UIControlStateNormal];
@@ -96,7 +96,7 @@
             
             CGPoint center = self.button.center;
             CGPoint startCenter = self.button.center;
-            startCenter.y += SCREEN_HEIGHT;
+            startCenter.y += ZB_SCREEN_HEIGHT;
             self.button.center = startCenter;
             [self.button zb_circleView];//圆角
             [self.button zb_animatedDampingWithCenter:center];//弹簧效果
@@ -108,7 +108,7 @@
         
         for (int i = 0; i<array.count; i++) {
             
-            UIButton *button1=[ZBControlTool createButtonWithFrame:CGRectMake(220, (SCREEN_HEIGHT+40)+40*i, 140, 30) title:[array objectAtIndex:i] target:self action:@selector(button1Clicked:) tag:2000+i];
+            UIButton *button1=[ZBControlTool createButtonWithFrame:CGRectMake(220, (ZB_SCREEN_HEIGHT+40)+40*i, 140, 30) title:[array objectAtIndex:i] target:self action:@selector(button1Clicked:) tag:2000+i];
             [button1 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             button1.backgroundColor=[UIColor brownColor];
             [button1 zb_animatedViewMoveWithUpY:200];//上升
@@ -156,7 +156,7 @@
     
     if (sender.tag==2000) {
         //删除图片缓存 及完成操作
-        [[ZBWebImageManager sharedInstance] clearImageCacheCompletion:^{
+        [[ZBWebImageManager sharedInstance] clearImageFileCompletion:^{
             [self sizeAndCount];
         }];
         

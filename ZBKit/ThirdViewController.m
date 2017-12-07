@@ -21,7 +21,7 @@ NSString *const user=@"user";
 - (void)dealloc{
     NSLog(@"释放%s",__func__);
 }
-
+ /*
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -34,7 +34,7 @@ NSString *const user=@"user";
     self.label=[ZBControlTool createLabelWithFrame:CGRectMake(150, 130, 150, 40) text:@"" tag:0];
     
     [self.view addSubview: self.label];
-    
+   
     [[ZBDataBaseManager sharedInstance]createTable:user isSuccess:^(BOOL isSuccess) {
         if (isSuccess) {
             NSString *str=[NSString stringWithFormat:@"创建%@表成功",user];
@@ -166,7 +166,7 @@ NSString *const user=@"user";
     }
   
 }
-
+*/
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

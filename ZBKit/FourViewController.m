@@ -8,6 +8,8 @@
 
 #import "FourViewController.h"
 #import "ZBLabel.h"
+#import <FLAnimatedImageView.h>
+#import <FLAnimatedImageView+WebCache.h>
 @interface FourViewController ()
 
 @end
@@ -20,20 +22,27 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor=[UIColor whiteColor];
+ 
     
-    self.title=@"开屏广告";
-    
+    FLAnimatedImageView *FLView = [[FLAnimatedImageView alloc]init];
+    FLView.frame = CGRectMake(0, 64, ZB_SCREEN_WIDTH, 280);
+    [FLView sd_setImageWithURL:[NSURL URLWithString:IMAGE3] placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]]];
+    //FLAnimatedImageView 自带加载方法
+    //NSData  *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:IMAGE3]];
+    //imgView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:imageData];
+  //  [self.view addSubview:FLView];
 
-    [self createAdvertise];
     
-    ZBLabel *label=[[ZBLabel alloc]initWithFrame:CGRectMake(20, 100, SCREEN_WIDTH-40,200)];
+    
+    ZBLabel *label=[[ZBLabel alloc]initWithFrame:CGRectMake(20, 400, ZB_SCREEN_WIDTH-40,100)];
     [label setAlignment:ZBTextAlignmentTop];
     label.backgroundColor=[UIColor redColor];
     label.textAlignment=NSTextAlignmentRight;
     label.text=@"点击显示广告(text显示在label的top)";
     [self.view addSubview:label];
     
-    ZBLabel *label1=[[ZBLabel alloc]initWithFrame:CGRectMake(20, 300, SCREEN_WIDTH-40,200)];
+    ZBLabel *label1=[[ZBLabel alloc]initWithFrame:CGRectMake(20, 500, ZB_SCREEN_WIDTH-40,100)];
     [label1 setAlignment:ZBTextAlignmentBottom];
     label1.backgroundColor=[UIColor yellowColor];
     label1.text=@"点击显示广告(text显示在label的Bottom)";
@@ -41,32 +50,6 @@
 
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [self createAdvertise];
-}
-
-- (void)createAdvertise{
-     __weak typeof(self) weakSelf = self;
-    [ZBAdvertiseInfo getAdvertisingInfo:^(NSString *imagePath,NSDictionary *urlDict,BOOL isExist){
-        if (isExist) {
-            ZBAdvertiseView *advertiseView = [[ZBAdvertiseView alloc] initWithFrame:weakSelf.view.bounds type:ZBAdvertiseTypeScreen];
-            advertiseView.filePath = imagePath;
-            advertiseView.ZBAdvertiseBlock=^{
-                if ([[urlDict objectForKey:@"link"]isEqualToString:@""]) {
-                    NSLog(@"没有url");
-                    return;
-                }else{
-                     NSLog(@"有url跳转");
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"pushtoad" object:nil userInfo:urlDict];
-                }
-            };
-
-            NSLog(@"展示广告");
-        }else{
-            NSLog(@"无广告");
-        }
-    }];
-}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

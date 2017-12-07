@@ -13,6 +13,7 @@
 @interface StorageSpaceViewController ()
 @property (nonatomic,copy)NSString *path;
 @property (nonatomic,copy)NSString *path1;
+@property (nonatomic,strong)ZBChart *ring;
 @end
 
 @implementation StorageSpaceViewController
@@ -58,7 +59,7 @@
     
     NSArray *sizeArray=[NSArray arrayWithObjects:[self getAllCacheSize],[[ZBCacheManager sharedInstance] fileUnitWithSize:otherSystem],[[ZBCacheManager sharedInstance] fileUnitWithSize:freeSystem],nil];
     
-    ZBChart *ring = [[ZBChart alloc] initWithFrame:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_WIDTH)];
+    ZBChart *ring = [[ZBChart alloc] initWithFrame:CGRectMake(0,ZB_STATUS_HEIGHT+44, ZB_SCREEN_WIDTH, ZB_SCREEN_WIDTH)];
     
     ring.backgroundColor = [UIColor whiteColor];
     
@@ -71,11 +72,10 @@
     [ring showAnimation];
     
     [self.view addSubview:ring];
-    
-    UILabel * totalLabel=[[UILabel alloc]initWithFrame:CGRectMake(0 ,0, 100, 60)];
+    self.ring=ring;
+    UILabel * totalLabel=[[UILabel alloc]initWithFrame:CGRectMake(ZB_SCREEN_WIDTH/2-50 ,ZB_SCREEN_WIDTH/2-50, 100, 100)];
     totalLabel.text=[NSString stringWithFormat:@"磁盘总空间\n%@",[[ZBCacheManager sharedInstance] fileUnitWithSize:system]];
-    totalLabel.center=ring.center;
-
+    totalLabel.backgroundColor = [UIColor clearColor];
     totalLabel.textAlignment=NSTextAlignmentCenter;
     totalLabel.numberOfLines=0;
     [ring addSubview:totalLabel];
@@ -84,7 +84,7 @@
     
     NSArray *titleArray=[NSArray arrayWithObjects:[[ZBGlobalSettingsTool sharedInstance] appBundleName],@"其他",@"可用",nil];
     for (int i = 0; i<titleArray.count; i++) {
-        UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(20+120*i ,410, 100, 20)];
+        UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(20+120*i ,ZB_STATUS_HEIGHT+44+ZB_SCREEN_WIDTH+10, 100, 20)];
         label.text=[titleArray objectAtIndex:i];
         label.textAlignment=NSTextAlignmentCenter;
         label.backgroundColor=[colorArr objectAtIndex:i];
@@ -95,7 +95,7 @@
     
     
     for (int i = 0; i<sizeArray.count; i++) {
-        UILabel *label1=[[UILabel alloc]initWithFrame:CGRectMake(20+120*i,430, 100, 20)];
+        UILabel *label1=[[UILabel alloc]initWithFrame:CGRectMake(20+120*i,ZB_STATUS_HEIGHT+44+ZB_SCREEN_WIDTH+10+20, 100, 20)];
         label1.tag=3000+i;
         label1.text=[sizeArray objectAtIndex:i];
         label1.font=[UIFont systemFontOfSize:12];
@@ -105,7 +105,7 @@
     }
     
     UIButton *button=[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    button.frame=CGRectMake(40, SCREEN_HEIGHT-150, SCREEN_WIDTH-80, 40);
+    button.frame=CGRectMake(40, ZB_SCREEN_HEIGHT-150, ZB_SCREEN_WIDTH-80, 40);
     [button setTitle:@"清除缓存" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     button.backgroundColor=[UIColor colorWithRed:0.49 green:0.83 blue:0.98 alpha:1.00];
@@ -124,10 +124,10 @@
     //清除json缓存后的操作
     [[ZBCacheManager sharedInstance]clearCacheOnCompletion:^{
         //清除SDImage缓存
-        [[SDImageCache sharedImageCache] clearDisk];
+        [[SDImageCache sharedImageCache] clearDiskOnCompletion:nil];
         [[SDImageCache sharedImageCache] clearMemory];
         //清除ZBImage缓存
-        [[ZBWebImageManager sharedInstance] clearImageCache];
+        [[ZBWebImageManager sharedInstance] clearImageFile];
         //清除沙盒某个文件夹
         [[ZBCacheManager sharedInstance]clearDiskWithpath:self.path];
         //清除系统缓存文件
@@ -137,6 +137,7 @@
         
         UILabel *label1 = (UILabel *)[self.view viewWithTag:3000];
         label1.text=[self getAllCacheSize];
+
     }];
     
 }

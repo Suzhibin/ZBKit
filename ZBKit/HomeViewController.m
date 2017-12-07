@@ -36,8 +36,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
-    YYFPSLabel *fps = [[YYFPSLabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-100,0, 60, 20)];//fps监测
-    [[UIApplication sharedApplication].keyWindow addSubview:fps];
    
     //点击广告链接 事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushToAd:) name:@"pushtoad" object:nil];
@@ -46,7 +44,7 @@
     // 2.图片操作
     [self add1SectionItems];
     // 3.数据库
-    [self add2SectionItems];
+  //  [self add2SectionItems];
     // 4.开屏广告
     [self add3SectionItems];
     // 5.轮播视图
@@ -98,7 +96,7 @@
     group1.footerHeight=5;
     [_allGroups addObject:group1];
 }
-
+/*
 - (void)add2SectionItems{
     
     __weak typeof(self) weakSelf = self;
@@ -114,7 +112,7 @@
     group2.footerHeight=5;
     [_allGroups addObject:group2];
 }
-
+*/
 - (void)add3SectionItems{
     __weak typeof(self) weakSelf = self;
     ZBTableItem *adItem = [ZBTableItem itemWithTitle:ZBLocalized(@"homeAdvertise",nil) type:ZBTableItemTypeArrow];

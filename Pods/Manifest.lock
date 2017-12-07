@@ -14,23 +14,28 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - FMDB (2.6.2):
-    - FMDB/standard (= 2.6.2)
-  - FMDB/standard (2.6.2)
-  - SDWebImage (3.8.2):
-    - SDWebImage/Core (= 3.8.2)
-  - SDWebImage/Core (3.8.2)
+  - FLAnimatedImage (1.0.12)
+  - SDWebImage (4.2.1):
+    - SDWebImage/Core (= 4.2.1)
+  - SDWebImage/Core (4.2.1)
+  - SDWebImage/GIF (4.2.1):
+    - FLAnimatedImage (~> 1.0)
+    - SDWebImage/Core
+  - YYCache (1.0.4)
 
 DEPENDENCIES:
   - AFNetworking
-  - FMDB
+  - FLAnimatedImage
   - SDWebImage
+  - SDWebImage/GIF
+  - YYCache
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
-  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  SDWebImage: 1fa4c9edf525b744f002db89f3f5a38b3cd4c541
+  YYCache: 8105b6638f5e849296c71f331ff83891a4942952
 
-PODFILE CHECKSUM: 8d55f40349e698ad12d31888083a39a9187d8d31
+PODFILE CHECKSUM: a4ddb9d1a1edc7f53d713983d45061967d39a8ce
 
-COCOAPODS: 1.1.0.beta.1
+COCOAPODS: 1.4.0.beta.2

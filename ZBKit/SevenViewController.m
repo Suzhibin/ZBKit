@@ -8,10 +8,14 @@
 
 #import "SevenViewController.h"
 #import "ZBKit.h"
-#import "NSArray+ZBKit.h"
+#import "ListModel.h"
+#import <YYCache.h>
 // 主请求路径
 #define budejieURL @"http://api.budejie.com/api/api_open.php"
-@interface SevenViewController ()
+@interface SevenViewController (){
+    
+    YYCache *_dataCache;
+}
 
 @end
 
@@ -24,8 +28,38 @@
    // [self filter];
     
     [self request];
-  
+    
+   [self archive];
+    
+
 }
+
+- (void)archive{
+    ListModel *model = [[ListModel alloc] init];
+    model.title = @"xiaoBai";
+    model.thumb = @"15";
+    /*
+    if ([NSKeyedArchiver archiveRootObject:model toFile:[[[ZBCacheManager sharedInstance] tmpPath] stringByAppendingPathComponent:@"model.data"]]) {
+        NSLog(@"归档成功");
+    }
+     */
+    NSString *tmpPath=[[ZBCacheManager sharedInstance] tmpPath];
+    
+    [[ZBCacheManager sharedInstance] storeContent:model forKey:@"model.data" path:tmpPath isSuccess:^(BOOL isSuccess) {
+        if (isSuccess) {
+            ZBKLog(@"归档成功");
+        }
+    }];
+    
+    [[ZBCacheManager sharedInstance]getCacheDataForKey:@"model.data" path:tmpPath value:^(id responseObj, NSString *filePath) {
+         ZBKLog(@"filePath:%@",filePath);
+        ListModel *model1= [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+        ZBKLog(@"%@,%@",model1.title, model1.thumb);
+
+    }];
+   
+}
+
 - (void)filter{
     NSArray *cityArray = [NSArray arrayWithObjects:@"Shanghai",@"Hangzhou",@"Beijing",@"Macao",@"Taishan", nil];
     
@@ -64,10 +98,11 @@
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
         request.urlString=budejieURL;
         request.parameters=dict;
+        request.apiType=ZBRequestTypeCache;
     } success:^(id responseObj, apiType type) {
-        //  NSLog(@"responseObj：%@",responseObj);
-     //   NSDictionary * dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
-        // NSLog(@"dict：%@",dict);
+          NSLog(@"responseObj：%@",responseObj);
+        NSDictionary * dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
+         ZBKLog(@"requestdict：%@",dict);
         
     } failed:^(NSError *error) {
         
@@ -120,10 +155,10 @@
      request.methodType=ZBMethodTypePOST;
      request.parameters=parameters;
      } success:^(id responseObject, apiType type) {
-       NSLog(@"postresponseObj:%@",responseObject);
+      // ZBKLog(@"postresponseObj:%@",responseObject);
      
      NSDictionary * dataDict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSLog(@"post:%@",dataDict);
+        ZBKLog(@"post:%@",dataDict);
      } failed:^(NSError *error) {
         NSLog(@"posterror:%@",error);
      }];

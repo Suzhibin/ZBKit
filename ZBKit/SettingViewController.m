@@ -257,7 +257,7 @@
     aboutItem.operation = ^{
         NSString *aboutString=[NSString stringWithFormat:@"应用名字:%@\n应用ID:%@\n应用版本:%@\n应用build:%@\n设备名字:%@",[[ZBGlobalSettingsTool sharedInstance]appBundleName],[[ZBGlobalSettingsTool sharedInstance]appBundleID],[[ZBGlobalSettingsTool sharedInstance]appVersion],[[ZBGlobalSettingsTool sharedInstance]appBuildVersion],[[ZBGlobalSettingsTool sharedInstance]deviceName]];
         UIViewController *helpVC = [[UIViewController alloc] init];
-        UILabel *abotlabel=[[UILabel alloc]initWithFrame:CGRectMake(20, 100, SCREEN_WIDTH-40, 200)];
+        UILabel *abotlabel=[[UILabel alloc]initWithFrame:CGRectMake(20, 100, ZB_SCREEN_WIDTH-40, 200)];
         abotlabel.text=aboutString;
         abotlabel.numberOfLines=0;
         [helpVC.view addSubview:abotlabel];

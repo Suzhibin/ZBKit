@@ -13,21 +13,39 @@
 #import <UIImageView+WebCache.h>
 #import "DetailsViewController.h"
 @interface DBViewController ()<UITableViewDelegate,UITableViewDataSource>
-@property (nonatomic,strong)NSArray *dataArray;
+@property (nonatomic,strong)NSMutableArray *dataArray;
 @property (nonatomic,strong)UITableView *tableView;
 @end
 
 @implementation DBViewController
-
+- (NSString *)keyedArchivePath{
+    return [[[ZBCacheManager sharedInstance]ZBKitPath]stringByAppendingPathComponent:@"keyedArchive"];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
+
+    
     if (_functionType==collectionTable) {
-        self.dataArray = [[ZBDataBaseManager sharedInstance]getAllDataWithTable:@"collection"];
+       NSArray *keyArray = [[ZBCacheManager sharedInstance]getDiskCacheFileWithPath:[self keyedArchivePath]];
+        NSLog(@"keyArray:%@",keyArray);
+        if (keyArray.count>0) {
+            for (NSString *filePath in keyArray) {
+                ListModel * model1=[[ListModel alloc]init];
+                model1= [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+                NSLog(@"title:%@",model1.title);
+                [self.dataArray addObject:model1];
+            }
+        }else{
+            NSLog(@"没有数据");
+        }
+       
+  
+      //  self.dataArray = [[ZBDataBaseManager sharedInstance]getAllDataWithTable:@"collection"];
         self.title=@"收藏表";
     }else{
-        self.dataArray=[[ZBDataBaseManager sharedInstance]getAllDataWithTable:@"user"];
+     //   self.dataArray=[[ZBDataBaseManager sharedInstance]getAllDataWithTable:@"user"];
         self.title=@"user表";
     }
     
@@ -68,6 +86,10 @@
         NSMutableArray *array = (NSMutableArray *)self.dataArray;
         [array removeObjectAtIndex:indexPath.row];
         
+        [[ZBCacheManager sharedInstance]clearCacheForkey:model.wid path:[self keyedArchivePath] completion:^{
+            NSLog(@"删除数据");
+        }];
+        /*
         [[ZBDataBaseManager sharedInstance]table:@"collection" deleteDataWithItemId:model.wid isSuccess:^(BOOL isSuccess){
             if (isSuccess) {
                 NSLog(@"删除成功");
@@ -75,12 +97,10 @@
                 NSLog(@"删除失败");
             }
         }];//删除对应文章id
-    
+    */
         // 用_tableView 删除行刷新方法刷新显示
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
-        
     }
-    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -119,7 +139,7 @@
 //懒加载
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
+        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, ZB_SCREEN_WIDTH, ZB_SCREEN_HEIGHT) style:UITableViewStylePlain];
         _tableView.delegate=self;
         _tableView.dataSource=self;
         
@@ -129,6 +149,12 @@
 }
 
 
+- (NSMutableArray *)dataArray {
+    if (!_dataArray) {
+        _dataArray = [[NSMutableArray alloc] init];
+    }
+    return _dataArray;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

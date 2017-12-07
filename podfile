@@ -2,6 +2,9 @@
 platform:ios,'8.0'
  target :'ZBKit' do
  pod 'AFNetworking'
- pod 'FMDB'
  pod 'SDWebImage'
- end 
+ pod 'SDWebImage/GIF'
+ pod 'FLAnimatedImage'
+ pod 'YYCache' 
+ end
+ 

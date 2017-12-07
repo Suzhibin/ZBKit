@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ZBConstants.h"
+#import "ZBMacros.h"
 #import "ZBKit.h"
 #import "APIConstants.h"
 
