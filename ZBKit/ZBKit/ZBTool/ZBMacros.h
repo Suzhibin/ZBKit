@@ -72,8 +72,8 @@ static NSString * const READIMAGE = @"showImage";
 static NSString * const CITY = @"locationCity";
 
 /*
- platform:ios,'8.0'
- target :'应用名字' do
+
+ 
  pod 'VTMagic'
  pod 'SDWebImage'
  pod 'XRCarouselView'

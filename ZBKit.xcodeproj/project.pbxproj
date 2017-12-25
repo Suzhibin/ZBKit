@@ -35,6 +35,9 @@
 		7D31A4011E34536400D913A7 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D31A4001E34536400D913A7 /* libsqlite3.tbd */; };
 		7D31A4071E34AF5500D913A7 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D31A4061E34AF5500D913A7 /* SecondViewController.m */; };
 		7D3346DC1EB3372400C04EA0 /* MenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3346DB1EB3372400C04EA0 /* MenuTableViewCell.m */; };
+		7D34C20A1FDA348600D866D9 /* ZBInteractiveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D34C2041FDA348400D866D9 /* ZBInteractiveTransition.m */; };
+		7D34C20B1FDA348600D866D9 /* ZBPopTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D34C2051FDA348500D866D9 /* ZBPopTransitioning.m */; };
+		7D34C20C1FDA348600D866D9 /* ZBPushTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D34C2091FDA348600D866D9 /* ZBPushTransitioning.m */; };
 		7D57D62C1E36E5E100529558 /* FourViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D57D62B1E36E5E100529558 /* FourViewController.m */; };
 		7D57D6411E373DD500529558 /* SettingCacheViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D57D6401E373DD500529558 /* SettingCacheViewController.m */; };
 		7D57D6441E373E0D00529558 /* OfflineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D57D6431E373E0D00529558 /* OfflineView.m */; };
@@ -164,6 +167,12 @@
 		7D31A4061E34AF5500D913A7 /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		7D3346DA1EB3372400C04EA0 /* MenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewCell.h; sourceTree = "<group>"; };
 		7D3346DB1EB3372400C04EA0 /* MenuTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewCell.m; sourceTree = "<group>"; };
+		7D34C2041FDA348400D866D9 /* ZBInteractiveTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBInteractiveTransition.m; sourceTree = "<group>"; };
+		7D34C2051FDA348500D866D9 /* ZBPopTransitioning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBPopTransitioning.m; sourceTree = "<group>"; };
+		7D34C2061FDA348500D866D9 /* ZBPopTransitioning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBPopTransitioning.h; sourceTree = "<group>"; };
+		7D34C2071FDA348600D866D9 /* ZBInteractiveTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBInteractiveTransition.h; sourceTree = "<group>"; };
+		7D34C2081FDA348600D866D9 /* ZBPushTransitioning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBPushTransitioning.h; sourceTree = "<group>"; };
+		7D34C2091FDA348600D866D9 /* ZBPushTransitioning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBPushTransitioning.m; sourceTree = "<group>"; };
 		7D57D62A1E36E5E100529558 /* FourViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FourViewController.h; sourceTree = "<group>"; };
 		7D57D62B1E36E5E100529558 /* FourViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FourViewController.m; sourceTree = "<group>"; };
 		7D57D63F1E373DD500529558 /* SettingCacheViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingCacheViewController.h; sourceTree = "<group>"; };
@@ -658,6 +667,12 @@
 				7D9D20CD1F7F7F8000C8C067 /* ZBKit */,
 				7D5961FB1E529D5D00E92F55 /* HomeViewController.h */,
 				7D5961FC1E529D5D00E92F55 /* HomeViewController.m */,
+				7D34C2071FDA348600D866D9 /* ZBInteractiveTransition.h */,
+				7D34C2041FDA348400D866D9 /* ZBInteractiveTransition.m */,
+				7D34C2061FDA348500D866D9 /* ZBPopTransitioning.h */,
+				7D34C2051FDA348500D866D9 /* ZBPopTransitioning.m */,
+				7D34C2081FDA348600D866D9 /* ZBPushTransitioning.h */,
+				7D34C2091FDA348600D866D9 /* ZBPushTransitioning.m */,
 				7D57D6491E37476800529558 /* FirstViewController */,
 				7D31A4051E34AF5500D913A7 /* SecondViewController.h */,
 				7D31A4061E34AF5500D913A7 /* SecondViewController.m */,
@@ -976,6 +991,7 @@
 				7D9D21721F7F813900C8C067 /* ZBRequestManager.m in Sources */,
 				7D9D21371F7F7F8000C8C067 /* ZBCarouselView.m in Sources */,
 				7DD9D61F1E27820D00CFA0A9 /* ViewController.m in Sources */,
+				7D34C20C1FDA348600D866D9 /* ZBPushTransitioning.m in Sources */,
 				7D9D214F1F7F7F8000C8C067 /* ZBTabBarItem.m in Sources */,
 				7DD9D61C1E27820D00CFA0A9 /* AppDelegate.m in Sources */,
 				7D9D21531F7F7F8000C8C067 /* ZBGlobalSettingsTool.m in Sources */,
@@ -1018,6 +1034,7 @@
 				7D5961FD1E529D5D00E92F55 /* HomeViewController.m in Sources */,
 				7D9D216F1F7F813900C8C067 /* NSFileManager+ZBPathMethod.m in Sources */,
 				7D9D217A1F7F84B200C8C067 /* UIViewController+ZBAnalytics.m in Sources */,
+				7D34C20B1FDA348600D866D9 /* ZBPopTransitioning.m in Sources */,
 				7D220DB01E35A40500A29791 /* DetailsViewController.m in Sources */,
 				7D9D21381F7F7F8000C8C067 /* AppDelegate+ZBKit.m in Sources */,
 				7D9D21701F7F813900C8C067 /* ZBCacheManager.m in Sources */,
@@ -1030,6 +1047,7 @@
 				7D57D64F1E37489C00529558 /* MenuModel.m in Sources */,
 				7D5962031E529DFA00E92F55 /* SettingViewController.m in Sources */,
 				7D9D217D1F7F84DF00C8C067 /* ZBScreenAdvertise.m in Sources */,
+				7D34C20A1FDA348600D866D9 /* ZBInteractiveTransition.m in Sources */,
 				7D9D215E1F7F805A00C8C067 /* YYWeakProxy.m in Sources */,
 				7DC006871E6816090047213C /* SixViewController.m in Sources */,
 				7D9D21581F7F805400C8C067 /* NullSafe.m in Sources */,

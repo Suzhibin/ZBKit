@@ -18,8 +18,13 @@
 #import "SevenViewController.h"
 
 #import "YYFPSLabel.h"
-@interface HomeViewController ()
-
+#import "ZBInteractiveTransition.h"
+#import "ZBPushTransitioning.h"
+#import "ZBPopTransitioning.h"
+@interface HomeViewController ()<UINavigationControllerDelegate>
+@property (nonatomic,strong) ZBInteractiveTransition *transitionController;
+@property (nonatomic,strong) ZBPushTransitioning *pushAnimation;
+@property (nonatomic,strong) ZBPopTransitioning *dismissAnimation;
 @end
 
 @implementation HomeViewController
@@ -30,13 +35,58 @@
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushtoad" object:nil];
 }
+-(ZBPushTransitioning *)pushAnimation
+{
+    if (!_pushAnimation) {
+        _pushAnimation = [[ZBPushTransitioning alloc] init];
+    }
+    return _pushAnimation;
+}
+-(ZBPopTransitioning *)dismissAnimation
+{
+    if (!_dismissAnimation) {
+        _dismissAnimation = [[ZBPopTransitioning alloc] init];
+    }
+    return _dismissAnimation;
+}
+-(ZBInteractiveTransition *)transitionController
+{
+    if (!_transitionController) {
+        _transitionController = [[ZBInteractiveTransition alloc] init];
+    }
+    return _transitionController;
+}
+#pragma mark - UINavigationControllerDelegate
+/** 返回转场动画实例*/
+- (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+                                  animationControllerForOperation:(UINavigationControllerOperation)operation
+                                               fromViewController:(UIViewController *)fromVC
+                                                 toViewController:(UIViewController *)toVC
+{
+    if (operation == UINavigationControllerOperationPush) {
+        return self.pushAnimation;
+    }else if (operation == UINavigationControllerOperationPop){
+        return self.dismissAnimation;
+    }
+    return nil;
+}
 
-
+- (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController{
+    return self.transitionController.interacting ? self.transitionController : nil;
+}
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    NSLog(@"willShowViewController - %@",self.transitionController.interacting ?@"YES":@"NO");
+}
+- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    NSLog(@"didShowViewController - %@",self.transitionController.interacting ?@"YES":@"NO");
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
-   
+   self.navigationController.delegate = self;
     //点击广告链接 事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushToAd:) name:@"pushtoad" object:nil];
        // 1.网络请求
@@ -71,6 +121,7 @@
     ZBTableItem *requestItem = [ZBTableItem itemWithTitle:@"ZBNetworking" type:ZBTableItemTypeArrow];
     requestItem.operation = ^{
         FirstViewController *firstVC=[[FirstViewController alloc]init];
+        [weakSelf.transitionController wireToViewController:self.navigationController];
         [weakSelf.navigationController pushViewController:firstVC animated:YES];
     };
     ZBTableGroup *group = [[ZBTableGroup alloc] init];
@@ -86,6 +137,7 @@
     __weak typeof(self) weakSelf = self;
     ZBTableItem *imageItem = [ZBTableItem itemWithTitle:ZBLocalized(@"homeWebimage",nil) type:ZBTableItemTypeArrow];
     imageItem.operation = ^{
+           [weakSelf.transitionController wireToViewController:self.navigationController];
         SecondViewController*secondVC = [[SecondViewController alloc] init];
         [weakSelf.navigationController pushViewController:secondVC animated:YES];
     };
@@ -135,7 +187,7 @@
     ZBTableItem *toolItem = [ZBTableItem itemWithTitle:@"ZBCarouselView" type:ZBTableItemTypeArrow];
     toolItem.operation = ^{
         FiveViewController*toolVC = [[FiveViewController alloc] init];
-        
+        [weakSelf.transitionController wireToViewController:self.navigationController];
         [weakSelf.navigationController pushViewController:toolVC animated:YES];
     };
     ZBTableGroup *group4 = [[ZBTableGroup alloc] init];
@@ -151,6 +203,7 @@
     __weak typeof(self) weakSelf = self;
     ZBTableItem *carouselItem = [ZBTableItem itemWithTitle:ZBLocalized(@"homeControlTool",nil) type:ZBTableItemTypeArrow];
     carouselItem.operation = ^{
+        [weakSelf.transitionController wireToViewController:self.navigationController];
         SixViewController *sixVC=[[SixViewController alloc]init];
         [weakSelf.navigationController pushViewController:sixVC animated:YES];
     };
