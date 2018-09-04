@@ -27,13 +27,13 @@
     [self.window makeKeyAndVisible];
 
     [self zb_application:application didFinishLaunchingWithOptions:launchOptions];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        // 初始化FPS label (监控FPS 调试使用)
-        YYFPSLabel *fps = [[YYFPSLabel alloc]initWithFrame:CGRectMake(ZB_SCREEN_WIDTH-120,ZB_STATUS_HEIGHT, 60, 20)];//fps监测
-        [self.window addSubview:fps];
-        
-        [self.window bringSubviewToFront:fps];
-    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        // 初始化FPS label (监控FPS 调试使用)
+//        YYFPSLabel *fps = [[YYFPSLabel alloc]initWithFrame:CGRectMake(ZB_SCREEN_WIDTH-120,ZB_STATUS_HEIGHT, 60, 20)];//fps监测
+//        [self.window addSubview:fps];
+//        
+//        [self.window bringSubviewToFront:fps];
+//    });
    
     return YES;
 }

@@ -50,6 +50,14 @@ typedef void (^downloadImageCompletion)();
 - (UIImage *)zb_GrayImage;
 
 /**
+ 设置图片颜色
+
+ @param color 颜色
+ @return 设置后的image
+ */
+- (UIImage *)imageWithColor:(UIColor *)color;
+
+/**
  *  设置一张图片的透明度
  *
  *  @param alpha 要用于渲染透明度

@@ -45,6 +45,8 @@
 #import "ZBDateFormatter.h"
 /**自定义Label*/
 #import "ZBLabel.h"
+/**提示框*/
+#import "ZBToast.h"
 /**天气动画*/
 #import "ZBWeatherView.h"
 /**环形动画*/

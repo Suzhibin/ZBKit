@@ -7,7 +7,6 @@
 //
 
 #import "ZBWebImageManager.h"
-#import "NSFileManager+ZBPathMethod.h"
 
 NSString *const ImageDefaultPath =@"AppImageCache";
 static const NSInteger ImageCacheMaxCacheAge  = 60*60*24*7;

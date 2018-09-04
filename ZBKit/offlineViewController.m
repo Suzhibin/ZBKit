@@ -35,9 +35,9 @@
     self.batchRequest=[[ZBBatchRequest alloc]init];
     
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
-        request.urlString=menu_URL;
+        request.URLString=menu_URL;
         request.apiType=ZBRequestTypeRefresh;
-    } success:^(id responseObj, apiType type) {
+    } success:^(id responseObj, apiType type,BOOL isCache) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
         
         NSArray *array=[dict objectForKey:@"authors"];
@@ -50,7 +50,7 @@
             
         }
         [_tableView reloadData];
-    } failed:^(NSError *error) {
+    } failure:^(NSError *error) {
         if (error.code==NSURLErrorCancelled)return;
         if (error.code==NSURLErrorTimedOut) {
             [self alertTitle:@"请求超时" andMessage:@""];
@@ -124,7 +124,6 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
-
 //懒加载
 - (UITableView *)tableView{
     if (!_tableView) {
@@ -135,7 +134,6 @@
     }
     return _tableView;
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -54,7 +54,10 @@
         helpVC.title = @"账号管理";
         [weakSelf.navigationController pushViewController:helpVC animated:YES];
     };
-    
+//    ZBTableItem *nameItem = [ZBTableItem itemWithIcon:[NSBundle zb_IDInfo] title:@"昵称" type:ZBTableItemTypeTextField];
+//    nameItem.operation = ^{
+//
+//    };
     // 字体
     ZBTableItem *fontItem  = [ZBTableItem itemWithIcon:[NSBundle zb_MoreHelp] title:ZBLocalized(@"fontSize",nil) type:ZBTableItemTypeRightText];
     fontItem.rightText=[self setFont];
@@ -116,7 +119,7 @@
     if(UIUserNotificationTypeNone != setting.types) {//系统开启
         pushItem.isOpenSwitch=[ZBGlobalSettingsTool sharedInstance].enabledPush;
         pushItem.switchBlock = ^(BOOL on) {
-            NSLog(@"通知%zd",on);
+            NSLog(@"通知%d",on);
             [ZBGlobalSettingsTool sharedInstance].enabledPush=on;
         };
         
@@ -124,7 +127,7 @@
         
         pushItem.isOpenSwitch=NO;
         pushItem.switchBlock = ^(BOOL on) {
-            NSLog(@"通知%zd",on);
+            NSLog(@"通知%d",on);
             
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"你尚末开启系统推送" message:@"" preferredStyle:(UIAlertControllerStyleAlert)];
             UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:^(UIAlertAction *_Nonnull action){

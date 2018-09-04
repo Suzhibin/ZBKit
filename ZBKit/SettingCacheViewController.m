@@ -13,6 +13,7 @@
 #import "ListModel.h"
 #import <SDImageCache.h>
 #import <SDWebImageManager.h>
+#import "UIViewController+XPModal.h"
 static const NSInteger cacheTime = 30;
 @interface SettingCacheViewController ()<UITableViewDelegate,UITableViewDataSource,offlineDelegate>
 @property (nonatomic,copy)NSString *imagePath;
@@ -253,42 +254,54 @@ static const NSInteger cacheTime = 30;
     }
     
     if (indexPath.row==12) {
-         //时间前要加 “-” 减号
+
         //[[ZBCacheManager sharedInstance]clearCacheForkey:menu_URL time:-cacheTime]
-        [[ZBCacheManager sharedInstance]clearCacheForkey:menu_URL time:-cacheTime completion:^{
+        [[ZBCacheManager sharedInstance]clearCacheForkey:menu_URL time:cacheTime completion:^{
             [self.tableView reloadData];
         }];
         
     }
     if (indexPath.row==13) {
-        //时间前要加 “-” 减号
+
         //url 过期 去log里找新的
-        [[ZBCacheManager sharedInstance]clearCacheForkey:@"https://r1.ykimg.com/054101015918B62E8B3255666622E929" time:-cacheTime path:self.imagePath completion:^{
+        [[ZBCacheManager sharedInstance]clearCacheForkey:@"https://r1.ykimg.com/054101015918B62E8B3255666622E929" time:cacheTime path:self.imagePath completion:^{
             [self.tableView reloadData];
         }];
     }
     
     if (indexPath.row==14) {
-        //时间前要加 “-” 减号
-        [[ZBCacheManager sharedInstance]clearCacheWithTime:-cacheTime completion:^{
+
+        [[ZBCacheManager sharedInstance]clearCacheWithTime:cacheTime completion:^{
              [self.tableView reloadData];
         }];
     }
     
     if (indexPath.row==15) {
         //时间前要加 “-” 减号 ， 路径要准确
-        [[ZBCacheManager sharedInstance]clearCacheWithTime:-cacheTime path:self.imagePath completion:^{
+        [[ZBCacheManager sharedInstance]clearCacheWithTime:cacheTime path:self.imagePath completion:^{
             
-            [[ZBCacheManager sharedInstance]clearCacheWithTime:-cacheTime path:[[ZBWebImageManager sharedInstance] imageFilePath] completion:nil];
+            [[ZBCacheManager sharedInstance]clearCacheWithTime:cacheTime path:[[ZBWebImageManager sharedInstance] imageFilePath] completion:nil];
             
             [self.tableView reloadData];
         }];
     }
     
     if (indexPath.row==16) {
+        
+        XPModalConfiguration *configuration = [XPModalConfiguration defaultConfiguration];
+        CGSize contentSize;
+        configuration.direction = XPModalDirectionBottom;
+        //   configuration.enableInteractiveTransitioning = NO;
+        //configuration.enableBackgroundAnimation = YES;
+       // configuration.backgroundColor = [UIColor blueColor];
+        contentSize = CGSizeMake(CGFLOAT_MAX, 300.0);
+        configuration.backgroundOpacity=0.0;
+        // configuration.enableShadow=NO;
         offlineViewController *offlineVC=[[offlineViewController alloc]init];
         offlineVC.delegate=self;
-        [self.navigationController pushViewController:offlineVC animated:YES];
+        [self presentModalWithViewController:offlineVC contentSize:contentSize configuration:configuration completion:nil];
+ 
+       // [self.navigationController pushViewController:offlineVC animated:YES];
     }
 }
 #pragma mark offlineDelegate
@@ -309,10 +322,10 @@ static const NSInteger cacheTime = 30;
         
         for (NSString *urlString in offlineArray) {
             ZBURLRequest *request=[[ZBURLRequest alloc]init];
-            request.urlString=urlString;
+            request.URLString=urlString;
             [batchRequest.urlArray addObject:request];
         }
-    }  success:^(id responseObj,apiType type){
+    }  success:^(id responseObj,apiType type,BOOL isCache){
    
         NSLog(@"添加了几个url请求  就会走几遍");
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
@@ -354,7 +367,7 @@ static const NSInteger cacheTime = 30;
             }];
         }
         
-    } failed:^(NSError *error){
+    } failure:^(NSError *error){
         if (error.code==NSURLErrorCancelled)return;
         if (error.code==NSURLErrorTimedOut){
             NSLog(@"请求超时");
@@ -367,7 +380,13 @@ static const NSInteger cacheTime = 30;
 
 - (void)cancelClick{
     
-    [self.batchRequest cancelbatchRequest:nil];//取消所有网络请求
+    [self.batchRequest cancelbatchRequestWithCompletion:^(BOOL results, NSString *urlString) {
+        if (results==YES) {
+            NSLog(@"取消下载请求:%d URL:%@",results,urlString);
+        }else{
+            NSLog(@"已经请求完毕无法取消");
+        }
+    }];//取消所有网络请求
     
     [[SDWebImageManager sharedManager] cancelAll];//取消图片下载
 

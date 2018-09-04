@@ -236,10 +236,10 @@
     NSString *url= [NSString stringWithFormat:weatherURL,cityName];
     
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
-        request.urlString=url;
+        request.URLString=url;
         request.apiType=ZBRequestTypeRefresh;
         
-    } success:^(id responseObj, apiType type) {
+    } success:^(id responseObj, apiType type,BOOL isCache) {
         
         NSDictionary  *Obj = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
         NSArray *resultsArray = Obj[@"results"];
@@ -266,7 +266,7 @@
             weakSelf.tabBarItem.weatherLabel.text= [NSString stringWithFormat:@"%@ %@℃ / %@℃",self.code2,
                                                     self.code3,self.code4];;
         }
-    } failed:^(NSError *error) {
+    } failure:^(NSError *error) {
         ZBKLog(@"天气error:%@",error);
     }];
 }

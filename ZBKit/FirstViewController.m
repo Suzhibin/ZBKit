@@ -56,10 +56,10 @@
 - (void)loadData{
 
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request){
-        request.urlString=menu_URL;
-        request.apiType=ZBRequestTypeCache;
+        request.URLString=menu_URL;
+        request.apiType=ZBRequestTypeRefresh;
         
-    }  success:^(id responseObject,apiType type){
+    }  success:^(id responseObject,apiType type,BOOL isCache){
         
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSArray *array=[dict objectForKey:@"authors"];
@@ -73,11 +73,11 @@
         
         MenuModel *model=[self.menuArray objectAtIndex:0];
         NSString *url=[NSString stringWithFormat:list_URL,model.wid];
-
+    
         [self loadlist: url type:ZBRequestTypeCache];
          
         
-    } failed:^(NSError *error){
+    } failure:^(NSError *error){
         if (error.code==NSURLErrorCancelled)return;
         if (error.code==NSURLErrorTimedOut){
             [self alertTitle:@"请求超时" andMessage:@""];
@@ -87,14 +87,14 @@
     }];
 }
 - (void)loadlist:(NSString *)listUrl type:(apiType)type{
- 
- 
+       
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request){
-        request.urlString=listUrl;
+        request.URLString=listUrl;
         request.apiType=type;
-    }  success:^(id responseObject,apiType type){
+    }  success:^(id responseObject,apiType type,BOOL isCache){
 
-        [self.listArray removeAllObjects]; 
+        [self.listArray removeAllObjects];
+        
         NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSArray *array=[dataDict objectForKey:@"videos"];
         
@@ -104,16 +104,21 @@
         }
         [self.listTableView reloadData];
         [_refreshControl endRefreshing];    //结束刷新
-    } failed:^(NSError *error){
-         [_refreshControl endRefreshing];    //结束刷新
+        if (isCache) {
+            ZBKLog(@"使用了缓存");  [ZBToast showCenterWithText:@"使用了缓存"];
+        }else{
+            ZBKLog(@"重新请求");  [ZBToast showCenterWithText:@"重新请求"];
+        }
+    } failure:^(NSError *error){
         if (error.code==NSURLErrorCancelled)return;
         if (error.code==NSURLErrorTimedOut){
-            [self alertTitle:@"请求超时" andMessage:@""];
+           // [self alertTitle:@"请求超时" andMessage:@""];
+            [ZBToast showCenterWithText:@"请求超时"];
         }else{
-            [self alertTitle:@"请求失败" andMessage:@""];
+            [ZBToast showCenterWithText:@"请求失败"];
+           // [self alertTitle:@"请求失败" andMessage:@""];
         }
     }];
-     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -184,7 +189,9 @@
         
         [[SDWebImageManager sharedManager]cancelAll];//如果点了其他频道 应暂停所在频道的图片下载  节省流量  具体看产品需求
         MenuModel *model=[self.menuArray objectAtIndex:indexPath.row];
+   
         NSString *url=[NSString stringWithFormat:list_URL,model.wid];
+        ZBKLog(@"url:%@",url);
         [self loadlist:url type:ZBRequestTypeCache];
     }else{
         ListModel *model=[self.listArray objectAtIndex:indexPath.row];
@@ -216,15 +223,20 @@
      *  下拉刷新是不读缓存的 要添加 apiType 类型 ZBRequestTypeRefresh  每次就会重新请求url
      *  请求下来的缓存会覆盖原有的缓存文件
      */
-    MenuModel *model= self.menuArray[[[self.menuTableView indexPathForSelectedRow] row]];
-    NSString *url=[NSString stringWithFormat:list_URL,model.wid];
-    
-    [self loadlist: url type:ZBRequestTypeRefresh];
-
-    _refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉刷新..."];
-    /**
-     * 上拉加载 要添加 apiType 类型 ZBRequestTypeLoadMore
-     */
+    if (self.menuArray.count>0) {
+        MenuModel *model= self.menuArray[[[self.menuTableView indexPathForSelectedRow] row]];
+        NSString *url=[NSString stringWithFormat:list_URL,model.wid];
+        
+        [self loadlist: url type:ZBRequestTypeRefresh];
+        
+        _refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉刷新..."];
+        /**
+         * 上拉加载 要添加 apiType 类型 ZBRequestTypeLoadMore
+         */
+    }else{
+        return;
+    }
+  
 }
 - (void)btnClick{
     SettingCacheViewController *cacheVC=[[SettingCacheViewController alloc]init];
@@ -240,7 +252,7 @@
 //懒加载
 - (UITableView *)menuTableView{
     if (!_menuTableView) {
-        _menuTableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 64, 100, ZB_SCREEN_HEIGHT) style:UITableViewStylePlain];
+        _menuTableView=[[UITableView alloc]initWithFrame:CGRectMake(0,ZB_STATUS_HEIGHT+44, 100, ZB_SCREEN_HEIGHT-(ZB_STATUS_HEIGHT+44+ZB_TABBAR_HEIGHT)) style:UITableViewStylePlain];
         _menuTableView.delegate=self;
         _menuTableView.dataSource=self;
         _menuTableView.tableFooterView=[[UIView alloc]init];
@@ -251,7 +263,7 @@
 - (UITableView *)listTableView{
     
     if (!_listTableView) {
-        _listTableView=[[UITableView alloc]initWithFrame:CGRectMake(100, 64,ZB_SCREEN_WIDTH-100, ZB_SCREEN_HEIGHT) style:UITableViewStylePlain];
+        _listTableView=[[UITableView alloc]initWithFrame:CGRectMake(100, ZB_STATUS_HEIGHT+44,ZB_SCREEN_WIDTH-100, ZB_SCREEN_HEIGHT-(ZB_STATUS_HEIGHT+44+ZB_TABBAR_HEIGHT)) style:UITableViewStylePlain];
         _listTableView.delegate=self;
         _listTableView.dataSource=self;
         _listTableView.tableFooterView=[[UIView alloc]init];

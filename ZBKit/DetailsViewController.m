@@ -29,8 +29,6 @@
   
     [self createWebView];
     
-  
-    
     self.loadingView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
     self.loadingView.center= self.view.center;
     [self.loadingView zb_animationloadingView];
@@ -67,7 +65,21 @@
        // NSString *HTMLData = @"<hn>Hello World</hn>";
         
        // [self.webView loadHTMLString:HTMLData baseURL:nil];
-       [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.model.weburl]]];
+        
+        
+        NSURL *url = [NSURL URLWithString:self.model.weburl];
+        NSError *error = nil;
+        NSString *htmlUrl = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
+        NSString * colorString = [NSString stringWithFormat:@"<head><style >body {background:black;}</style>"];
+        NSArray *jsArray = [htmlUrl componentsSeparatedByString:@"<head>"];
+        NSString* jsSource = [jsArray componentsJoinedByString: colorString];
+        NSLog(@"jsSource:%@",jsSource);
+        //  [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+        NSString *path = [[NSBundle mainBundle] bundlePath];  // 获取当前应用的根目录
+        NSURL *baseURL = [NSURL fileURLWithPath:path];
+        
+        [self.webView loadHTMLString:jsSource baseURL:baseURL];
+      // [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.model.weburl]]];
 
          [self createToobar];
         

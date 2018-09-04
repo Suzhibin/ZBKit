@@ -72,18 +72,24 @@ static NSString * const READIMAGE = @"showImage";
 static NSString * const CITY = @"locationCity";
 
 /*
-
- 
- pod 'VTMagic'
+ platform:ios,'8.0'
+ target :'ZBNews' do
+ pod 'VTMagic', :git => 'https://github.com/tianzhuo112/VTMagic.git'
  pod 'SDWebImage'
- pod 'XRCarouselView'
  pod 'MJRefresh'
  pod 'UITableView+FDTemplateLayoutCell'
+ pod 'FMDB'
+ pod 'FSCalendar'
  pod 'SDAutoLayout'
- pod 'Masonry'
- end
+ pod 'AFNetworking'
+ pod 'FLAnimatedImage'
+ pod 'UMengAnalytics'
+ pod 'ReactiveObjC'
+ use_frameworks!
  
+ end
  */
+//growingIO   Fabric
 /*
 用vi修改文件，保存文件时，提示“readonly option is set”的解决方法。
 1.按Esc键2.输入 :set noreadonly3.然后就能正常保存了，你可以输入 :wq 来保存文件了

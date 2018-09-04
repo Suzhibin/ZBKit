@@ -94,9 +94,9 @@ static NSString *const adUrlName = @"adUrl";
 
 - (void)requestAdvertise{
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
-        request.urlString=@"http://192.168.33.186:9080/BOSS_APD_WEB/news/ads/screen_zh_CN";
+        request.URLString=@"http://192.168.33.186:9080/BOSS_APD_WEB/news/ads/screen_zh_CN";
         request.apiType=ZBRequestTypeRefresh;
-    } success:^(id responseObject, apiType type) {
+    } success:^(id responseObject, apiType type,BOOL isCache) {
         NSArray  *array = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         if (array.count>0) {
             for (NSDictionary *dict in array) {
@@ -108,7 +108,7 @@ static NSString *const adUrlName = @"adUrl";
         }else{
             [self deleteOldImage];
         }
-    } failed:^(NSError *error) {
+    } failure:^(NSError *error) {
         ZBLog(@"error:%@",error);
     }];
     

@@ -49,7 +49,7 @@
         
         self.imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 64, ZB_SCREEN_WIDTH, 240)];
         self.imageView.userInteractionEnabled = YES;
-        
+        self.imageView.backgroundColor=[UIColor blackColor];
         [self.imageView zb_setImageWithURL:imageUrl placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]] completion:^(UIImage *image) {
             [self sizeAndCount];
             
@@ -78,7 +78,7 @@
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         [self.imageView addGestureRecognizer:tap];
         
-        NSArray *titleArray=[NSArray arrayWithObjects:@"垂直翻转",@"水平翻转",@"灰度图",@"加水印",@"向左",@"向右",@"向下",@"截取图上半部",@"给view截图",@"平铺图片",@"圆形并浮动",@"透明度",@"压缩大小",@"小鸟Game over",nil];
+        NSArray *titleArray=[NSArray arrayWithObjects:@"垂直翻转",@"水平翻转",@"灰度图",@"加水印",@"向左",@"向右",@"向下",@"截取图上半部",@"给view截图",@"平铺图片",@"圆形并浮动",@"透明度",@"压缩大小",@"小鸟Game over",@"设置图片颜色",nil];
         CGFloat wSpace = (ZB_SCREEN_WIDTH-57*4)/5;
         CGFloat hSpace = (ZB_SCREEN_HEIGHT-64-4*100)/5;
         for (int i = 0; i<titleArray.count; i++) {
@@ -107,8 +107,13 @@
         NSArray *array=[NSArray arrayWithObjects:@"清除所有图片缓存",@"清除某一个图片缓存",nil];
         
         for (int i = 0; i<array.count; i++) {
+
+            UIButton *button1=[UIButton buttonWithType:UIButtonTypeCustom];
+            button1.frame=CGRectMake(220, (ZB_SCREEN_HEIGHT+40)+40*i, 140, 30);
             
-            UIButton *button1=[ZBControlTool createButtonWithFrame:CGRectMake(220, (ZB_SCREEN_HEIGHT+40)+40*i, 140, 30) title:[array objectAtIndex:i] target:self action:@selector(button1Clicked:) tag:2000+i];
+            [button1 setTitle:[array objectAtIndex:i] forState:UIControlStateNormal];
+            [button1 addTarget:self action:@selector(button1Clicked:) forControlEvents:UIControlEventTouchUpInside];
+            button1.tag=2000+i;
             [button1 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             button1.backgroundColor=[UIColor brownColor];
             [button1 zb_animatedViewMoveWithUpY:200];//上升
@@ -259,6 +264,12 @@
             [self.imageView1 zb_animatedKeyframes];//关键帧动画
             [self.imageView1 stopAnimating];//暂停
 
+            break;
+        case 114:
+            
+            
+            self.imageView1.tintColor=[UIColor redColor];
+            
             break;
             
         default:

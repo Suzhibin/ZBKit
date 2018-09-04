@@ -60,43 +60,6 @@
     }
 }
 
-//============================================================
-+ (UIButton *)createButtonWithFrame:(CGRect)frame title:(NSString *)title target:(id)target action:(SEL)action tag:(NSInteger)tag{
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    button.frame = frame;
-    button.tag=tag;
-    [button setTitle:title forState:UIControlStateNormal];
-    [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
-    return button;
-}
-
-+ (UILabel *)createLabelWithFrame:(CGRect)frame text:(NSString *)text tag:(NSInteger)tag{
-    UILabel *label = [[UILabel alloc] initWithFrame:frame];
-    label.text = text;
-    label.tag=tag;
-    label.textAlignment=NSTextAlignmentLeft;
-    return label;
-}
-
-// imageName 是一个完整路径
-+ (UIImageView *)createImageViewWithFrame:(CGRect)frame imageString:(NSString *)imageString{
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
-    imageView.image = [UIImage imageNamed:imageString];
-    return imageView;
-}
-
-+ (UITextField *)createTextFieldWithFrame:(CGRect)frame placeHolder:(NSString *)placeHolder borderStyle:(UITextBorderStyle)borderStyle delegate:(id<UITextFieldDelegate>)delegate{
-    UITextField *textField = [[UITextField alloc] initWithFrame:frame];
-    textField.borderStyle = borderStyle;
-    textField.placeholder = placeHolder;
-    textField.textAlignment = NSTextAlignmentLeft;
-    textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    textField.autocorrectionType = UITextAutocorrectionTypeNo;
-    textField.delegate = delegate;
-    textField.clearButtonMode = UITextFieldViewModeAlways;
-    textField.clearsOnBeginEditing = YES;
-    return textField;
-}
 
 
 @end

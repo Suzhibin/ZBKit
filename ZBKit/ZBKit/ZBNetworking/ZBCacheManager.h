@@ -20,14 +20,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "NSFileManager+ZBPathMethod.h"
 
 /** 缓存是否存储成功的Block */
 typedef void(^ZBCacheIsSuccessBlock)(BOOL isSuccess);
 /** 得到缓存的Block */
 typedef void(^ZBCacheValueBlock)(NSData *data,NSString *filePath);
 /** 缓存完成的后续操作Block */
-typedef void(^ZBCacheCompletedBlock)();
+typedef void(^ZBCacheCompletedBlock)(void);
 
 /**
  *  文件管理类:管理文件的路径,创建,存储,编码,显示,删除等功能.
@@ -168,24 +167,6 @@ typedef void(^ZBCacheCompletedBlock)();
 -(NSDictionary* )getDiskFileAttributes:(NSString *)key path:(NSString *)path;
 
 /**
- *  查找存储的文件         默认缓存路径/Library/Caches/ZBKit/AppCache
- *  @param  key         存储的文件
- *
- *  @return 根据存储的文件，返回在本地的存储路径
- */
-- (NSString *)diskCachePathForKey:(NSString *)key;
-
-/**
- 拼接路径与编码后的文件
-
- @param key             文件
- @param path            自定义路径
-
- @return 完整的文件路径
- */
-- (NSString *)cachePathForKey:(NSString *)key path:(NSString *)path;
-
-/**
  * 显示data文件缓存大小 默认缓存路径/Library/Caches/ZBKit/AppCache
  * Get the size used by the disk cache
  */
@@ -293,7 +274,7 @@ typedef void(^ZBCacheCompletedBlock)();
 /**
  *  设置过期时间 清除某一个缓存文件  默认路径/Library/Caches/ZBKit/AppCache
  *  @param key          请求的协议地址
- *  @param time         时间 注:时间前要加 “-” 减号
+ *  @param time         时间 注:时间前已经加了 “-” 减号  不用重复添加
  *  @param completion   block 后续操作
  */
 - (void)clearCacheForkey:(NSString *)key time:(NSTimeInterval)time completion:(ZBCacheCompletedBlock)completion;
@@ -302,7 +283,7 @@ typedef void(^ZBCacheCompletedBlock)();
  *  设置过期时间 清除某一个缓存文件  自定义路径
  *  Remove all expired cached file from disk
  *  @param key          请求的协议地址
- *  @param time         时间 注:时间前要加 “-” 减号
+ *  @param time         时间 时间前已经加了 “-” 减号  不用重复添加
  *  @param path         路径
  *  @param completion   block 后续操作
  */

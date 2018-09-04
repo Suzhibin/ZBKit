@@ -29,12 +29,21 @@
 /**
  *  接口(请求地址)
  */
-@property (nonatomic,copy) NSString * _Nonnull urlString;
+@property (nonatomic,copy) NSString * _Nonnull URLString;
 
 /**
  *  提供给外部配置参数使用
  */
 @property (nonatomic,strong) id __nullable parameters;
+
+/**
+ *  自定义缓存key，在URLString 无法作为缓存key时 使用
+ */
+@property (nonatomic,copy) NSString * customCacheKey;
+/**
+ 过滤parameters 里的随机参数
+ */
+@property (nonatomic,strong) NSArray *parametersfiltrationCacheKey;
 
 /**
  *  设置超时时间  默认15秒
@@ -43,7 +52,7 @@
 @property (nonatomic, assign) NSTimeInterval timeoutInterval;
 
 /**
- *  存储路径 只有下载方法有用
+ *  存储路径 只有下载文件方法有用
  */
 @property (nonatomic,copy,nullable) NSString *downloadSavePath;
 
@@ -168,9 +177,9 @@
 /**
  批量取消请求
 
- @param cancelBlock block 后续操作
+ @param completion block 后续操作
  */
-- (void)cancelbatchRequest:(nullable void (^)())cancelBlock;
+- (void)cancelbatchRequestWithCompletion:(cancelCompletedBlock _Nullable )completion;
 
 @end
 

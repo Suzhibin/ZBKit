@@ -10,13 +10,17 @@
 #import "ZBKit.h"
 #import "ListModel.h"
 #import <YYCache.h>
+#import "NSObject+Caculator.h"
+#import "CalculateMananger.h"
+#import "UIView+Toast.h"
+#import "ZBToastView.h"
 // 主请求路径
 #define budejieURL @"http://api.budejie.com/api/api_open.php"
 @interface SevenViewController (){
     
     YYCache *_dataCache;
 }
-
+@property (nonatomic,strong)NSString *string;
 @end
 
 @implementation SevenViewController
@@ -27,13 +31,35 @@
 
    // [self filter];
     
-    [self request];
+   // [self request];
     
-   [self archive];
+  // [self archive];
     
-
+    [self chainProgramming];
 }
-
+- (void)chainProgramming{
+    
+       NSLog(@"systemTimeZone:%@",[NSTimeZone systemTimeZone]);
+    NSMutableString *str=[NSMutableString string];
+    [str appendString:@"1"];
+    
+    self.string=str;
+    [str appendString:@"2"];
+    str=[NSMutableString stringWithString:@"3"];
+        NSLog(@"self.string:%@",self.string);
+     NSLog(@"str:%@",str);
+   int result= [NSObject makeCaculator:^(CalculateMananger *make) {
+        make.add(5).add(2).sub(3).add(10);
+    }];
+    NSLog(@"result:%d",result);
+    
+//    [UIView makeText:^(ZBToastView *make) {
+//        make.textString(@"你好").backgroundColor([UIColor yellowColor]).textColor([UIColor blackColor]);
+//    }];
+    
+    ZBToastView *toast=[[ZBToastView alloc]init];
+    toast.toastView.textString(@"你好").backgroundColor([UIColor blueColor]).textColor([UIColor blackColor]);
+}
 - (void)archive{
     ListModel *model = [[ListModel alloc] init];
     model.title = @"xiaoBai";
@@ -96,27 +122,27 @@
     NSDictionary *dict=@{@"a":@"tag_recommend",@"c":@"topic",@"action":@"sub"};
     
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
-        request.urlString=budejieURL;
+        request.URLString=budejieURL;
         request.parameters=dict;
         request.apiType=ZBRequestTypeCache;
-    } success:^(id responseObj, apiType type) {
+    } success:^(id responseObj, apiType type,BOOL isCache) {
           NSLog(@"responseObj：%@",responseObj);
         NSDictionary * dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
          ZBKLog(@"requestdict：%@",dict);
         
-    } failed:^(NSError *error) {
+    } failure:^(NSError *error) {
         
     }];
     
     
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
-        request.urlString=budejieURL;
+        request.URLString=budejieURL;
         request.parameters=dict;
-    } success:^(id responseObj, apiType type) {
+    } success:^(id responseObj, apiType type,BOOL isCache) {
         
      //   NSDictionary * dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
         //  NSLog(@"dict：%@",dict);
-    } failed:^(NSError *error) {
+    } failure:^(NSError *error) {
         
     }];
     
@@ -151,15 +177,15 @@
         @"userId":@"ACC53CC3-7B29-4CE4-A9E3-2D3EA7460DF4"};
      
      [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
-     request.urlString=@"http://192.168.33.186:9080/BOSS_APD_WEB/user/information";
+     request.URLString=@"http://192.168.33.186:9080/BOSS_APD_WEB/user/information";
      request.methodType=ZBMethodTypePOST;
      request.parameters=parameters;
-     } success:^(id responseObject, apiType type) {
+     } success:^(id responseObject, apiType type,BOOL isCache) {
       // ZBKLog(@"postresponseObj:%@",responseObject);
      
      NSDictionary * dataDict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         ZBKLog(@"post:%@",dataDict);
-     } failed:^(NSError *error) {
+     } failure:^(NSError *error) {
         NSLog(@"posterror:%@",error);
      }];
     

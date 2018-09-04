@@ -27,13 +27,5 @@
 //改变状态栏背景颜色
 + (void)setStatusBarBackgroundColor:(UIColor *)color;
 
-+ (UIButton *)createButtonWithFrame:(CGRect)frame title:(NSString *)title target:(id)target action:(SEL)action tag:(NSInteger)tag;
-
-+ (UILabel *)createLabelWithFrame:(CGRect)frame text:(NSString *)text tag:(NSInteger)tag;
-
-+ (UIImageView *)createImageViewWithFrame:(CGRect)frame imageString:(NSString *)imageString;
-
-+ (UITextField *)createTextFieldWithFrame:(CGRect)frame placeHolder:(NSString *)placeHolder borderStyle:(UITextBorderStyle)borderStyle delegate:(id<UITextFieldDelegate>)delegat;
-
 
 @end
