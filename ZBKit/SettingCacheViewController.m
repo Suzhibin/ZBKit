@@ -288,20 +288,20 @@ static const NSInteger cacheTime = 30;
     
     if (indexPath.row==16) {
         
-        XPModalConfiguration *configuration = [XPModalConfiguration defaultConfiguration];
-        CGSize contentSize;
-        configuration.direction = XPModalDirectionBottom;
-        //   configuration.enableInteractiveTransitioning = NO;
-        //configuration.enableBackgroundAnimation = YES;
-       // configuration.backgroundColor = [UIColor blueColor];
-        contentSize = CGSizeMake(CGFLOAT_MAX, 300.0);
-        configuration.backgroundOpacity=0.0;
-        // configuration.enableShadow=NO;
+//        XPModalConfiguration *configuration = [XPModalConfiguration defaultConfiguration];
+//        CGSize contentSize;
+//        configuration.direction = XPModalDirectionBottom;
+//        //   configuration.enableInteractiveTransitioning = NO;
+//        //configuration.enableBackgroundAnimation = YES;
+//       // configuration.backgroundColor = [UIColor blueColor];
+//        contentSize = CGSizeMake(CGFLOAT_MAX, 300.0);
+//        configuration.backgroundOpacity=0.0;
+//        // configuration.enableShadow=NO;
         offlineViewController *offlineVC=[[offlineViewController alloc]init];
         offlineVC.delegate=self;
-        [self presentModalWithViewController:offlineVC contentSize:contentSize configuration:configuration completion:nil];
- 
-       // [self.navigationController pushViewController:offlineVC animated:YES];
+//        [self presentModalWithViewController:offlineVC contentSize:contentSize configuration:configuration completion:nil];
+//
+        [self.navigationController pushViewController:offlineVC animated:YES];
     }
 }
 #pragma mark offlineDelegate
