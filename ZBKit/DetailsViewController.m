@@ -11,22 +11,30 @@
 #import <WebKit/WebKit.h>
 #import "DBViewController.h"
 @interface DetailsViewController ()<WKNavigationDelegate,WKUIDelegate,UIScrollViewDelegate>{
- 
+    NSTimer *_timer;
 }
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) UIView *loadingView;
+
 @end
 
 @implementation DetailsViewController
 - (void)dealloc{
     [self removeWKwebViewCache];
+        [_timer invalidate];
     ZBKLog(@"释放%s",__func__);
+}
+- (void)timerClick{
+      ZBKLog(@"计时开始");
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     //美思瑞 Mosonry
-  
+    //[ZBWeakProxy proxyWithTarget:self]
+    _timer=[NSTimer timerWithTimeInterval:2.0 target:self selector:@selector(timerClick) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+
     [self createWebView];
     
     self.loadingView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
@@ -62,24 +70,8 @@
     self.webView.allowsBackForwardNavigationGestures = YES;
      ZBKLog(@"functionType:%zd",self.functionType);
     if (self.functionType==Details) {
-       // NSString *HTMLData = @"<hn>Hello World</hn>";
-        
-       // [self.webView loadHTMLString:HTMLData baseURL:nil];
-        
-        
-        NSURL *url = [NSURL URLWithString:self.model.weburl];
-        NSError *error = nil;
-        NSString *htmlUrl = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
-        NSString * colorString = [NSString stringWithFormat:@"<head><style >body {background:black;}</style>"];
-        NSArray *jsArray = [htmlUrl componentsSeparatedByString:@"<head>"];
-        NSString* jsSource = [jsArray componentsJoinedByString: colorString];
-        NSLog(@"jsSource:%@",jsSource);
-        //  [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
-        NSString *path = [[NSBundle mainBundle] bundlePath];  // 获取当前应用的根目录
-        NSURL *baseURL = [NSURL fileURLWithPath:path];
-        
-        [self.webView loadHTMLString:jsSource baseURL:baseURL];
-      // [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.model.weburl]]];
+
+       [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.model.weburl]]];
 
          [self createToobar];
         
@@ -117,7 +109,6 @@
         sender.selected = YES;
         //收藏数据
         NSLog(@"收藏数据");
-  
         [[ZBCacheManager sharedInstance]storeContent:self.model forKey:self.model.wid path:[self keyedArchivePath] isSuccess:^(BOOL isSuccess) {
             if (isSuccess) {
                 NSLog(@"添加成功");

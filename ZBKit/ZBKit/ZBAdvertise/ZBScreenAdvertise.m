@@ -42,26 +42,27 @@ static NSString *const adUrlName = @"adUrl";
     self = [super init];
     if (self) {
         [[ZBCacheManager sharedInstance]createDirectoryAtPath:[self AdvertiseFilePath]];
+           __weak typeof(self) weakSelf = self;
         ///应用启动, 首次开屏广告
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidFinishLaunchingNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-            [self checkAdvertise];
+            [weakSelf checkAdvertise];
         }];
         ///进入后台
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-            [self requestAdvertise];
-            self.enterBackgroundTimer = [NSTimer scheduledTimerWithTimeInterval:300 target:self selector:@selector(enterBackgroundClick) userInfo:nil repeats:NO];
+            [weakSelf requestAdvertise];
+            weakSelf.enterBackgroundTimer = [NSTimer scheduledTimerWithTimeInterval:300 target:self selector:@selector(enterBackgroundClick) userInfo:nil repeats:NO];
         }];
         ///后台启动,二次开屏广告
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillEnterForegroundNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
      
-            if ([self.enterBackgroundTimer isValid]) {
-                ZBKLog(@"后台进入前台 没有超时");
-                [self.enterBackgroundTimer invalidate];
-                self.enterBackgroundTimer =nil;
-            }else{
+//            if ([weakSelf.enterBackgroundTimer isValid]) {
+//                ZBKLog(@"后台进入前台 没有超时");
+//                [weakSelf.enterBackgroundTimer invalidate];
+//                weakSelf.enterBackgroundTimer =nil;
+//            }else{
                 ZBKLog(@"后台进入前台 超300秒");
-                [self checkAdvertise];
-            }
+                [weakSelf checkAdvertise];
+//            }
         }];
     }
     return self;

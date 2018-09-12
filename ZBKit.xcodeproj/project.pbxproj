@@ -41,6 +41,7 @@
 		7D2AFE662090242000286E16 /* ZBDebugNetWorkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2AFE652090242000286E16 /* ZBDebugNetWorkViewController.m */; };
 		7D2AFE6E20904D9300286E16 /* ZBDebugNetWorkDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2AFE6D20904D9300286E16 /* ZBDebugNetWorkDetailViewController.m */; };
 		7D2AFE7520906A9B00286E16 /* ZBAPPInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2AFE7420906A9B00286E16 /* ZBAPPInfoViewController.m */; };
+		7D2D37E92147AD1A00A73EA0 /* ZBWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2D37E82147AD1A00A73EA0 /* ZBWeakProxy.m */; };
 		7D2EF40F1EA738E9000734F0 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2EF40E1EA738E9000734F0 /* FirstViewController.m */; };
 		7D31A4011E34536400D913A7 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D31A4001E34536400D913A7 /* libsqlite3.tbd */; };
 		7D31A4071E34AF5500D913A7 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D31A4061E34AF5500D913A7 /* SecondViewController.m */; };
@@ -311,6 +312,8 @@
 		7D2AFE6D20904D9300286E16 /* ZBDebugNetWorkDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZBDebugNetWorkDetailViewController.m; sourceTree = "<group>"; };
 		7D2AFE7320906A9B00286E16 /* ZBAPPInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZBAPPInfoViewController.h; sourceTree = "<group>"; };
 		7D2AFE7420906A9B00286E16 /* ZBAPPInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZBAPPInfoViewController.m; sourceTree = "<group>"; };
+		7D2D37E72147AD1A00A73EA0 /* ZBWeakProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZBWeakProxy.h; sourceTree = "<group>"; };
+		7D2D37E82147AD1A00A73EA0 /* ZBWeakProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZBWeakProxy.m; sourceTree = "<group>"; };
 		7D2EF40D1EA738E9000734F0 /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
 		7D2EF40E1EA738E9000734F0 /* FirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
 		7D31A4001E34536400D913A7 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -1087,6 +1090,8 @@
 				7D9D212A1F7F7F8000C8C067 /* ZBGlobalSettingsTool.h */,
 				7D9D212B1F7F7F8000C8C067 /* ZBGlobalSettingsTool.m */,
 				7D5DC1AE1FA712870041E4ED /* ZBAdapterMacros.h */,
+				7D2D37E72147AD1A00A73EA0 /* ZBWeakProxy.h */,
+				7D2D37E82147AD1A00A73EA0 /* ZBWeakProxy.m */,
 			);
 			path = ZBTool;
 			sourceTree = "<group>";
@@ -1654,6 +1659,7 @@
 				7D5961FD1E529D5D00E92F55 /* HomeViewController.m in Sources */,
 				7DD7F1F220A438D7001FA57C /* XPModalConfiguration.m in Sources */,
 				7D9D217A1F7F84B200C8C067 /* UIViewController+ZBAnalytics.m in Sources */,
+				7D2D37E92147AD1A00A73EA0 /* ZBWeakProxy.m in Sources */,
 				7D220DB01E35A40500A29791 /* DetailsViewController.m in Sources */,
 				7D9D21381F7F7F8000C8C067 /* AppDelegate+ZBKit.m in Sources */,
 				7D9D21701F7F813900C8C067 /* ZBCacheManager.m in Sources */,

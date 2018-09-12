@@ -43,6 +43,8 @@
 #import "ZBControlTool.h"
 /**时间助手*/
 #import "ZBDateFormatter.h"
+/*计时器*/
+#import "ZBWeakProxy.h"
 /**自定义Label*/
 #import "ZBLabel.h"
 /**提示框*/
