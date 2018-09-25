@@ -68,6 +68,7 @@
 #import "UIBarButtonItem+ZBKit.h"
 #import "UIViewController+ZBKit.h"
 #import "NSArray+ZBKit.h"
+#import "NSArray+ZBCheck.h"
 /**FPS*/
 #import "YYFPSLabel.h"
 

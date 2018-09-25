@@ -61,22 +61,24 @@
         
     }  success:^(id responseObject,apiType type,BOOL isCache){
         
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSArray *array=[dict objectForKey:@"authors"];
-        for (NSDictionary *dic in array) {
-            MenuModel *model=[[MenuModel alloc]initWithDict:dic];
-            [self.menuArray addObject:model];
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *dict = (NSDictionary *)responseObject;
+            NSArray *array=[dict objectForKey:@"authors"];
+            for (NSDictionary *dic in array) {
+                MenuModel *model=[[MenuModel alloc]initWithDict:dic];
+                [self.menuArray addObject:model];
+            }
+            [self.menuTableView reloadData];
+            // 选中首行
+            [self.menuTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
+            
+            MenuModel *model=[self.menuArray objectAtIndex:0];
+            NSString *url=[NSString stringWithFormat:list_URL,model.wid];
+            
+            [self loadlist: url type:ZBRequestTypeCache];
         }
-        [self.menuTableView reloadData];
-        // 选中首行
-        [self.menuTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
-        
-        MenuModel *model=[self.menuArray objectAtIndex:0];
-        NSString *url=[NSString stringWithFormat:list_URL,model.wid];
-    
-        [self loadlist: url type:ZBRequestTypeCache];
-         
-        
+    //    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+
     } failure:^(NSError *error){
         if (error.code==NSURLErrorCancelled)return;
         if (error.code==NSURLErrorTimedOut){
@@ -95,20 +97,24 @@
 
         [self.listArray removeAllObjects];
         
-        NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSArray *array=[dataDict objectForKey:@"videos"];
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *dataDict = (NSDictionary *)responseObject;
+            NSArray *array=[dataDict objectForKey:@"videos"];
+            
+            for (NSDictionary *dict in array) {
+                ListModel *model=[[ListModel alloc]initWithDict:dict];
+                [self.listArray addObject:model];
+            }
+            [self.listTableView reloadData];
+            [_refreshControl endRefreshing];    //结束刷新
+            if (isCache) {
+                ZBKLog(@"使用了缓存");  [ZBToast showCenterWithText:@"使用了缓存"];
+            }else{
+                ZBKLog(@"重新请求");  [ZBToast showCenterWithText:@"重新请求"];
+            }
+            
+        }
         
-        for (NSDictionary *dict in array) {
-            ListModel *model=[[ListModel alloc]initWithDict:dict];
-            [self.listArray addObject:model];
-        }
-        [self.listTableView reloadData];
-        [_refreshControl endRefreshing];    //结束刷新
-        if (isCache) {
-            ZBKLog(@"使用了缓存");  [ZBToast showCenterWithText:@"使用了缓存"];
-        }else{
-            ZBKLog(@"重新请求");  [ZBToast showCenterWithText:@"重新请求"];
-        }
     } failure:^(NSError *error){
         if (error.code==NSURLErrorCancelled)return;
         if (error.code==NSURLErrorTimedOut){

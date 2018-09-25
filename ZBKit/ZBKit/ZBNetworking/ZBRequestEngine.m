@@ -29,7 +29,7 @@
         self.securityPolicy = [AFSecurityPolicy defaultPolicy];
         self.securityPolicy.allowInvalidCertificates = YES;
         self.securityPolicy.validatesDomainName = NO;
-        /*因为与缓存互通 服务器返回的数据 必须是二进制*/
+        /*因为与缓存互通 服务器返回的数据 此处设置为二进制*/
         self.responseSerializer = [AFHTTPResponseSerializer serializer];
         
         self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json",@"text/json", @"text/plain",@"text/javascript",nil];
@@ -137,7 +137,7 @@
 
 #pragma mark - 其他配置
 - (void)requestSerializerConfig:(ZBURLRequest *)request{
-    self.requestSerializer =request.requestSerializerType==ZBJSONRequestSerializer ? [AFJSONRequestSerializer serializer]:[AFHTTPRequestSerializer serializer];
+    self.requestSerializer =request.requestSerializer==ZBJSONRequestSerializer ? [AFJSONRequestSerializer serializer]:[AFHTTPRequestSerializer serializer];
 }
 
 - (void)headersAndTimeConfig:(ZBURLRequest *)request{

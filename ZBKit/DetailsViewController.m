@@ -32,8 +32,8 @@
     // Do any additional setup after loading the view.
     //美思瑞 Mosonry
     //[ZBWeakProxy proxyWithTarget:self]
-    _timer=[NSTimer timerWithTimeInterval:2.0 target:self selector:@selector(timerClick) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+//    _timer=[NSTimer timerWithTimeInterval:2.0 target:self selector:@selector(timerClick) userInfo:nil repeats:YES];
+//    [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
 
     [self createWebView];
     

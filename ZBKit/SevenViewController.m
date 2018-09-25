@@ -14,6 +14,8 @@
 #import "CalculateMananger.h"
 #import "UIView+Toast.h"
 #import "ZBToastView.h"
+#import "Dog.h"
+#import "NSObject+ZBKVO.h"
 // 主请求路径
 #define budejieURL @"http://api.budejie.com/api/api_open.php"
 @interface SevenViewController (){
@@ -21,6 +23,7 @@
     YYCache *_dataCache;
 }
 @property (nonatomic,strong)NSString *string;
+@property (nonatomic,strong)Dog *d;
 @end
 
 @implementation SevenViewController
@@ -28,14 +31,80 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    int a =10;int b=5;
+    a=a+b;//10+5=153
+    b=a-b;//15-5=10
+    a=a-b;//15-10=5;
+    ZBKLog(@"a:%d  b:%d",a,b);
    // [self filter];
     
-   // [self request];
+ //   [self request];
     
-  // [self archive];
+ //  [self archive];
     
-    [self chainProgramming];
+   // [self chainProgramming];
+   // [self notificat];
+  //  [self KVO];
+    
+    NSMutableArray *array=[[NSMutableArray alloc]init];
+    
+    [array addObject:@"1"];
+    
+    [array objectAtIndexCheck:2];
+    
+}
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+  //  [_d willChangeValueForKey:@"age"];
+    _d.age=111;
+     _d.name=[NSString stringWithFormat:@"%d",31];
+   // [_d didChangeValueForKey:@"age"];
+    
+    
+    //利用kvc观察容器 属性的变化 利用kvc
+    /*
+  NSMutableArray *tempArr=  [_d mutableArrayValueForKey:@"arr"];
+    [tempArr addObject:@"obj"];
+     [tempArr removeAllObjects];
+  //  [_d.arr addObject:@"1"];
+    */
+    
+     [_d.arr addObject:@"3"];
+}
+- (void)KVO{
+    Dog *d=[[Dog alloc]init];
+    d.age=19;
+    d.name=[NSString stringWithFormat:@"%d",1];
+   // [d zb_addObserver:self forKeyPath:@"name" options:NSKeyValueObservingOptionNew context:nil];
+  // [d addObserver:self forKeyPath:@"arr" options:NSKeyValueObservingOptionNew context:nil];
+    
+    [d.arr addObject:@"1"];
+    [d.arr addObject:@"2"];
+    //@count  @max 数组最大值
+
+    _d=d;
+/*
+ kind 的类型
+ NSKeyValueChangeSetting = 1,  set方法
+ NSKeyValueChangeInsertion = 2, 插入方法
+ NSKeyValueChangeRemoval = 3,  删除方法
+ NSKeyValueChangeReplacement = 4,  替换方法
+ */
+}
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+    ZBKLog(@"change:%@",change)
+    
+}
+
+- (void)notificat{
+    NSNotification *not=[NSNotification notificationWithName:@"aaa" object:nil];
+    
+    
+    ZBKLog(@"send bedoer 1:%@",[NSThread currentThread]);
+    NSNotificationQueue *queue=[NSNotificationQueue defaultQueue];
+    [queue enqueueNotification:not postingStyle:NSPostWhenIdle coalesceMask:NSNotificationNoCoalescing forModes:nil];
+    
+    ZBKLog(@"send over 3");
+    ZBKLog(@"currentRunLoop:%@",[NSRunLoop currentRunLoop]);
 }
 - (void)chainProgramming{
     
@@ -57,10 +126,12 @@
 //        make.textString(@"你好").backgroundColor([UIColor yellowColor]).textColor([UIColor blackColor]);
 //    }];
     
-    ZBToastView *toast=[[ZBToastView alloc]init];
-    toast.toastView.textString(@"你好").backgroundColor([UIColor blueColor]).textColor([UIColor blackColor]);
+//    ZBToastView *toast=[[ZBToastView alloc]init];
+//    toast.toastView.textString(@"你好").backgroundColor([UIColor blueColor]).textColor([UIColor blackColor]);
 }
 - (void)archive{
+    
+   // NSObject+ZBkeyedArchive  NSCoding 协议
     ListModel *model = [[ListModel alloc] init];
     model.title = @"xiaoBai";
     model.thumb = @"15";
@@ -180,6 +251,7 @@
      request.URLString=@"http://192.168.33.186:9080/BOSS_APD_WEB/user/information";
      request.methodType=ZBMethodTypePOST;
      request.parameters=parameters;
+        request.requestSerializer=ZBJSONRequestSerializer;
      } success:^(id responseObject, apiType type,BOOL isCache) {
       // ZBKLog(@"postresponseObj:%@",responseObject);
      

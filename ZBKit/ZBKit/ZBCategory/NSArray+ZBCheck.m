@@ -9,14 +9,15 @@
 #import "NSArray+ZBCheck.h"
 
 @implementation NSArray (ZBCheck)
-- (id)objectAtIndexCheck:(NSUInteger)index
-{
+- (id)objectAtIndexCheck:(NSUInteger)index{
     if (index >= [self count]) {
+          NSLog(@"数组 越界");
         return nil;
     }
     
     id value = [self objectAtIndex:index];
     if (value == [NSNull null]) {
+        NSLog(@"数组value= NSNull");
         return nil;
     }
     return value;

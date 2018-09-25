@@ -98,17 +98,21 @@ static NSString *const adUrlName = @"adUrl";
         request.URLString=@"http://192.168.33.186:9080/BOSS_APD_WEB/news/ads/screen_zh_CN";
         request.apiType=ZBRequestTypeRefresh;
     } success:^(id responseObject, apiType type,BOOL isCache) {
-        NSArray  *array = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        if (array.count>0) {
-            for (NSDictionary *dict in array) {
-                NSString *imgUrl=[dict objectForKey:@"imgUrl"];
-                NSString *url=[dict objectForKey:@"url"];
-                NSString *adsTitle=[dict objectForKey:@"adsTitle"];
-                [self downloadAdImageWithUrl:imgUrl url:url title:adsTitle];
+        if ([responseObject isKindOfClass:[NSArray class]]) {
+            NSArray *array = (NSArray *)responseObject;
+            //        NSArray  *array = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+            if (array.count>0) {
+                for (NSDictionary *dict in array) {
+                    NSString *imgUrl=[dict objectForKey:@"imgUrl"];
+                    NSString *url=[dict objectForKey:@"url"];
+                    NSString *adsTitle=[dict objectForKey:@"adsTitle"];
+                    [self downloadAdImageWithUrl:imgUrl url:url title:adsTitle];
+                }
+            }else{
+                [self deleteOldImage];
             }
-        }else{
-            [self deleteOldImage];
         }
+        
     } failure:^(NSError *error) {
         ZBLog(@"error:%@",error);
     }];

@@ -16,9 +16,9 @@
 #import "FiveViewController.h"
 #import "SixViewController.h"
 #import "SevenViewController.h"
-
+#import "EightViewController.h"
 #import "YYFPSLabel.h"
-
+#import "BlockViewController.h"
 #import "ZBDebug.h"
 @interface HomeViewController ()<UINavigationControllerDelegate>
 
@@ -54,6 +54,9 @@
     // 6.设置页面
    // [self add6SectionItems];
     [self add7SectionItems];
+
+    [self add8SectionItems];
+     [self add9SectionItems];
     /*
      //homeViewController
      "homeWebimage"="圖片緩存器/動畫";
@@ -66,7 +69,34 @@
      growingIO Fabric
      */
 }
-
+- (void)add9SectionItems{
+    __weak typeof(self) weakSelf = self;
+    ZBTableItem *blockItem = [ZBTableItem itemWithTitle:@"block" type:ZBTableItemTypeArrow];
+    blockItem.operation = ^{
+        BlockViewController *blockVC=[[BlockViewController alloc]init];
+        [weakSelf.navigationController pushViewController:blockVC animated:YES];
+    };
+    ZBTableGroup *group = [[ZBTableGroup alloc] init];
+    group.items = @[blockItem];
+    group.header=@"block练习";
+    group.headerHeight=35;
+    group.footerHeight=5;
+    [_allGroups addObject:group];
+}
+- (void)add8SectionItems{
+      __weak typeof(self) weakSelf = self;
+    ZBTableItem *requestItem = [ZBTableItem itemWithTitle:@"个人中心" type:ZBTableItemTypeArrow];
+    requestItem.operation = ^{
+        EightViewController *eightVC=[[EightViewController alloc]init];
+        [weakSelf.navigationController pushViewController:eightVC animated:YES];
+    };
+    ZBTableGroup *group = [[ZBTableGroup alloc] init];
+    group.items = @[requestItem];
+    group.header=@"个人中心";
+    group.headerHeight=35;
+    group.footerHeight=5;
+    [_allGroups addObject:group];
+}
 - (void)add0SectionItems{
     __weak typeof(self) weakSelf = self;
     

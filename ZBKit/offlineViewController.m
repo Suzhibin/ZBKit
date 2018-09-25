@@ -37,6 +37,7 @@
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
         request.URLString=menu_URL;
         request.apiType=ZBRequestTypeRefresh;
+        request.responseSerializer=ZBHTTPResponseSerializer;
     } success:^(id responseObj, apiType type,BOOL isCache) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
         

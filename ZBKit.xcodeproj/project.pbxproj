@@ -181,10 +181,12 @@
 		7D6D75481EAF4BC50072F775 /* SevenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6D75471EAF4BC50072F775 /* SevenViewController.m */; };
 		7D6F9F65208DBDCA00657419 /* ZBToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6F9F64208DBDCA00657419 /* ZBToast.m */; };
 		7D6F9F68208DC21000657419 /* ZBSuspensionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6F9F67208DC21000657419 /* ZBSuspensionView.m */; };
+		7D801D6721509932008FE0D5 /* NSObject+ZBKVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D801D6621509932008FE0D5 /* NSObject+ZBKVO.m */; };
 		7D81AFCB20B27C5F006F390A /* NSString+ZBUTF8Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D81AFCA20B27C5F006F390A /* NSString+ZBUTF8Encoding.m */; };
 		7D87AF311F998DB900B69BAD /* NSObject+ZBkeyedArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D87AF301F998DB900B69BAD /* NSObject+ZBkeyedArchive.m */; };
 		7D9006A720B6BBA200AB8FD3 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9006A620B6BBA200AB8FD3 /* UIView+Toast.m */; };
 		7D9006AA20B6C33300AB8FD3 /* ZBToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9006A920B6C33300AB8FD3 /* ZBToastView.m */; };
+		7D9132D921539AA500BAB3D1 /* EightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9132D821539AA500BAB3D1 /* EightViewController.m */; };
 		7D98E43B20294F45003B1C9B /* NSDictionary+ZBKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D98E43A20294F45003B1C9B /* NSDictionary+ZBKit.m */; };
 		7D9D212F1F7F7F8000C8C067 /* rainData.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D9D20D61F7F7F8000C8C067 /* rainData.json */; };
 		7D9D21301F7F7F8000C8C067 /* UIView+ZBAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9D20D81F7F7F8000C8C067 /* UIView+ZBAnimation.m */; };
@@ -226,6 +228,7 @@
 		7D9D21761F7F817600C8C067 /* ZBLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9D21751F7F817600C8C067 /* ZBLabel.m */; };
 		7D9D217A1F7F84B200C8C067 /* UIViewController+ZBAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9D21791F7F84B100C8C067 /* UIViewController+ZBAnalytics.m */; };
 		7D9D217D1F7F84DF00C8C067 /* ZBScreenAdvertise.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9D217B1F7F84DF00C8C067 /* ZBScreenAdvertise.m */; };
+		7DB8C3C6214FADD500E1E24F /* Dog.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB8C3C5214FADD500E1E24F /* Dog.m */; };
 		7DC006871E6816090047213C /* SixViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC006861E6816090047213C /* SixViewController.m */; };
 		7DD0B43E1E65692000E5634E /* StorageSpaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD0B43D1E65692000E5634E /* StorageSpaceViewController.m */; };
 		7DD7F1F020A438D7001FA57C /* UIViewController+XPModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD7F1E520A438D7001FA57C /* UIViewController+XPModal.m */; };
@@ -241,6 +244,7 @@
 		7DD9D6271E27820D00CFA0A9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7DD9D6251E27820D00CFA0A9 /* LaunchScreen.storyboard */; };
 		7DD9D6321E27820E00CFA0A9 /* ZBKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD9D6311E27820E00CFA0A9 /* ZBKitTests.m */; };
 		7DD9D63D1E27820E00CFA0A9 /* ZBKitUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD9D63C1E27820E00CFA0A9 /* ZBKitUITests.m */; };
+		7DEF9AB92159D016002BFD80 /* BlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DEF9AB82159D016002BFD80 /* BlockViewController.m */; };
 		7DF9915C1E48893600F0071D /* DBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF9915B1E48893600F0071D /* DBViewController.m */; };
 		7DFD7B421E306C1C00E38B8D /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFD7B411E306C1C00E38B8D /* BaseViewController.m */; };
 		93D1664BA27A8E5D9B6658C2 /* libPods-ZBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC7A090E6668FB7B3DBB751 /* libPods-ZBKit.a */; };
@@ -477,6 +481,8 @@
 		7D6F9F64208DBDCA00657419 /* ZBToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBToast.m; sourceTree = "<group>"; };
 		7D6F9F66208DC21000657419 /* ZBSuspensionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZBSuspensionView.h; sourceTree = "<group>"; };
 		7D6F9F67208DC21000657419 /* ZBSuspensionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZBSuspensionView.m; sourceTree = "<group>"; };
+		7D801D6521509932008FE0D5 /* NSObject+ZBKVO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+ZBKVO.h"; sourceTree = "<group>"; };
+		7D801D6621509932008FE0D5 /* NSObject+ZBKVO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ZBKVO.m"; sourceTree = "<group>"; };
 		7D81AFC920B27C5F006F390A /* NSString+ZBUTF8Encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+ZBUTF8Encoding.h"; sourceTree = "<group>"; };
 		7D81AFCA20B27C5F006F390A /* NSString+ZBUTF8Encoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+ZBUTF8Encoding.m"; sourceTree = "<group>"; };
 		7D87AF2F1F998DB900B69BAD /* NSObject+ZBkeyedArchive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+ZBkeyedArchive.h"; sourceTree = "<group>"; };
@@ -486,6 +492,8 @@
 		7D9006A620B6BBA200AB8FD3 /* UIView+Toast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
 		7D9006A820B6C33300AB8FD3 /* ZBToastView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZBToastView.h; sourceTree = "<group>"; };
 		7D9006A920B6C33300AB8FD3 /* ZBToastView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZBToastView.m; sourceTree = "<group>"; };
+		7D9132D721539AA500BAB3D1 /* EightViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EightViewController.h; sourceTree = "<group>"; };
+		7D9132D821539AA500BAB3D1 /* EightViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EightViewController.m; sourceTree = "<group>"; };
 		7D98E43920294F45003B1C9B /* NSDictionary+ZBKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+ZBKit.h"; sourceTree = "<group>"; };
 		7D98E43A20294F45003B1C9B /* NSDictionary+ZBKit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+ZBKit.m"; sourceTree = "<group>"; };
 		7D9D20D61F7F7F8000C8C067 /* rainData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rainData.json; sourceTree = "<group>"; };
@@ -567,6 +575,8 @@
 		7D9D21791F7F84B100C8C067 /* UIViewController+ZBAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ZBAnalytics.m"; sourceTree = "<group>"; };
 		7D9D217B1F7F84DF00C8C067 /* ZBScreenAdvertise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBScreenAdvertise.m; sourceTree = "<group>"; };
 		7D9D217C1F7F84DF00C8C067 /* ZBScreenAdvertise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBScreenAdvertise.h; sourceTree = "<group>"; };
+		7DB8C3C4214FADD500E1E24F /* Dog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dog.h; sourceTree = "<group>"; };
+		7DB8C3C5214FADD500E1E24F /* Dog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Dog.m; sourceTree = "<group>"; };
 		7DC006851E6816090047213C /* SixViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SixViewController.h; sourceTree = "<group>"; };
 		7DC006861E6816090047213C /* SixViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SixViewController.m; sourceTree = "<group>"; };
 		7DD0B43C1E65692000E5634E /* StorageSpaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StorageSpaceViewController.h; sourceTree = "<group>"; };
@@ -598,6 +608,8 @@
 		7DD9D6381E27820E00CFA0A9 /* ZBKitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZBKitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DD9D63C1E27820E00CFA0A9 /* ZBKitUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZBKitUITests.m; sourceTree = "<group>"; };
 		7DD9D63E1E27820E00CFA0A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7DEF9AB72159D016002BFD80 /* BlockViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlockViewController.h; sourceTree = "<group>"; };
+		7DEF9AB82159D016002BFD80 /* BlockViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlockViewController.m; sourceTree = "<group>"; };
 		7DF9915A1E48893600F0071D /* DBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBViewController.h; sourceTree = "<group>"; };
 		7DF9915B1E48893600F0071D /* DBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBViewController.m; sourceTree = "<group>"; };
 		7DFD7B401E306C1C00E38B8D /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
@@ -1212,6 +1224,14 @@
 				7DC006861E6816090047213C /* SixViewController.m */,
 				7D6D75461EAF4BC50072F775 /* SevenViewController.h */,
 				7D6D75471EAF4BC50072F775 /* SevenViewController.m */,
+				7D9132D721539AA500BAB3D1 /* EightViewController.h */,
+				7D9132D821539AA500BAB3D1 /* EightViewController.m */,
+				7DEF9AB72159D016002BFD80 /* BlockViewController.h */,
+				7DEF9AB82159D016002BFD80 /* BlockViewController.m */,
+				7D801D6521509932008FE0D5 /* NSObject+ZBKVO.h */,
+				7D801D6621509932008FE0D5 /* NSObject+ZBKVO.m */,
+				7DB8C3C4214FADD500E1E24F /* Dog.h */,
+				7DB8C3C5214FADD500E1E24F /* Dog.m */,
 				7DFBAB8A1EC5737D00F0239D /* SettingViewController */,
 				7D57D6561E3755C200529558 /* adData.plist */,
 				7D57D6581E3761F400529558 /* adData2.plist */,
@@ -1601,6 +1621,7 @@
 				7D9D21371F7F7F8000C8C067 /* ZBCarouselView.m in Sources */,
 				7D3EBBE720AD7C6E0047F955 /* NSObject+Caculator.m in Sources */,
 				7DD9D61F1E27820D00CFA0A9 /* ViewController.m in Sources */,
+				7DEF9AB92159D016002BFD80 /* BlockViewController.m in Sources */,
 				7D81AFCB20B27C5F006F390A /* NSString+ZBUTF8Encoding.m in Sources */,
 				7D9D214F1F7F7F8000C8C067 /* ZBTabBarItem.m in Sources */,
 				7DD9D61C1E27820D00CFA0A9 /* AppDelegate.m in Sources */,
@@ -1663,7 +1684,10 @@
 				7D220DB01E35A40500A29791 /* DetailsViewController.m in Sources */,
 				7D9D21381F7F7F8000C8C067 /* AppDelegate+ZBKit.m in Sources */,
 				7D9D21701F7F813900C8C067 /* ZBCacheManager.m in Sources */,
+				7DB8C3C6214FADD500E1E24F /* Dog.m in Sources */,
 				7D9006AA20B6C33300AB8FD3 /* ZBToastView.m in Sources */,
+				7D9132D921539AA500BAB3D1 /* EightViewController.m in Sources */,
+				7D801D6721509932008FE0D5 /* NSObject+ZBKVO.m in Sources */,
 				7D9D21391F7F7F8000C8C067 /* NSDate+ZBKit.m in Sources */,
 				7D3A6BF7208EFF0700C173CF /* ZBFileModel.m in Sources */,
 				7D9D21301F7F7F8000C8C067 /* UIView+ZBAnimation.m in Sources */,

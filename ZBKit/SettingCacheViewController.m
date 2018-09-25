@@ -323,6 +323,7 @@ static const NSInteger cacheTime = 30;
         for (NSString *urlString in offlineArray) {
             ZBURLRequest *request=[[ZBURLRequest alloc]init];
             request.URLString=urlString;
+            request.responseSerializer=ZBHTTPResponseSerializer;
             [batchRequest.urlArray addObject:request];
         }
     }  success:^(id responseObj,apiType type,BOOL isCache){
