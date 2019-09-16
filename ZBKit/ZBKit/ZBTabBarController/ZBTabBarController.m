@@ -241,8 +241,8 @@
         
     } success:^(id responseObj, apiType type,BOOL isCache) {
         
-        NSDictionary  *Obj = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
-        NSArray *resultsArray = Obj[@"results"];
+        //NSDictionary  *Obj = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
+        NSArray *resultsArray = responseObj[@"results"];
         
         for (NSDictionary *dic in resultsArray) {
             //                NSString *cityName = dic[@"location"][@"name"];

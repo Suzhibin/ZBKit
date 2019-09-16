@@ -40,13 +40,14 @@
     [self loadData:menu_URL];
 }
 - (void)loadData:(NSString *)url{
+
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
         request.URLString=url;
         request.apiType=ZBRequestTypeCache;
     } success:^(id responseObj, apiType type,BOOL isCache) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
-        
-        NSArray *array=[dict objectForKey:@"authors"];
+       // NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
+        [self.dataArray removeAllObjects];
+        NSArray *array=[responseObj objectForKey:@"authors"];
         
         for (NSDictionary *dic in array) {
             MenuModel *model=[[MenuModel alloc]init];
@@ -108,7 +109,7 @@
 //懒加载
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 44,ZB_SCREEN_WIDTH , ZB_SCREEN_HEIGHT-(ZB_STATUS_HEIGHT+ZB_TABBAR_HEIGHT+44)) style:UITableViewStylePlain];
+        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 44,ZB_SCREEN_WIDTH , ZB_SCREEN_HEIGHT-(ZB_STATUS_HEIGHT+ZB_TABBAR_HEIGHT+ZB_NAVBAR_HEIGHT+44)) style:UITableViewStylePlain];
         _tableView.backgroundColor=[UIColor blackColor];
         _tableView.delegate=self;
         _tableView.dataSource=self;

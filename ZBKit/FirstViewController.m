@@ -162,7 +162,7 @@
         FLAnimatedImageView *FLView = [[FLAnimatedImageView alloc]init];
         FLView.frame = CGRectMake(0, 0, 44, 44);
         [cell.contentView addSubview:FLView];
-    
+        NSLog(@"model.thumb:%@",model.thumb);
         [FLView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]]];
         
        // [ cell.imageView zb_original:model.thumb thumbnail:model.thumb placeholder:[NSBundle zb_placeholder]];

@@ -11,7 +11,8 @@
 
 
 @interface ZBControlTool : NSObject
-
+//按屏幕比例算出view高度
++ (CGFloat)viewHeightWithViewOldWidth:(CGFloat)viewOldWidth viewOldHeight:(CGFloat)viewOldHeight viewNewWidth:(CGFloat)viewNewWidth;
 //字符串高亮
 + (NSMutableAttributedString *)AttributedString:(NSString *)string range:(NSUInteger)range lengthString:(NSString *)lengthString;
 

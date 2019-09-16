@@ -22,6 +22,7 @@ static const CGFloat u = 1000.0;
        _fileOperationQueue = dispatch_queue_create("com.dispatch.ZBFileModel", DISPATCH_QUEUE_SERIAL);
   
         self.URL = URL;
+        NSLog(@"lastPathComponent:%@",URL.lastPathComponent);
         self.fileName = URL.lastPathComponent;
         self.attributes = [self attributesWithFileURL:URL];
      

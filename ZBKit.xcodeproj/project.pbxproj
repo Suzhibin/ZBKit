@@ -248,6 +248,8 @@
 		7DF9915C1E48893600F0071D /* DBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF9915B1E48893600F0071D /* DBViewController.m */; };
 		7DFD7B421E306C1C00E38B8D /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFD7B411E306C1C00E38B8D /* BaseViewController.m */; };
 		93D1664BA27A8E5D9B6658C2 /* libPods-ZBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC7A090E6668FB7B3DBB751 /* libPods-ZBKit.a */; };
+		9F697C4522CC85BF001F9C91 /* UIScrollView+ZBKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F697C4422CC85BF001F9C91 /* UIScrollView+ZBKit.m */; };
+		9F8F1E88230AAA0C0093EBB5 /* UIButton+ZBKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F8F1E87230AAA0C0093EBB5 /* UIButton+ZBKit.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -615,6 +617,10 @@
 		7DFD7B401E306C1C00E38B8D /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		7DFD7B411E306C1C00E38B8D /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		9F0201619D9037371B53A2DD /* Pods-ZBKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZBKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZBKit/Pods-ZBKit.debug.xcconfig"; sourceTree = "<group>"; };
+		9F697C4322CC85BF001F9C91 /* UIScrollView+ZBKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+ZBKit.h"; sourceTree = "<group>"; };
+		9F697C4422CC85BF001F9C91 /* UIScrollView+ZBKit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+ZBKit.m"; sourceTree = "<group>"; };
+		9F8F1E86230AAA0C0093EBB5 /* UIButton+ZBKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+ZBKit.h"; sourceTree = "<group>"; };
+		9F8F1E87230AAA0C0093EBB5 /* UIButton+ZBKit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+ZBKit.m"; sourceTree = "<group>"; };
 		B6C69C13416B9D701F068A51 /* Pods-ZBKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZBKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZBKit/Pods-ZBKit.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1022,6 +1028,10 @@
 				7D5DC1B11FA72A0D0041E4ED /* UIImageView+ZBReachability.m */,
 				7D98E43920294F45003B1C9B /* NSDictionary+ZBKit.h */,
 				7D98E43A20294F45003B1C9B /* NSDictionary+ZBKit.m */,
+				9F697C4322CC85BF001F9C91 /* UIScrollView+ZBKit.h */,
+				9F697C4422CC85BF001F9C91 /* UIScrollView+ZBKit.m */,
+				9F8F1E86230AAA0C0093EBB5 /* UIButton+ZBKit.h */,
+				9F8F1E87230AAA0C0093EBB5 /* UIButton+ZBKit.m */,
 			);
 			path = ZBCategory;
 			sourceTree = "<group>";
@@ -1404,6 +1414,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 				"zh-Hans",
@@ -1639,6 +1650,7 @@
 				7D2A270A1EB9644C004C09B4 /* LanguageViewController.m in Sources */,
 				7D2EF40F1EA738E9000734F0 /* FirstViewController.m in Sources */,
 				7D6D75481EAF4BC50072F775 /* SevenViewController.m in Sources */,
+				9F697C4522CC85BF001F9C91 /* UIScrollView+ZBKit.m in Sources */,
 				7D9D21331F7F7F8000C8C067 /* ZBLocalized.m in Sources */,
 				7D2AFE6E20904D9300286E16 /* ZBDebugNetWorkDetailViewController.m in Sources */,
 				7D6F9F65208DBDCA00657419 /* ZBToast.m in Sources */,
@@ -1651,6 +1663,7 @@
 				7D9D21761F7F817600C8C067 /* ZBLabel.m in Sources */,
 				7D9D21351F7F7F8000C8C067 /* NSBundle+ZBKit.m in Sources */,
 				7D9D21311F7F7F8000C8C067 /* ZBChart.m in Sources */,
+				9F8F1E88230AAA0C0093EBB5 /* UIButton+ZBKit.m in Sources */,
 				7D9D21441F7F7F8000C8C067 /* UIImageView+ZBWebCache.m in Sources */,
 				7D9D213D1F7F7F8000C8C067 /* UIView+ZBKit.m in Sources */,
 				7D9D213B1F7F7F8000C8C067 /* UIBarButtonItem+ZBKit.m in Sources */,

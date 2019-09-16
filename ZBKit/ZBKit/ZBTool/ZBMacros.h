@@ -28,6 +28,10 @@
 //屏幕高
 #define ZB_SCREEN_HEIGHT               ([UIScreen mainScreen].bounds.size.height)
 
+#define ZB_TABBAR_HEIGHT   CGRectGetHeight(self.tabBarController.tabBar.frame)
+#define ZB_NAVBAR_HEIGHT       self.navigationController.navigationBar.frame.size.height
+#define ZB_STATUS_HEIGHT  [[UIApplication sharedApplication] statusBarFrame].size.height
+
 //是否为ios7
 #define is_ios7  [[[UIDevice currentDevice]systemVersion]floatValue]>=7
 
@@ -57,9 +61,6 @@
 #define k_Height_TabBar ((IS_IPHONE_X==YES || IS_IPHONE_Xr ==YES || IS_IPHONE_Xs== YES || IS_IPHONE_Xs_Max== YES) ? 83.0 : 49.0)
 
 
-#define ZB_TABBAR_HEIGHT   CGRectGetHeight(self.tabBarController.tabBar.frame)
-
-#define ZB_STATUS_HEIGHT  [[UIApplication sharedApplication] statusBarFrame].size.height
 
 #define random(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)/255.0]
 //随机颜色

@@ -12,7 +12,12 @@
 
 @implementation ZBControlTool
 
++ (CGFloat)viewHeightWithViewOldWidth:(CGFloat)viewOldWidth viewOldHeight:(CGFloat)viewOldHeight viewNewWidth:(CGFloat)viewNewWidth{
 
+    CGFloat viewNewHeight=0;
+    viewNewHeight=1.0f*viewOldHeight/viewOldWidth*viewNewWidth;
+    return viewNewHeight;
+}
 + (NSMutableAttributedString *)AttributedString:(NSString *)string range:(NSUInteger)range lengthString:(NSString *)lengthString{
     
     NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:string];

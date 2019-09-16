@@ -32,18 +32,20 @@
         request.apiType=ZBRequestTypeRefresh;
     } success:^(id responseObject, apiType type,BOOL isCache) {
         self.timeLabel.text=[NSString stringWithFormat:@"请求时间:%.2f 秒", CFAbsoluteTimeGetCurrent() - start];
- 
-        NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        self.contentTextView.text=[NSString stringWithFormat:@"%@",dataDict];
+
+        self.contentTextView.text=[NSString stringWithFormat:@"%@",responseObject];
         self.codeLabel.text=@"请求成功";
         self.timeLabel.textColor=[UIColor greenColor];
         self.codeLabel.textColor=[UIColor greenColor];
     } failure:^(NSError *error) {
         if (error.code==NSURLErrorCancelled)return;
         if (error.code==NSURLErrorTimedOut) {
+    
+            self.timeLabel.text=@"code:-1001";
             self.codeLabel.text=@"请求超时";
         }else{
-            self.codeLabel.text=[NSString stringWithFormat:@"%ld",error.code];
+            self.timeLabel.text=[NSString stringWithFormat:@"code:%ld",error.code];
+            self.codeLabel.text=@"请求失败";
         }
         self.codeLabel.textColor=[UIColor redColor];
         self.timeLabel.textColor=[UIColor redColor];

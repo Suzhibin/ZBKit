@@ -27,11 +27,32 @@
     self.view.backgroundColor=[UIColor blackColor];
 
     [self leftButton];
-    
+    [self rightButton];
     self.dataArray= [self getDiskFileWithURL:self.model.URL];
     ZBKLog(@"self.dataArray:%@",self.dataArray);
     [self.view addSubview:self.sandboxTableView];
     [self.sandboxTableView reloadData];
+    
+   
+}
+- (void)rightButton{
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sandbox" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil] style:UIBarButtonItemStyleDone target:self action:@selector(rightEdit)];
+    rightItem.tintColor = [UIColor colorWithRed:66/255.0 green:212/255.0 blue:89/255.0 alpha:1.0];
+    self.navigationController.topViewController.navigationItem.rightBarButtonItem = rightItem;
+}
+- (void)rightEdit{
+    for (ZBFileModel *model in self.dataArray) {
+        if (model.fileName==nil||[model.fileName isEqualToString:@""]) {
+           
+            if ([model.fileName hasSuffix:@"jpg"]||[model.fileName hasSuffix:@"png"]) {
+                
+            }else{
+                [model.fileName stringByAppendingString:@".png"];
+            }
+        }
+        
+    }
+     [self.sandboxTableView reloadData];
 }
 - (NSMutableArray *)getDiskFileWithURL:(NSURL *)URL{
     NSMutableArray *array=[[NSMutableArray alloc]init];
@@ -40,9 +61,16 @@
     if (isExists && isDir) {
         NSError *error;
         NSArray *subpaths = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:URL.path error:&error];
+      
         if (!error){
+            NSString *lastPathComponent;
             for (NSString *subpath in subpaths) {
-                ZBKLog(@"subpath:%@",[URL URLByAppendingPathComponent:subpath]);
+                ZBKLog(@"URL:%@ subpath:%@",URL,subpath);
+//                if ([URL.absoluteString hasSuffix:@"com.hackemist.SDWebImageCache.default/"]) {
+//                   lastPathComponent=[subpath stringByAppendingString:@".png"];
+//                }else{
+                    lastPathComponent=subpath;
+              //  }
                 ZBFileModel *model=[[ZBFileModel alloc]initWithFileURL:[URL URLByAppendingPathComponent:subpath]];
                 [array addObject:model];
             }
@@ -113,7 +141,7 @@
 //懒加载
 - (UITableView *)sandboxTableView{
     if (!_sandboxTableView) {
-        _sandboxTableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, ZB_SCREEN_WIDTH, ZB_SCREEN_HEIGHT) style:UITableViewStylePlain];
+        _sandboxTableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, ZB_SCREEN_WIDTH, ZB_SCREEN_HEIGHT-ZB_TABBAR_HEIGHT-ZB_NAVBAR_HEIGHT-ZB_STATUS_HEIGHT) style:UITableViewStylePlain];
         _sandboxTableView.delegate=self;
         _sandboxTableView.dataSource=self;
         _sandboxTableView.tableFooterView=[[UIView alloc]init];
