@@ -97,7 +97,7 @@ static NSString *const adUrlName = @"adUrl";
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
         request.URLString=@"http://192.168.33.186:9080/BOSS_APD_WEB/news/ads/screen_zh_CN";
         request.apiType=ZBRequestTypeRefresh;
-    } success:^(id responseObject, apiType type,BOOL isCache) {
+    } success:^(id responseObject, ZBURLRequest *request) {
         if ([responseObject isKindOfClass:[NSArray class]]) {
             NSArray *array = (NSArray *)responseObject;
             //        NSArray  *array = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
@@ -114,7 +114,7 @@ static NSString *const adUrlName = @"adUrl";
         }
         
     } failure:^(NSError *error) {
-        ZBLog(@"error:%@",error);
+        NSLog(@"error:%@",error);
     }];
     
 }

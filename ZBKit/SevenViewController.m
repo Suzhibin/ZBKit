@@ -196,7 +196,7 @@
         request.URLString=budejieURL;
         request.parameters=dict;
         request.apiType=ZBRequestTypeCache;
-    } success:^(id responseObj, apiType type,BOOL isCache) {
+    } success:^(id responseObj, ZBURLRequest *request) {
           NSLog(@"responseObj：%@",responseObj);
         NSDictionary * dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
          ZBKLog(@"requestdict：%@",dict);
@@ -209,7 +209,7 @@
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
         request.URLString=budejieURL;
         request.parameters=dict;
-    } success:^(id responseObj, apiType type,BOOL isCache) {
+    } success:^(id responseObj,ZBURLRequest *request) {
         
      //   NSDictionary * dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
         //  NSLog(@"dict：%@",dict);
@@ -252,7 +252,7 @@
      request.methodType=ZBMethodTypePOST;
      request.parameters=parameters;
         request.requestSerializer=ZBJSONRequestSerializer;
-     } success:^(id responseObject, apiType type,BOOL isCache) {
+     } success:^(id responseObject, ZBURLRequest *request) {
       // ZBKLog(@"postresponseObj:%@",responseObject);
      
      NSDictionary * dataDict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];

@@ -59,7 +59,7 @@
         request.URLString=menu_URL;
         request.apiType=ZBRequestTypeRefresh;
         
-    }  success:^(id responseObject,apiType type,BOOL isCache){
+    }  success:^(id responseObject,ZBURLRequest *request){
         
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             NSDictionary *dict = (NSDictionary *)responseObject;
@@ -77,7 +77,6 @@
             
             [self loadlist: url type:ZBRequestTypeCache];
         }
-    //    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
 
     } failure:^(NSError *error){
         if (error.code==NSURLErrorCancelled)return;
@@ -88,12 +87,12 @@
         }
     }];
 }
-- (void)loadlist:(NSString *)listUrl type:(apiType)type{
+- (void)loadlist:(NSString *)listUrl type:(ZBApiType)type{
        
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request){
         request.URLString=listUrl;
         request.apiType=type;
-    }  success:^(id responseObject,apiType type,BOOL isCache){
+    }  success:^(id responseObject,ZBURLRequest *request){
 
         [self.listArray removeAllObjects];
         
@@ -107,7 +106,7 @@
             }
             [self.listTableView reloadData];
             [_refreshControl endRefreshing];    //结束刷新
-            if (isCache) {
+            if (request.isCache) {
                 ZBKLog(@"使用了缓存");  [ZBToast showCenterWithText:@"使用了缓存"];
             }else{
                 ZBKLog(@"重新请求");  [ZBToast showCenterWithText:@"重新请求"];
@@ -233,7 +232,7 @@
         MenuModel *model= self.menuArray[[[self.menuTableView indexPathForSelectedRow] row]];
         NSString *url=[NSString stringWithFormat:list_URL,model.wid];
         
-        [self loadlist: url type:ZBRequestTypeRefresh];
+        [self loadlist: url type:ZBRequestTypeRefreshAndCache];
         
         _refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉刷新..."];
         /**

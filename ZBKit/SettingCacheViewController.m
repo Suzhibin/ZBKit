@@ -14,6 +14,7 @@
 #import <SDImageCache.h>
 #import <SDWebImageManager.h>
 #import "UIViewController+XPModal.h"
+#import "MenuModel.h"
 static const NSInteger cacheTime = 30;
 @interface SettingCacheViewController ()<UITableViewDelegate,UITableViewDataSource,offlineDelegate>
 @property (nonatomic,copy)NSString *imagePath;
@@ -318,15 +319,15 @@ static const NSInteger cacheTime = 30;
 #pragma mark - AFNetworking
 - (void)requestOffline:(NSMutableArray *)offlineArray{
     
-    self.batchRequest =[ZBRequestManager sendBatchRequest:^(ZBBatchRequest *  batchRequest){
+    [ZBRequestManager sendBatchRequest:^(ZBBatchRequest *  batchRequest){
         
-        for (NSString *urlString in offlineArray) {
+        for (MenuModel *model in offlineArray) {
             ZBURLRequest *request=[[ZBURLRequest alloc]init];
-            request.URLString=urlString;
+            request.URLString=[NSString stringWithFormat:list_URL,model.wid];;
             request.responseSerializer=ZBHTTPResponseSerializer;
-            [batchRequest.urlArray addObject:request];
+            [batchRequest.requestArray addObject:request];
         }
-    }  success:^(id responseObj,apiType type,BOOL isCache){
+    }  success:^(id responseObj,ZBURLRequest *request){
    
         NSLog(@"添加了几个url请求  就会走几遍");
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
@@ -380,15 +381,8 @@ static const NSInteger cacheTime = 30;
 }
 
 - (void)cancelClick{
-    
-    [self.batchRequest cancelbatchRequestWithCompletion:^(BOOL results, NSString *urlString) {
-        if (results==YES) {
-            NSLog(@"取消下载请求:%d URL:%@",results,urlString);
-        }else{
-            NSLog(@"已经请求完毕无法取消");
-        }
-    }];//取消所有网络请求
-    
+   //取消所有网络请求
+    [ZBRequestManager cancelAllRequest];
     [[SDWebImageManager sharedManager] cancelAll];//取消图片下载
 
     NSLog(@"取消下载");

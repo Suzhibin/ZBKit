@@ -13,8 +13,7 @@
 @interface offlineViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)NSMutableArray *dataArray;
-
-@property (nonatomic,strong)ZBBatchRequest *batchRequest;
+@property (nonatomic,strong)NSMutableArray *offlineArray;
 @end
 
 @implementation offlineViewController
@@ -22,7 +21,6 @@
     [super viewDidDisappear:animated];
     
     NSLog(@"离开页面时 清空容器");
-    [self.batchRequest removeBatchArray];
     
     [self.delegate reloadJsonNumber];
 }
@@ -31,14 +29,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.dataArray=[[NSMutableArray alloc]init];
-    
-    self.batchRequest=[[ZBBatchRequest alloc]init];
-    
+
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
         request.URLString=menu_URL;
         request.apiType=ZBRequestTypeRefresh;
         request.responseSerializer=ZBHTTPResponseSerializer;
-    } success:^(id responseObj, apiType type,BOOL isCache) {
+    } success:^(id responseObj,ZBURLRequest *request) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
         
         NSArray *array=[dict objectForKey:@"authors"];
@@ -91,36 +87,35 @@
 
 - (void)switchValueChanged:(UISwitch *)sw{
     MenuModel *model=[self.dataArray objectAtIndex:sw.tag];
-    NSString *url=[NSString stringWithFormat:list_URL,model.wid];
-    
+   // NSString *url=[NSString stringWithFormat:list_URL,model.wid];
     if (sw.isOn == YES) {
         //添加请求列队
-        [self.batchRequest addObjectWithUrl:url];
-        [self.batchRequest addObjectWithKey:model.name];
-         ZBKLog(@"离线请求的url:%@",self.batchRequest.batchUrlArray);
+        if ([self.offlineArray containsObject:model]==NO) {
+             [self.offlineArray addObject:model];
+        }
     }else{
         //删除请求列队
-        [self.batchRequest removeObjectWithUrl:url];
-        [self.batchRequest removeObjectWithKey:model.name];
-        ZBKLog(@"离线请求的url:%@",self.batchRequest.batchUrlArray);
+        if ([self.offlineArray containsObject:model]==YES) {
+             [self.offlineArray removeObject:model];
+        }
     }
 }
 
 - (void)offlineBtnClick{
     
-    if (self.batchRequest.batchUrlArray.count==0) {
+    if (self.offlineArray.count==0) {
         
         [self alertTitle:@"请添加栏目" andMessage:@""];
         
     }else{
         
-         ZBKLog(@"离线请求的栏目/url个数:%lu",self.batchRequest.batchUrlArray.count);
+         ZBKLog(@"离线请求的栏目/url个数:%lu",self.offlineArray.count);
         
-        for (NSString *name in self.batchRequest.batchKeyArray) {
-            NSLog(@"离线请求的name:%@",name);
+        for (MenuModel *model in self.offlineArray) {
+            NSLog(@"离线请求的name:%@",model.name);
         }
         
-        [self.delegate downloadWithArray:self.batchRequest.batchUrlArray];
+        [self.delegate downloadWithArray:self.offlineArray];
         
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -135,7 +130,12 @@
     }
     return _tableView;
 }
-
+- (NSMutableArray *)offlineArray{
+    if (!_offlineArray) {
+        _offlineArray=[[NSMutableArray alloc]init];
+    }
+    return _offlineArray;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

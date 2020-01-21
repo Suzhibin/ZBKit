@@ -36,6 +36,33 @@
 
 @end
 @implementation ZBWeatherView
+// 当视图添加子视图时调用
+- (void)didAddSubview:(UIView *)subview{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+}
+// 当子视图从本视图移除时调用
+- (void)willRemoveSubview:(UIView *)subview{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+}
+// 当视图即将加入父视图时 / 当视图即将从父视图移除时调用
+- (void)willMoveToSuperview:(nullable UIView *)newSuperview{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+}
+// 当试图加入父视图时 / 当视图从父视图移除时调用
+- (void)didMoveToSuperview{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+}
+
+// 当视图即将加入父视图时 / 当视图即将从父视图移除时调用
+- (void)willMoveToWindow:(nullable UIWindow *)newWindow{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+}
+
+// 当视图加入父视图时 / 当视图从父视图移除时调用
+- (void)didMoveToWindow{
+     NSLog(@"%@", NSStringFromSelector(_cmd));
+}
+
 
 - (instancetype)initWithFrame:(CGRect)frame {
     

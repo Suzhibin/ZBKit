@@ -27,7 +27,7 @@
     self.view.backgroundColor=[UIColor blackColor];
 
     [self leftButton];
-    [self rightButton];
+
     self.dataArray= [self getDiskFileWithURL:self.model.URL];
     ZBKLog(@"self.dataArray:%@",self.dataArray);
     [self.view addSubview:self.sandboxTableView];
@@ -35,25 +35,7 @@
     
    
 }
-- (void)rightButton{
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sandbox" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil] style:UIBarButtonItemStyleDone target:self action:@selector(rightEdit)];
-    rightItem.tintColor = [UIColor colorWithRed:66/255.0 green:212/255.0 blue:89/255.0 alpha:1.0];
-    self.navigationController.topViewController.navigationItem.rightBarButtonItem = rightItem;
-}
-- (void)rightEdit{
-    for (ZBFileModel *model in self.dataArray) {
-        if (model.fileName==nil||[model.fileName isEqualToString:@""]) {
-           
-            if ([model.fileName hasSuffix:@"jpg"]||[model.fileName hasSuffix:@"png"]) {
-                
-            }else{
-                [model.fileName stringByAppendingString:@".png"];
-            }
-        }
-        
-    }
-     [self.sandboxTableView reloadData];
-}
+
 - (NSMutableArray *)getDiskFileWithURL:(NSURL *)URL{
     NSMutableArray *array=[[NSMutableArray alloc]init];
     BOOL isDir = NO;

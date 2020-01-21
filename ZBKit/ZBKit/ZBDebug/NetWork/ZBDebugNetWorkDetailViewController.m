@@ -30,7 +30,7 @@
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
         request.URLString=self.URLString;
         request.apiType=ZBRequestTypeRefresh;
-    } success:^(id responseObject, apiType type,BOOL isCache) {
+    } success:^(id responseObject,ZBURLRequest *request) {
         self.timeLabel.text=[NSString stringWithFormat:@"请求时间:%.2f 秒", CFAbsoluteTimeGetCurrent() - start];
 
         self.contentTextView.text=[NSString stringWithFormat:@"%@",responseObject];
