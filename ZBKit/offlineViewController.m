@@ -19,10 +19,7 @@
 @implementation offlineViewController
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-    
-    NSLog(@"离开页面时 清空容器");
-    
-    [self.delegate reloadJsonNumber];
+
 }
 
 - (void)viewDidLoad {

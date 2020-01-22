@@ -97,6 +97,7 @@ static const NSInteger ImageCacheMaxCacheAge  = 60*60*24*7;
 }
 
 - (void)clearImageFileCompletion:(ZBCacheCompletedBlock)completion{
+    [[ZBCacheManager sharedInstance]clearMemory];
     [[ZBCacheManager sharedInstance]clearDiskWithpath:[self imageFilePath] completion:completion];
 }
 

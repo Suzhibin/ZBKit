@@ -187,6 +187,7 @@ static const NSInteger cacheTime = 30;
     if (indexPath.row==0) {
         //清除json缓存后的操作
         [[ZBCacheManager sharedInstance]clearCacheOnCompletion:^{
+            [[ZBCacheManager sharedInstance]clearMemory];
             //清除SDImage缓存
             [[SDImageCache sharedImageCache] clearDiskOnCompletion:nil];
             [[SDImageCache sharedImageCache] clearMemory];
@@ -201,6 +202,7 @@ static const NSInteger cacheTime = 30;
         //清除json缓存
         //[[ZBCacheManager sharedManager]clearCache];
         [[ZBCacheManager sharedInstance]clearCacheOnCompletion:^{
+            [[ZBCacheManager sharedInstance]clearMemory];
             [self.tableView reloadData];
         }];
         
@@ -307,24 +309,14 @@ static const NSInteger cacheTime = 30;
 }
 #pragma mark offlineDelegate
 - (void)downloadWithArray:(NSMutableArray *)offlineArray{
-    
-    [self requestOffline:offlineArray];
-}
-
-- (void)reloadJsonNumber{
-    //离线页面的频道列表也会缓存的 如果之前清除了缓存，就刷新显示出来+1个缓存数量
-    [self.tableView reloadData];
-}
-
-#pragma mark - AFNetworking
-- (void)requestOffline:(NSMutableArray *)offlineArray{
-    
-    [ZBRequestManager sendBatchRequest:^(ZBBatchRequest *  batchRequest){
+  
+    self.batchRequest=[ZBRequestManager sendBatchRequest:^(ZBBatchRequest *  batchRequest){
         
         for (MenuModel *model in offlineArray) {
             ZBURLRequest *request=[[ZBURLRequest alloc]init];
             request.URLString=[NSString stringWithFormat:list_URL,model.wid];;
             request.responseSerializer=ZBHTTPResponseSerializer;
+            request.apiType=ZBRequestTypeRefreshAndCache;
             [batchRequest.requestArray addObject:request];
         }
     }  success:^(id responseObj,ZBURLRequest *request){
@@ -376,13 +368,13 @@ static const NSInteger cacheTime = 30;
         }else{
             NSLog(@"请求失败");
         }
-    }];
+    }finished:nil];
     
 }
 
 - (void)cancelClick{
    //取消所有网络请求
-    [ZBRequestManager cancelAllRequest];
+    [ZBRequestManager cancelBatchRequest:self.batchRequest];
     [[SDWebImageManager sharedManager] cancelAll];//取消图片下载
 
     NSLog(@"取消下载");
