@@ -10,6 +10,7 @@
 
 @implementation UIScrollView (ZBKit)
 // 当UIScrollView在水平方向滑动到第一个时，默认是不能全屏滑动返回的，通过下面的方法可实现其滑动返回。
+
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     if ([self panBack:gestureRecognizer]) {
         return NO;

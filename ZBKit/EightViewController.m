@@ -7,115 +7,74 @@
 //
 
 #import "EightViewController.h"
-
-@interface EightViewController ()<UITableViewDataSource,UITableViewDelegate>
-@property (strong, nonatomic) UIScrollView *mainScroll;
-@property (strong, nonatomic) UIScrollView *subScroll;
-@property (strong, nonatomic) UITableView *tableView1;
-@property (strong, nonatomic) UITableView *tableView2;
-@property (strong, nonatomic) UITableView *tableView3;
+#import "DWaveView.h"
+#import "ASMagnifierManger.h"
+@interface EightViewController ()
+@property (strong, nonatomic) DWaveView *waveView;
+@property (strong, nonatomic) ASMagnifierManger *magnifierManger;
 @end
 
 @implementation EightViewController
-
+- (void)dealloc{
+    NSLog(@"释放");
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    if (@available(iOS 11.0, *)){
-        [[UIScrollView appearance] setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentNever];
-    }else{
-        self.automaticallyAdjustsScrollViewInsets=NO;
+    self.view.backgroundColor=[UIColor whiteColor];
+   
+    
+    UIView *redView1=[[UIView alloc]initWithFrame:CGRectMake(0,0, self.view.frame.size.width, 200)];
+    redView1.backgroundColor=[UIColor colorWithRed:0.42f green:0.62f blue:0.83f alpha:1.00f];;
+    [self.view addSubview:redView1];
+    
+    UIImageView *ship=[[UIImageView alloc]initWithFrame:CGRectMake(100,100, 100, 100)];
+    ship.image=[UIImage imageNamed:@"timg3"];
+ 
+    [redView1 addSubview:ship];
+    [redView1 addSubview:self.waveView];
+    
+    self.waveView.waveBlock = ^(CGFloat currentY){
+        CGRect iconFrame = [ship frame];
+        iconFrame.origin.y = CGRectGetHeight(ship.frame)+currentY;
+        ship.frame  =iconFrame;
+    };
+    
+    ZBLabel *label=[[ZBLabel alloc]initWithFrame:CGRectMake(20, 300, ZB_SCREEN_WIDTH-40,100)];
+    [label setAlignment:ZBTextAlignmentTop];
+    label.backgroundColor=[UIColor redColor];
+    label.textAlignment=NSTextAlignmentRight;
+    label.text=@"点击显示放大镜(text显示在label的top)";
+    [self.view addSubview:label];
+    
+    ZBLabel *label1=[[ZBLabel alloc]initWithFrame:CGRectMake(20, 400, ZB_SCREEN_WIDTH-40,100)];
+    [label1 setAlignment:ZBTextAlignmentBottom];
+    label1.backgroundColor=[UIColor yellowColor];
+    label1.text=@"点击显示放大镜(text显示在label的Bottom)";
+    [self.view addSubview:label1];
+    
+    self.magnifierManger=[[ASMagnifierManger alloc]init];
+    self.magnifierManger.magnification = 3.0;//放大倍数
+    //self.magnifierManger.magnifierWidth = 100;//放大镜大小
+}
+- (DWaveView *)waveView{
+    if (!_waveView) {
+        _waveView = [[DWaveView alloc] init];
+        _waveView.frame=CGRectMake(0, 200,self.view.frame.size.width, 50);
+        _waveView.realWaveColor = [UIColor whiteColor];
+       // _waveView.maskWaveColor = [UIColor redColor];
+        [_waveView startWaveAnimation];
     }
-    [self createScroll];
+    return _waveView;
 }
-- (void)createScroll{
-    UIScrollView *mainScroll=[[UIScrollView alloc]initWithFrame:CGRectMake(0, ZB_STATUS_HEIGHT+44, ZB_SCREEN_WIDTH, ZB_SCREEN_HEIGHT-(ZB_STATUS_HEIGHT+44))];
-    mainScroll.backgroundColor=[UIColor redColor];
-     mainScroll.contentSize = CGSizeMake(ZB_SCREEN_WIDTH , ZB_SCREEN_HEIGHT);
-    [self.view addSubview:mainScroll];
-    self.mainScroll=mainScroll;
-    
-    UIScrollView *subScroll=[[UIScrollView alloc]initWithFrame:CGRectMake(0, ZB_STATUS_HEIGHT+44+200, ZB_SCREEN_WIDTH, ZB_SCREEN_HEIGHT-(ZB_STATUS_HEIGHT+44))];
-    subScroll.contentSize = CGSizeMake(ZB_SCREEN_WIDTH * 3, ZB_SCREEN_HEIGHT);
-    subScroll.backgroundColor=[UIColor orangeColor];
-    subScroll.bounces=NO;
-    subScroll.pagingEnabled = YES;
-    [mainScroll addSubview:subScroll];
-    self.subScroll =subScroll;
-
-    _tableView1=[[UITableView alloc]initWithFrame:CGRectMake(0,0, ZB_SCREEN_WIDTH, ZB_SCREEN_HEIGHT) style:UITableViewStylePlain];
-    _tableView1.backgroundColor=[UIColor blueColor];
-    _tableView1.delegate=self;
-    _tableView1.dataSource=self;
-    _tableView1.tableFooterView=[[UIView alloc]init];
-    [subScroll addSubview:_tableView1];
-    
-    _tableView2=[[UITableView alloc]initWithFrame:CGRectMake(ZB_SCREEN_WIDTH,0, ZB_SCREEN_WIDTH, ZB_SCREEN_HEIGHT) style:UITableViewStylePlain];
-    _tableView2.backgroundColor=[UIColor orangeColor];
-    _tableView2.delegate=self;
-    _tableView2.dataSource=self;
-    _tableView2.tableFooterView=[[UIView alloc]init];
-        [subScroll addSubview:_tableView2];
-    
-    _tableView3=[[UITableView alloc]initWithFrame:CGRectMake(ZB_SCREEN_WIDTH*2,0, ZB_SCREEN_WIDTH, ZB_SCREEN_HEIGHT) style:UITableViewStylePlain];
-    _tableView3.backgroundColor=[UIColor yellowColor];
-    _tableView3.delegate=self;
-    _tableView3.dataSource=self;
-    _tableView3.tableFooterView=[[UIView alloc]init];
-      [subScroll addSubview:_tableView3];
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.magnifierManger magnifier_touchesBegan:touches withEvent:event view:self.view];
 }
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (tableView==_tableView1) {
-        return 10;
-    }else if(tableView==_tableView2){
-        return 15;
-    }else{
-        return 5;
-    }
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.magnifierManger magnifier_touchesMoved:touches withEvent:event view:self.view];
 }
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (tableView==_tableView1) {
-        static NSString *menuID=@"menu";
-        
-        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:menuID];
-        if (cell==nil) {
-            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:menuID];
-            //设置点击cell不变色
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
-        cell.textLabel.text=@"_tableView1";
-        
-        return cell;
-    }else if (tableView==_tableView2){
-        static NSString *menuID=@"menu2";
-        
-        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:menuID];
-        if (cell==nil) {
-            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:menuID];
-            //设置点击cell不变色
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
-        cell.textLabel.text=@"_tableView2";
-        return cell;
-    }else{
-        static NSString *menuID=@"menu3";
-        
-        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:menuID];
-        if (cell==nil) {
-            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:menuID];
-            //设置点击cell不变色
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
-        cell.textLabel.text=@"_tableView3";
-        return cell;
-    }
-}
-#pragma mark UIScrollViewDelegate
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    
-    
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.magnifierManger magnifier_touchesEnded:touches withEvent:event];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

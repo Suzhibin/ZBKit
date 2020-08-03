@@ -12,4 +12,5 @@
 @interface ZBSandboxViewController : UIViewController
 @property (nonatomic, assign, getter=isHomeDirectory) BOOL homeDirectory;
 @property (nonatomic, strong) ZBFileModel *model;
+@property (nonatomic, strong) NSMutableArray * fileNames;
 @end

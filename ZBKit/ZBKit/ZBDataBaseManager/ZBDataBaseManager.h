@@ -46,11 +46,19 @@ typedef void (^isSuccess)(BOOL isSuccess);
 
 /**
 查询数据库
-
+数据结构不变
  @param tableName 表名
  @return 数据集合
  */
 - (NSArray *)getAllDataWithTable:(NSString *)tableName;
+
+/**
+查询数据库
+数组内为ZBDataBaseModel
+ @param tableName 表名
+ @return 数据集合
+ */
+- (NSArray <ZBDataBaseModel *>*)getAllDataBaseWithTable:(NSString *)tableName;
 
 /**
  查询数据是否存在
@@ -59,7 +67,7 @@ typedef void (^isSuccess)(BOOL isSuccess);
  @param tableName 表名
  @return 是否存在
  */
--(BOOL)isExistsWithItemId:(NSString *)itemId table:(NSString *)tableName;
+-(BOOL)table:(NSString *)tableName isExistsWithItemId:(NSString *)itemId;
 
 /**
  查询单条数据
@@ -68,7 +76,7 @@ typedef void (^isSuccess)(BOOL isSuccess);
  @param tableName 表名
  @return 数据
  */
-- (id)getObjectId:(NSString *)objectId table:(NSString *)tableName;
+- (id)table:(NSString *)tableName getObjectId:(NSString *)objectId;
 
 /**
  删除数据

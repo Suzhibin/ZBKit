@@ -25,6 +25,23 @@
     }
     return self;
 }
+#pragma mark -
+
+- (nonnull id<NSObject>)diffIdentifier {
+    return _wid;
+}
+
+- (BOOL)isEqualToDiffableObject:(nullable id<IGListDiffable>)object {
+    if (self == object) {
+        return YES;
+    }
+
+    if (![((NSObject *)object) isKindOfClass:[ListModel class]]) {
+        return NO;
+    }
+    
+    return [_wid isEqualToString:((ListModel *)object).wid];
+}
 
 
 @end

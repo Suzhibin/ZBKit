@@ -7,7 +7,6 @@
 //
 
 #import "SixViewController.h"
-#import "ZBCarouselView.h"
 @interface SixViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong)UITableView *tableView;
 @end

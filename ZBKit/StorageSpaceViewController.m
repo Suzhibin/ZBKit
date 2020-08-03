@@ -59,7 +59,7 @@
     
     NSArray *sizeArray=[NSArray arrayWithObjects:[self getAllCacheSize],[[ZBCacheManager sharedInstance] fileUnitWithSize:otherSystem],[[ZBCacheManager sharedInstance] fileUnitWithSize:freeSystem],nil];
     
-    ZBChart *ring = [[ZBChart alloc] initWithFrame:CGRectMake(0,ZB_STATUS_HEIGHT+44, ZB_SCREEN_WIDTH, ZB_SCREEN_WIDTH)];
+    ZBChart *ring = [[ZBChart alloc] initWithFrame:CGRectMake(0,ZB_SafeAreaTopHeight+44, ZB_SCREEN_WIDTH, ZB_SCREEN_WIDTH)];
     
     ring.backgroundColor = [UIColor whiteColor];
     
@@ -84,7 +84,7 @@
     
     NSArray *titleArray=[NSArray arrayWithObjects:[[ZBGlobalSettingsTool sharedInstance] appBundleName],@"其他",@"可用",nil];
     for (int i = 0; i<titleArray.count; i++) {
-        UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(20+120*i ,ZB_STATUS_HEIGHT+44+ZB_SCREEN_WIDTH+10, 100, 20)];
+        UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(20+120*i ,ZB_SafeAreaTopHeight+44+ZB_SCREEN_WIDTH+10, 100, 20)];
         label.text=[titleArray objectAtIndex:i];
         label.textAlignment=NSTextAlignmentCenter;
         label.backgroundColor=[colorArr objectAtIndex:i];
@@ -95,7 +95,7 @@
     
     
     for (int i = 0; i<sizeArray.count; i++) {
-        UILabel *label1=[[UILabel alloc]initWithFrame:CGRectMake(20+120*i,ZB_STATUS_HEIGHT+44+ZB_SCREEN_WIDTH+10+20, 100, 20)];
+        UILabel *label1=[[UILabel alloc]initWithFrame:CGRectMake(20+120*i,ZB_SafeAreaTopHeight+44+ZB_SCREEN_WIDTH+10+20, 100, 20)];
         label1.tag=3000+i;
         label1.text=[sizeArray objectAtIndex:i];
         label1.font=[UIFont systemFontOfSize:12];
@@ -119,8 +119,8 @@
 
 - (void)btnClicked
 {
-    [self alertTitle:@"清除缓存" andMessage:[self getAllCacheSize]];
-    
+   // [self alertTitle:@"清除缓存" andMessage:[self getAllCacheSize]];
+
     //清除json缓存后的操作
     [[ZBCacheManager sharedInstance]clearCacheOnCompletion:^{
         //清除SDImage缓存
@@ -137,7 +137,7 @@
         
         UILabel *label1 = (UILabel *)[self.view viewWithTag:3000];
         label1.text=[self getAllCacheSize];
-
+        [ZBToast showCenterWithText:[NSString stringWithFormat:@"清除缓存\n%@",[self getAllCacheSize]]];
     }];
     
 }

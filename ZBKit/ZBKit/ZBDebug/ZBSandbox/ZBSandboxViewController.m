@@ -29,13 +29,40 @@
     [self leftButton];
 
     self.dataArray= [self getDiskFileWithURL:self.model.URL];
-    ZBKLog(@"self.dataArray:%@",self.dataArray);
     [self.view addSubview:self.sandboxTableView];
     [self.sandboxTableView reloadData];
+    [self isAutomaticJump];
     
-   
 }
-
+- (void)isAutomaticJump{
+    if (self.fileNames.count>0) {
+        NSMutableArray *fileTitles=[[NSMutableArray alloc]init];
+        [self.dataArray enumerateObjectsUsingBlock:^(ZBFileModel *fileModel, NSUInteger idx, BOOL * _Nonnull stop) {
+            [fileTitles addObject:fileModel.fileName];
+        }];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF  in %@",self.fileNames];
+        NSArray *arr = [fileTitles filteredArrayUsingPredicate:predicate];
+        if (arr.count>0) {
+             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.dataArray enumerateObjectsUsingBlock:^(ZBFileModel *fileModel, NSUInteger idx, BOOL * _Nonnull stop) {
+                    NSString *fileName= [arr objectAtIndex:0];
+                    NSLog(@"fileName:%@",fileModel.fileName);
+                    NSLog(@"相同元素:%@",fileName);
+                    if ([fileModel.fileName isEqualToString:fileName]) {
+                        UIViewController *vc = [self viewControllerWithFileInfo:fileModel];
+                        if ([vc isKindOfClass:[QLPreviewController class]]) {
+                            [self presentViewController:vc animated:YES completion:nil];
+                        }else{
+                            [self.navigationController pushViewController:vc animated:YES];
+                        }
+                    }
+                }];
+                          
+            });
+        }
+    }
+}
 - (NSMutableArray *)getDiskFileWithURL:(NSURL *)URL{
     NSMutableArray *array=[[NSMutableArray alloc]init];
     BOOL isDir = NO;
@@ -102,6 +129,7 @@
     if (model.type==ZBFileTypeDirectory) {
         ZBSandboxViewController *sandboxVC = [[ZBSandboxViewController alloc] init];
         //        sandboxViewController.hidesBottomBarWhenPushed = YES;//liman
+        sandboxVC.fileNames=self.fileNames;
         sandboxVC.model = model;
         return sandboxVC;
     } else {
@@ -113,6 +141,7 @@
             return previewController;
         } else {
             ZBKLog(@"Web");
+            [self.fileNames  removeAllObjects];
             ZBDebugWebViewController *webVC= [[ZBDebugWebViewController alloc] init];
             webVC.hidesBottomBarWhenPushed = YES;//liman
             webVC.model = model;
@@ -123,7 +152,7 @@
 //懒加载
 - (UITableView *)sandboxTableView{
     if (!_sandboxTableView) {
-        _sandboxTableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, ZB_SCREEN_WIDTH, ZB_SCREEN_HEIGHT-ZB_TABBAR_HEIGHT-ZB_NAVBAR_HEIGHT-ZB_STATUS_HEIGHT) style:UITableViewStylePlain];
+        _sandboxTableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, ZB_SCREEN_WIDTH, ZB_SCREEN_HEIGHT-ZB_TABBAR_HEIGHT-ZB_NAVBAR_HEIGHT) style:UITableViewStylePlain];
         _sandboxTableView.delegate=self;
         _sandboxTableView.dataSource=self;
         _sandboxTableView.tableFooterView=[[UIView alloc]init];
@@ -143,8 +172,8 @@
     }
 }
 - (void)exit{
-    [[ZBDebug sharedInstance]enable];
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    //[[ZBDebug sharedInstance]enable];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 #pragma mark - QLPreviewControllerDataSource
 

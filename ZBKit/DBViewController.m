@@ -12,52 +12,50 @@
 #import "ListModel.h"
 #import <UIImageView+WebCache.h>
 #import "DetailsViewController.h"
+#import "ZBDataBaseManager.h"
 @interface DBViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong)NSMutableArray *dataArray;
 @property (nonatomic,strong)UITableView *tableView;
 @end
 
 @implementation DBViewController
-- (NSString *)keyedArchivePath{
-    return [[[ZBCacheManager sharedInstance]ZBKitPath]stringByAppendingPathComponent:@"keyedArchive"];
-}
+//- (NSString *)keyedArchivePath{
+//    return [[[ZBCacheManager sharedInstance]ZBKitPath]stringByAppendingPathComponent:@"keyedArchive"];
+//}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title=@"收藏表";
     self.view.backgroundColor=[UIColor whiteColor];
-
-    
-    if (_functionType==collectionTable) {
-       NSArray *keyArray = [[ZBCacheManager sharedInstance]getDiskCacheFileWithPath:[self keyedArchivePath]];
-        NSLog(@"keyArray:%@",keyArray);
-        if (keyArray.count>0) {
-            for (NSString *filePath in keyArray) {
-                ListModel * model1=[[ListModel alloc]init];
-                model1= [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-                NSLog(@"title:%@",model1.title);
-                [self.dataArray addObject:model1];
-            }
-        }else{
-            NSLog(@"没有数据");
-        }
-       
-  
-      //  self.dataArray = [[ZBDataBaseManager sharedInstance]getAllDataWithTable:@"collection"];
-        self.title=@"收藏表";
-    }else{
-     //   self.dataArray=[[ZBDataBaseManager sharedInstance]getAllDataWithTable:@"user"];
-        self.title=@"user表";
-    }
-    
     [self.view addSubview:self.tableView];
-    [self.tableView reloadData];
-    NSLog(@"收藏新闻:%@",self.dataArray);
-    NSLog(@"收藏新闻个数:%ld",self.dataArray.count );
+
+    UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    if (@available(iOS 13.0, *)) {
+        UIImage *image=[[UIImage systemImageNamed:@"trash"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        
+        UIImage *selectedImage=[[UIImage systemImageNamed:@"trash.fill"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        
+        [rightButton setImage:image forState:UIControlStateNormal];
+        [rightButton setImage:selectedImage forState:UIControlStateSelected];
+    }else{
+        [rightButton setTitle:@"编辑" forState:UIControlStateNormal];
+    }
+    [rightButton addTarget:self action:@selector(editItemClick:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+    self.navigationItem.rightBarButtonItem= rightItem;
     
-    [self addItemWithTitle:@"编辑" selector:@selector(editItemClick:) location:NO];
+    NSArray *arr = [[ZBDataBaseManager sharedInstance]getAllDataWithTable:@"collection"];
+    [arr enumerateObjectsUsingBlock:^(NSDictionary *dict, NSUInteger idx, BOOL * _Nonnull stop) {
+        ListModel *model=[[ListModel alloc]initWithDict:dict];
+        [self.dataArray addObject:model];
+    }];
+  
+    [self.tableView reloadData];
+
 }
-- (void)editItemClick:(UIBarButtonItem *)item
-{
+- (void)editItemClick:(UIButton *)sender{
+    sender.selected=!sender.selected;
+    
     // 判断_tableView是否处于编辑状态!
     if (self.tableView.isEditing) {
         // 将_tableView 转为非编辑状态
@@ -85,19 +83,15 @@
         // 如果类型是删除
         NSMutableArray *array = (NSMutableArray *)self.dataArray;
         [array removeObjectAtIndex:indexPath.row];
-        
-        [[ZBCacheManager sharedInstance]clearCacheForkey:model.wid path:[self keyedArchivePath] completion:^{
-            NSLog(@"删除数据");
-        }];
-        /*
-        [[ZBDataBaseManager sharedInstance]table:@"collection" deleteDataWithItemId:model.wid isSuccess:^(BOOL isSuccess){
+
+        [[ZBDataBaseManager sharedInstance]table:@"collection" deleteObjectItemId:model.wid isSuccess:^(BOOL isSuccess){
             if (isSuccess) {
                 NSLog(@"删除成功");
             }else{
                 NSLog(@"删除失败");
             }
         }];//删除对应文章id
-    */
+    
         // 用_tableView 删除行刷新方法刷新显示
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
     }

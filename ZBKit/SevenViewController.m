@@ -9,7 +9,6 @@
 #import "SevenViewController.h"
 #import "ZBKit.h"
 #import "ListModel.h"
-#import <YYCache.h>
 #import "NSObject+Caculator.h"
 #import "CalculateMananger.h"
 #import "UIView+Toast.h"
@@ -18,10 +17,7 @@
 #import "NSObject+ZBKVO.h"
 // 主请求路径
 #define budejieURL @"http://api.budejie.com/api/api_open.php"
-@interface SevenViewController (){
-    
-    YYCache *_dataCache;
-}
+@interface SevenViewController ()
 @property (nonatomic,strong)NSString *string;
 @property (nonatomic,strong)Dog *d;
 @end
@@ -117,6 +113,9 @@
     str=[NSMutableString stringWithString:@"3"];
         NSLog(@"self.string:%@",self.string);
      NSLog(@"str:%@",str);
+    CalculateMananger *mar=[[CalculateMananger alloc]init];
+    mar.add(1).add(3);
+    NSLog(@"%d",mar.result);
    int result= [NSObject makeCaculator:^(CalculateMananger *make) {
         make.add(5).add(2).sub(3).add(10);
     }];
@@ -128,33 +127,6 @@
     
 //    ZBToastView *toast=[[ZBToastView alloc]init];
 //    toast.toastView.textString(@"你好").backgroundColor([UIColor blueColor]).textColor([UIColor blackColor]);
-}
-- (void)archive{
-    
-   // NSObject+ZBkeyedArchive  NSCoding 协议
-    ListModel *model = [[ListModel alloc] init];
-    model.title = @"xiaoBai";
-    model.thumb = @"15";
-    /*
-    if ([NSKeyedArchiver archiveRootObject:model toFile:[[[ZBCacheManager sharedInstance] tmpPath] stringByAppendingPathComponent:@"model.data"]]) {
-        NSLog(@"归档成功");
-    }
-     */
-    NSString *tmpPath=[[ZBCacheManager sharedInstance] tmpPath];
-    
-    [[ZBCacheManager sharedInstance] storeContent:model forKey:@"model.data" path:tmpPath isSuccess:^(BOOL isSuccess) {
-        if (isSuccess) {
-            ZBKLog(@"归档成功");
-        }
-    }];
-    
-    [[ZBCacheManager sharedInstance]getCacheDataForKey:@"model.data" path:tmpPath value:^(id responseObj, NSString *filePath) {
-         ZBKLog(@"filePath:%@",filePath);
-        ListModel *model1= [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-        ZBKLog(@"%@,%@",model1.title, model1.thumb);
-
-    }];
-   
 }
 
 - (void)filter{

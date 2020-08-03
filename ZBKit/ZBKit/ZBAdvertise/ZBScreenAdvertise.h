@@ -9,5 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface ZBScreenAdvertise : NSObject
++ (instancetype)shareInstance;
 
+- (void)deleteOldImage;
 @end

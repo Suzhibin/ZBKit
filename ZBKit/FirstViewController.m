@@ -10,28 +10,26 @@
 #import "MenuModel.h"
 #import "ListModel.h"
 #import "SettingCacheViewController.h"
-#import <UIImageView+WebCache.h>
+#import <FLAnimatedImageView+WebCache.h>
 #import <SDWebImageManager.h>
 #import "DetailsViewController.h"
 #import "MenuTableViewCell.h"
 #import <FLAnimatedImageView.h>
-#import <YYCache.h>
-@interface FirstViewController ()<UITableViewDelegate,UITableViewDataSource>{
-    
-        YYCache *_dataCache;
-}
+#import "TableViewAnimationKit.h"
+#import "ZBSandboxViewController.h"
+@interface FirstViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong)UITableView *menuTableView;
 @property (nonatomic,strong)UITableView *listTableView;
 @property (nonatomic,strong)NSMutableArray *menuArray;
 @property (nonatomic,strong)NSMutableArray *listArray;
 @property (nonatomic,strong)UIRefreshControl *refreshControl;
-
+@property (nonatomic,copy)NSString *filePath;
 @end
 
 @implementation FirstViewController
 - (void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refresh" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"tabRefresh" object:nil];
       NSLog(@"释放%s",__func__);
 }
 - (void)viewDidLoad {
@@ -39,18 +37,38 @@
     // Do any additional setup after loading the view.
 
      self.automaticallyAdjustsScrollViewInsets = NO;
-
-    
-    _dataCache=[YYCache cacheWithName:@"xinCache"];
+    [ZBRequestManager setupBaseConfig:^(ZBConfig * _Nullable config) {
+        config.consoleLog=YES;
+    }];
     // 加载左边数据
     [self loadData];
         
     [self.view addSubview:self.menuTableView];
     [self.view addSubview:self.listTableView];
     [self.listTableView addSubview:self.refreshControl];
-    [self itemWithTitle:ZBLocalized(@"cachebtn",nil) selector:@selector(btnClick) location:NO];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(homeRefresh:) name:@"refresh" object:nil];
+    UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    if (@available(iOS 13.0, *)) {
+        UIImage *image=[[UIImage systemImageNamed:@"list.dash"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        [rightButton setImage:image forState:UIControlStateNormal];
+    }else{
+        [rightButton setTitle:@"设置缓存" forState:UIControlStateNormal];
+    }
+     [rightButton addTarget:self action:@selector(rightNavItemButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+     UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+     //self.navigationItem.rightBarButtonItem= rightItem;
+    
+    UIButton *cacheFileBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cacheFileBtn addTarget:self action:@selector(cacheFileBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+    if (@available(iOS 13.0, *)) {
+        [cacheFileBtn setImage:[[UIImage systemImageNamed:@"folder"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+    } else {
+           // Fallback on earlier versions
+    }
+    UIBarButtonItem *cacheFileBtnItem = [[UIBarButtonItem alloc] initWithCustomView:cacheFileBtn];
+    self.navigationItem.rightBarButtonItems =@[rightItem,cacheFileBtnItem];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(homeRefresh:) name:@"tabRefresh" object:nil];
 }
 
 - (void)loadData{
@@ -94,9 +112,8 @@
         request.apiType=type;
     }  success:^(id responseObject,ZBURLRequest *request){
 
-        [self.listArray removeAllObjects];
-        
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            [self.listArray removeAllObjects];
             NSDictionary *dataDict = (NSDictionary *)responseObject;
             NSArray *array=[dataDict objectForKey:@"videos"];
             
@@ -107,11 +124,12 @@
             [self.listTableView reloadData];
             [_refreshControl endRefreshing];    //结束刷新
             if (request.isCache) {
+                self.filePath=request.filePath;
                 ZBKLog(@"使用了缓存");  [ZBToast showCenterWithText:@"使用了缓存"];
             }else{
                 ZBKLog(@"重新请求");  [ZBToast showCenterWithText:@"重新请求"];
             }
-            
+   
         }
         
     } failure:^(NSError *error){
@@ -157,35 +175,14 @@
         ListModel *model=[self.listArray objectAtIndex:indexPath.row];
         cell.textLabel.text=model.title;
         cell.detailTextLabel.text=[NSString stringWithFormat:@"发布时间:%@",model.date];
+        [cell.imageView zb_original:model.thumb thumbnail:model.thumb placeholder:[NSBundle zb_placeholder]];
+//        FLAnimatedImageView *FLView = [[FLAnimatedImageView alloc]init];
+//        FLView.frame = CGRectMake(0, 0, 44, 44);
+//        [cell.contentView addSubview:FLView];
+//        NSLog(@"model.thumb:%@",model.thumb);
+//        [FLView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]]];
         
-        FLAnimatedImageView *FLView = [[FLAnimatedImageView alloc]init];
-        FLView.frame = CGRectMake(0, 0, 44, 44);
-        [cell.contentView addSubview:FLView];
-        NSLog(@"model.thumb:%@",model.thumb);
-        [FLView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]]];
         
-       // [ cell.imageView zb_original:model.thumb thumbnail:model.thumb placeholder:[NSBundle zb_placeholder]];
-        
-       // cell.imageView.image=[UIImage imageNamed:@"laiyuanapd"];
-        /*
-        //NSLog(@"图片ulr:%@",model.thumb);
-        //判断是否是wifi环境
-        if ([[ZBGlobalSettingsTool sharedInstance] downloadImagePattern]==YES) {
-            AFNetworkReachabilityManager *mgr = [AFNetworkReachabilityManager sharedManager];
-            // 在使用Wifi, 下载原图
-            if (mgr.isReachableViaWiFi)     {
-                
-                
-                [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]]];
-            
-            }else{
-                  [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]]];
-            }
-          
-        }else{
-            [cell.imageView sd_setImageWithURL:[NSURL URLWithString:model.thumb] placeholderImage:[UIImage imageNamed:[NSBundle zb_placeholder]]];
-        }
-         */
         return cell;
     }
 }
@@ -198,6 +195,7 @@
         NSString *url=[NSString stringWithFormat:list_URL,model.wid];
         ZBKLog(@"url:%@",url);
         [self loadlist:url type:ZBRequestTypeCache];
+        [TableViewAnimationKit showWithAnimationType:indexPath.row tableView:self.listTableView];
     }else{
         ListModel *model=[self.listArray objectAtIndex:indexPath.row];
         DetailsViewController *detailsVC=[[DetailsViewController alloc]init];
@@ -241,9 +239,26 @@
     }else{
         return;
     }
-  
 }
-- (void)btnClick{
+- (void)cacheFileBtnAction:(UIButton *)sender{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSArray* spliteArray = [self.filePath componentsSeparatedByString: @"/"];
+        NSString* lastString = [spliteArray lastObject];
+        NSMutableArray *fileNames=[[NSMutableArray alloc]initWithObjects:@"Library",@"Caches",@"ZBKit",@"AppCache",lastString, nil];
+        NSString *lastStr=[fileNames lastObject];
+        NSLog(@"lastStr:%@",lastStr);
+        if ([lastStr isEqualToString:@"memoryCache"]) {
+            [ZBToast showCenterWithText:@"内存缓存"];
+        }else{
+            ZBSandboxViewController *sandboxVC=[[ZBSandboxViewController alloc]init];
+            sandboxVC.fileNames=fileNames;
+            sandboxVC.model = [[ZBFileModel alloc] initWithFileURL:[NSURL fileURLWithPath:NSHomeDirectory() isDirectory:YES]];
+            [self.navigationController pushViewController:sandboxVC animated:YES];
+        }
+    });
+   
+}
+- (void)rightNavItemButtonAction:(UIButton *)sender{
     SettingCacheViewController *cacheVC=[[SettingCacheViewController alloc]init];
     [self.navigationController pushViewController:cacheVC animated:YES];
 }
@@ -257,7 +272,7 @@
 //懒加载
 - (UITableView *)menuTableView{
     if (!_menuTableView) {
-        _menuTableView=[[UITableView alloc]initWithFrame:CGRectMake(0,ZB_STATUS_HEIGHT+44, 100, ZB_SCREEN_HEIGHT-(ZB_STATUS_HEIGHT+44+ZB_TABBAR_HEIGHT)) style:UITableViewStylePlain];
+        _menuTableView=[[UITableView alloc]initWithFrame:CGRectMake(0,ZB_SafeAreaTopHeight+44, 100, ZB_SCREEN_HEIGHT-(ZB_SafeAreaTopHeight+44+ZB_TABBAR_HEIGHT)) style:UITableViewStylePlain];
         _menuTableView.delegate=self;
         _menuTableView.dataSource=self;
         _menuTableView.tableFooterView=[[UIView alloc]init];
@@ -268,7 +283,7 @@
 - (UITableView *)listTableView{
     
     if (!_listTableView) {
-        _listTableView=[[UITableView alloc]initWithFrame:CGRectMake(100, ZB_STATUS_HEIGHT+44,ZB_SCREEN_WIDTH-100, ZB_SCREEN_HEIGHT-(ZB_STATUS_HEIGHT+44+ZB_TABBAR_HEIGHT)) style:UITableViewStylePlain];
+        _listTableView=[[UITableView alloc]initWithFrame:CGRectMake(100, ZB_SafeAreaTopHeight+44,ZB_SCREEN_WIDTH-100, ZB_SCREEN_HEIGHT-(ZB_SafeAreaTopHeight+44+ZB_TABBAR_HEIGHT)) style:UITableViewStylePlain];
         _listTableView.delegate=self;
         _listTableView.dataSource=self;
         _listTableView.tableFooterView=[[UIView alloc]init];

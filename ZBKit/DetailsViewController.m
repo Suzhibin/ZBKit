@@ -10,30 +10,24 @@
 #import "ZBKit.h"
 #import <WebKit/WebKit.h>
 #import "DBViewController.h"
-@interface DetailsViewController ()<WKNavigationDelegate,WKUIDelegate,UIScrollViewDelegate>{
-    NSTimer *_timer;
-}
+#import "ZBDataBaseManager.h"
+@interface DetailsViewController ()<WKNavigationDelegate,WKUIDelegate,UIScrollViewDelegate>
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) UIView *loadingView;
-
 @end
 
 @implementation DetailsViewController
 - (void)dealloc{
     [self removeWKwebViewCache];
-        [_timer invalidate];
     ZBKLog(@"释放%s",__func__);
 }
-- (void)timerClick{
-      ZBKLog(@"计时开始");
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    //美思瑞 Mosonry
-    //[ZBWeakProxy proxyWithTarget:self]
-//    _timer=[NSTimer timerWithTimeInterval:2.0 target:self selector:@selector(timerClick) userInfo:nil repeats:YES];
-//    [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
 
     [self createWebView];
     
@@ -47,6 +41,33 @@
     if (_functionType== tabbarAdvertise){
         [self itemWithTitle:@"返回" selector:@selector(back) location:YES];
     }
+    UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    if (@available(iOS 13.0, *)) {
+        UIImage *image=[UIImage systemImageNamed:@"heart"];
+         UIImage *selectedImage=[UIImage systemImageNamed:@"heart.fill"];
+        [rightButton setImage:image forState:UIControlStateNormal];
+        [rightButton setImage:selectedImage forState:UIControlStateSelected];
+        rightButton.tintColor=[UIColor redColor];
+        
+        CGFloat size = 5;
+        UIImageSymbolScale scale = 45;
+        UIImageSymbolWeight weight = 45;
+        UIImageSymbolConfiguration *cfg = [UIImageSymbolConfiguration configurationWithPointSize:size weight:weight scale:scale];
+        [rightButton setPreferredSymbolConfiguration:cfg forImageInState:UIControlStateNormal];
+    }else{
+        [rightButton setTitle:@"收藏" forState:UIControlStateNormal];
+        [rightButton setTitle:@"已收藏" forState:UIControlStateSelected];
+    }
+    if ([[ZBDataBaseManager sharedInstance]table:@"collection" isExistsWithItemId:self.model.wid]) {
+           rightButton.selected=YES;
+           rightButton.titleLabel.alpha = 0.5;
+       }else{
+           rightButton.selected=NO;
+           rightButton.titleLabel.alpha = 1;
+       }
+    [rightButton addTarget:self action:@selector(rightNavItemButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+    self.navigationItem.rightBarButtonItem= rightItem;
 }
 - (void)back{
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -59,7 +80,7 @@
     
     // 支持内嵌视频播放
     config.allowsInlineMediaPlayback = YES;
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, ZB_SCREEN_WIDTH, ZB_SCREEN_HEIGHT-ZB_TABBAR_HEIGHT) configuration:config];
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, ZB_SCREEN_WIDTH, ZB_SCREEN_HEIGHT) configuration:config];
     
     [self.view addSubview:self.webView];
     self.webView.scrollView.delegate = self;
@@ -69,11 +90,12 @@
     // 开始右滑返回手势
     self.webView.allowsBackForwardNavigationGestures = YES;
      ZBKLog(@"functionType:%zd",self.functionType);
+     [[ZBDataBaseManager sharedInstance]createTable:@"collection"];
     if (self.functionType==Details) {
 
        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.model.weburl]]];
 
-         [self createToobar];
+         //[self createToobar];
         
     }else if(self.functionType==Advertise){
         ZBKLog(@"self.url:%@",self.url);
@@ -81,50 +103,24 @@
     }
 }
 
-- (NSString *)keyedArchivePath{
-    return [[[ZBCacheManager sharedInstance]ZBKitPath]stringByAppendingPathComponent:@"keyedArchive"];
-}
-- (void)createToobar{
-    
-   // [[ZBDataBaseManager sharedInstance]createTable:@"collection"];
-    [[ZBCacheManager sharedInstance]createDirectoryAtPath:[self keyedArchivePath]];
-    
-    UIButton *btn=[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [btn setFrame:CGRectMake(0, ZB_SCREEN_HEIGHT - ZB_TABBAR_HEIGHT, ZB_SCREEN_WIDTH, ZB_TABBAR_HEIGHT)];
-
-    [btn setTitle:@"收藏(添加/删除)" forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    btn.backgroundColor=[UIColor blackColor];
-    [btn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    //看该条数据是否被收藏过
-    //NSLog(@"%@",self.model.wid);
-    if ([[ZBCacheManager sharedInstance]diskCacheExistsWithKey:self.model.wid path:[self keyedArchivePath]]) {
-        btn.selected=YES;
-        btn.titleLabel.alpha = 0.5;
-    }
-    [self.view addSubview:btn];
-}
-- (void)btnClicked:(UIButton *)sender{
-    if (sender.selected==NO) {
-        sender.selected = YES;
+- (void)rightNavItemButtonAction:(UIButton *)sender{
+    sender.selected=!sender.selected;
+    if (sender.selected==YES) {
         //收藏数据
         NSLog(@"收藏数据");
-        [[ZBCacheManager sharedInstance]storeContent:self.model forKey:self.model.wid path:[self keyedArchivePath] isSuccess:^(BOOL isSuccess) {
-            if (isSuccess) {
-                NSLog(@"添加成功");
-            }else{
-                NSLog(@"添加失败");
+        [[ZBDataBaseManager sharedInstance] table:@"collection" insertObj:self.model ItemId:self.model.wid isSuccess:^(BOOL isSuccess) {
+            if (isSuccess==YES) {
+                 [ZBToast showCenterWithText:@"收藏成功"];
             }
         }];
         //为了区分按钮的状态
         sender.titleLabel.alpha = 0.5;
     }else{
-        sender.selected =NO;
-      
-        [[ZBCacheManager sharedInstance]clearCacheForkey:self.model.wid path:[self keyedArchivePath] completion:^{
-                NSLog(@"删除数据");
+        [[ZBDataBaseManager sharedInstance]table:@"collection" deleteObjectItemId:self.model.wid isSuccess:^(BOOL isSuccess) {
+            if (isSuccess==YES) {
+                [ZBToast showCenterWithText:@"删除成功"];
+            }
         }];
-   
         //为了区分按钮的状态
         sender.titleLabel.alpha = 1;
     }
@@ -178,13 +174,12 @@
         NSString *appID=[[ZBGlobalSettingsTool sharedInstance]appBundleID];
         NSString *WebKit=@"WebKit";
         NSString *path=[NSString stringWithFormat:@"%@/%@/%@",cachePath,appID,WebKit];
-        
         [[ZBCacheManager sharedInstance]clearDiskWithpath:path];
     }
 }
 - (void)btnDBClick{
     DBViewController *dbVC=[[DBViewController alloc]init];
-    dbVC.functionType=collectionTable;
+
     [self.navigationController pushViewController:dbVC animated:YES];
 }
 

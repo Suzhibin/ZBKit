@@ -9,6 +9,7 @@
 #import "NSObject+ZBkeyedArchive.h"
 #import <objc/runtime.h>
 @implementation NSObject (ZBkeyedArchive)
+/*
 - (void)encodeWithCoder:(NSCoder *)aCoder{
     unsigned int count;
     Ivar *ivars =class_copyIvarList([self class], &count);
@@ -36,4 +37,5 @@
     free(ivars);
     return self;
 }
+ */
 @end

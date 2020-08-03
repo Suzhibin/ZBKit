@@ -11,11 +11,12 @@
 #import "HomeViewController.h"
 #import "FirstViewController.h"
 #import "FiveViewController.h"
-#import "SettingViewController.h"
+#import "SecondViewController.h"
 #import "DetailsViewController.h"
 #import "ZBCityViewController.h"
 #import "ViewController.h"
-
+#import "PlayViewController.h"
+#import "MeViewController.h"
 #import "NSBundle+ZBKit.h"
 #import "ZBMacros.h"
 #import "ZBTabBar.h"
@@ -84,62 +85,64 @@
      "ZBTableView"="设置页面";
      */
     HomeViewController *home=[[HomeViewController alloc]init];
-    [self setupChildViewController:home title:ZBLocalized(@"Home",nil) image:@"tabBar_essence_icon" selectedImage:@"tabBar_essence_click_icon"];
+    [self setupChildViewController:home title:ZBLocalized(@"Home",nil) image:@"equal.square" selectedImage:@"equal.square.fill"];
     
     FirstViewController *first=[[FirstViewController alloc]init];
-    [self setupChildViewController:first title:ZBLocalized(@"ZBNetworking",nil) image:@"tabBar_new_icon" selectedImage:@"tabBar_new_click_icon"];
-    
-     
-    UIViewController *centerVC = [[UIViewController alloc] init];
-    centerVC.tabBarItem.tag = 8888;
-    [self setupChildViewController:centerVC title:@"" image:@"tabBar_publish_icon" selectedImage:@"tabBar_publish_click_icon"];
+    [self setupChildViewController:first title:ZBLocalized(@"flame",nil) image:@"flame" selectedImage:@"flame.fill"];
     
     
+    PlayViewController *playVC=[[PlayViewController alloc]init];
+    [self setupChildViewController:playVC title:ZBLocalized(@"play",nil) image:@"play.circle" selectedImage:@"play.circle.fill"];
     
-    FiveViewController *five=[[FiveViewController alloc]init];
-    [self setupChildViewController:five title:ZBLocalized(@"ZBCarouselView",nil) image:@"tabBar_friendTrends_icon" selectedImage:@"tabBar_friendTrends_click_icon"];
+    SecondViewController *secondVC=[[SecondViewController alloc]init];
+    [self setupChildViewController:secondVC title:ZBLocalized(@"message",nil) image:@"message" selectedImage:@"message.fill"];
     
-    SettingViewController *setting=[[SettingViewController alloc]
-                                    init];
-    [self setupChildViewController:setting title:ZBLocalized(@"ZBTableView",nil)  image:@"tabBar_me_icon" selectedImage:@"tabBar_me_click_icon"];
+//    UIViewController *centerVC = [[UIViewController alloc] init];
+//      centerVC.tabBarItem.tag = 8888;
+//      [self setupChildViewController:centerVC title:ZBLocalized(@"message",nil) image:@"message" selectedImage:@"message.fill"];
+    
+    MeViewController *meVC=[[MeViewController alloc]init];
+    
+    [self setupChildViewController:meVC title:ZBLocalized(@"person",nil)  image:@"person.circle" selectedImage:@"person.circle.fill"];
     
 }
 
 - (void)setupChildViewController:(UIViewController *)vc title:(NSString *)title image:(NSString *)image selectedImage:(NSString *)selectedImage
 {
     vc.title = title;
-    vc.tabBarItem.image=[[UIImage imageNamed:image]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    vc.tabBarItem.selectedImage=[[UIImage imageNamed:selectedImage]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    if (@available(iOS 13.0, *)) {
+        vc.tabBarItem.image=[[UIImage systemImageNamed:image]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        vc.tabBarItem.selectedImage=[[UIImage systemImageNamed:selectedImage]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
+
     // vc.tabBarItem.badgeValue =@"";//角标
     // vc.tabBarItem.imageInsets = UIEdgeInsetsMake(8, 0, -8, 0);//设置按钮上下
     [self addChildViewController:[[ZBNavigationController alloc] initWithRootViewController:vc]];
 }
+/*
 // tabBarItem是否可以选中
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
 {
     //这里我判断的是当前点击的tabBarItem的标题
     if (viewController.tabBarItem.tag == 8888) {
         [self  publishClick];
-        /*
-        YBLFoundTabBarViewController *foundTabBarVC = [YBLFoundTabBarViewController new];
-        [((UINavigationController *)tabBarController.selectedViewController) pushViewController:foundTabBarVC animated:YES];
-        */
         return NO;
         
     } else {
         return YES;
     }
 }
+ */
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
     
     if (_lastViewController == viewController) {
         //重复点击
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"refresh" object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"tabRefresh" object:nil userInfo:nil];
     }
        _lastViewController = viewController;
 }
-
+/*
 //弹出 中间ZBTabBarItem视图
 -(void)publishClick{
     
@@ -155,23 +158,12 @@
     }
     
     self.tabBarItem=tabBarItem;
-    
-    /**
-     点击城市列表按钮
-     */
+ 
     [tabBarItem.cityBtn addTarget:self action:@selector(cityBtnTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     
     //====================================================================
-    /*
-     //ZBTabBarItem
-     "itemText"="文字";
-     "itemAlbum"="相册";
-     "itemcamera"="拍摄";
-     "itemSignIn"="签到";
-     "itemComments"="点评";
-     "itemMore"="更多";
-     */
+  
     [tabBarItem addItemWithTitle:ZBLocalized(@"itemText",nil) andIcon:[UIImage imageNamed:@"tabbar_compose_idea"] andSelectedBlock:^{
         
         ViewController *textVC = [[ViewController alloc] init];
@@ -269,30 +261,29 @@
         ZBKLog(@"天气error:%@",error);
     }];
 }
+*/
 /*
-
  //点击tiem动画
  -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
  {
- NSInteger index = [self.tabBar.items indexOfObject:item];
- [self animationWithIndex:index];
+     NSInteger index = [self.tabBar.items indexOfObject:item];
+     [self animationWithIndex:index];
  }
  - (void)animationWithIndex:(NSInteger) index {
- NSMutableArray * tabbarbuttonArray = [NSMutableArray array];
- for (UIView *tabBarButton in self.tabBar.subviews) {
- if ([tabBarButton isKindOfClass:NSClassFromString(@"UITabBarButton")]) {
- [tabbarbuttonArray addObject:tabBarButton];
- }
- }
- CABasicAnimation*pulse = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
- pulse.timingFunction= [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
- pulse.duration = 0.08;
- pulse.repeatCount= 1;
- pulse.autoreverses= YES;
- pulse.fromValue= [NSNumber numberWithFloat:0.7];
- pulse.toValue= [NSNumber numberWithFloat:1.3];
- [[tabbarbuttonArray[index] layer]
- addAnimation:pulse forKey:nil];
+     NSMutableArray * tabbarbuttonArray = [NSMutableArray array];
+     for (UIView *tabBarButton in self.tabBar.subviews) {
+        if ([tabBarButton isKindOfClass:NSClassFromString(@"UITabBarButton")]) {
+            [tabbarbuttonArray addObject:tabBarButton];
+        }
+     }
+     CABasicAnimation*pulse = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+     pulse.timingFunction= [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+     pulse.duration = 0.08;
+     pulse.repeatCount= 1;
+     pulse.autoreverses= YES;
+     pulse.fromValue= [NSNumber numberWithFloat:0.7];
+     pulse.toValue= [NSNumber numberWithFloat:1.3];
+     [[tabbarbuttonArray[index] layer]addAnimation:pulse forKey:nil];
  }
  */
 

@@ -38,11 +38,13 @@
     }
     return _susView;
 }
+#pragma mark - ZBSuspensionViewDelegate
 - (void)suspensionViewClick{
 
     ZBDebugTabBarController *tabBar=[[ZBDebugTabBarController alloc]init];
     UITabBarController * rootView = (UITabBarController *)[[UIApplication sharedApplication].delegate window].rootViewController;
+    tabBar.modalPresentationStyle=UIModalPresentationFullScreen;
     [rootView presentViewController:tabBar animated:YES completion:nil];
-    [self close];
+    //[self close];
 }
 @end

@@ -30,25 +30,20 @@
         self.alpha =1;
         self.clipsToBounds = YES;
         self.layer.cornerRadius = self.frame.size.width <= self.frame.size.height ? self.frame.size.width / 2.0 : self.frame.size.height / 2.0;
-        // 初始化FPS label (监控FPS 调试使用)
-        YYFPSLabel *fps = [[YYFPSLabel alloc]initWithFrame:CGRectMake(0,5, 60, 10)];//fps监测
-        fps.font=[UIFont systemFontOfSize:10];
-        [self addSubview:fps];
+       
     
-        UILabel *versionString=[[UILabel alloc]initWithFrame:CGRectMake(0, 15, 60,25)];
+        UILabel *versionString=[[UILabel alloc]initWithFrame:CGRectMake(0, 10, 60,15)];
         versionString.textColor=[UIColor greenColor];;
         versionString.font=[UIFont systemFontOfSize:10];
         versionString.textAlignment=NSTextAlignmentCenter;
         versionString.numberOfLines=2;
-        versionString.text=[NSString stringWithFormat:@"V:%@\n B:%@",[[ZBGlobalSettingsTool sharedInstance]appVersion],[[ZBGlobalSettingsTool sharedInstance]appBuildVersion]];
+        versionString.text=[NSString stringWithFormat:@"V:%@",[[ZBGlobalSettingsTool sharedInstance]appVersion]];
         [self addSubview:versionString];
-        
-        UILabel *titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(0,40, 60, 10)];
-        titleLabel.textColor=[UIColor greenColor];
-        titleLabel.textAlignment=NSTextAlignmentCenter;
-         titleLabel.font=[UIFont systemFontOfSize:10];
-        titleLabel.text=@"release";
-        [self addSubview:titleLabel];
+ 
+        // 初始化FPS label (监控FPS 调试使用)
+        YYFPSLabel *fps = [[YYFPSLabel alloc]initWithFrame:CGRectMake(0,25, 60, 10)];//fps监测
+               fps.font=[UIFont systemFontOfSize:12];
+        [self addSubview:fps];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(signalTap:)];
         [self addGestureRecognizer:tap];

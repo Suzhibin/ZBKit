@@ -7,9 +7,14 @@
 */
 //ZBTabBarController
 "Home"="首页";
-"ZBNetworking"="网络请求";
-"ZBCarouselView"="轮播控件";
-"ZBTableView"="设置页面";
+"play"="视频";
+"message"="消息";
+"flame"="热点";
+"person"="我的";
+//me
+"collection"="我的收藏";
+"languages"="切换语言";
+"clearcache"="清除缓存";
 //ZBTabBarItem
 "itemText"="文字";
 "itemAlbum"="相册";

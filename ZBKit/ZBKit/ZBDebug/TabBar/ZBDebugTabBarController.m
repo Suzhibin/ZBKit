@@ -25,7 +25,7 @@
     [[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:31/255.0 green:33/255.0 blue:36/255.0 alpha:1.0]];
     [UITabBar appearance].translucent = NO;
     self.tabBar.tintColor =[UIColor greenColor];
-    
+
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0F], NSForegroundColorAttributeName :[UIColor greenColor]} forState:UIControlStateSelected];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0F],  NSForegroundColorAttributeName:[UIColor grayColor]} forState:UIControlStateNormal];
 }

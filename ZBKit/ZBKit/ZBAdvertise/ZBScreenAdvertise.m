@@ -13,6 +13,7 @@
 #import "ZBMacros.h"
 #import "DetailsViewController.h"
 #import "UIViewController+ZBKit.h"
+static NSString *const ZBStartAdvertSaveTime = @"ZBStartAdvertSaveTime";
 NSString *const AdvertiseDefaultPath =@"Advertise";
 static NSString *const adImageName = @"adImageName";
 static NSString *const adUrlName = @"adUrl";
@@ -50,26 +51,32 @@ static NSString *const adUrlName = @"adUrl";
         ///进入后台
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
             [weakSelf requestAdvertise];
-            weakSelf.enterBackgroundTimer = [NSTimer scheduledTimerWithTimeInterval:300 target:self selector:@selector(enterBackgroundClick) userInfo:nil repeats:NO];
+             NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:0];
+            NSInteger saveTime = [date timeIntervalSinceNow];
+            NSLog(@"进入后台请求广告 并保存时间%li",saveTime);
+            [[NSUserDefaults standardUserDefaults]setInteger:saveTime forKey:ZBStartAdvertSaveTime];
+            // 刷新数据
+            [[NSUserDefaults standardUserDefaults] synchronize];
         }];
         ///后台启动,二次开屏广告
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillEnterForegroundNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-     
-//            if ([weakSelf.enterBackgroundTimer isValid]) {
-//                ZBKLog(@"后台进入前台 没有超时");
-//                [weakSelf.enterBackgroundTimer invalidate];
-//                weakSelf.enterBackgroundTimer =nil;
-//            }else{
-                ZBKLog(@"后台进入前台 超300秒");
-                [weakSelf checkAdvertise];
-//            }
+            NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:0];
+            NSInteger nowTime = [date timeIntervalSinceNow];
+            NSLog(@"进入前台 读取当前时间%li",nowTime);
+            NSInteger saveTime = [[NSUserDefaults standardUserDefaults]integerForKey:ZBStartAdvertSaveTime];
+            NSLog(@"进入前台 读取保存的时间%li",saveTime);
+            if (saveTime != 0) {
+                NSInteger howLong = saveTime - nowTime; //得到从进入后台到进入前台所经过的时间
+                NSLog(@"保存时间减去 当前时间 = %li",howLong);
+                if (howLong>300) {//5分钟
+                    NSLog(@"大于规定时间执行 广告");
+                    [weakSelf checkAdvertise];
+                }
+            }
+                
         }];
     }
     return self;
-}
-
-- (void)enterBackgroundClick{
-      ZBKLog(@"超300秒了");
 }
 
 - (void)checkAdvertise{
@@ -77,12 +84,12 @@ static NSString *const adUrlName = @"adUrl";
      NSString *urlkey= [[NSUserDefaults standardUserDefaults] valueForKey:adUrlName];
     ZBKLog(@"imagekey:%@",imagekey);
     
-    if ([[ZBCacheManager sharedInstance]diskCacheExistsWithKey:imagekey path:[self AdvertiseFilePath]]) {
+    if ([[ZBCacheManager sharedInstance]diskCacheExistsForKey:imagekey path:[self AdvertiseFilePath]]) {
         
         [[ZBCacheManager sharedInstance]getCacheDataForKey:imagekey path:[self AdvertiseFilePath] value:^(NSData *data,NSString *filePath) {
             
             UIImage *image=[UIImage imageWithData:data];
-            [self show:image];
+            [self showImage:image];
             [[ZBCacheManager sharedInstance]getCacheDataForKey:urlkey path:[self AdvertiseFilePath] value:^(NSData *data, NSString *filePath) {
                 self.dict=[NSDictionary dictionaryWithContentsOfFile:filePath];
             }];
@@ -94,8 +101,17 @@ static NSString *const adUrlName = @"adUrl";
 }
 
 - (void)requestAdvertise{
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    CGRect rect_screen = [[UIScreen mainScreen] bounds];
+    CGSize size_screen = rect_screen.size;
+    CGFloat scale_screen = [UIScreen mainScreen].scale;
+    CGFloat width = size_screen.width*scale_screen;
+    CGFloat height = size_screen.height*scale_screen;
+    param[@"Width"] = @(width).stringValue;
+    param[@"Height"] = @(height).stringValue;
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
-        request.URLString=@"http://192.168.33.186:9080/BOSS_APD_WEB/news/ads/screen_zh_CN";
+        request.URLString=@"https://seeker.bjx.com.cn/Api/V1/Account/AppStartImg_Get";
+        request.parameters=param;
         request.apiType=ZBRequestTypeRefresh;
     } success:^(id responseObject, ZBURLRequest *request) {
         if ([responseObject isKindOfClass:[NSArray class]]) {
@@ -132,7 +148,7 @@ static NSString *const adUrlName = @"adUrl";
     }];
 }
 
-- (void)show:(UIImage *)image{
+- (void)showImage:(UIImage *)image{
     ///初始化一个Window， 做到对业务视图无干扰。
     UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     window.rootViewController = [UIViewController new];
@@ -196,7 +212,7 @@ static NSString *const adUrlName = @"adUrl";
     [window addSubview:imageView];
     
     //CGRect rectStatus=  [[UIApplication sharedApplication] statusBarFrame];
-    UIButton * downCountButton = [[UIButton alloc] initWithFrame:CGRectMake(window.bounds.size.width - 80 - 20, ZB_STATUS_HEIGHT+15, 80, 30)];
+    UIButton * downCountButton = [[UIButton alloc] initWithFrame:CGRectMake(window.bounds.size.width - 80 - 20, ZB_SafeAreaTopHeight+15, 80, 30)];
     downCountButton.backgroundColor=[[UIColor blackColor]colorWithAlphaComponent:0.5];
     [downCountButton addTarget:self action:@selector(goOut) forControlEvents:UIControlEventTouchUpInside];
     [window addSubview:downCountButton];

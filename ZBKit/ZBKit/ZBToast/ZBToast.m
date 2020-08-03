@@ -15,7 +15,6 @@
 #define ToastBackgroundColor [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.75]
 @interface ZBToast ()
 @property(nonatomic,strong)UIButton *contentView;
-@property(nonatomic,strong)UIActivityIndicatorView *loadingIndicatorView;
 @property(nonatomic,assign)CGFloat duration;
 @end
 @implementation ZBToast
@@ -25,28 +24,19 @@
         UIFont *font = [UIFont boldSystemFontOfSize:16];
         NSDictionary * dict=[NSDictionary dictionaryWithObject: font forKey:NSFontAttributeName];
         CGRect rect=[text boundingRectWithSize:CGSizeMake(250,CGFLOAT_MAX) options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin attributes:dict context:nil];
-        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0,rect.size.width + 40, rect.size.height+ 20)];
-        textLabel.backgroundColor = [UIColor clearColor];
-        textLabel.textColor = [UIColor whiteColor];
-        textLabel.textAlignment = NSTextAlignmentCenter;
-        textLabel.font = font;
-        textLabel.text = text;
-        textLabel.numberOfLines = 0;
-        
-        self.contentView = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, textLabel.frame.size.width, textLabel.frame.size.height)];
+
+        self.contentView = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.contentView.frame=CGRectMake(0, 0, rect.size.width+40, rect.size.height+20);
+        self.contentView.titleLabel.font=font;
+        self.contentView.titleLabel.numberOfLines = 0;
+        self.contentView.titleLabel.textAlignment=NSTextAlignmentCenter;
+        [self.contentView setTitle:text forState:UIControlStateNormal];
         self.contentView.layer.cornerRadius = 20.0f;
         self.contentView.backgroundColor = ToastBackgroundColor;
-        [self.contentView addSubview:textLabel];
         self.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [self.contentView addTarget:self action:@selector(toastTaped:) forControlEvents:UIControlEventTouchDown];
         self.contentView.alpha = 0.0f;
-        
         self.duration = ToastDispalyDuration;
-        
-        
-        self.loadingIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-
-        
     }
     
     return self;

@@ -23,9 +23,9 @@ NSString *const _progressBlock =@"_progressBlock";
 @property (nonatomic, strong, nullable) NSMutableArray *baseFiltrationCacheKey;
 @property (nonatomic, assign) NSTimeInterval baseTimeoutInterval;
 @property (nonatomic, assign) NSUInteger baseRetryCount;
-@property (nonatomic,assign) ZBRequestSerializerType baseRequestSerializer;
-@property (nonatomic,assign) ZBResponseSerializerType baseResponseSerializer;
-@property (nonatomic, assign)BOOL consoleLog;
+@property (nonatomic, assign) ZBRequestSerializerType baseRequestSerializer;
+@property (nonatomic, assign) ZBResponseSerializerType baseResponseSerializer;
+@property (nonatomic, assign) BOOL consoleLog;
 
 @end
 
@@ -68,7 +68,7 @@ NSString *const _progressBlock =@"_progressBlock";
 }
 
 - (void)dealloc {
-    [self invalidateSessionCancelingTasks:YES];
+    [self invalidateSessionCancelingTasks:YES resetSession:NO];
 }
 
 #pragma mark - GET/POST/PUT/PATCH/DELETE
@@ -84,17 +84,17 @@ NSString *const _progressBlock =@"_progressBlock";
     NSString *URLString=[NSString zb_stringUTF8Encoding:request.URLString];
     NSURLSessionDataTask *dataTask=nil;
     if (request.methodType==ZBMethodTypeGET) {
-        dataTask = [self GET:URLString parameters:request.parameters progress:progress success:success failure:failure];
+        dataTask = [self GET:URLString parameters:request.parameters headers:nil progress:progress success:success failure:failure];
     }else if (request.methodType==ZBMethodTypePOST) {
-        dataTask = [self POST:URLString parameters:request.parameters progress:progress success:success failure:failure];
+        dataTask = [self POST:URLString parameters:request.parameters headers:nil progress:progress  success:success failure:failure];
     }else if (request.methodType==ZBMethodTypePUT){
-        dataTask = [self PUT:URLString parameters:request.parameters success:success failure:failure];
+        dataTask = [self PUT:URLString parameters:request.parameters headers:nil success:success failure:failure];
     }else if (request.methodType==ZBMethodTypePATCH){
-        dataTask = [self PATCH:URLString parameters:request.parameters success:success failure:failure];
+        dataTask = [self PATCH:URLString parameters:request.parameters headers:nil success:success failure:failure];
     }else if (request.methodType==ZBMethodTypeDELETE){
-        dataTask = [self DELETE:URLString parameters:request.parameters success:success failure:failure];
+        dataTask = [self DELETE:URLString parameters:request.parameters headers:nil success:success failure:failure];
     }else{
-        dataTask = [self GET:URLString parameters:request.parameters progress:progress success:success failure:failure];
+        dataTask = [self GET:URLString parameters:request.parameters headers:nil progress:progress success:success failure:failure];
     }
     [request setIdentifier:dataTask.taskIdentifier];
     return request.identifier;
@@ -109,7 +109,7 @@ NSString *const _progressBlock =@"_progressBlock";
     [self headersAndTimeConfig:request];
     [self printParameterWithRequest:request];
     
-   NSURLSessionDataTask *uploadTask = [self POST:[NSString zb_stringUTF8Encoding:request.URLString] parameters:request.parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    NSURLSessionDataTask *uploadTask = [self POST:[NSString zb_stringUTF8Encoding:request.URLString] parameters:request.parameters headers:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
         [request.uploadDatas enumerateObjectsUsingBlock:^(ZBUploadData *obj, NSUInteger idx, BOOL *stop) {
             if (obj.fileData) {
@@ -191,39 +191,37 @@ NSString *const _progressBlock =@"_progressBlock";
 }
 
 #pragma mark - 其他配置
-- (void)setupBaseConfig:(void(^)(ZBConfig *config))block{
-    ZBConfig *config=[[ZBConfig alloc]init];
-    config.consoleLog=NO;
-    block ? block(config) : nil;
+- (void)setupBaseConfig:(ZBConfig *)config{
     if (config.baseURL) {
         self.baseURLString=config.baseURL;
     }
-    if (config.baseTimeoutInterval) {
-        self.baseTimeoutInterval=config.baseTimeoutInterval;
+    if (config.timeoutInterval) {
+        self.baseTimeoutInterval=config.timeoutInterval;
     }
-    if (config.baseParameters.count>0) {
-        [self.baseParameters addEntriesFromDictionary:config.baseParameters];
+    if (config.parameters.count>0) {
+        [self.baseParameters addEntriesFromDictionary:config.parameters];
     }
-    if (config.baseHeaders.count>0) {
-        [self.baseHeaders addEntriesFromDictionary:config.baseHeaders];
+    if (config.headers.count>0) {
+        [self.baseHeaders addEntriesFromDictionary:config.headers];
     }
-    if (config.baseFiltrationCacheKey) {
-        [self.baseFiltrationCacheKey addObjectsFromArray:config.baseFiltrationCacheKey];
+    if (config.filtrationCacheKey) {
+        [self.baseFiltrationCacheKey addObjectsFromArray:config.filtrationCacheKey];
     }
     if (config.isRequestSerializer==YES) {
-        self.baseRequestSerializer=config.baseRequestSerializer;
+        self.baseRequestSerializer=config.requestSerializer;
     }
     if (config.isResponseSerializer==YES) {
-        self.baseResponseSerializer=config.baseResponseSerializer;
+        self.baseResponseSerializer=config.responseSerializer;
     }
-    if (config.baseRetryCount) {
-        self.baseRetryCount=config.baseRetryCount;
+    if (config.retryCount) {
+        self.baseRetryCount=config.retryCount;
     }
-    if (config.baseUserInfo) {
-        self.baseUserInfo=config.baseUserInfo;
+    if (config.userInfo) {
+        self.baseUserInfo=config.userInfo;
     }
     self.consoleLog=config.consoleLog;
 }
+
 - (void)configBaseWithRequest:(ZBURLRequest *)request progressBlock:(ZBRequestProgressBlock)progressBlock successBlock:(ZBRequestSuccessBlock)successBlock failureBlock:(ZBRequestFailureBlock)failureBlock finishedBlock:(ZBRequestFinishedBlock)finishedBlock{
     if (successBlock) {
         [request setValue:successBlock forKey:_successBlock];
@@ -340,7 +338,9 @@ NSString *const _progressBlock =@"_progressBlock";
 
 - (void)removeRequestForkey:(NSString *)key{
     if(!key)return;
-    [_requestDic removeObjectForKey:key];
+    if ([self objectRequestForkey:key]) {
+        [_requestDic removeObjectForKey:key];
+    }
 }
 
 - (id)objectRequestForkey:(NSString *)key{

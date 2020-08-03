@@ -8,8 +8,8 @@
 
 #import "ZBDataBaseManager.h"
 #import "FMDB.h"
-
-#define DBBUG_LOG 0
+#import <objc/runtime.h>
+#define DBBUG_LOG 1
 #if(DBBUG_LOG == 1)
 # define DBLog(format, ...) printf("\n[%s] %s [第%d行] %s\n", __TIME__, __FUNCTION__, __LINE__, [[NSString stringWithFormat:format, ## __VA_ARGS__] UTF8String]);
 #else
@@ -87,9 +87,15 @@ NSString *const dbName =@"ZBKit.db";
     if ([self isTableName:tableName]==NO) {
         return;
     }
+    id object;
+    if ([obj isEqual:[NSDictionary class]]) {
+        object=obj;
+    }else{
+        object=[self getObjectData:obj];
+    }
     NSError * error;
     DBLog(@"obj:%@",obj);
-    NSData * data = [NSJSONSerialization dataWithJSONObject:obj options:0 error:&error];
+    NSData * data = [NSJSONSerialization dataWithJSONObject:object options:0 error:&error];
     if (error) {
         DBLog(@"ERROR, faild to get json data");
         return;
@@ -113,6 +119,14 @@ NSString *const dbName =@"ZBKit.db";
 }
 #pragma mark - 查询数据
 - (NSArray *)getAllDataWithTable:(NSString *)tableName{
+    NSMutableArray *dataArray=[[NSMutableArray alloc]init];
+    NSArray *arr=  [self getAllDataBaseWithTable:tableName];
+    [arr enumerateObjectsUsingBlock:^(ZBDataBaseModel *dbModel, NSUInteger idx, BOOL * _Nonnull stop) {
+        [dataArray addObject:dbModel.object];
+    }];
+    return dataArray;
+}
+- (NSArray <ZBDataBaseModel *>*)getAllDataBaseWithTable:(NSString *)tableName{
     if ([self isTableName:tableName] == NO) {
         return nil;
     }
@@ -133,8 +147,11 @@ NSString *const dbName =@"ZBKit.db";
     NSError * error;
     for (ZBDataBaseModel * model in array) {
         error = nil;
-        id object = [NSJSONSerialization JSONObjectWithData:[model.object dataUsingEncoding:NSUTF8StringEncoding]
-                                                    options:(NSJSONReadingAllowFragments) error:&error];
+        id object;
+        object = [NSJSONSerialization JSONObjectWithData:[model.object dataUsingEncoding:NSUTF8StringEncoding]
+                                                               options:(NSJSONReadingAllowFragments) error:&error];
+        
+       
         if (error) {
             DBLog(@"ERROR, faild to prase to json.");
         } else {
@@ -144,7 +161,7 @@ NSString *const dbName =@"ZBKit.db";
     return array;
 }
 
--(BOOL)isExistsWithItemId:(NSString *)itemId table:(NSString *)tableName {
+-(BOOL)table:(NSString *)tableName isExistsWithItemId:(NSString *)itemId {
     if ([self isTableName:tableName] == NO) {
         return nil;
     }
@@ -295,5 +312,66 @@ NSString *const dbName =@"ZBKit.db";
 - (void)closeDataBase {
     [_dbQueue close];
     _dbQueue=nil;
+}
+#pragma mark - model 转 dict
+- (NSDictionary*)getObjectData:(id)obj {
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    unsigned int propsCount;
+    
+    objc_property_t *props = class_copyPropertyList([obj class], &propsCount);
+    
+    for(int i = 0;i < propsCount; i++) {
+        
+        objc_property_t prop = props[i];
+        NSString *propName = [NSString stringWithUTF8String:property_getName(prop)];
+        id value = [obj valueForKey:propName];
+        if(value == nil) {
+            
+            value = [NSNull null];
+        } else {
+            value = [self getObjectInternal:value];
+        }
+        [dic setObject:value forKey:propName];
+    }
+    
+    return dic;
+}
+
+- (id)getObjectInternal:(id)obj {
+    
+    if([obj isKindOfClass:[NSString class]]
+       ||
+       [obj isKindOfClass:[NSNumber class]]
+       ||
+       [obj isKindOfClass:[NSNull class]]) {
+        
+        return obj;
+        
+    }
+    if([obj isKindOfClass:[NSArray class]]) {
+        
+        NSArray *objarr = obj;
+        NSMutableArray *arr = [NSMutableArray arrayWithCapacity:objarr.count];
+        
+        for(int i = 0; i < objarr.count; i++) {
+            
+            [arr setObject:[self getObjectInternal:[objarr objectAtIndex:i]] atIndexedSubscript:i];
+        }
+        return arr;
+    }
+    if([obj isKindOfClass:[NSDictionary class]]) {
+        
+        NSDictionary *objdic = obj;
+        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithCapacity:[objdic count]];
+        
+        for(NSString *key in objdic.allKeys) {
+            
+            [dic setObject:[self getObjectInternal:[objdic objectForKey:key]] forKey:key];
+        }
+        return dic;
+    }
+    return [self getObjectData:obj];
+    
 }
 @end

@@ -27,11 +27,6 @@
  
     [self.view addSubview:self.tableView];
     
-    [self itemWithTitle:ZBLocalized(@"back",nil) selector:@selector(langDismiss) location:YES];
-}
-
-- (void)langDismiss{
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -92,10 +87,8 @@
 - (void)initRootVC{
     ZBTabBarController *tab=[[ZBTabBarController alloc]init];
     tab.selectedIndex=4;
-
-    [self dismissViewControllerAnimated:YES completion:^{
-        [UIApplication sharedApplication].keyWindow.rootViewController = tab;
-    }];
+    [UIApplication sharedApplication].keyWindow.rootViewController = tab;
+    
 }
 //懒加载
 - (UITableView *)tableView{

@@ -116,6 +116,7 @@ static const CGFloat u = 1000.0;
         
         switch (self.type) {
             case ZBFileTypeUnknown: _typeImageName = @"icon_file_type_default"; break;
+            case ZBFileTypeRegular: _typeImageName = @"icon_file_type_default"; break;
             case ZBFileTypeDirectory: _typeImageName = self.filesCount == 0 ? @"icon_file_type_folder_empty" : @"icon_file_type_folder_not_empty"; break;
                 // Image
             case ZBFileTypeJPG: _typeImageName = @"icon_file_type_jpg"; break;
@@ -191,12 +192,14 @@ static const CGFloat u = 1000.0;
 - (ZBFileType)fileTypeWithExtension:(NSString *)extension {
     ZBFileType type = ZBFileTypeUnknown;
     
-    if ((nil == extension || (NSNull *)extension == [NSNull null] || [@"" isEqualToString:extension])) {
+    if ((nil == extension || (NSNull *)extension == [NSNull null])) {
         return type;
     }
-    
+    if([@"" isEqualToString:extension]){
+        type = ZBFileTypeRegular;
+    }
     // Image
-    if ([extension compare:@"jpg" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+    else if ([extension compare:@"jpg" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
         type = ZBFileTypeJPG;
     } else if ([extension compare:@"png" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
         type = ZBFileTypePNG;

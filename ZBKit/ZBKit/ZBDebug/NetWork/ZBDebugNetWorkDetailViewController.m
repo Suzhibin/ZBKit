@@ -92,7 +92,7 @@
     [self.view addSubview:codeLabel];
     self.codeLabel=codeLabel;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    UITextView *contentTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 100, ZB_SCREEN_WIDTH, ZB_SCREEN_HEIGHT-(ZB_STATUS_HEIGHT+ZB_TABBAR_HEIGHT+100+44))];
+    UITextView *contentTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 100, ZB_SCREEN_WIDTH, ZB_SCREEN_HEIGHT-(ZB_SafeAreaTopHeight+ZB_TABBAR_HEIGHT+100+44))];
     //contentTextView.editable = NO;
     contentTextView.alwaysBounceVertical = YES;
     contentTextView.textColor=[UIColor whiteColor];

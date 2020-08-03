@@ -61,7 +61,7 @@
     }else if([languageCode hasPrefix:@"en"]){
         languageCode = @"en";//英语
     }else{
-        languageCode = @"en";//英语
+        languageCode = @"zh-Hans";//英语
     }
     [self setLanguage:languageCode];
     

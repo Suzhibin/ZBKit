@@ -30,7 +30,9 @@
 
 #define ZB_TABBAR_HEIGHT   CGRectGetHeight(self.tabBarController.tabBar.frame)
 #define ZB_NAVBAR_HEIGHT       self.navigationController.navigationBar.frame.size.height
-#define ZB_STATUS_HEIGHT  [[UIApplication sharedApplication] statusBarFrame].size.height
+//ios13 XXX #define ZB_STATUS_HEIGHT  [[UIApplication sharedApplication] statusBarFrame].size.height
+#define ZB_SafeAreaBottomHeight (CGFloat)(IS_IPhoneX_All?(34.0):(0.0))
+#define ZB_SafeAreaTopHeight (CGFloat)(IS_IPhoneX_All?(44.0):(22.0))
 
 //是否为ios7
 #define is_ios7  [[[UIDevice currentDevice]systemVersion]floatValue]>=7
@@ -45,6 +47,9 @@
 
 //判断是否是ipad
 #define isPad ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+
+// 判断是否是iPhone X系列
+#define IS_IPhoneX_All ([UIScreen mainScreen].bounds.size.height == 812 || [UIScreen mainScreen].bounds.size.height == 896)
 //判断iPhoneX
 #define IS_IPHONE_X ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) && !isPad : NO)
 //判断iPHoneXr
@@ -54,17 +59,10 @@
 //判断iPhoneXs Max
 #define IS_IPHONE_Xs_Max ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2688), [[UIScreen mainScreen] currentMode].size) && !isPad : NO)
 
-//iPhoneX系列
-#define k_Height_NavContentBar 44.0f
-#define k_Height_StatusBar ((IS_IPHONE_X==YES || IS_IPHONE_Xr ==YES || IS_IPHONE_Xs== YES || IS_IPHONE_Xs_Max== YES) ? 44.0 : 20.0)
-#define k_Height_NavBar ((IS_IPHONE_X==YES || IS_IPHONE_Xr ==YES || IS_IPHONE_Xs== YES || IS_IPHONE_Xs_Max== YES) ? 88.0 : 64.0)
-#define k_Height_TabBar ((IS_IPHONE_X==YES || IS_IPHONE_Xr ==YES || IS_IPHONE_Xs== YES || IS_IPHONE_Xs_Max== YES) ? 83.0 : 49.0)
 
-
-
-#define random(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)/255.0]
+#define Random(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)/255.0]
 //随机颜色
-#define randomColor random(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
+#define RandomColor Random(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
 
 //取消键盘响应
 #define HIDE_KEYBOARD [[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];[[[UIApplication sharedApplication] keyWindow] endEditing:YES];
@@ -82,6 +80,19 @@
 //模拟器
 #endif
 
+#define ZB_iPhone5W 320.0
+#define ZB_iPhone5H 568.0
+// 计算比例
+// x比例 1.293750 在iPhone7的屏幕上
+#define ZB_ScaleX ZB_SCREEN_WIDTH / ZB_iPhone5W
+// y比例 1.295775
+#define ZB_ScaleY ZB_SCREEN_HEIGHT / ZB_iPhone5H
+// X坐标
+#define ZBLineX(l) l*ZB_ScaleX
+// Y坐标
+#define ZBLineY(l) l*ZB_ScaleY
+// 字体
+#define ZBFont(x) [UIFont systemFontOfSize:x*ZB_ScaleX]
 
 //夜间模式
 static NSString * const READStyle = @"showNightView";

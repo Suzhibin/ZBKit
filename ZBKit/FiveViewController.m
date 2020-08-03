@@ -8,88 +8,129 @@
 
 #import "FiveViewController.h"
 #import "ZBKit.h"
-@interface FiveViewController ()<ZBCarouselViewDelegate>
-@property (nonatomic,strong)ZBCarouselView *carouselView;
-@property (nonatomic,strong)ZBCarouselView *carouselView1;
-@property (nonatomic,strong)ZBCarouselView *carouselView2;
-
+#import <SceneKit/SceneKit.h>
+@interface FiveViewController ()
+@property(strong,nonatomic)SCNView *scnView;
+@property(nonatomic,strong)SCNNode *shoseNode;
+@property(nonatomic,strong)UIView *shoseView;
+@property(nonatomic,strong)UILabel *titleLabel;
 @end
 
 @implementation FiveViewController
+
 - (void)dealloc{
     NSLog(@"释放%s",__func__);
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor=[UIColor whiteColor];
+   [self layoutView];
+      [self changeshosesurface];
+      [self addSCNView];
+}
+-(void)layoutView{
     
-     NSArray *arr = @[IMAGE1,IMAGE2,IMAGE3,];
-     
-     NSArray *describeArray = @[@"图片1", @"图片2",@"动态图"];
-     
-     self.carouselView = [[ZBCarouselView alloc] initWithFrame:CGRectMake(0, 100, ZB_SCREEN_WIDTH, 180)];
-     //设置占位图片,须在设置图片数组之前设置
-     _carouselView.placeholderImage = [UIImage imageNamed:[NSBundle zb_placeholder]];
-     //设置图片数组及图片描述文字
-     _carouselView.imageArray = arr;
-     _carouselView.describeArray = describeArray;
-     //设置每张图片的停留时间，默认值为5s，最少为2s
-     _carouselView.time = 2;
-     //Block 优先级高于代理
-    // __weak typeof(self) weakSelf = self;
-     _carouselView.imageClickBlock = ^(NSInteger index){
-     NSLog(@"Block点击了第%@张图片", @(index));
-        
-     };
-     //设置分页控件的图片,不设置则为系统默认
-    //[_carouselView setPageImage:[UIImage imageNamed:@"time1.png"] andCurrentPageImage:[UIImage imageNamed:@"laiyuan.png"]];
-     //设置分页控件的位置，默认为PositionBottomCenter
-     _carouselView.pagePosition = PositionBottomRight;
-     //设置图片切换的方式
-     _carouselView.changeMode = ChangeModeFade;
-     
-     /**
-     *  修改图片描述控件的外观，不需要修改的传nil
-     *
-     *  参数一 字体颜色，默认为白色
-     *  参数二 字体，默认为13号字体
-     *  参数三 背景颜色，默认为黑色半透明
-     */
-    
-     UIColor *bgColor = [[UIColor blueColor] colorWithAlphaComponent:0.5];
-     UIFont *font = [UIFont systemFontOfSize:15];
-     UIColor *textColor = [UIColor greenColor];
-     
-     [_carouselView setDescribeTextColor:textColor font:font bgColor:bgColor];
-     [self.view addSubview:_carouselView];
-     
+    self.shoseView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, ZB_SCREEN_WIDTH, 0.6*ZB_SCREEN_HEIGHT)];
+    [self.view addSubview:_shoseView];
+    _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, _shoseView.frame.size.height+64, ZB_SCREEN_WIDTH, 40)];
+    _titleLabel.textAlignment = NSTextAlignmentCenter;
+    _titleLabel.backgroundColor = [UIColor grayColor];
+    _titleLabel.text = @"板鞋👟";
+    [self.view addSubview:_titleLabel];
     
     
-    
-     self.carouselView1 = [[ZBCarouselView alloc] initWithFrame:CGRectMake(0, 300, ZB_SCREEN_WIDTH, 180)];
-     //设置占位图片,须在设置图片数组之前设置3
-     _carouselView1.placeholderImage = [UIImage imageNamed:[NSBundle zb_placeholder]];
-     
-     //设置图片数组及图片描述文字
-     _carouselView1.imageArray = arr;
-     _carouselView1.titleArray = describeArray;
-     //  _carouselView1.describeArray = describeArray;
-     //设置分页控件的位置，默认为PositionBottomCenter
-     _carouselView1.pagePosition = PositionBottomCenter;
-     _carouselView1.time = 2;
-     //用代理处理图片点击
-     _carouselView1.delegate = self;
-     //设置图片切换的方式
-     _carouselView1.changeMode = ChangeModeDefault;
-     [self.view addSubview:_carouselView1];
-
 }
 
- #pragma mark XRCarouselViewDelegate
-- (void)carouselView:(ZBCarouselView *)carouselView clickImageAtIndex:(NSInteger)index {
- 
-    NSLog(@"Delegate点击了第%@张图片", @(index));
- 
+-(void)addSCNView{
+    SCNSceneSource *sceneSource = [SCNSceneSource sceneSourceWithURL:[[NSBundle mainBundle] URLForResource:@"vans-authentic-shoe-low-poly" withExtension:@".dae"] options:nil];
+    
+    //     SCNNode *shoseNode = [sceneSource entryWithIdentifier:@"vans-authentic-shoe-low-poly" withClass:[SCNNode class]];
+    
+    _scnView= [[SCNView alloc]initWithFrame:self.shoseView.bounds];
+    _scnView.allowsCameraControl = YES;//允许您通过简单的手势手动控制活动相机。
+    _scnView.showsStatistics = YES;//在场景底部启用实时统计面板。
+    _scnView.autoenablesDefaultLighting=YES;//在场景中创建一个通用的全向灯，因此您不必担心添加自己的光源。
+    _scnView.backgroundColor = [UIColor grayColor];
+    
+    
+    
+    SCNScene *scene  = [sceneSource sceneWithOptions:nil error:nil];
+    
+    SCNNode *cameraNode = [SCNNode node];
+    cameraNode.camera = [SCNCamera camera];
+    cameraNode.camera.automaticallyAdjustsZRange = true;
+    cameraNode.camera.zFar = 400;//视距
+    [scene.rootNode addChildNode:cameraNode];
+    cameraNode.position = SCNVector3Make(0, 0, 300);
+    //    cameraNode.eulerAngles = SCNVector3Make(0,M_PI/4, 0);
+    // create and add a light to the scene
+    SCNNode *lightNode = [SCNNode node];
+    lightNode.light = [SCNLight light];
+    lightNode.light.type = SCNLightTypeOmni;
+    lightNode.position = SCNVector3Make(0, 0, 100);
+    [scene.rootNode addChildNode:lightNode];
+    
+    // create and add an ambient light to the scene
+    SCNNode *ambientLightNode = [SCNNode node];
+    ambientLightNode.light = [SCNLight light];
+    ambientLightNode.light.type = SCNLightTypeAmbient;
+    ambientLightNode.light.color = [UIColor whiteColor];
+    [scene.rootNode addChildNode:ambientLightNode];
+    
+    _shoseNode = [_scnView.scene.rootNode childNodeWithName:@"Authentic-Low-Poly" recursively:YES];
+    // 绕 y轴 一直旋转
+//    SCNAction *action = [SCNAction repeatActionForever:[SCNAction rotateByX:0 y:1 z:0 duration:0.5]];
+//    [_shoseNode runAction:action];
+   
+    _scnView.scene = scene;
+
+    // retrieve the SCNView
+        [self.shoseView addSubview:_scnView];
+}
+
+
+-(void)changeshosesurface{
+    UIButton *redbutton = [UIButton buttonWithType:UIButtonTypeSystem];
+    redbutton.frame = CGRectMake(20, _titleLabel.frame.origin.y +60, 120, 50);
+    [redbutton setTitle:@"鞋面颜色" forState:UIControlStateNormal];
+    [redbutton addTarget:self action:@selector(changeColor) forControlEvents:UIControlEventTouchUpInside];
+    redbutton.backgroundColor  = [UIColor grayColor];
+    [self.view addSubview:redbutton];
+    
+  
+    
+    UIButton *xjxbutton = [UIButton buttonWithType:UIButtonTypeSystem];
+    xjxbutton.frame = CGRectMake(ZB_SCREEN_WIDTH-120-20, _titleLabel.frame.origin.y +60, 120, 50);
+    [xjxbutton setTitle:@"鞋带" forState:UIControlStateNormal];
+    [xjxbutton addTarget:self action:@selector(heartClothes) forControlEvents:UIControlEventTouchUpInside];
+    xjxbutton.backgroundColor  = [UIColor grayColor];;
+    [self.view addSubview:xjxbutton];
+}
+
+-(void)changeColor{
+    
+    SCNNode *shirtNode = [_scnView.scene.rootNode childNodeWithName:@"polySurface394" recursively:YES];
+    shirtNode.geometry.firstMaterial.diffuse.contents  = RandomColor;
+//    SCNNode *newnode = [shirtNode clone];
+////    [_shoseNode replaceChildNode:shirtNode with:newnode];
+//    [shirtNode removeFromParentNode];
+//    SCNNode *sunNode = [SCNNode node];
+//    sunNode.geometry = [SCNSphere sphereWithRadius:100];
+//    sunNode.geometry.firstMaterial.diffuse.contents = [UIColor redColor];
+    
+    NSLog(@"%@ ❤️❤️❤️",shirtNode);
+//    NSLog(@"%@ ❤️❤️❤️",newnode);
+//    [_shoseNode replaceChildNode:shirtNode with:sunNode];
+//    [_shoseNode addChildNode:sunNode];
+    
+}
+
+-(void)heartClothes{
+    SCNNode *shirtNode = [_scnView.scene.rootNode childNodeWithName:@"Binding" recursively:YES];
+    shirtNode.geometry.firstMaterial.diffuse.contents = RandomColor;
+//    SCNAction *sunaction = [SCNAction repeatAction:[SCNAction rotateByAngle:<#(CGFloat)#> aroundAxis:<#(SCNVector3)#> duration:<#(NSTimeInterval)#>] count:<#(NSUInteger)#>]
 }
 
 - (void)didReceiveMemoryWarning {

@@ -7,9 +7,14 @@
 */
 //ZBTabBarController
 "Home"="Home";
-"ZBNetworking"="ZBNetworking";
-"ZBCarouselView"="ZBCarouselView";
-"ZBTableView"="ZBTableView";
+"play"="Video";
+"message"="Message";
+"flame"="Hot";
+"person"="Me";
+//me
+"collection"="collection";
+"languages"="languages";
+"clearcache"="clear Cache";
 //ZBTabBarItem
 "itemText"="text";
 "itemAlbum"="album";

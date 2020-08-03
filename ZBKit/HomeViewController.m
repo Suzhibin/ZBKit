@@ -8,8 +8,6 @@
 
 #import "HomeViewController.h"
 #import "DetailsViewController.h"
-#import "SettingViewController.h"
-#import "ThirdViewController.h"
 #import "SecondViewController.h"
 #import "FirstViewController.h"
 #import "FourViewController.h"
@@ -18,17 +16,27 @@
 #import "SevenViewController.h"
 #import "EightViewController.h"
 #import "YYFPSLabel.h"
-#import "BlockViewController.h"
 #import "ZBDebug.h"
-@interface HomeViewController ()<UINavigationControllerDelegate>
+#import "VTMagic.h"
+#import "UIViewController+XPModal.h"
+#import "MenuViewController.h"
+@interface HomeViewController ()<VTMagicViewDataSource, VTMagicViewDelegate,MenuViewControllerDelegate>
 
+@property (nonatomic, strong) VTMagicController *magicController;
+@property (nonatomic, strong) NSArray *menuList;
+//@property (nonatomic,strong)UITableView *tableView;
+//@property (nonatomic,strong)NSMutableArray *dataArray;
 @end
 
 @implementation HomeViewController
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
-
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pushtoad" object:nil];
 }
@@ -36,198 +44,91 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor=[UIColor whiteColor];
-   self.navigationController.delegate = self;
+//    self.dataArray=[[NSMutableArray alloc]initWithObjects:@"网络请求",@"图片操作/动画",@"嵌套",@"模型",@"常用工厂方法",@"放大镜",@"练习", nil];
+//    [self.view addSubview:self.tableView];
+    self.edgesForExtendedLayout = UIRectEdgeAll;
+    [self addChildViewController:self.magicController];
+    [self.view addSubview:_magicController.view];
+    [self integrateComponents];
+    [self generateTestData];
+     [_magicController.magicView reloadData];
     //点击广告链接 事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushToAd:) name:@"pushtoad" object:nil];
-       // 1.网络请求
-    //[self add0SectionItems];
-    // 2.图片操作
-    [self add1SectionItems];
-    // 3.数据库
-  //  [self add2SectionItems];
-    // 4.开屏广告
-    [self add3SectionItems];
-    // 5.轮播视图
-   // [self add4SectionItems];
-    // 6.常用方法
-    [self add5SectionItems];
-    // 6.设置页面
-   // [self add6SectionItems];
-    [self add7SectionItems];
 
-    [self add8SectionItems];
-     [self add9SectionItems];
-    /*
-     //homeViewController
-     "homeWebimage"="圖片緩存器/動畫";
-     "homeDatabase"="數據庫";
-     "homeAdvertise"="廣告";
-     "homeControlTool"="常用工廠方法";//9AX7AXBdWN
-     */
+
     [[ZBDebug sharedInstance]enable];
-    /*
-     growingIO Fabric
-     */
+
 }
-- (void)add9SectionItems{
-    __weak typeof(self) weakSelf = self;
-    ZBTableItem *blockItem = [ZBTableItem itemWithTitle:@"block" type:ZBTableItemTypeArrow];
-    blockItem.operation = ^{
-        BlockViewController *blockVC=[[BlockViewController alloc]init];
-        [weakSelf.navigationController pushViewController:blockVC animated:YES];
-    };
-    ZBTableGroup *group = [[ZBTableGroup alloc] init];
-    group.items = @[blockItem];
-    group.header=@"block练习";
-    group.headerHeight=35;
-    group.footerHeight=5;
-    [_allGroups addObject:group];
-}
-- (void)add8SectionItems{
-      __weak typeof(self) weakSelf = self;
-    ZBTableItem *requestItem = [ZBTableItem itemWithTitle:@"个人中心" type:ZBTableItemTypeArrow];
-    requestItem.operation = ^{
-        EightViewController *eightVC=[[EightViewController alloc]init];
-        [weakSelf.navigationController pushViewController:eightVC animated:YES];
-    };
-    ZBTableGroup *group = [[ZBTableGroup alloc] init];
-    group.items = @[requestItem];
-    group.header=@"个人中心";
-    group.headerHeight=35;
-    group.footerHeight=5;
-    [_allGroups addObject:group];
-}
-- (void)add0SectionItems{
-    __weak typeof(self) weakSelf = self;
-    
-    //itemWithIcon
-    //itemWithTitle
-    ZBTableItem *requestItem = [ZBTableItem itemWithTitle:@"ZBNetworking" type:ZBTableItemTypeArrow];
-    requestItem.operation = ^{
-        FirstViewController *firstVC=[[FirstViewController alloc]init];
-        [weakSelf.navigationController pushViewController:firstVC animated:YES];
-    };
-    ZBTableGroup *group = [[ZBTableGroup alloc] init];
-    group.items = @[requestItem];
-    group.header=@"网络请求";
-    group.headerHeight=35;
-    group.footerHeight=5;
-    [_allGroups addObject:group];
+#pragma mark - functional methods
+- (void)integrateComponents {
+     UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 30)];
+    [rightButton addTarget:self action:@selector(subscribeAction:) forControlEvents:UIControlEventTouchUpInside];
+    [rightButton setTitleColor:RGBACOLOR(169, 37, 37, 0.6) forState:UIControlStateSelected];
+    [rightButton setTitleColor:RGBCOLOR(169, 37, 37) forState:UIControlStateNormal];
+    [rightButton setTitle:@"+" forState:UIControlStateNormal];
+    rightButton.titleLabel.font = [UIFont boldSystemFontOfSize:28];
+    rightButton.center = self.view.center;
+    self.magicController.magicView.rightNavigatoinItem=rightButton;
 }
 
-- (void)add1SectionItems;
-{
-    __weak typeof(self) weakSelf = self;
-    ZBTableItem *imageItem = [ZBTableItem itemWithTitle:ZBLocalized(@"homeWebimage",nil) type:ZBTableItemTypeArrow];
-    imageItem.operation = ^{
-
-        SecondViewController*secondVC = [[SecondViewController alloc] init];
-        [weakSelf.navigationController pushViewController:secondVC animated:YES];
-    };
-    ZBTableGroup *group1 = [[ZBTableGroup alloc] init];
-    group1.items = @[imageItem];
-    group1.header=@"图片操作/动画";
-    group1.headerHeight=35;
-    group1.footerHeight=5;
-    [_allGroups addObject:group1];
+#pragma mark - actions
+- (void)subscribeAction:(UIButton *)sender {
+    NSLog(@"searchAction");
+    MenuViewController *vc=[[MenuViewController alloc]init];
+    vc.dataArray=_menuList;
+    vc.delegate=self;
+    [self presentModalWithController:vc configBlock:^(XPModalConfiguration * _Nonnull config) {
+        config.enableBackgroundAnimation=YES;
+    } completion:nil];
 }
-/*
-- (void)add2SectionItems{
-    
-    __weak typeof(self) weakSelf = self;
-    ZBTableItem *dbItem = [ZBTableItem itemWithTitle:ZBLocalized(@"homeDatabase",nil) type:ZBTableItemTypeArrow];
-    dbItem.operation = ^{
-        ThirdViewController*ThirdVC = [[ThirdViewController alloc] init];
-        [weakSelf.navigationController pushViewController:ThirdVC animated:YES];
-    };
-    ZBTableGroup *group2 = [[ZBTableGroup alloc] init];
-    group2.items = @[dbItem];
-    group2.header=@"数据库操作";
-    group2.headerHeight=35;
-    group2.footerHeight=5;
-    [_allGroups addObject:group2];
+- (void)didSelectItemAtIndex:(NSInteger)index{
+    [self.magicController.magicView switchToPage:index animated:YES];
 }
-*/
-- (void)add3SectionItems{
-    __weak typeof(self) weakSelf = self;
-    ZBTableItem *adItem = [ZBTableItem itemWithTitle:ZBLocalized(@"homeAdvertise",nil) type:ZBTableItemTypeArrow];
-    adItem.operation = ^{
-        FourViewController*adVC = [[FourViewController alloc] init];
-        
-        [weakSelf.navigationController pushViewController:adVC animated:YES];
-    };
-    ZBTableGroup *group3 = [[ZBTableGroup alloc] init];
-    group3.items = @[adItem];
-    group3.header=@"开屏广告";
-    group3.headerHeight=35;
-    group3.footerHeight=5;
-    [_allGroups addObject:group3];
-    
+- (void)generateTestData {
+    _menuList = @[@"推荐", @"热点", @"视频", @"论坛"];
+}
+#pragma mark - VTMagicViewDataSource
+- (NSArray<NSString *> *)menuTitlesForMagicView:(VTMagicView *)magicView {
+    return _menuList;
 }
 
-- (void)add4SectionItems{
-    __weak typeof(self) weakSelf = self;
-    ZBTableItem *toolItem = [ZBTableItem itemWithTitle:@"ZBCarouselView" type:ZBTableItemTypeArrow];
-    toolItem.operation = ^{
-        FiveViewController*toolVC = [[FiveViewController alloc] init];
-
-        [weakSelf.navigationController pushViewController:toolVC animated:YES];
-    };
-    ZBTableGroup *group4 = [[ZBTableGroup alloc] init];
-    group4.items = @[toolItem];
-    group4.header=@"轮播控件";
-    group4.headerHeight=35;
-    group4.footerHeight=5;
-    [_allGroups addObject:group4];
-   
+- (UIButton *)magicView:(VTMagicView *)magicView menuItemAtIndex:(NSUInteger)itemIndex {
+    static NSString *itemIdentifier = @"itemIdentifier";
+    UIButton *menuItem = [magicView dequeueReusableItemWithIdentifier:itemIdentifier];
+    if (!menuItem) {
+        menuItem = [UIButton buttonWithType:UIButtonTypeCustom];
+        [menuItem setTitleColor:RGBCOLOR(50, 50, 50) forState:UIControlStateNormal];
+        [menuItem setTitleColor:RGBCOLOR(169, 37, 37) forState:UIControlStateSelected];
+        menuItem.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:15.f];
+    }
+    return menuItem;
+}
+- (UIViewController *)magicView:(VTMagicView *)magicView viewControllerAtPage:(NSUInteger)pageIndex {
+    static NSString *pageId = @"page.identifier";
+    UIViewController *webviewController = [magicView dequeueReusablePageWithIdentifier:pageId];
+    if (!webviewController) {
+        webviewController = [[UIViewController alloc] init];
+    }
+    return webviewController;
+}
+- (VTMagicController *)magicController {
+    if (!_magicController) {
+        _magicController = [[VTMagicController alloc] init];
+        _magicController.view.translatesAutoresizingMaskIntoConstraints = NO;
+        _magicController.magicView.navigationColor = [UIColor whiteColor];
+        _magicController.magicView.sliderColor = RGBCOLOR(169, 37, 37);
+        _magicController.magicView.switchStyle = VTSwitchStyleDefault;
+       // _magicController.magicView.layoutStyle = VTLayoutStyleCenter;
+        _magicController.magicView.headerHidden=NO;
+        _magicController.magicView.headerHeight=STATUS_HEIGHT;
+        _magicController.magicView.navigationHeight = 44.f;
+        _magicController.magicView.againstStatusBar = YES;
+        _magicController.magicView.dataSource = self;
+        _magicController.magicView.delegate = self;
+    }
+    return _magicController;
 }
 
-- (void)add5SectionItems{
-    __weak typeof(self) weakSelf = self;
-    ZBTableItem *carouselItem = [ZBTableItem itemWithTitle:ZBLocalized(@"homeControlTool",nil) type:ZBTableItemTypeArrow];
-    carouselItem.operation = ^{
-  
-        SixViewController *sixVC=[[SixViewController alloc]init];
-        [weakSelf.navigationController pushViewController:sixVC animated:YES];
-    };
-    ZBTableGroup *group5 = [[ZBTableGroup alloc] init];
-    group5.items = @[carouselItem];
-    group5.header=@"常用工厂方法";
-    group5.headerHeight=35;
-    group5.footerHeight=5;
-    [_allGroups addObject:group5];
-}
-
-- (void)add6SectionItems{
-    __weak typeof(self) weakSelf = self;
-    ZBTableItem *settingItem = [ZBTableItem itemWithTitle:@"ZBTableView" type:ZBTableItemTypeArrow];
-    settingItem.operation = ^{
-        SettingViewController*settingVC = [[SettingViewController alloc] init];
-        
-        [weakSelf.navigationController pushViewController:settingVC animated:YES];
-    };
-    ZBTableGroup *group6 = [[ZBTableGroup alloc] init];
-    group6.items = @[settingItem];
-    group6.header=@"设置页面";
-    group6.headerHeight=35;
-    group6.footerHeight=5;
-    [_allGroups addObject:group6];
-}
-- (void)add7SectionItems{
-    __weak typeof(self) weakSelf = self;
-    ZBTableItem *item = [ZBTableItem itemWithTitle:@"练习" type:ZBTableItemTypeArrow];
-    item.operation = ^{
-        SevenViewController*itemVC = [[SevenViewController alloc] init];
-        
-        [weakSelf.navigationController pushViewController:itemVC animated:YES];
-    };
-    ZBTableGroup *group7 = [[ZBTableGroup alloc] init];
-    group7.items = @[item];
-    group7.header=@"练习";
-    group7.headerHeight=35;
-    group7.footerHeight=5;
-    [_allGroups addObject:group7];
-}
 - (void)pushToAd:(NSNotification *)noti{
  
      DetailsViewController* detailsVC=[[DetailsViewController alloc]init];
@@ -235,7 +136,67 @@
      detailsVC.functionType=Advertise;
      [self.navigationController pushViewController:detailsVC animated:YES];
 }
+/*
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.dataArray.count;
+}
 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+   
+    static NSString *menuID=@"menu";
+    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:menuID];
+    if (cell==nil) {
+        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:menuID];
+            //设置点击cell不变色
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    cell.textLabel.text=self.dataArray [indexPath.row];
+    return cell;
+    
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row==0) {
+        FirstViewController *firstVC=[[FirstViewController alloc]init];
+        [self.navigationController pushViewController:firstVC animated:YES];
+    }
+    if (indexPath.row==1) {
+         SecondViewController*secondVC = [[SecondViewController alloc] init];
+        [self.navigationController pushViewController:secondVC animated:YES];
+    }
+    if (indexPath.row==2) {
+        ThirdViewController*ThirdVC = [[ThirdViewController alloc] init];
+        [self.navigationController pushViewController:ThirdVC animated:YES];
+    }
+    if (indexPath.row==3) {
+        FiveViewController*toolVC = [[FiveViewController alloc] init];
+
+        [self.navigationController pushViewController:toolVC animated:YES];
+    }
+    if (indexPath.row==4) {
+        SixViewController *sixVC=[[SixViewController alloc]init];
+        [self.navigationController pushViewController:sixVC animated:YES];
+    }
+    if (indexPath.row==5) {
+        EightViewController *eVC=[[EightViewController alloc]init];
+        [self.navigationController pushViewController:eVC animated:YES];
+    }
+    if (indexPath.row==6) {
+        SevenViewController*itemVC = [[SevenViewController alloc] init];
+            
+        [self.navigationController pushViewController:itemVC animated:YES];
+    }
+}
+//懒加载
+- (UITableView *)tableView{
+    if (!_tableView) {
+        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, ZB_SafeAreaTopHeight+44,ZB_SCREEN_WIDTH-100, ZB_SCREEN_HEIGHT-(ZB_SafeAreaTopHeight+44+ZB_TABBAR_HEIGHT)) style:UITableViewStylePlain];
+        _tableView.delegate=self;
+        _tableView.dataSource=self;
+        _tableView.tableFooterView=[[UIView alloc]init];
+    }
+    return _tableView;
+}
+ */
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

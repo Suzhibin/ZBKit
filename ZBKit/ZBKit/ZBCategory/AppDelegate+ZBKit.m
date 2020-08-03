@@ -19,13 +19,7 @@
     ZBKLog(@"cachePath = %@",cachePath);
     //初始化第三方授权
     [self initializePlat];
-    //网络监测
-    [self netWorkMonitoring];
-}
-
-#pragma mark - 网络状态监测
-- (void)netWorkMonitoring{
-   [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    
 }
 
 #pragma mark - 初始化第三方平台

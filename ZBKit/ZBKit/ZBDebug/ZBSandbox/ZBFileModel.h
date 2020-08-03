@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 typedef NS_ENUM(NSUInteger, ZBFileType) {
     ZBFileTypeUnknown,
+    ZBFileTypeRegular,
     ZBFileTypeDirectory,
     // Image
     ZBFileTypeJPG, ZBFileTypePNG, ZBFileTypeGIF, ZBFileTypeSVG, ZBFileTypeBMP, ZBFileTypeTIF,

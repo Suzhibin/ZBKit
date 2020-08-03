@@ -152,7 +152,6 @@
     
     [self.imageView1 zb_animatedDampingWithCenter:point];//弹簧效果
 }
- 
 
 - (void)button1Clicked:(UIButton *)sender{
     

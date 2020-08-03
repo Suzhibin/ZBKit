@@ -258,7 +258,7 @@ static const NSInteger cacheTime = 30;
     
     if (indexPath.row==12) {
 
-        //[[ZBCacheManager sharedInstance]clearCacheForkey:menu_URL time:-cacheTime]
+        //[[ZBCacheManager sharedInstance]clearCacheForkey:menu_URL time:cacheTime]
         [[ZBCacheManager sharedInstance]clearCacheForkey:menu_URL time:cacheTime completion:^{
             [self.tableView reloadData];
         }];
@@ -310,7 +310,7 @@ static const NSInteger cacheTime = 30;
 #pragma mark offlineDelegate
 - (void)downloadWithArray:(NSMutableArray *)offlineArray{
   
-    self.batchRequest=[ZBRequestManager sendBatchRequest:^(ZBBatchRequest *  batchRequest){
+    self.batchRequest=[ZBRequestManager requestBatchWithConfig:^(ZBBatchRequest *  batchRequest){
         
         for (MenuModel *model in offlineArray) {
             ZBURLRequest *request=[[ZBURLRequest alloc]init];
@@ -328,35 +328,38 @@ static const NSInteger cacheTime = 30;
             ListModel *model=[[ListModel alloc]init];
             model.thumb=[dic objectForKey:@"thumb"]; //找到图片的key
             [self.imageArray addObject:model];
-            
+
             //使用SDWebImage 下载图片
-            [[SDImageCache sharedImageCache]diskImageExistsWithKey:model.thumb completion:^(BOOL isInCache) {
+            [[SDWebImageManager sharedManager]cachedImageExistsForURL:[NSURL URLWithString:model.thumb] completion:^(BOOL isInCache) {
                 if (isInCache) {
                     NSLog(@"已经下载了");
                 } else{
-                    
+                        
                     [[SDWebImageManager sharedManager]loadImageWithURL:[NSURL URLWithString:model.thumb] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
                         NSLog(@"%@",[self progressStrWithSize:(double)receivedSize/expectedSize]);
-                        
-                     
+                            
+                         
                     } completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
                         NSLog(@"单个图片下载完成");
-            
+                
                         [self.tableView reloadData];
                         //让 下载的url与模型的最后一个比较，如果相同证明下载完毕。
                         NSString *imageURLStr = [imageURL absoluteString];
                         NSString *lastImage=[NSString stringWithFormat:@"%@",((ListModel *)[self.imageArray lastObject]).thumb];
                         if ([imageURLStr isEqualToString:lastImage]) {
                             NSLog(@"下载完成");
-                            
+                                
                             [self alertTitle:@"下载完成"andMessage:@""];
                         }
-                        
+                            
                         if (error) {
                             NSLog(@"下载失败");
                         }
                     }];
                 }
+            }];
+            [[SDImageCache sharedImageCache]diskImageExistsWithKey:model.thumb completion:^(BOOL isInCache) {
+                
                 
             }];
         }

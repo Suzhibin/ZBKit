@@ -6,8 +6,8 @@
 //  Copyright © 2017年 Suzhibin. All rights reserved.
 //
 
-#import "ZBTableViewController.h"
+#import <UIKit/UIKit.h>
 
-@interface HomeViewController : ZBTableViewController
+@interface HomeViewController : UIViewController
 
 @end

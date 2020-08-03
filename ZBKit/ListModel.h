@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface ListModel : NSObject
+#import "IGListKit.h"
+@interface ListModel : NSObject<IGListDiffable>
 @property (nonatomic,copy)NSString *author;
 @property (nonatomic,copy)NSString *date;
 @property (nonatomic,copy)NSString *thumb;

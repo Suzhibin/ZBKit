@@ -31,7 +31,7 @@
     NSArray *titles = @[@"release", @"verify",@"contentserver"];
     UISegmentedControl *sc = [[UISegmentedControl alloc] initWithItems:titles];
     sc.frame=CGRectMake(10, 0, ZB_SCREEN_WIDTH-20, 44);
-    sc.tintColor =[UIColor greenColor];
+    sc.backgroundColor=[UIColor greenColor];
      sc.selectedSegmentIndex = 0;
     [sc addTarget:self action:@selector(segmentValueChanged:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:sc];
@@ -109,7 +109,7 @@
 //懒加载
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 44,ZB_SCREEN_WIDTH , ZB_SCREEN_HEIGHT-(ZB_STATUS_HEIGHT+ZB_TABBAR_HEIGHT+ZB_NAVBAR_HEIGHT+44)) style:UITableViewStylePlain];
+        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 44,ZB_SCREEN_WIDTH , ZB_SCREEN_HEIGHT-(ZB_SafeAreaTopHeight+ZB_TABBAR_HEIGHT+ZB_NAVBAR_HEIGHT+44)) style:UITableViewStylePlain];
         _tableView.backgroundColor=[UIColor blackColor];
         _tableView.delegate=self;
         _tableView.dataSource=self;

@@ -8,10 +8,7 @@
 
 #import "BaseViewController.h"
 //用于标识不同方法
-typedef NS_ENUM(NSInteger,thirdfunctionType) {
-    collectionTable,
-    userTable
-} ;
+
 @interface DBViewController : BaseViewController
-@property (nonatomic,assign) thirdfunctionType functionType;
+
 @end
