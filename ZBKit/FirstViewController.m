@@ -127,6 +127,7 @@
                 self.filePath=request.filePath;
                 ZBKLog(@"使用了缓存");  [ZBToast showCenterWithText:@"使用了缓存"];
             }else{
+                self.filePath=nil;
                 ZBKLog(@"重新请求");  [ZBToast showCenterWithText:@"重新请求"];
             }
    
@@ -242,6 +243,11 @@
 }
 - (void)cacheFileBtnAction:(UIButton *)sender{
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+         CGFloat cacheCount=[[ZBCacheManager sharedInstance]getCacheCount];//json缓存文件个数
+        if (self.filePath.length<=0||cacheCount<=0) {
+            [ZBToast showCenterWithText:@"没有缓存文件"];
+            return;
+        }
         NSArray* spliteArray = [self.filePath componentsSeparatedByString: @"/"];
         NSString* lastString = [spliteArray lastObject];
         NSMutableArray *fileNames=[[NSMutableArray alloc]initWithObjects:@"Library",@"Caches",@"ZBKit",@"AppCache",lastString, nil];
