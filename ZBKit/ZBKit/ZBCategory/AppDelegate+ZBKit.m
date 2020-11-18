@@ -19,7 +19,7 @@
     ZBKLog(@"cachePath = %@",cachePath);
     //初始化第三方授权
     [self initializePlat];
-    
+    [[ZBLocationManager sharedInstance]startlocation];
 }
 
 #pragma mark - 初始化第三方平台

@@ -40,4 +40,9 @@
  @return navigationController
  */
 - (UINavigationController *)zb_navigationController;
+
+/**
+ 去掉navigationController.viewControllers 栈内的controller对象
+ */
+- (void)backPopAppointViewController:(NSString *)viewController;
 @end

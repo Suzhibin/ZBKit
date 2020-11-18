@@ -20,12 +20,18 @@
 #import "VTMagic.h"
 #import "UIViewController+XPModal.h"
 #import "MenuViewController.h"
+#import "DownloadListViewController.h"
+#import "DownloadManagerViewController.h"
+#import "ViewController.h"
+#import "YYViewHierarchy3D.h"
 @interface HomeViewController ()<VTMagicViewDataSource, VTMagicViewDelegate,MenuViewControllerDelegate>
 
 @property (nonatomic, strong) VTMagicController *magicController;
 @property (nonatomic, strong) NSArray *menuList;
 //@property (nonatomic,strong)UITableView *tableView;
 //@property (nonatomic,strong)NSMutableArray *dataArray;
+@property (nonatomic,strong)DownloadListViewController *downloadListVC;
+@property (nonatomic,strong)DownloadManagerViewController *downloadManagerVC;
 @end
 
 @implementation HomeViewController
@@ -58,6 +64,7 @@
 
     [[ZBDebug sharedInstance]enable];
 
+    //[YYViewHierarchy3D show];
 }
 #pragma mark - functional methods
 - (void)integrateComponents {
@@ -104,17 +111,36 @@
     return menuItem;
 }
 - (UIViewController *)magicView:(VTMagicView *)magicView viewControllerAtPage:(NSUInteger)pageIndex {
+    if (pageIndex==0) {
+        return self.downloadListVC;
+    }
+    if (pageIndex==1) {
+        return self.downloadManagerVC;
+    }
     static NSString *pageId = @"page.identifier";
-    UIViewController *webviewController = [magicView dequeueReusablePageWithIdentifier:pageId];
+    ViewController *webviewController = [magicView dequeueReusablePageWithIdentifier:pageId];
     if (!webviewController) {
-        webviewController = [[UIViewController alloc] init];
+        webviewController = [[ViewController alloc] init];
     }
     return webviewController;
+}
+- (DownloadListViewController *)downloadListVC{
+    if (!_downloadListVC) {
+        _downloadListVC=[[DownloadListViewController alloc]init];
+    }
+    return _downloadListVC;
+}
+- (DownloadManagerViewController *)downloadManagerVC{
+    if (!_downloadManagerVC) {
+        _downloadManagerVC=[[DownloadManagerViewController alloc]init];
+    }
+    return _downloadManagerVC;
 }
 - (VTMagicController *)magicController {
     if (!_magicController) {
         _magicController = [[VTMagicController alloc] init];
         _magicController.view.translatesAutoresizingMaskIntoConstraints = NO;
+        _magicController.magicView.needPreloading=NO;
         _magicController.magicView.navigationColor = [UIColor whiteColor];
         _magicController.magicView.sliderColor = RGBCOLOR(169, 37, 37);
         _magicController.magicView.switchStyle = VTSwitchStyleDefault;

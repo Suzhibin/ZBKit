@@ -48,7 +48,7 @@
     
     //================================================
     
-    float ZBKit=[[ZBCacheManager sharedInstance ]getFileSizeWithpath:[[ZBCacheManager sharedInstance]homePath]];
+    float ZBKit=[[ZBCacheManager sharedInstance ]getFileSizeWithPath:[[ZBCacheManager sharedInstance]homePath]];
     float otherSystem=TakeupSystem-ZBKit; //已经使用空间 减去本应用所占空间
     NSLog(@"其他应用空间:%@",[[ZBCacheManager sharedInstance] fileUnitWithSize:otherSystem]);
     
@@ -129,11 +129,11 @@
         //清除ZBImage缓存
         [[ZBWebImageManager sharedInstance] clearImageFile];
         //清除沙盒某个文件夹
-        [[ZBCacheManager sharedInstance]clearDiskWithpath:self.path];
+        [[ZBCacheManager sharedInstance]clearDiskWithPath:self.path];
         //清除系统缓存文件
         // [[NSURLCache sharedURLCache]removeAllCachedResponses];
         //用ZBCacheManager 方法代替上面的系统方法 清除系统缓存文件
-        [[ZBCacheManager sharedInstance]clearDiskWithpath:self.path1];
+        [[ZBCacheManager sharedInstance]clearDiskWithPath:self.path1];
         
         UILabel *label1 = (UILabel *)[self.view viewWithTag:3000];
         label1.text=[self getAllCacheSize];
@@ -152,7 +152,7 @@
     CGFloat cacheSize=[[ZBCacheManager sharedInstance]getCacheSize];//json缓存文件大小
     CGFloat sdimageSize = [[SDImageCache sharedImageCache]getSize];//图片缓存大小
     CGFloat zbimageSize = [[ZBWebImageManager sharedInstance] imageFileSize];
-    CGFloat fsCachedDataSize=[[ZBCacheManager sharedInstance]getFileSizeWithpath:self.path];//系统缓存 沙盒路径文件大小
+    CGFloat fsCachedDataSize=[[ZBCacheManager sharedInstance]getFileSizeWithPath:self.path];//系统缓存 沙盒路径文件大小
     CGFloat AppCacheSize=cacheSize+sdimageSize+zbimageSize+fsCachedDataSize;
     AppCacheSize=AppCacheSize/1000.0/1000.0;
     return [NSString stringWithFormat:@"%.2fM",AppCacheSize];

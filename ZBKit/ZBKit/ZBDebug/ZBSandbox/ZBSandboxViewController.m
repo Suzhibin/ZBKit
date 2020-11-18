@@ -14,7 +14,7 @@
 #import "ZBDebugWebViewController.h"
 #import "ZBDebug.h"
 @interface ZBSandboxViewController ()<UITableViewDelegate,UITableViewDataSource,QLPreviewControllerDataSource,UIViewControllerPreviewingDelegate>
-@property (nonatomic,copy)NSMutableArray *dataArray;
+@property (nonatomic,strong)NSMutableArray *dataArray;
 @property (nonatomic,strong)UITableView *sandboxTableView;
 @property (nonatomic,strong) NSURL *URL;
 @property (strong, nonatomic) ZBFileModel *previewingFileModel;

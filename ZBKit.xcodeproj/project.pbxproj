@@ -239,6 +239,8 @@
 		93D1664BA27A8E5D9B6658C2 /* libPods-ZBKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC7A090E6668FB7B3DBB751 /* libPods-ZBKit.a */; };
 		9F43556E24D3FEC70055E5F5 /* ZBLRUCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F43556D24D3FEC70055E5F5 /* ZBLRUCacheManager.m */; };
 		9F451DD824D7CE7400B1559A /* NSFileManager+pathMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F451DD724D7CE7300B1559A /* NSFileManager+pathMethod.m */; };
+		9F65154A24E3D01A00A3F5EC /* DownloadListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F65154924E3D01A00A3F5EC /* DownloadListViewController.m */; };
+		9F65154D24E3D7F500A3F5EC /* DownloadManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F65154C24E3D7F500A3F5EC /* DownloadManagerViewController.m */; };
 		9F697C4522CC85BF001F9C91 /* UIScrollView+ZBKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F697C4422CC85BF001F9C91 /* UIScrollView+ZBKit.m */; };
 		9F8F1E88230AAA0C0093EBB5 /* UIButton+ZBKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F8F1E87230AAA0C0093EBB5 /* UIButton+ZBKit.m */; };
 		9F94BFD4249B4D5800D47B99 /* PlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F94BFD3249B4D5800D47B99 /* PlayViewController.m */; };
@@ -256,6 +258,10 @@
 		9F989BB6249355D100CCB14C /* TableViewAnimationKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F989BB0249355D100CCB14C /* TableViewAnimationKit.m */; };
 		9F989BB7249355D100CCB14C /* UITableView+XSAnimationKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F989BB5249355D100CCB14C /* UITableView+XSAnimationKit.m */; };
 		9F989BBB249356D700CCB14C /* DWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F989BBA249356D700CCB14C /* DWaveView.m */; };
+		9F9E73AB25493B7F003A6222 /* YYViewHierarchy3D.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9E73A925493B7E003A6222 /* YYViewHierarchy3D.m */; };
+		9F9FBEFB24E66F2700240ACF /* DownloadInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9FBEFA24E66F2700240ACF /* DownloadInfoCell.m */; };
+		9FA3A58F24EBE37100358ADE /* NSObject+AutoCancelRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA3A58E24EBE37100358ADE /* NSObject+AutoCancelRequest.m */; };
+		9FA5DE2525305F8F000E4689 /* RequestTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA5DE2425305F8E000E4689 /* RequestTool.m */; };
 		9FFA84722499EB8400384B59 /* ASMagnifierManger.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FFA84712499EB8400384B59 /* ASMagnifierManger.m */; };
 		9FFA847F249A182700384B59 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FFA847E249A182700384B59 /* MenuViewController.m */; };
 		9FFA8481249A22C500384B59 /* vans-authentic-shoe-low-poly.dae in Resources */ = {isa = PBXBuildFile; fileRef = 9FFA8480249A22C500384B59 /* vans-authentic-shoe-low-poly.dae */; };
@@ -612,6 +618,10 @@
 		9F43556D24D3FEC70055E5F5 /* ZBLRUCacheManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZBLRUCacheManager.m; sourceTree = "<group>"; };
 		9F451DD624D7CE7300B1559A /* NSFileManager+pathMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+pathMethod.h"; sourceTree = "<group>"; };
 		9F451DD724D7CE7300B1559A /* NSFileManager+pathMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+pathMethod.m"; sourceTree = "<group>"; };
+		9F65154824E3D01A00A3F5EC /* DownloadListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownloadListViewController.h; sourceTree = "<group>"; };
+		9F65154924E3D01A00A3F5EC /* DownloadListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownloadListViewController.m; sourceTree = "<group>"; };
+		9F65154B24E3D7F500A3F5EC /* DownloadManagerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownloadManagerViewController.h; sourceTree = "<group>"; };
+		9F65154C24E3D7F500A3F5EC /* DownloadManagerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownloadManagerViewController.m; sourceTree = "<group>"; };
 		9F697C4322CC85BF001F9C91 /* UIScrollView+ZBKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+ZBKit.h"; sourceTree = "<group>"; };
 		9F697C4422CC85BF001F9C91 /* UIScrollView+ZBKit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+ZBKit.m"; sourceTree = "<group>"; };
 		9F8F1E86230AAA0C0093EBB5 /* UIButton+ZBKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+ZBKit.h"; sourceTree = "<group>"; };
@@ -652,6 +662,14 @@
 		9F989BB5249355D100CCB14C /* UITableView+XSAnimationKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+XSAnimationKit.m"; sourceTree = "<group>"; };
 		9F989BB9249356D700CCB14C /* DWaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWaveView.h; sourceTree = "<group>"; };
 		9F989BBA249356D700CCB14C /* DWaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWaveView.m; sourceTree = "<group>"; };
+		9F9E73A925493B7E003A6222 /* YYViewHierarchy3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYViewHierarchy3D.m; sourceTree = "<group>"; };
+		9F9E73AA25493B7F003A6222 /* YYViewHierarchy3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYViewHierarchy3D.h; sourceTree = "<group>"; };
+		9F9FBEF924E66F2600240ACF /* DownloadInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadInfoCell.h; sourceTree = "<group>"; };
+		9F9FBEFA24E66F2700240ACF /* DownloadInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadInfoCell.m; sourceTree = "<group>"; };
+		9FA3A58D24EBE37000358ADE /* NSObject+AutoCancelRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AutoCancelRequest.h"; sourceTree = "<group>"; };
+		9FA3A58E24EBE37100358ADE /* NSObject+AutoCancelRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AutoCancelRequest.m"; sourceTree = "<group>"; };
+		9FA5DE2325305F8C000E4689 /* RequestTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestTool.h; sourceTree = "<group>"; };
+		9FA5DE2425305F8E000E4689 /* RequestTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestTool.m; sourceTree = "<group>"; };
 		9FFA84702499EB8400384B59 /* ASMagnifierManger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASMagnifierManger.h; sourceTree = "<group>"; };
 		9FFA84712499EB8400384B59 /* ASMagnifierManger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASMagnifierManger.m; sourceTree = "<group>"; };
 		9FFA847D249A182700384B59 /* MenuViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
@@ -922,6 +940,8 @@
 		7D57D6491E37476800529558 /* FirstViewController */ = {
 			isa = PBXGroup;
 			children = (
+				9FA3A58D24EBE37000358ADE /* NSObject+AutoCancelRequest.h */,
+				9FA3A58E24EBE37100358ADE /* NSObject+AutoCancelRequest.m */,
 				7D2EF40D1EA738E9000734F0 /* FirstViewController.h */,
 				7D2EF40E1EA738E9000734F0 /* FirstViewController.m */,
 				7D220DAE1E35A40500A29791 /* DetailsViewController.h */,
@@ -1132,6 +1152,7 @@
 		7D9D21541F7F800E00C8C067 /* ZBLibraries */ = {
 			isa = PBXGroup;
 			children = (
+				9F9E73A825493B72003A6222 /* YYViewHierarchy3D */,
 				9FFA846F2499EB8400384B59 /* ASMagnifierManger */,
 				9F981BBF2498AFAA00720C12 /* VTMagic */,
 				7DD7F1E320A438D7001FA57C /* Modal-ObjC */,
@@ -1244,12 +1265,12 @@
 				7D139CBA1E8DF76F005B89D7 /* FiveViewController.m */,
 				7DC006851E6816090047213C /* SixViewController.h */,
 				7DC006861E6816090047213C /* SixViewController.m */,
+				9FA5DE2325305F8C000E4689 /* RequestTool.h */,
+				9FA5DE2425305F8E000E4689 /* RequestTool.m */,
 				7D6D75461EAF4BC50072F775 /* SevenViewController.h */,
 				7D6D75471EAF4BC50072F775 /* SevenViewController.m */,
 				7D9132D721539AA500BAB3D1 /* EightViewController.h */,
 				7D9132D821539AA500BAB3D1 /* EightViewController.m */,
-				9FFA847D249A182700384B59 /* MenuViewController.h */,
-				9FFA847E249A182700384B59 /* MenuViewController.m */,
 				7D801D6521509932008FE0D5 /* NSObject+ZBKVO.h */,
 				7D801D6621509932008FE0D5 /* NSObject+ZBKVO.m */,
 				7DB8C3C4214FADD500E1E24F /* Dog.h */,
@@ -1323,8 +1344,15 @@
 		9F94BFCF249B48B700D47B99 /* HomeViewController */ = {
 			isa = PBXGroup;
 			children = (
+				9F9FBEFC24E66F2A00240ACF /* Views */,
+				9FFA847D249A182700384B59 /* MenuViewController.h */,
+				9FFA847E249A182700384B59 /* MenuViewController.m */,
 				7D5961FB1E529D5D00E92F55 /* HomeViewController.h */,
 				7D5961FC1E529D5D00E92F55 /* HomeViewController.m */,
+				9F65154824E3D01A00A3F5EC /* DownloadListViewController.h */,
+				9F65154924E3D01A00A3F5EC /* DownloadListViewController.m */,
+				9F65154B24E3D7F500A3F5EC /* DownloadManagerViewController.h */,
+				9F65154C24E3D7F500A3F5EC /* DownloadManagerViewController.m */,
 			);
 			name = HomeViewController;
 			sourceTree = "<group>";
@@ -1445,6 +1473,24 @@
 			path = DWaveView;
 			sourceTree = "<group>";
 		};
+		9F9E73A825493B72003A6222 /* YYViewHierarchy3D */ = {
+			isa = PBXGroup;
+			children = (
+				9F9E73AA25493B7F003A6222 /* YYViewHierarchy3D.h */,
+				9F9E73A925493B7E003A6222 /* YYViewHierarchy3D.m */,
+			);
+			path = YYViewHierarchy3D;
+			sourceTree = "<group>";
+		};
+		9F9FBEFC24E66F2A00240ACF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9F9FBEF924E66F2600240ACF /* DownloadInfoCell.h */,
+				9F9FBEFA24E66F2700240ACF /* DownloadInfoCell.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		9FFA846F2499EB8400384B59 /* ASMagnifierManger */ = {
 			isa = PBXGroup;
 			children = (
@@ -1531,6 +1577,7 @@
 				TargetAttributes = {
 					7DD9D6131E27820D00CFA0A9 = {
 						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = E6LU458855;
 						ProvisioningStyle = Automatic;
 					};
 					7DD9D62C1E27820E00CFA0A9 = {
@@ -1777,6 +1824,7 @@
 				7D9D21431F7F7F8000C8C067 /* UIImage+ZBKit.m in Sources */,
 				7D5DC1B21FA72A0D0041E4ED /* UIImageView+ZBReachability.m in Sources */,
 				7D9006A720B6BBA200AB8FD3 /* UIView+Toast.m in Sources */,
+				9FA5DE2525305F8F000E4689 /* RequestTool.m in Sources */,
 				7DD7F1F420A438D7001FA57C /* XPModalPresentationController.m in Sources */,
 				7D6B320920D0F48200199CEE /* NSArray+ZBCheck.m in Sources */,
 				9F981BDB2498AFAB00720C12 /* UIViewController+VTMagic.m in Sources */,
@@ -1786,6 +1834,7 @@
 				9F94BFE3249B712600D47B99 /* MeViewController.m in Sources */,
 				9F697C4522CC85BF001F9C91 /* UIScrollView+ZBKit.m in Sources */,
 				9F981BDA2498AFAB00720C12 /* VTMagicView.m in Sources */,
+				9F65154A24E3D01A00A3F5EC /* DownloadListViewController.m in Sources */,
 				7D9D21331F7F7F8000C8C067 /* ZBLocalized.m in Sources */,
 				7D2AFE6E20904D9300286E16 /* ZBDebugNetWorkDetailViewController.m in Sources */,
 				7D6F9F65208DBDCA00657419 /* ZBToast.m in Sources */,
@@ -1808,6 +1857,7 @@
 				7D9D213B1F7F7F8000C8C067 /* UIBarButtonItem+ZBKit.m in Sources */,
 				7D9D21611F7F80C200C8C067 /* NSArray+ZBKit.m in Sources */,
 				7DD7F1F520A438D7001FA57C /* XPModalTransitioningDelegate.m in Sources */,
+				9F9E73AB25493B7F003A6222 /* YYViewHierarchy3D.m in Sources */,
 				7D9D21461F7F7F8000C8C067 /* ZBLocationManager.m in Sources */,
 				7D98E43B20294F45003B1C9B /* NSDictionary+ZBKit.m in Sources */,
 				7D9D213E1F7F7F8000C8C067 /* UIViewController+ZBKit.m in Sources */,
@@ -1816,6 +1866,7 @@
 				7DFD7B421E306C1C00E38B8D /* BaseViewController.m in Sources */,
 				7D9D21731F7F813900C8C067 /* ZBURLRequest.m in Sources */,
 				7D57D6411E373DD500529558 /* SettingCacheViewController.m in Sources */,
+				9F9FBEFB24E66F2700240ACF /* DownloadInfoCell.m in Sources */,
 				7D9D21521F7F7F8000C8C067 /* ZBDateFormatter.m in Sources */,
 				7D9D21401F7F7F8000C8C067 /* ZBCityViewController.m in Sources */,
 				7D6F9F68208DC21000657419 /* ZBSuspensionView.m in Sources */,
@@ -1856,12 +1907,14 @@
 				7DD0B43E1E65692000E5634E /* StorageSpaceViewController.m in Sources */,
 				7D57D64F1E37489C00529558 /* MenuModel.m in Sources */,
 				7D9D217D1F7F84DF00C8C067 /* ZBScreenAdvertise.m in Sources */,
+				9F65154D24E3D7F500A3F5EC /* DownloadManagerViewController.m in Sources */,
 				7D9D215E1F7F805A00C8C067 /* YYWeakProxy.m in Sources */,
 				7DC006871E6816090047213C /* SixViewController.m in Sources */,
 				9F989BBB249356D700CCB14C /* DWaveView.m in Sources */,
 				7DD7F1F120A438D7001FA57C /* XPModalAnimatedTransitioning.m in Sources */,
 				7D9D21581F7F805400C8C067 /* NullSafe.m in Sources */,
 				7DD7F1F320A438D7001FA57C /* XPModalPercentDrivenInteractiveTransition.m in Sources */,
+				9FA3A58F24EBE37100358ADE /* NSObject+AutoCancelRequest.m in Sources */,
 				7D9D214E1F7F7F8000C8C067 /* ZBTabBarController.m in Sources */,
 				7D2AFE5A20901C1B00286E16 /* ZBDebugWebViewController.m in Sources */,
 				9F981BD72498AFAA00720C12 /* UIButton+VTMagic.m in Sources */,
@@ -2018,6 +2071,7 @@
 			baseConfigurationReference = 9F0201619D9037371B53A2DD /* Pods-ZBKit.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = E6LU458855;
 				INFOPLIST_FILE = ZBKit/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2031,6 +2085,7 @@
 			baseConfigurationReference = B6C69C13416B9D701F068A51 /* Pods-ZBKit.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = E6LU458855;
 				INFOPLIST_FILE = ZBKit/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

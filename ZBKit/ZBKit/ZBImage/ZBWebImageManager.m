@@ -49,9 +49,9 @@ static const NSInteger ImageCacheMaxCacheAge  = 60*60*24*7;
 
 - (void)downloadImageUrl:(NSString *)imageUrl path:(NSString *)path completion:(downloadCompletion)completion{
     
-    if ([[ZBCacheManager sharedInstance]cacheExistsForKey:imageUrl path:path]) {
+    if ([[ZBCacheManager sharedInstance]cacheExistsForKey:imageUrl inPath:path]) {
         
-        [[ZBCacheManager sharedInstance]getCacheDataForKey:imageUrl path:path value:^(NSData *data,NSString *filePath) {
+        [[ZBCacheManager sharedInstance]getCacheDataForKey:imageUrl inPath:path value:^(NSData *data,NSString *filePath) {
             
             UIImage *image=[UIImage imageWithData:data];
             
@@ -61,7 +61,7 @@ static const NSInteger ImageCacheMaxCacheAge  = 60*60*24*7;
     }else{
         [self requestImageUrl:imageUrl completion:^(UIImage *image){
             NSData *data= UIImageJPEGRepresentation((UIImage *)image,(CGFloat)0.9);
-            [[ZBCacheManager sharedInstance]storeContent:data forKey:imageUrl path:path isSuccess:nil];
+            [[ZBCacheManager sharedInstance]storeContent:data forKey:imageUrl inPath:path isSuccess:nil];
             
             completion(image);
         }];
@@ -85,11 +85,11 @@ static const NSInteger ImageCacheMaxCacheAge  = 60*60*24*7;
 }
 
 - (NSUInteger)imageFileSize{
-    return [[ZBCacheManager sharedInstance]getFileSizeWithpath:[self imageFilePath]];
+    return [[ZBCacheManager sharedInstance]getFileSizeWithPath:[self imageFilePath]];
 }
 
 - (NSUInteger)imageFileCount{
-    return [[ZBCacheManager sharedInstance]getFileCountWithpath:[self imageFilePath]];
+    return [[ZBCacheManager sharedInstance]getFileCountWithPath:[self imageFilePath]];
 }
 
 - (void)clearImageFile{
@@ -98,7 +98,7 @@ static const NSInteger ImageCacheMaxCacheAge  = 60*60*24*7;
 
 - (void)clearImageFileCompletion:(ZBCacheCompletedBlock)completion{
     [[ZBCacheManager sharedInstance]clearMemory];
-    [[ZBCacheManager sharedInstance]clearDiskWithpath:[self imageFilePath] completion:completion];
+    [[ZBCacheManager sharedInstance]clearDiskWithPath:[self imageFilePath] completion:completion];
 }
 
 - (void)clearImageForkey:(NSString *)key{
@@ -106,11 +106,11 @@ static const NSInteger ImageCacheMaxCacheAge  = 60*60*24*7;
 }
 
 - (void)clearImageForkey:(NSString *)key completion:(ZBCacheCompletedBlock)completion{
-    [[ZBCacheManager sharedInstance]clearCacheForkey:key path:[self imageFilePath] completion:completion];
+    [[ZBCacheManager sharedInstance]clearCacheForkey:key inPath:[self imageFilePath] completion:completion];
 }
 
 - (void)automaticCleanImageCache{
-     [[ZBCacheManager sharedInstance] clearCacheWithTime:-ImageCacheMaxCacheAge path:[self imageFilePath] completion:nil];
+     [[ZBCacheManager sharedInstance] clearCacheWithTime:-ImageCacheMaxCacheAge inPath:[self imageFilePath] completion:nil];
 }
 
 - (void)backgroundCleanImageCache {

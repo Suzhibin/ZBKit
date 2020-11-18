@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "ZBKit.h"
 #import "ZBScreenAdvertise.h"
+#import "RequestTool.h"
 @interface AppDelegate ()
 
 @end
@@ -23,6 +24,7 @@
     NSDate *installDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:urlToDocumentsFolder.path error:&error] objectForKey:NSFileCreationDate];
 
     NSLog(@"app 安装时间 %@ \n %f", installDate, [installDate timeIntervalSince1970]);
+    [RequestTool setupPublicParameters];
     
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor=[UIColor whiteColor];

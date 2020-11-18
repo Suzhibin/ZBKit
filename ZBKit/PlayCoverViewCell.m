@@ -33,16 +33,17 @@
 - (void)setListModel:(ListModel *)listModel{
     _listModel=listModel;
     _title.text=listModel.title;
-    NSString *cachePath= [[ZBCacheManager sharedInstance]cachesPath];
-       //得到沙盒cache文件夹下的 SDWebimage 存储路径
-       NSString *sdImage=@"default/com.hackemist.SDWebImageCache.default";
-    NSString *imagePath=[NSString stringWithFormat:@"%@/%@",cachePath,sdImage];
-    [[ZBCacheManager sharedInstance]getCacheDataForKey:listModel.thumb path:imagePath value:^(NSData *data,NSString *filePath) {
-        NSLog(@"aaa:%@",[[ZBCacheManager sharedInstance] getDiskFileAttributesWithFilePath:filePath]);
-    }];
-    
-    
+
     [_coverView zb_original:listModel.thumb thumbnail:listModel.thumb placeholder:[NSBundle zb_placeholder]];
+    /**
+     NSString *cachePath= [[ZBCacheManager sharedInstance]cachesPath];
+           //得到沙盒cache文件夹下的 SDWebimage 存储路径
+           NSString *sdImage=@"default/com.hackemist.SDWebImageCache.default";
+        NSString *imagePath=[NSString stringWithFormat:@"%@/%@",cachePath,sdImage];
+        [[ZBCacheManager sharedInstance]getCacheDataForKey:listModel.thumb path:imagePath value:^(NSData *data,NSString *filePath) {
+            NSLog(@"aaa:%@",[[ZBCacheManager sharedInstance] getDiskFileAttributesWithFilePath:filePath]);
+        }];
+     */
 }
 - (void)layoutWithVideoCoverUrl:(NSString *)videoCoverUrl{
 //    _coverView.image = [UIImage imageNamed:videoCoverUrl];

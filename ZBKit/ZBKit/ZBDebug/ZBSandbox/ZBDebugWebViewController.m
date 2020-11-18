@@ -66,7 +66,7 @@
     }
 }
 - (void)loadFile {
-    NSLog(@"aaa:%@\nbbb:%@\nccc:%@\nddd:%@\nfff:%@\nggg:%ld\nhhh:%@\njjj:%ld",self.model.URL.path,self.model.fileName,self.model.modificationDateText,self.model.typeImageName,self.model.extension,self.model.filesCount,self.model.attributes,self.model.type);
+   // NSLog(@"aaa:%@\nbbb:%@\nccc:%@\nddd:%@\nfff:%@\nggg:%ld\nhhh:%@\njjj:%ld",self.model.URL.path,self.model.fileName,self.model.modificationDateText,self.model.typeImageName,self.model.extension,self.model.filesCount,self.model.attributes,self.model.type);
     if (self.model.isCanPreviewInWebView) {
         if (@available(iOS 9.0, *)) {
             [self.wkWebView loadFileURL:self.model.URL allowingReadAccessToURL:self.model.URL];

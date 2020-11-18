@@ -42,7 +42,7 @@
 - (void)loadData:(NSString *)url{
 
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
-        request.URLString=url;
+        request.url=url;
         request.apiType=ZBRequestTypeCache;
     } success:^(id responseObj, ZBURLRequest *request) {
 

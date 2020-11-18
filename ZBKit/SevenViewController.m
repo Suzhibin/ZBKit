@@ -165,7 +165,7 @@
     NSDictionary *dict=@{@"a":@"tag_recommend",@"c":@"topic",@"action":@"sub"};
     
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
-        request.URLString=budejieURL;
+        request.url=budejieURL;
         request.parameters=dict;
         request.apiType=ZBRequestTypeCache;
     } success:^(id responseObj, ZBURLRequest *request) {
@@ -179,7 +179,7 @@
     
     
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
-        request.URLString=budejieURL;
+        request.url=budejieURL;
         request.parameters=dict;
     } success:^(id responseObj,ZBURLRequest *request) {
         
@@ -220,7 +220,7 @@
         @"userId":@"ACC53CC3-7B29-4CE4-A9E3-2D3EA7460DF4"};
      
      [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
-     request.URLString=@"http://192.168.33.186:9080/BOSS_APD_WEB/user/information";
+     request.url=@"http://192.168.33.186:9080/BOSS_APD_WEB/user/information";
      request.methodType=ZBMethodTypePOST;
      request.parameters=parameters;
         request.requestSerializer=ZBJSONRequestSerializer;

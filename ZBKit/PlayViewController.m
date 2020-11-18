@@ -46,7 +46,7 @@
     NSString *wid=@"all";
     NSString *url=[NSString stringWithFormat:list_URL,wid];;
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request){
-        request.URLString=url;
+        request.url=url;
     } success:^(id responseObject,ZBURLRequest *request){
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             if (request.apiType==ZBRequestTypeRefresh) {

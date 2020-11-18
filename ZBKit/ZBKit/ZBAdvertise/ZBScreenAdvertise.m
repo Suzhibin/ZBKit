@@ -84,13 +84,13 @@ static NSString *const adUrlName = @"adUrl";
      NSString *urlkey= [[NSUserDefaults standardUserDefaults] valueForKey:adUrlName];
     ZBKLog(@"imagekey:%@",imagekey);
     
-    if ([[ZBCacheManager sharedInstance]diskCacheExistsForKey:imagekey path:[self AdvertiseFilePath]]) {
+    if ([[ZBCacheManager sharedInstance]diskCacheExistsForKey:imagekey inPath:[self AdvertiseFilePath]]) {
         
-        [[ZBCacheManager sharedInstance]getCacheDataForKey:imagekey path:[self AdvertiseFilePath] value:^(NSData *data,NSString *filePath) {
+        [[ZBCacheManager sharedInstance]getCacheDataForKey:imagekey inPath:[self AdvertiseFilePath] value:^(NSData *data,NSString *filePath) {
             
             UIImage *image=[UIImage imageWithData:data];
             [self showImage:image];
-            [[ZBCacheManager sharedInstance]getCacheDataForKey:urlkey path:[self AdvertiseFilePath] value:^(NSData *data, NSString *filePath) {
+            [[ZBCacheManager sharedInstance]getCacheDataForKey:urlkey inPath:[self AdvertiseFilePath] value:^(NSData *data, NSString *filePath) {
                 self.dict=[NSDictionary dictionaryWithContentsOfFile:filePath];
             }];
     
@@ -110,7 +110,7 @@ static NSString *const adUrlName = @"adUrl";
     param[@"Width"] = @(width).stringValue;
     param[@"Height"] = @(height).stringValue;
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
-        request.URLString=@"https://seeker.bjx.com.cn/Api/V1/Account/AppStartImg_Get";
+        request.url=@"https://seeker.bjx.com.cn/Api/V1/Account/AppStartImg_Get";
         request.parameters=param;
         request.apiType=ZBRequestTypeRefresh;
     } success:^(id responseObject, ZBURLRequest *request) {
@@ -141,7 +141,7 @@ static NSString *const adUrlName = @"adUrl";
             [[NSUserDefaults standardUserDefaults] synchronize];
             // 如果有广告链接，将广告链接也保存下来
             NSDictionary *linkdict=@{@"link":url,@"imageUrl":imageUrl,@"title":adsTitle};
-            [[ZBCacheManager sharedInstance]storeContent:linkdict forKey:url path:[self AdvertiseFilePath] isSuccess:nil];
+            [[ZBCacheManager sharedInstance]storeContent:linkdict forKey:url inPath:[self AdvertiseFilePath] isSuccess:nil];
             [[NSUserDefaults standardUserDefaults] setValue:url forKey:adUrlName];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
@@ -240,6 +240,6 @@ static NSString *const adUrlName = @"adUrl";
 }
 
 - (void)deleteOldImage{
-    [[ZBCacheManager sharedInstance]clearDiskWithpath:[self AdvertiseFilePath] completion:nil];
+    [[ZBCacheManager sharedInstance]clearDiskWithPath:[self AdvertiseFilePath] completion:nil];
 }
 @end

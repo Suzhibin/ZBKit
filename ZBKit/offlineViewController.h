@@ -9,7 +9,6 @@
 #import "BaseViewController.h"
 @protocol offlineDelegate <NSObject>
 
-- (void)reloadJsonNumber;
 - (void)downloadWithArray:(NSMutableArray *)offlineArray;
 @end
 @interface offlineViewController : BaseViewController

@@ -28,7 +28,7 @@
     self.dataArray=[[NSMutableArray alloc]init];
 
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
-        request.URLString=menu_URL;
+        request.url=menu_URL;
         request.apiType=ZBRequestTypeRefresh;
         request.responseSerializer=ZBHTTPResponseSerializer;
     } success:^(id responseObj,ZBURLRequest *request) {

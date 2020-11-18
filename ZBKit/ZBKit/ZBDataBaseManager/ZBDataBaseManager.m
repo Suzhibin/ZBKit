@@ -179,7 +179,7 @@ NSString *const dbName =@"ZBKit.db";
     }];
     return result;
 }
-- (id)getObjectId:(NSString *)objectId table:(NSString *)tableName {
+- (id)table:(NSString *)tableName getObjectId:(NSString *)objectId  {
     ZBDataBaseModel * model= [self getModelObjectId:objectId table:tableName];
     if (model) {
         return model.object;

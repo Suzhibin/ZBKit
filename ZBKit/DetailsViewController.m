@@ -11,6 +11,8 @@
 #import <WebKit/WebKit.h>
 #import "DBViewController.h"
 #import "ZBDataBaseManager.h"
+#import <WKWebView+AFNetworking.h>
+#import "NSObject+AutoCancelRequest.h"
 @interface DetailsViewController ()<WKNavigationDelegate,WKUIDelegate,UIScrollViewDelegate>
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) UIView *loadingView;
@@ -25,10 +27,30 @@
     [super viewDidAppear:animated];
 
 }
+- (void)loadData{
+    [ZBRequestManager requestWithConfig:^(ZBURLRequest *request){
+        request.url=menu_URL;
+        request.apiType=ZBRequestTypeRefresh;
+    }  success:^(id responseObject,ZBURLRequest *request){
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+     
+          
+        }
+
+    } failure:^(NSError *error){
+        if (error.code==NSURLErrorCancelled)return;
+        if (error.code==NSURLErrorTimedOut){
+            [self alertTitle:@"请求超时" andMessage:@""];
+        }else{
+            [self alertTitle:@"请求失败" andMessage:@""];
+        }
+    }];
+   // [self autoCancelRequestOnDealloc:task];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    [self loadData];
     [self createWebView];
     
     self.loadingView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
@@ -174,7 +196,7 @@
         NSString *appID=[[ZBGlobalSettingsTool sharedInstance]appBundleID];
         NSString *WebKit=@"WebKit";
         NSString *path=[NSString stringWithFormat:@"%@/%@/%@",cachePath,appID,WebKit];
-        [[ZBCacheManager sharedInstance]clearDiskWithpath:path];
+        [[ZBCacheManager sharedInstance]clearDiskWithPath:path];
     }
 }
 - (void)btnDBClick{

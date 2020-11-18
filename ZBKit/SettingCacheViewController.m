@@ -16,11 +16,12 @@
 #import "UIViewController+XPModal.h"
 #import "MenuModel.h"
 static const NSInteger cacheTime = 30;
-@interface SettingCacheViewController ()<UITableViewDelegate,UITableViewDataSource,offlineDelegate>
+@interface SettingCacheViewController ()<UITableViewDelegate,UITableViewDataSource,offlineDelegate,ZBURLRequestDelegate>
 @property (nonatomic,copy)NSString *imagePath;
 @property (nonatomic,strong)NSMutableArray *imageArray;
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)ZBBatchRequest *batchRequest;
+@property (nonatomic,assign) NSInteger imageCount;
 @end
 
 @implementation SettingCacheViewController
@@ -31,7 +32,7 @@ static const NSInteger cacheTime = 30;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-
+    self.imageCount=0;
     NSString *cachePath= [[ZBCacheManager sharedInstance]cachesPath];
     //得到沙盒cache文件夹下的 SDWebimage 存储路径
     NSString *sdImage=@"default/com.hackemist.SDWebImageCache.default";
@@ -129,11 +130,11 @@ static const NSInteger cacheTime = 30;
 
         cell.textLabel.text=@"清除自定义路径缓存";
         
-        CGFloat cacheSize=[[ZBCacheManager sharedInstance]getFileSizeWithpath:self.imagePath];
+        CGFloat cacheSize=[[ZBCacheManager sharedInstance]getFileSizeWithPath:self.imagePath];
         
         cacheSize=cacheSize/1000.0/1000.0;
         
-        CGFloat size=[[ZBCacheManager sharedInstance]getFileSizeWithpath:self.imagePath];
+        CGFloat size=[[ZBCacheManager sharedInstance]getFileSizeWithPath:self.imagePath];
         
         //fileUnitWithSize 转换单位方法
         cell.detailTextLabel.text=[NSString stringWithFormat:@"%.2fM(%@)",cacheSize,[[ZBCacheManager sharedInstance] fileUnitWithSize:size]];
@@ -144,7 +145,7 @@ static const NSInteger cacheTime = 30;
         cell.textLabel.text=@"系统缓存路径下所有文件数量";
         cell.userInteractionEnabled = NO;
         
-        CGFloat count=[[ZBCacheManager sharedInstance]getFileCountWithpath:self.imagePath];
+        CGFloat count=[[ZBCacheManager sharedInstance]getFileCountWithPath:self.imagePath];
         
         cell.detailTextLabel.text= [NSString stringWithFormat:@"%.f",count];
     }
@@ -230,7 +231,7 @@ static const NSInteger cacheTime = 30;
     if (indexPath.row==8) {
         
         // [[ZBCacheManager sharedManager]clearDiskWithpath:self.imagePath];
-        [[ZBCacheManager sharedInstance]clearDiskWithpath:self.imagePath completion:^{
+        [[ZBCacheManager sharedInstance]clearDiskWithPath:self.imagePath completion:^{
             
             [self.tableView reloadData];
             
@@ -250,7 +251,7 @@ static const NSInteger cacheTime = 30;
         
         //清除单个图片缓存文件
         //url 过期 去log里找新的
-        [[ZBCacheManager sharedInstance]clearCacheForkey:@"https://r1.ykimg.com/054101015918B62E8B3255666622E929" path:self.imagePath  completion:^{
+        [[ZBCacheManager sharedInstance]clearCacheForkey:@"https://r1.ykimg.com/054101015918B62E8B3255666622E929" inPath:self.imagePath  completion:^{
             
             [self.tableView reloadData];
         }];
@@ -267,7 +268,7 @@ static const NSInteger cacheTime = 30;
     if (indexPath.row==13) {
 
         //url 过期 去log里找新的
-        [[ZBCacheManager sharedInstance]clearCacheForkey:@"https://r1.ykimg.com/054101015918B62E8B3255666622E929" time:cacheTime path:self.imagePath completion:^{
+        [[ZBCacheManager sharedInstance]clearCacheForkey:@"https://r1.ykimg.com/054101015918B62E8B3255666622E929" time:cacheTime inPath:self.imagePath completion:^{
             [self.tableView reloadData];
         }];
     }
@@ -280,10 +281,10 @@ static const NSInteger cacheTime = 30;
     }
     
     if (indexPath.row==15) {
-        //时间前要加 “-” 减号 ， 路径要准确
-        [[ZBCacheManager sharedInstance]clearCacheWithTime:cacheTime path:self.imagePath completion:^{
+        //时间 ，路径要准确
+        [[ZBCacheManager sharedInstance]clearCacheWithTime:cacheTime inPath:self.imagePath completion:^{
             
-            [[ZBCacheManager sharedInstance]clearCacheWithTime:cacheTime path:[[ZBWebImageManager sharedInstance] imageFilePath] completion:nil];
+            [[ZBCacheManager sharedInstance]clearCacheWithTime:cacheTime inPath:[[ZBWebImageManager sharedInstance] imageFilePath] completion:nil];
             
             [self.tableView reloadData];
         }];
@@ -309,26 +310,44 @@ static const NSInteger cacheTime = 30;
 }
 #pragma mark offlineDelegate
 - (void)downloadWithArray:(NSMutableArray *)offlineArray{
-  
-    self.batchRequest=[ZBRequestManager requestBatchWithConfig:^(ZBBatchRequest *  batchRequest){
-        
+    
+    self.batchRequest=[ZBRequestManager requestBatchWithConfig:^(ZBBatchRequest * _Nonnull batchRequest) {
         for (MenuModel *model in offlineArray) {
+            NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+            parameters[@"name"] =model.name;
             ZBURLRequest *request=[[ZBURLRequest alloc]init];
-            request.URLString=[NSString stringWithFormat:list_URL,model.wid];;
-            request.responseSerializer=ZBHTTPResponseSerializer;
+            request.url=[NSString stringWithFormat:list_URL,model.wid];
+            request.parameters=parameters;
             request.apiType=ZBRequestTypeRefreshAndCache;
             [batchRequest.requestArray addObject:request];
         }
-    }  success:^(id responseObj,ZBURLRequest *request){
-   
-        NSLog(@"添加了几个url请求  就会走几遍");
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObj options:NSJSONReadingMutableContainers error:nil];
-        NSArray *array=[dict objectForKey:@"videos"];
+    } target:self];
+    
+    /*
+    self.batchRequest=[ZBRequestManager requestBatchWithConfig:^(ZBBatchRequest *  batchRequest){
+        for (MenuModel *model in offlineArray) {
+            NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+            parameters[@"name"] =model.name;
+            ZBURLRequest *request=[[ZBURLRequest alloc]init];
+            request.URLString=[NSString stringWithFormat:list_URL,model.wid];
+            request.parameters=parameters;
+            request.apiType=ZBRequestTypeRefreshAndCache;
+            [batchRequest.requestArray addObject:request];
+        }
+    }  success:^(id responseObject,ZBURLRequest *request){
+    
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dataDict = (NSDictionary *)responseObject;
+        NSArray *array=[dataDict objectForKey:@"videos"];
         for (NSDictionary *dic in array) {
             ListModel *model=[[ListModel alloc]init];
             model.thumb=[dic objectForKey:@"thumb"]; //找到图片的key
             [self.imageArray addObject:model];
-
+            
+            
+             [[SDImageCache sharedImageCache]diskImageExistsWithKey:model.thumb completion:^(BOOL isInCache) {
+             }];
+             
             //使用SDWebImage 下载图片
             [[SDWebImageManager sharedManager]cachedImageExistsForURL:[NSURL URLWithString:model.thumb] completion:^(BOOL isInCache) {
                 if (isInCache) {
@@ -358,12 +377,9 @@ static const NSInteger cacheTime = 30;
                     }];
                 }
             }];
-            [[SDImageCache sharedImageCache]diskImageExistsWithKey:model.thumb completion:^(BOOL isInCache) {
-                
-                
-            }];
+            
         }
-        
+        }
     } failure:^(NSError *error){
         if (error.code==NSURLErrorCancelled)return;
         if (error.code==NSURLErrorTimedOut){
@@ -371,10 +387,90 @@ static const NSInteger cacheTime = 30;
         }else{
             NSLog(@"请求失败");
         }
-    }finished:nil];
-    
+    }finished:^(NSArray * _Nullable responseObjects, NSArray<NSError *> * _Nullable errors, NSArray<ZBURLRequest *> * _Nullable requests) {
+        
+        [responseObjects enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSLog(@"批量完成事件 dict:%@",obj);
+        }];
+        [errors enumerateObjectsUsingBlock:^(NSError * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSLog(@"批量完成事件 code:%ld",obj.code);
+        }];
+        
+        [requests enumerateObjectsUsingBlock:^(ZBURLRequest * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSLog(@"批量完成事件 name:%@",[obj.parameters objectForKey:@"name"]);
+        }];
+    }];
+    */
 }
+#pragma mark - ZBURLRequestDelegate
+- (void)requests:(NSArray<ZBURLRequest *> *)requests batchFinishedForResponseObjects:(NSArray *)responseObjects errors:(NSArray<NSError *> *)errors{
+    /*
+    [responseObjects enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSLog(@"批量完成事件 dict:%@",obj);
+    }];
+    [errors enumerateObjectsUsingBlock:^(NSError * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSLog(@"批量完成事件 code:%ld",obj.code);
+    }];
+     */
+    [requests enumerateObjectsUsingBlock:^(ZBURLRequest * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSLog(@"批量完成事件 name:%@",[obj.parameters objectForKey:@"name"]);
+    }];
+}
+- (void)request:(ZBURLRequest *)request successForResponseObject:(id)responseObject{
+    NSLog(@"添加了几个url请求  就会走几遍");
+    //设置了request.responseSerializer=ZBHTTPResponseSerializer;
+   // NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+    if ([responseObject isKindOfClass:[NSDictionary class]]) {
+    NSDictionary *dataDict = (NSDictionary *)responseObject;
+    NSArray *array=[dataDict objectForKey:@"videos"];
 
+    for (NSDictionary *dic in array) {
+        ListModel *model=[[ListModel alloc]init];
+        model.thumb=[dic objectForKey:@"thumb"]; //找到图片的key
+        [self.imageArray addObject:model];
+
+        //使用SDWebImage 下载图片
+        /*
+        [[SDImageCache sharedImageCache]diskImageExistsWithKey:model.thumb completion:^(BOOL isInCache) {
+        }];
+         */
+        [[SDWebImageManager sharedManager]cachedImageExistsForURL:[NSURL URLWithString:model.thumb] completion:^(BOOL isInCache) {
+            if (isInCache) {
+                NSLog(@"已经下载了");
+            } else{
+                           
+                [[SDWebImageManager sharedManager]loadImageWithURL:[NSURL URLWithString:model.thumb] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+                    NSLog(@"%@",[self progressStrWithSize:(double)receivedSize/expectedSize]);
+                               
+                            
+                } completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+                    NSLog(@"单个图片下载完成");
+                   
+                    [self.tableView reloadData];
+                    self.imageCount++;
+                    if (self.imageCount==self.imageArray.count) {
+                        NSLog(@"下载完成");
+                                   
+                        [self alertTitle:@"下载完成"andMessage:@""];
+                    }
+                               
+                    if (error) {
+                        NSLog(@"下载失败");
+                    }
+                }];
+            }
+        }];
+    }
+    }
+}
+- (void)request:(ZBURLRequest *)request failedForError:(NSError *)error{
+    if (error.code==NSURLErrorCancelled)return;
+    if (error.code==NSURLErrorTimedOut){
+        [ZBToast showCenterWithText:@"请求超时"];
+    }else{
+        [ZBToast showCenterWithText:@"请求失败"];
+    }
+}
 - (void)cancelClick{
    //取消所有网络请求
     [ZBRequestManager cancelBatchRequest:self.batchRequest];

@@ -17,7 +17,8 @@
 #import <FLAnimatedImageView.h>
 #import "TableViewAnimationKit.h"
 #import "ZBSandboxViewController.h"
-@interface FirstViewController ()<UITableViewDelegate,UITableViewDataSource>
+#import <UIRefreshControl+AFNetworking.h>
+@interface FirstViewController ()<UITableViewDelegate,UITableViewDataSource,ZBURLRequestDelegate>
 
 @property (nonatomic,strong)UITableView *menuTableView;
 @property (nonatomic,strong)UITableView *listTableView;
@@ -25,6 +26,7 @@
 @property (nonatomic,strong)NSMutableArray *listArray;
 @property (nonatomic,strong)UIRefreshControl *refreshControl;
 @property (nonatomic,copy)NSString *filePath;
+@property (nonatomic,assign)NSUInteger identifier;
 @end
 
 @implementation FirstViewController
@@ -37,9 +39,7 @@
     // Do any additional setup after loading the view.
 
      self.automaticallyAdjustsScrollViewInsets = NO;
-    [ZBRequestManager setupBaseConfig:^(ZBConfig * _Nullable config) {
-        config.consoleLog=YES;
-    }];
+    
     // 加载左边数据
     [self loadData];
         
@@ -67,21 +67,20 @@
     UIBarButtonItem *cacheFileBtnItem = [[UIBarButtonItem alloc] initWithCustomView:cacheFileBtn];
     self.navigationItem.rightBarButtonItems =@[rightItem,cacheFileBtnItem];
     
+    [self addItemWithTitle:@"取消请求" selector:@selector(cancelClick) location:YES];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(homeRefresh:) name:@"tabRefresh" object:nil];
 }
-
+- (void)cancelClick{
+    [ZBRequestManager cancelRequest:self.identifier];
+}
 - (void)loadData{
-
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request){
-        request.URLString=menu_URL;
+        request.url=menu_URL;
         request.apiType=ZBRequestTypeRefresh;
-        
     }  success:^(id responseObject,ZBURLRequest *request){
-        
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
-            NSDictionary *dict = (NSDictionary *)responseObject;
-            NSArray *array=[dict objectForKey:@"authors"];
+            NSArray *array=[responseObject objectForKey:@"authors"];
             for (NSDictionary *dic in array) {
                 MenuModel *model=[[MenuModel alloc]initWithDict:dic];
                 [self.menuArray addObject:model];
@@ -95,7 +94,6 @@
             
             [self loadlist: url type:ZBRequestTypeCache];
         }
-
     } failure:^(NSError *error){
         if (error.code==NSURLErrorCancelled)return;
         if (error.code==NSURLErrorTimedOut){
@@ -105,18 +103,23 @@
         }
     }];
 }
+ 
 - (void)loadlist:(NSString *)listUrl type:(ZBApiType)type{
-       
-    [ZBRequestManager requestWithConfig:^(ZBURLRequest *request){
+   
+    self.identifier = [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
+        request.url=listUrl;
+        request.apiType=type;
+    } target:self];//ZBRequestDelegate
+ 
+    /*
+    [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
         request.URLString=listUrl;
         request.apiType=type;
-    }  success:^(id responseObject,ZBURLRequest *request){
-
+    } success:^(id responseObject, ZBURLRequest *request) {
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
-            [self.listArray removeAllObjects];
+            
             NSDictionary *dataDict = (NSDictionary *)responseObject;
             NSArray *array=[dataDict objectForKey:@"videos"];
-            
             for (NSDictionary *dict in array) {
                 ListModel *model=[[ListModel alloc]initWithDict:dict];
                 [self.listArray addObject:model];
@@ -130,21 +133,59 @@
                 self.filePath=nil;
                 ZBKLog(@"重新请求");  [ZBToast showCenterWithText:@"重新请求"];
             }
-   
         }
-        
-    } failure:^(NSError *error){
+    } failure:^(NSError *error) {
         if (error.code==NSURLErrorCancelled)return;
-        if (error.code==NSURLErrorTimedOut){
-           // [self alertTitle:@"请求超时" andMessage:@""];
-            [ZBToast showCenterWithText:@"请求超时"];
-        }else{
-            [ZBToast showCenterWithText:@"请求失败"];
-           // [self alertTitle:@"请求失败" andMessage:@""];
-        }
+           if (error.code==NSURLErrorTimedOut){
+               [ZBToast showCenterWithText:@"请求超时"];
+           }else{
+               [ZBToast showCenterWithText:@"请求失败"];
+           }
     }];
+     */
 }
 
+#pragma mark - ZBURLRequestDelegate
+- (void)request:(ZBURLRequest *)request successForResponseObject:(id)responseObject{
+    if ([responseObject isKindOfClass:[NSDictionary class]]) {
+        
+        NSDictionary *dataDict = (NSDictionary *)responseObject;
+        NSArray *array=[dataDict objectForKey:@"videos"];
+        for (NSDictionary *dict in array) {
+            ListModel *model=[[ListModel alloc]initWithDict:dict];
+            [self.listArray addObject:model];
+        }
+        [self.listTableView reloadData];
+        [_refreshControl endRefreshing];    //结束刷新
+        if (request.isCache) {
+            self.filePath=request.filePath;
+            ZBKLog(@"使用了缓存");  [ZBToast showCenterWithText:@"使用了缓存"];
+        }else{
+            ZBKLog(@"response:%@",request.response);
+            self.filePath=nil;
+            ZBKLog(@"重新请求");  [ZBToast showCenterWithText:@"重新请求"];
+        }
+    }
+}
+- (void)request:(ZBURLRequest *)request failedForError:(NSError * _Nullable)error{
+    if (error.code==NSURLErrorCancelled)return;
+    if (error.code==NSURLErrorTimedOut){
+        [ZBToast showCenterWithText:@"请求超时"];
+    }else{
+        [ZBToast showCenterWithText:@"请求失败"];
+    }
+    NSLog(@"domain:%@",error.domain);
+    [_refreshControl endRefreshing];    //结束刷新
+}
+- (void)request:(ZBURLRequest *)request forProgress:(NSProgress *)progress{
+    NSLog(@"onProgress: %.f", 100.f * progress.completedUnitCount/progress.totalUnitCount);
+}
+- (void)request:(ZBURLRequest *)request finishedForResponseObject:(id)responseObject forError:(NSError *)error{
+//    NSLog(@"code:%ld",error.code);
+//    NSLog(@"URLString:%@",request.URLString);
+}
+
+#pragma mark - tableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (tableView==self.menuTableView) {
         return self.menuArray.count;
@@ -196,7 +237,7 @@
         NSString *url=[NSString stringWithFormat:list_URL,model.wid];
         ZBKLog(@"url:%@",url);
         [self loadlist:url type:ZBRequestTypeCache];
-        [TableViewAnimationKit showWithAnimationType:indexPath.row tableView:self.listTableView];
+      //  [TableViewAnimationKit showWithAnimationType:indexPath.row tableView:self.listTableView];
     }else{
         ListModel *model=[self.listArray objectAtIndex:indexPath.row];
         DetailsViewController *detailsVC=[[DetailsViewController alloc]init];

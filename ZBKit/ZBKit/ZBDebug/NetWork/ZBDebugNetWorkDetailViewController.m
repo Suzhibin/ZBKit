@@ -28,7 +28,7 @@
     self.urlLabel.text=self.URLString;
         TICK
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
-        request.URLString=self.URLString;
+        request.url=self.URLString;
         request.apiType=ZBRequestTypeRefresh;
     } success:^(id responseObject,ZBURLRequest *request) {
         self.timeLabel.text=[NSString stringWithFormat:@"请求时间:%.2f 秒", CFAbsoluteTimeGetCurrent() - start];

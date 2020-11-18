@@ -10,6 +10,7 @@ platform:ios,'9.0'
  pod 'FLAnimatedImage'
  pod 'FMDB'
  pod 'IGListKit'
+ pod 'Masonry'
  #pod 'VTMagic'
  end
  

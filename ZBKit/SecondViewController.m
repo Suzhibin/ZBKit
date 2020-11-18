@@ -238,7 +238,7 @@
             self.imageView.image = circleImage;//圆形
             [self.imageView zb_animationFloating];//浮动动画
             //存储变形后的图片
-            [[ZBCacheManager sharedInstance]storeContent:circleImage forKey:@"qwerty" path:[[ZBCacheManager sharedInstance]tmpPath] isSuccess:^(BOOL isSuccess) {
+            [[ZBCacheManager sharedInstance]storeContent:circleImage forKey:@"qwerty" inPath:[[ZBCacheManager sharedInstance]tmpPath] isSuccess:^(BOOL isSuccess) {
                 if (isSuccess) {
                     NSLog(@"存储成功");
                 }else{

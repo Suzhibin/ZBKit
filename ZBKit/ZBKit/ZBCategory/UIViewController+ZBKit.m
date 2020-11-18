@@ -50,4 +50,15 @@
     }
     return nav;
 }
+
+- (void)backPopAppointViewController:(NSString *)viewController {
+    NSMutableArray *arrVCs = [NSMutableArray arrayWithArray: [self.navigationController.viewControllers copy]];
+    for (UIViewController *vc in self.navigationController.viewControllers) {
+        if ([vc isKindOfClass:NSClassFromString(viewController)]) {
+            [arrVCs removeObject:vc];
+        }
+    }
+    self.navigationController.viewControllers = arrVCs;
+    
+}
 @end
