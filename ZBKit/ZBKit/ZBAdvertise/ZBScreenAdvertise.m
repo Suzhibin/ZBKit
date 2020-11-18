@@ -110,7 +110,7 @@ static NSString *const adUrlName = @"adUrl";
     param[@"Width"] = @(width).stringValue;
     param[@"Height"] = @(height).stringValue;
     [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
-        request.url=@"https://seeker.bjx.com.cn/Api/V1/Account/AppStartImg_Get";
+        request.url=@"https://URL";
         request.parameters=param;
         request.apiType=ZBRequestTypeRefresh;
     } success:^(id responseObject, ZBURLRequest *request) {
