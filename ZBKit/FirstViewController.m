@@ -108,6 +108,7 @@
    
     self.identifier = [ZBRequestManager requestWithConfig:^(ZBURLRequest *request) {
         request.url=listUrl;
+        request.parameters=@{@"adada":@"ffdf"};
         request.apiType=type;
     } target:self];//ZBRequestDelegate
  
