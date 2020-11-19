@@ -39,6 +39,28 @@
     // Do any additional setup after loading the view.
 
      self.automaticallyAdjustsScrollViewInsets = NO;
+    ZBNetworkReachabilityStatus status=[ZBRequestManager networkReachability];
+    switch (status) {
+        case ZBNetworkReachabilityStatusUnknown:
+            NSLog(@"Unknown");
+            break;
+        case ZBNetworkReachabilityStatusNotReachable:
+            NSLog(@"NotReachable");
+            break;
+        case ZBNetworkReachabilityStatusViaWWAN:
+            NSLog(@"WWAN");
+            break;
+        case ZBNetworkReachabilityStatusViaWiFi:
+            NSLog(@"WiFi");
+            break;
+        default:
+            break;
+    }
+    if ([ZBRequestManager isNetworkWiFi]==YES) {
+        NSLog(@"WiFi");
+    }else{
+        NSLog(@"非WiFi");
+    }
     
     // 加载左边数据
     [self loadData];
